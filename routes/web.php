@@ -23,15 +23,15 @@ Route::get('/account-type', 'IndexController@account_type')->name('account_type'
 
 
 // Authentication routes...
-Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login')->middleware('guest');
-Route::post('/login', 'Auth\LoginController@postLogin');
-Route::get('/logout', 'Auth\LoginController@Logout')->name('logout');
-Route::post('/logout', 'Auth\LoginController@Logout')->name('logout');
+Route::get('/login', 'auth\LoginController@showLoginForm')->name('login')->middleware('guest');
+Route::post('/login', 'auth\LoginController@postLogin');
+Route::get('/logout', 'auth\LoginController@Logout')->name('logout');
+Route::post('/logout', 'auth\LoginController@Logout')->name('logout');
 // Registration routes...
-Route::get('/account-registration', 'Auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
-Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
-Route::post('/register', 'Auth\RegisterController@register');
-Route::post('/account-registration', 'Auth\RegisterController@save_account_type')->name('account_type');
+Route::get('/account-registration', 'auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
+Route::get('/register', 'auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
+Route::post('/register', 'auth\RegisterController@register');
+Route::post('/account-registration', 'auth\RegisterController@save_account_type')->name('account_type');
 
 
 //verify email route
