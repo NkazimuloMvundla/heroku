@@ -29,15 +29,14 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function(e) {
-
     $("#subscribe-btn").on("click", function(e) {
-            e.preventDefault();
-      if($("#newsletter").val()== ""){
-          alert("Please enter an email address");
-      }else{ 
-          alert("Thanks for subscribing!");
-          $("#newsletter").val()== "";
-      }
+        e.preventDefault();
+        if ($("#newsletter").val() == "") {
+            alert("Please enter an email address");
+        } else {
+            alert("Thanks for subscribing!");
+            $("#newsletter").val() == "";
+        }
     });
 });
 //auto complete mobile
@@ -100,13 +99,16 @@ function myFavorite(id) {
     if ($("#u_id").val() != "") {
         $.ajax({
             type: "POST",
-            url: "/admin/favorites",
+            url: "/u/favorites",
             data: { id: id },
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
             success: function(data) {
                 alert(data);
+            },
+            error: function(data) {
+                console.log("Error", data);
             }
         });
     } else {

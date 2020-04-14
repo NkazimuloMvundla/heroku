@@ -132,8 +132,8 @@ function sendReview(id){
                   <ul id="image-gallery" class="gallery list-unstyled cS-hidden">
                   @foreach ($pd_images as $pd_image)
                   @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                  <li data-thumb="/storage/{{ $pd_image->pd_filename }}" id="data-thumbs">
-                  <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive  img-large" style="display:inline-block;" alt="">
+                  <li data-thumb="{{ $pd_image->pd_filename }}" id="data-thumbs">
+                  <img src="{{ $pd_image->pd_filename }}" class="img-responsive  img-large" style="display:inline-block;" alt="">
 
                   </li>
                   @endif
@@ -316,7 +316,7 @@ function sendReview(id){
                           <div>
                           @foreach ($pd_images as $pd_image)
                           @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                          <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
+                          <img src="{{ $pd_image->pd_filename }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
                           @endif
                           @endforeach
                           </div>
@@ -516,7 +516,7 @@ function sendReview(id){
                         <a href="/product-details/{{ $encoded_product_id }}">
                         @foreach ($featured_images as $pd_image)
                         @if($product->pd_id == $pd_image->pd_photo_id)
-                        <img src="/storage/{{$pd_image->pd_filename  }}" class="img-responsive" alt="product image" width="150" height="150">
+                        <img src="{{$pd_image->pd_filename  }}" class="img-responsive" alt="product image" width="150" height="150">
                         <?php break; ?>
                         @endif
                         @endforeach

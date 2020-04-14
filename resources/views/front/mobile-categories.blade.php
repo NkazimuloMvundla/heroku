@@ -161,7 +161,7 @@
                                         @foreach ($subCats as $sub )
                                         @if($cats->pc_id == $sub->pc_id )
                                 <li>{{ $sub->pc_name }}
-                                <ul style="border: 1px solid gainsboro;">
+                                <ul style="border: 1px dotted gainsboro;">
                                         @foreach ($lastCats as $last )
                                         @if($sub->id == $last->pc_id )
                                 <?php  $lastId = base64_encode(  $last->id ) ;?>

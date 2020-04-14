@@ -53,7 +53,7 @@ div#search-result{
                                     <a href="/product-details/{{ $encoded_product_id}}">
                                     @foreach ($pd_images as $pd_image)
                                     @if($product->pd_id == $pd_image->pd_photo_id)
-                                <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="product-image">
+                                <img src="{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="product-image">
                                 <?php break;?>
                                 @endif
                                 @endforeach

@@ -85,7 +85,7 @@ body{
 
 /*slideer background */
 .slider-background {
-    background-image: url(/storage/banners/trade.jpg);
+    background-image: url(https://media.publit.io/file/ecomImages/trade.jpg);
     background-repeat: no-repeat;
     background-color: #ccc;
     border: 1px solid;
@@ -649,7 +649,7 @@ h3.shows a{
 }
 
 div#tradeShowBackground {
-    background-image: url(/storage/expo/ClgMC1u9n2SAVTlgAA7uONkrRD4618.png);
+    background-image: url(https://media.publit.io/file/ecomImages/profile/icons/products/ClgMC1u9n2SAVTlgAA7uONkrRD4618.png);
     background-repeat: no-repeat;
     background-color:
     #ccc;

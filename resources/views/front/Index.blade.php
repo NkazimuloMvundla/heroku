@@ -22,7 +22,7 @@
           </div>
         </div>
     </div>
-  </div>
+    </div>
 
 
     <!--Mobile menu start-->
@@ -30,23 +30,23 @@
         <div class="row row-1" style="padding: 4px ;  overflow-x: scroll;" >
           <div class="row-2 col-xs-3" style="flex-basis: 23%;">
             <a href="/categories">
-                <img src="/storage/icons/menu2.png" alt="All Categories" />
+                <img src="https://media.publit.io/file/ecomImages/profile/icons/menu2.png" alt="All Categories" />
             <p id="mobile-menu">All <br><span style="margin-left:4px;">Categories</span></p>
             </a>
           </div>
           <div class="row-2  col-xs-3 " style="flex-basis: 23%;">
-              <a href="/suppliers"><img src="/storage/icons/gold-medal.png" alt="Featured Suppliers" />
+              <a href="/suppliers"><img src="https://media.publit.io/file/ecomImages/profile/icons/gold-medal.png" alt="Featured Suppliers" />
               <p id="mobile-menu">Featured <br>Suppliers</p>
               </a>
           </div>
 
         <div class="row-2 col-xs-3" style="flex-basis: 23%;" id="Deals">
-          <a href="/services"><img src="/storage/icons/deal.png" alt="services" />
+          <a href="/services"><img src="https://media.publit.io/file/ecomImages/profile/icons/deal.png" alt="services" />
           <p style="margin-right:4px;" id="mobile-menu">Southbulk<br>Services</p>
           </a>
         </div>
         <div class="row-2  col-xs-3" style="flex-basis: 23%;">
-            <a href="/buying-request"><img src="/storage/icons/contract.png" alt="Buying Requests" />
+            <a href="/buying-request"><img src="https://media.publit.io/file/ecomImages/profile/icons/contract.png" alt="Buying Requests" />
             <p id="mobile-menu">Buying<br>Request</p>
             </a>
         </div>
@@ -62,14 +62,14 @@
         </div>
         <div class="row" style="display:flex;justify-content:center;">
             <div class="col-md-4">
-              <h6 class="sell" data-slider=""><img src="/storage/banners/shield.png" alt="safer" /> safer</h4>
+              <h6 class="sell" data-slider=""><img src="https://media.publit.io/file/ecomImages/profile/icons/shield.png" alt="safer" /> safer</h4>
             </div>
             <div class="col-md-4">
-              <h6 class="sell" data-slider=""><img src="/storage/banners/choices.png" alt="choices" /> Competitive qoutes</h4>
+              <h6 class="sell" data-slider=""><img src="https://media.publit.io/file/ecomImages/profile/icons/choices.png" alt="choices" /> Competitive qoutes</h4>
 
             </div>
             <div class="col-md-4">
-              <h6 class="sell" data-slider=""> <img src="/storage/banners/membership.png" alt="membership" /> Legit merchants</h4>
+              <h6 class="sell" data-slider=""> <img src="https://media.publit.io/file/ecomImages/profile/icons/membership.png" alt="membership" /> Legit merchants</h4>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
                       <li>
                         <?php  $category_id = base64_encode(  $category->id  ) ;?>
                     <a href="/products-by-category/{{ $category->pc_name }}/{{ $category_id }}">
-                      <img src="/storage/{{ $category->pc_image }}" alt="category image">
+                      <img src="{{ $category->pc_image }}" alt="category image">
                       <p>{{ $category->pc_name }}</p>
                       </a>
                       </li>
@@ -112,7 +112,7 @@
                       <div class="panel widget row-1" id="hot-supplier-panel">
                             <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
                                    @if($supplier->status == 1)
-                                        <img src="/storage/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                                        <img src="https://media.publit.io/file/ecomImages/profile/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                                          @endif
                                 @if($supplier->membership == 'Gold Member')
                                  <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
@@ -125,22 +125,22 @@
                                   @endif
                                   @if(!empty($supplier->company_background_img))
                               <div class="widget-header bg-purple">
-                                   <img class="widget-bg img-responsive" src="/storage/{{ $supplier->company_background_img }}" alt="Image">
+                                   <img class="widget-bg img-responsive" src="{{ $supplier->company_background_img }}" alt="Image">
                                   </div>
                                   @endif
                                    <div class="widget-body text-center">
                     <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
                                           <a href="/supplier/{{ $encoded_supplier_id }}">
                                               @if(empty($supplier->company_logo))
-                                              <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/icons/user.png">
+                                              <img alt="Profile Picture" class="widget-img  img-border-light" src="/storage/icons/user.png">
                                               @endif
                                               @if(!empty($supplier->company_logo))
-                                              <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/{{ $supplier->company_logo }}">
+                                              <img alt="Profile Picture" class="widget-img img-border-light" src="{{ $supplier->company_logo }}">
                                               @endif
                                           </a>
                                         <h4 class="mar-no">
                                     <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
-                                        <a href="/supplier/{{ $encoded_supplier_id }}">{{ $supplier->company_name }}</a></h4>
+                                        <a href="{{ $encoded_supplier_id }}">{{ $supplier->company_name }}</a></h4>
                                         @if(empty($supplier->company_slogan))
                                         <p class="text-muted mar-btm w3-margin-top">
                                             <i></i>

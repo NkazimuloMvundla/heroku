@@ -13,7 +13,7 @@
 										<a href="/product-details/{{ $encoded_product_id }}">
 										@foreach ($featured_images as $pd_image)
 										@if($slideOne->pd_id == $pd_image->pd_photo_id )
-										<img src="/storage/{{$pd_image->pd_filename  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" width="150" height="150">
+										<img src="{{$pd_image->pd_filename  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" width="150" height="150">
 										<?php break;?>
 										@endif
 										@endforeach
