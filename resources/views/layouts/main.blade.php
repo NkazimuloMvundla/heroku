@@ -21,8 +21,7 @@
 
 <link rel="stylesheet" type="text/css" href="pub/css/more.css">
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.css') }}" />
-<link rel="stylesheet" type="text/css" href="{{ asset('pub/Ac
-dion-Like-Content-Tabs-Plugin-with-jQuery-Easy-Responsive-Tabs/css/easy-responsive-tabs.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.css') }}">
 <!-- 1. Link to jQuery (1.8 or later), -->
 
 <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
