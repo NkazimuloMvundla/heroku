@@ -22,26 +22,13 @@
 <link rel="stylesheet" type="text/css" href="pub/css/more.css">
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.css') }}">
-<!-- 1. Link to jQuery (1.8 or later), -->
-
-<script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
-<script src="{{ asset('pub/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.js') }}">
-</script>
 
 <!--JqueryUi-->
 <link rel="stylesheet" type="text/css" href="pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css">
-<script src="pub/js/jquery/dist/jquery.min.js"></script>
-<script src="pub/js/jquery-ui/jquery-ui.min.js"></script>
-<!--accordian menu-->
-<script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.js') }}"></script>
-
-<!--jQuery validate-->
-<script src="{{ asset('pub/js/validate/dist/jquery.validate.js') }}"></script>
-
 <!--lightSlider CSS-->
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.css') }}" />
-
+  <!-- 1. Link to jQuery (1.8 or later), -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 <header class="header" style="margin-bottom: -18px;">
@@ -364,9 +351,8 @@ background-color:#fff;
                 <div class="newshead">Get daily insights on leads, sale & more</div>
                 <div class="content">
                     <form class="form subscribe"
-                    action="#"
-                    method="post"
-                    id="newsletter-validate-detail">
+                    action="{{ route('subscriber') }}"
+                    method="post">
                     <div class="field newsletter">
                     <div class="control">
                         @csrf
@@ -405,9 +391,24 @@ background-color:#fff;
     </div>
     </div>
     </noscript>
+    <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('pub/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
+    <!-- responsive tags 3.3.7 -->
+    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.js') }}">
+    </script>
     <!--lightSlider JS-->
-<script src="{{ asset('pub/light/src/js/lightslider.js') }}"></script>
-<script src="{{ asset('pub/js/functions.js') }}"></script>
+    <script src="{{ asset('pub/light/src/js/lightslider.js') }}"></script>
+    <!--jQuery ui-->
+    <script src="pub/js/jquery/dist/jquery.min.js"></script>
+    <script src="pub/js/jquery-ui/jquery-ui.min.js"></script>
+    <!--accordian menu-->
+    <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.js') }}"></script>
+    <!--jQuery validate-->
+    <script src="{{ asset('pub/js/validate/dist/jquery.validate.js') }}"></script>
+    <!--js fun-->
+    <script src="{{ asset('pub/js/functions.js') }}"></script>
+
 
 
 </body>

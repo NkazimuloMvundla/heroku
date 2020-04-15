@@ -28,22 +28,27 @@ $(document).ready(function() {
         $("#countryList").fadeOut();
     });
 });
+
+function emailIsValid(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 //subscriber
 $(document).ready(function(e) {
     $("#subscribe-btn").on("click", function(e) {
         e.preventDefault();
-        var mailformat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
-        var regex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
-
-        if ($("#newsletter").val() == "") {
+        var email = $("#newsletter").val();
+        var valid = false;
+        if (email == "") {
             alert("Please enter an email address");
-        } else if (regex.test($("#newsletter").val()) === false) {
-            alert("Please enter a valid email address");
+            valid = false;
+        } else if (emailIsValid(email) == false) {
+            alert("Please enter valid email");
+            valid = false;
         } else {
             $.ajax({
                 type: "POST",
                 url: "/subscriber",
-                data: { email: $("#newsletter").val() },
+                data: { email: email },
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
