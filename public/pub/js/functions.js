@@ -28,14 +28,32 @@ $(document).ready(function() {
         $("#countryList").fadeOut();
     });
 });
+//subscriber
 $(document).ready(function(e) {
     $("#subscribe-btn").on("click", function(e) {
         e.preventDefault();
+        var mailformat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+        var regex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+
         if ($("#newsletter").val() == "") {
             alert("Please enter an email address");
+        } else if (regex.test($("#newsletter").val()) === false) {
+            alert("Please enter a valid email address");
         } else {
-            alert("Thanks for subscribing!");
-            $("#newsletter").val() == "";
+            $.ajax({
+                type: "POST",
+                url: "/subscriber",
+                data: { email: $("#newsletter").val() },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    alert(data);
+                },
+                error: function(data) {
+                    console.log("Error", data);
+                }
+            });
         }
     });
 });

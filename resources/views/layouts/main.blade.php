@@ -9,6 +9,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}">
+<!--jQuery validate-->
+<link rel="stylesheet" type="text/css" href="pub/js/validate/demo/css/screen.css">
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/w3css.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
@@ -19,12 +21,13 @@
 
 <link rel="stylesheet" type="text/css" href="pub/css/more.css">
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.css') }}" />
-<link rel="stylesheet" type="text/css" href="{{ asset('pub/Accordion-Like-Content-Tabs-Plugin-with-jQuery-Easy-Responsive-Tabs/css/easy-responsive-tabs.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('pub/Ac
+dion-Like-Content-Tabs-Plugin-with-jQuery-Easy-Responsive-Tabs/css/easy-responsive-tabs.css') }}">
 <!-- 1. Link to jQuery (1.8 or later), -->
 
 <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
 <script src="{{ asset('pub/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('pub/Accordion-Like-Content-Tabs-Plugin-with-jQuery-Easy-Responsive-Tabs/js/easyResponsiveTabs.js') }}">
+<script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.js') }}">
 </script>
 
 <!--JqueryUi-->
@@ -32,8 +35,10 @@
 <script src="pub/js/jquery/dist/jquery.min.js"></script>
 <script src="pub/js/jquery-ui/jquery-ui.min.js"></script>
 <!--accordian menu-->
-<script src="{{ asset('pub/Smooth-Accordion-Menu-Plugin-with-jQuery-accordionMenu/jquery.accordionMenu.js') }}"></script>
+<script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.js') }}"></script>
 
+<!--jQuery validate-->
+<script src="{{ asset('pub/js/validate/dist/jquery.validate.js') }}"></script>
 
 <!--lightSlider CSS-->
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.css') }}" />
@@ -360,7 +365,7 @@ background-color:#fff;
                 <div class="newshead">Get daily insights on leads, sale & more</div>
                 <div class="content">
                     <form class="form subscribe"
-                    action=""
+                    action="#"
                     method="post"
                     id="newsletter-validate-detail">
                     <div class="field newsletter">

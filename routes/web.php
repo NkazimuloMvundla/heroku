@@ -18,6 +18,7 @@ Route::get('/sell', 'sellController@create')->name('sell');
 Route::get('/membership', 'MembershipController@create')->name('membership');
 Route::get('/about-us', 'AboutUsController@create')->name('about-us');
 Route::get('/account-type', 'IndexController@account_type')->name('account_type');
+Route::post('/subscriber', 'SubscribersController@store')->name('subscriber');
 
 //Route::post('/account-registration', 'Auth\RegisterController@save_account_type')->name('account_type');
 
