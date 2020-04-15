@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
@@ -129,13 +129,13 @@ class RegisterController extends Controller
         ]);
 
 
-        if (
+        /*if (
             Mail::to($data['email'])->send(new WelcomeMail($user))
         ) {
 
             Session::flash('message', "hgj");
             return redirect()->to('/login');
-        }
+        }*/
 
         return $user;
     }

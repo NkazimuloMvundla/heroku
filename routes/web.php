@@ -21,8 +21,13 @@ Route::get('/account-type', 'IndexController@account_type')->name('account_type'
 Route::post('/subscriber', 'SubscribersController@store')->name('subscriber');
 
 //Route::post('/account-registration', 'Auth\RegisterController@save_account_type')->name('account_type');
+// Password Reset Routes...
+// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-
+Auth::routes(['verify' => true]);
 // Authentication routes...
 Route::get('/login', 'auth\LoginController@showLoginForm')->name('login')->middleware('guest');
 Route::post('/login', 'auth\LoginController@postLogin');
@@ -116,10 +121,10 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' => 'AccessSuperUser'], function () {
 
     Route::get('/', 'SuperIndexController@view')->name('super.index');
-    Route::get('/login', 'Admin\SuperUserLoginController@showLoginForm')->name('super_user_login');
-    Route::post('/login', 'Admin\SuperUserLoginController@checklogin')->name('super_user_login');
-    Route::get('/registration', 'Admin\SuperUserRegistrationController@Adminregister');
-    Route::post('/registration', 'Admin\SuperUserRegistrationController@register')->name('super_user_register');
+   // Route::get('/login', 'Admin\SuperUserLoginController@showLoginForm')->name('super_user_login');
+  //  Route::post('/login', 'Admin\SuperUserLoginController@checklogin')->name('super_user_login');
+  //  Route::get('/registration', 'Admin\SuperUserRegistrationController@Adminregister');
+   // Route::post('/registration', 'Admin\SuperUserRegistrationController@register')->name('super_user_register');
     Route::get('/manage-users', 'ManageUserController@create')->name('manage-users');
     Route::get('/manage-reviews', 'ReviewController@create')->name('manage-reviews');
     Route::post('/approve-review', 'ReviewController@approve')->name('approveReview');
