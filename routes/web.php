@@ -14,7 +14,7 @@
 
 
 Auth::routes(['verify' => true]);
-Route::get('/home', 'IndexController@create')->name('home');
+Route::get('/', 'IndexController@create')->name('home');
 Route::get('/sell', 'sellController@create')->name('sell');
 Route::get('/membership', 'MembershipController@create')->name('membership');
 Route::get('/about-us', 'AboutUsController@create')->name('about-us');
