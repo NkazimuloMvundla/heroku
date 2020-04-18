@@ -12,9 +12,9 @@
 */
 
 
-
-
-Route::get('/home', 'IndexController@create')->name('home')->middleware('verified');;
+Auth::routes(['verify' => true]);
+Route::get('/', 'IndexController@create')->name('home');
+Route::get('/home', 'IndexController@create')->name('home')->middleware('verified');
 Route::get('/sell', 'sellController@create')->name('sell');
 Route::get('/membership', 'MembershipController@create')->name('membership');
 Route::get('/about-us', 'AboutUsController@create')->name('about-us');
@@ -27,7 +27,8 @@ Route::post('/subscriber', 'SubscribersController@store')->name('subscriber');
 // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-Auth::routes(['verify' => true]);
+
+
 // Authentication routes...
 Route::get('/login', 'auth\LoginController@showLoginForm')->name('login')->middleware('guest');
 Route::post('/login', 'auth\LoginController@postLogin');

@@ -8,12 +8,8 @@ use Auth;
 
 class IndexController extends Controller
 {
-     public function __construct()
-    {
-        $this->middleware(['auth', 'verified']);
-    }
-
     
+
     public function create()
     {
         $pCats = \App\productCategory::all();
