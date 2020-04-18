@@ -11,16 +11,6 @@
 |
 */
 
-// Authentication routes...
-Route::get('/login', 'auth\LoginController@showLoginForm')->name('login')->middleware('guest');
-Route::post('/login', 'auth\LoginController@postLogin');
-Route::get('/logout', 'auth\LoginController@Logout')->name('logout');
-Route::post('/logout', 'auth\LoginController@Logout')->name('logout');
-// Registration routes...
-Route::get('/account-registration', 'auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
-Route::get('/register', 'auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
-Route::post('/register', 'auth\RegisterController@register');
-Route::post('/account-registration', 'auth\RegisterController@save_account_type')->name('account_type');
 
 
 Auth::routes(['verify' => true]);
@@ -38,6 +28,16 @@ Route::post('/subscriber', 'SubscribersController@store')->name('subscriber');
 // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
+// Authentication routes...
+Route::get('/login', 'auth\LoginController@showLoginForm')->name('login')->middleware('guest');
+Route::post('/login', 'auth\LoginController@postLogin');
+Route::get('/logout', 'auth\LoginController@Logout')->name('logout');
+Route::post('/logout', 'auth\LoginController@Logout')->name('logout');
+// Registration routes...
+Route::get('/account-registration', 'auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
+Route::get('/register', 'auth\RegisterController@showRegistrationForm')->name('register')->middleware('guest')->middleware(AccountType::class);
+Route::post('/register', 'auth\RegisterController@register');
+Route::post('/account-registration', 'auth\RegisterController@save_account_type')->name('account_type');
 
 
 //verify email route
