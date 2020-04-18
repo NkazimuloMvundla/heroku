@@ -1,5 +1,5 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
-    <tr>
+    <table>
         <td align="center">
             <table border="0" cellpadding="0" cellspacing="0" role="presentation">
                 <tr>
@@ -9,5 +9,5 @@
                 </tr>
             </table>
         </td>
-    </tr>
+    </table>
 </table>

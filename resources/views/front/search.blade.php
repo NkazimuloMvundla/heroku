@@ -12,7 +12,8 @@ div#search-result{
     <div style="margin-top: -24px;">
         @if($Productcount > 0)
          <h4 style="background: #f2f3f7; padding:12px;">
-            About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for "{{ $pd_name }}"
+                About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for "{{ $_SESSION['varname']}}"
+
          </h4>
          @endif
 
@@ -44,7 +45,7 @@ div#search-result{
             </div>
             <div class="col-md-10">
                 @if($Productcount > 0)
-                <div class="row products-by-category" >
+                <div class="row products-by-category">
                     @foreach ($products as $product)
                         <div class="col-md-3 col-xs-6 " style="border: 1px dotted #e2e2e2">
                              <div class="thumb-wrapper">
@@ -92,6 +93,23 @@ div#search-result{
                 @endif
             </div>
 
+
+
     </div>
+   <div class="row clearfix" style="padding-right:8px; margin-top:16px;">
+       <div class="col-md-12 hidden-xs hidden-sm text-center">
+              {{$products->links('pager.custom')}}
+       </div>
+       <div class="hidden-xs hidden-sm text-center">
+                   <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
+       </div>
+     <div class="col-md-6 hidden-lg text-center">
+              {{$products->links('pager.mobile')}}
+     </div>
+      <div class="col-md-6 hidden-lg text-center">
+           <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
+     </div>
+
+ </div>
 </div>
 @endsection

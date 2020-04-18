@@ -22,10 +22,10 @@ class ProductsByCategoryController extends Controller
 
         $buyingRequests = \App\BuyingRequest::all();
         if ($count > 0) {
-            $products = DB::table('products')->where('pd_category_id', $decoded_category_id)->inRandomOrder()->paginate(3);  //to render random products
+            $products = DB::table('products')->where('pd_category_id', $decoded_category_id)->inRandomOrder()->paginate(1);  //to render random products
 
         } else {
-            $products = DB::table('products')->where('pd_category_id', $decoded_category_id)->inRandomOrder()->paginate(3); //to render random products
+            $products = DB::table('products')->where('pd_category_id', $decoded_category_id)->inRandomOrder()->paginate(1); //to render random products
             //  return redirect()->back();
         }
 
@@ -65,7 +65,7 @@ class ProductsByCategoryController extends Controller
 
 
         //$products = \App\Product::where('pd_pc_id', $category_id)->get();
-        $products = DB::table('products')->where('pd_subCategory_id', $decoded_last_category_id)->paginate(3);
+        $products = DB::table('products')->where('pd_subCategory_id', $decoded_last_category_id)->paginate(2);
         //$products = DB::table('products')->where('pd_category_id', $category_id)->inRandomOrder()->paginate(50); //to render random products
 
         $pd_images = \App\Photo::all();

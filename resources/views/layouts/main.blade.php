@@ -28,7 +28,8 @@
 <!--lightSlider CSS-->
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.css') }}" />
   <!-- 1. Link to jQuery (1.8 or later), -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+ <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
 </head>
 <body>
 <header class="header" style="margin-bottom: -18px;">
@@ -391,7 +392,7 @@ background-color:#fff;
     </div>
     </div>
     </noscript>
-    <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
+
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('pub/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
     <!-- responsive tags 3.3.7 -->

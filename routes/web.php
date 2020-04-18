@@ -13,7 +13,7 @@
 
 
 
-Route::get('/', 'IndexController@create')->name('Index');
+Route::get('/', 'IndexController@create')->name('home');
 Route::get('/sell', 'sellController@create')->name('sell');
 Route::get('/membership', 'MembershipController@create')->name('membership');
 Route::get('/about-us', 'AboutUsController@create')->name('about-us');

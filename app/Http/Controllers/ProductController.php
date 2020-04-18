@@ -328,6 +328,8 @@ class ProductController extends Controller
                         'product_id' => $valid['id'],
                         'spec_parent_id' => $spec_parentIds[$i],
                         'spec_option_name' => $spec_option[$i],
+                        'priority' => 2,
+
 
 
                     ]);
@@ -361,6 +363,7 @@ class ProductController extends Controller
                                 'spec_subCatid' => $validate['sub'],
                                 'spec_name' => $specParr[$i],
                                 'spec_parentCat_id' => null,
+                                'priority' => 2,
                             ]);
 
                             //insert spec option
@@ -391,7 +394,7 @@ class ProductController extends Controller
 
                 $cats = \App\SpecOption::where('id', $valid['id'])->get();
                 $specificationId = $cats->first()->spec_parent_id;
-                \App\Specification::where('spec_id', $specificationId)->delete();
+                \App\Specification::where('spec_id', $specificationId)->where('priority', 2)->delete();
                 \App\SpecOption::where('id', $valid['id'])->delete();
             }
         }
@@ -423,6 +426,7 @@ class ProductController extends Controller
 
             \App\SpecOption::where('id', $data['id'])->update([
                 'spec_option_name' => $data['spec_option_name'],
+                'priority' => 2,
 
             ]);
         }

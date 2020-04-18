@@ -8,6 +8,7 @@ use Response;
 
 class SpecificationController extends Controller
 {
+    //Super user
     public function create()
     {
         $parent_category = DB::table('product_categories')->get();
@@ -70,7 +71,7 @@ class SpecificationController extends Controller
 
 
             ]);
-            \App\Specification::where('spec_id', $id)->delete();
+            \App\Specification::where('spec_id', $id)->where('')->delete();
         }
     }
 

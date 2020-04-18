@@ -53,14 +53,6 @@
                         <textarea name="message" id="compose-textarea" class="form-control" placeholder="Type your message here.."></textarea>
 
                     </div>
-
-                        <div class="form-group">
-                        <label>Attchement</label>
-                        <div class="attchment">
-                        <input type="file" name="reply_attachment" id="reply_attachment">
-                        </div>
-                        </div>
-
 					 <div class="modal-footer">
 		                  <button type="submit" class="btn btn-default pull-right" id="send-message" >Reply</button>
 		                </div>

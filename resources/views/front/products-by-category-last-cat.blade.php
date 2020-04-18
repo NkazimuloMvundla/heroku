@@ -24,7 +24,7 @@
                     @endforeach
                     <div class="row products-by-category" >
                         @forelse ($products as $product)
-                            <div class="col-md-3 col-xs-6" style="border:1px solid #e2e2e2">
+                            <div class="col-md-3 col-xs-6" style="border:1px dotted #e2e2e2">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
                          <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
@@ -68,15 +68,20 @@
                     </div>
                 </div>
     </div>
- <div class="row clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-    <div class="col-md-12">
+ <div class="row clearfix" style="padding-right:8px; margin-top:16px;">
+       <div class="col-md-12 hidden-xs hidden-sm text-center">
               {{$products->links('pager.custom')}}
         <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
-    </div>
-    
+       </div>
+     <div class="col-md-6 hidden-lg text-center">
+              {{$products->links('pager.mobile')}}
+     </div>
+      <div class="col-md-6 hidden-lg text-center">
+           <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
+     </div>
+
  </div>
-   
-</div>
+ </div>
 
 
 @endsection

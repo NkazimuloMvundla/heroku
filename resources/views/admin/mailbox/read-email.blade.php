@@ -81,7 +81,9 @@
                         <div class="box-footer">
                           <div class="pull-right">
                             @if( $msg_from->first()->email != Auth::user()->email)
-                            <button type="button" class="btn btn-default">  <a href="/u/reply/{{ $userMessages->first()->id }}"><i class="fa fa-reply"></i> Reply</a> </button>
+                            <button type="button" class="btn btn-default">
+                                    <?php $encoded_id = base64_encode( $userMessages->first()->id) ;?>
+                                 <a href="/u/reply/{{ $encoded_id }}"><i class="fa fa-reply"></i> Reply</a> </button>
                             @endif
                           </div>
 

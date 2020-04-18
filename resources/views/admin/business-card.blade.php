@@ -136,14 +136,18 @@
                     </div>
                 @endif
                     <div class="widget-body text-center">
-                        <a href="/supplier/{{ $user_details->first()->id }}">
+                    <?php $encoded_supplier_id = base64_encode( $user_details->first()->id) ;?>
+                        <a href="/supplier/{{ $encoded_supplier_id }}">
                         @if(empty($user_details->first()->company_logo))
                         <img alt="Company Logo" class="widget-img img-border-light" src="/storage/icons/user.png" >
                         @endif
                         @if(!empty($user_details->first()->company_logo))
                         <img alt="Company Logo" class="widget-img img-border-light" src="/storage/{{ $user_details->first()->company_logo }}" >
                         @endif</a>
-                        <h4 class="mar-no"><a href="/supplier/{{ $user_details->first()->id }}">{{ $user_details->first()->company_name }}</a></h4>
+                        <h4 class="mar-no">
+                      <?php $encoded_supplier_id = base64_encode( $user_details->first()->id) ;?>
+                        <a href="/supplier/{{ $encoded_supplier_id }}">
+                         {{ $user_details->first()->company_name }}</a></h4>
                         @if(empty($user_details->first()->company_slogan))
                         <p class="text-muted mar-btm w3-margin-top">You company slogan</p><ul class="list-unstyled text-center pad-top mar-no clearfix">
                         @endif

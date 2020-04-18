@@ -11,6 +11,9 @@ class ReadEmailController extends Controller
     {
 
         $email_Id = base64_decode($emailId);
+        request()->validate([
+            $email_Id  => ['numeric'],
+        ]);
         $userMessages = \App\Message::where('id', $email_Id)->get();
         if (count($userMessages)  > 0) {
             $msg_from = \App\User::where('id',  $userMessages->first()->msg_from_id);
@@ -23,10 +26,18 @@ class ReadEmailController extends Controller
 
     public function reply_view($message_id)
     {
-        $userMessages = \App\Message::where('id', $message_id)->get();
-        $msg_from = \App\User::where('id',  $userMessages->first()->msg_from_id);
-        $msg_to = \App\User::where('id',  $userMessages->first()->msg_to_id);
-        return view('admin.mailbox.reply', compact('userMessages', 'msg_from', 'msg_to'));
+        $_id = base64_decode($message_id);
+        request()->validate([
+            $_id  => ['numeric'],
+        ]);
+        $userMessages = \App\Message::where('id', $_id)->get();
+        if (count($userMessages)  > 0) {
+            $msg_from = \App\User::where('id',  $userMessages->first()->msg_from_id);
+            $msg_to = \App\User::where('id',  $userMessages->first()->msg_to_id);
+            return view('admin.mailbox.reply', compact('userMessages', 'msg_from', 'msg_to'));
+        } else {
+            return redirect()->back();
+        }
     }
 
 

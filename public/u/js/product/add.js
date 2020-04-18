@@ -1,29 +1,22 @@
-function addSpecFields() {
-    $("#add-spec").show();
-    $("#add_field_button").show();
-    var max_fields = 4; //maximum input boxes allowed
+
+$(document).ready(function() {
+   // $("#add-spec").show();
+
+    var wrapper = $("#data-2")
+    var max_fields = 7; //maximum input boxes allowed
     var x = 1; //initlal text box count
 
     $("#add_field_button").click(function(e) {
-        e.preventDefault();
-        if (x <= max_fields) {
+        e.preventDefault(); 
+        if (x < max_fields) {
             //max input box allowed
-            var html = "";
-            html += "<tr>";
-            html +=
-                '<td><input type="text" name="spec_name" id="add_spec_parent"  class="form-control spec_name" placeholder="eg Color" /></td>';
-            html +=
-                '<td><input type="text" name="spec_option_name" id="add_spec"  class="form-control spec_option_name" placeholder="red" /></td>';
-            html +=
-                '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
-            $("#data-2").append(html);
-            x++; //counter increments
+                x++; //counter increments
+         $(wrapper).append(
+            "<tr class='rem'><td><input type='text' name='spec_name' id='add_spec_parent'  class='form-control spec_name' placeholder='eg Color' /></td><td><input type='text' name='spec_option_name' id='add_spec'  class='form-control spec_option_name' placeholder='red' /></td><td><button type='button' name='remove' class='btn btn-danger btn-sm remove'><span class='glyphicon glyphicon-minus'></span></button></td></tr>"
+            );
+        }else{
+            $(".reachedLimitToAppend").text("You have reached the limit");
         }
-        // x++; // putting this here makes sure that the append error dont happen, where it appends more than max
-    });
-
-    $("#mc_id").change(function() {
-        $("#data-2").html(html);
     });
 
     $(document).on("click", ".remove", function() {
@@ -32,16 +25,11 @@ function addSpecFields() {
             .remove();
         x--;
     });
-}
-//make sure when the category is changed, the data-2 div is refreshed wih empty content
-function changeS() {
-    $("#Category").change(function() {
-        $("#data-2").html("");
-    });
-}
 
-function display() {
-    $("#data-2").show();
+});
+
+function showBtn(){
+  $("#add_field_button").show();
 }
 
 function showCat(id) {
@@ -55,7 +43,7 @@ function showCat(id) {
         success: function(data) {
             //console.log(data);
             var select =
-                '<select class="form-control" name="Category" onChange="showSubCat(this.value), changeS();" id="Category">';
+                '<select class="form-control" name="Category" onChange="showSubCat(this.value);" id="Category">';
             select += "<option>" + "Select" + "</option>" + "<br>";
             for (var i = 0; i < data.length; i++) {
                 //  console.log(data[i].pc_)
@@ -89,7 +77,7 @@ function showSubCat(id) {
         success: function(data) {
             //console.log(data);
             var select =
-                '<select class="form-control" name="subCategory" onchange="show_list(), addSpecFields();" id="subCategory">';
+                '<select class="form-control" name="subCategory" onchange="show_list(),showBtn(),getId(this.value);"  id="subCategory">';
             select +=
                 "<option selected>" +
                 "Select SubCategory" +
@@ -109,6 +97,196 @@ function showSubCat(id) {
             select += "</select";
 
             $("#last").html(select);
+
+            //      console.log(data);
+        },
+        error: function(data) {
+            console.log("Error:", data);
+        }
+    });
+}
+function deleteProductImg(id) {
+    $(document).ready(function() {
+        var res = confirm(" Are you sure you want to delete ? ");
+        if (res) {
+            $.ajax({
+                type: "POST",
+                url: "/u/delete-product-image",
+                data: { id: id },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    window.location.reload();
+                }
+            });
+        }
+    });
+}
+
+function deleteCompanyImg(id) {
+    $(document).ready(function() {
+        var res = confirm(" Are you sure you want to delete company image? ");
+        if (res) {
+            $.ajax({
+                type: "POST",
+                url: "/u/delete-company-image",
+                data: { id: id },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    window.location.reload();
+                }
+            });
+        }
+    });
+}
+function deleteSpec(id) {
+    $(document).ready(function() {
+        var res = confirm(" Are you sure you want to delete ? ");
+        if (res) {
+            $.ajax({
+                type: "POST",
+                url: "/u/product/deleteSpecs",
+                data: { id: id },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    window.location.reload();
+                }
+            });
+        }
+    });
+}
+
+function getId(val) {
+    var html = "";
+    html += '<input type="hidden" value="' + val + '" id="sub">';
+    $("#subs").html(html);
+}
+function updateSpec(id) {
+    var specP, specC, stringIds, stringName;
+    var specParentIds = [],
+        spec_option = [];
+
+    if ($("#sub").val() != "" || $("#sub").val() != "undefined") {
+        var sub = $("#sub").val();
+    }
+    $("input[id='spec_option']").each(function() {
+        if (this.value != "") {
+            specParentIds.push($(this).data("value"));
+            spec_option.push(this.value);
+        }
+    });
+    stringIds = specParentIds.toString();
+    stringName = spec_option.toString();
+
+    //user generated spec
+    var specParent = [];
+    $("input[id='add_spec_parent']").each(function() {
+        if (this.value != "") {
+            specParent.push(this.value);
+        }
+    });
+
+    specP = specParent.toString();
+
+    var specChild = [];
+    $("input[id='add_spec']").each(function() {
+        if (this.value != "") {
+            specChild.push(this.value);
+        }
+    });
+
+    specC = specChild.toString();
+
+    if (specP != "" && specC != "" && stringIds != "" && stringName != "") {
+        $.ajax({
+            type: "POST",
+            url: "/u/product/updateSpecs",
+            data: {
+                id: id,
+                sub: sub,
+                specP: specP,
+                specC: specC,
+                stringIds: stringIds,
+                stringName: stringName
+            },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+    } else if (specP != "" && specC != "") {
+        $.ajax({
+            type: "POST",
+            url: "/u/product/updateSpecs",
+            data: { id: id, sub: sub, specP: specP, specC: specC },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+    } else if (stringIds && stringName) {
+        $.ajax({
+            type: "POST",
+            url: "/u/product/updateSpecs",
+            data: {
+                id: id,
+                sub: sub,
+                stringIds: stringIds,
+                stringName: stringName
+            },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            success: function(data) {
+                window.location.reload();
+            }
+        });
+    }
+}
+
+function showSpec(id) {
+    $.ajax({
+        type: "GET",
+        url: "/u/product/showSpec",
+        data: { id: id },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        success: function(data) {
+            for (var i = 0; i < data.length; i++) {
+                $id = data[i].id;
+                $spec_option_name = data[i].spec_option_name;
+                $spec_parent_id = data[i].spec_parent_id;
+            }
+            $("#modal-spec-id").text($id);
+
+            $("#parentOfSpec").text($spec_parent_id);
+            $("#spec_details").val($spec_option_name);
+        }
+    });
+}
+
+function addSpec() {
+    var spec_option_name = $("#spec_details").val();
+    var id = $("#modal-spec-id").html();
+    $.ajax({
+        type: "POST",
+        url: "/u/product/addSpec",
+        data: { id: id, spec_option_name: spec_option_name },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        success: function(data) {
+            window.location.reload();
         }
     });
 }
@@ -134,7 +312,7 @@ function show_list() {
                 table +=
                     "<td>" +
                     '<input type="text" id="spec_option"  value="" data-value="' +
-                    data[i].spec_id +
+                  data[i].spec_id+
                     '" class="form-control"  name="spec_option[]">' +
                     "</td>";
 
@@ -143,6 +321,7 @@ function show_list() {
             table += "</tbody>";
             table += "</table>";
             $("#data").html(table);
+            $("#add-spec").show();
         }
     });
 }
@@ -171,7 +350,7 @@ Dropzone.options.myDropzone = {
     addRemoveLinks: true,
 
     success: function(responseText, data) {
-        //alert(data);
+        alert(data);
     },
 
     error: function(file, response) {
@@ -202,8 +381,6 @@ Dropzone.options.myDropzone = {
                 e.stopPropagation();
                 dzClosure.processQueue();
 
-                // var Category = jQuery("#Category").val();
-                // var subCategory = jQuery("#subCategory").val();
                 var Product_Name = jQuery("#Product_Name").val();
                 var Product_Keyword = jQuery("#Product_Keyword").val();
                 var listing_description = jQuery("#listing_description").val();
@@ -211,8 +388,8 @@ Dropzone.options.myDropzone = {
                     "#Minimum_Order_Quantity"
                 ).val();
                 var Minimum_order_unit = jQuery("#Minimum_order_unit").val();
-                var Max_price = jQuery("#Max_price").val();
                 var Min_price = jQuery("#Min_price").val();
+                var Max_price = jQuery("#Max_price").val();
                 var Minimum_unit = jQuery("#Minimum_unit").val();
                 var Port = jQuery("#Port").val();
                 var paymentMethod = jQuery(".Port").val();
@@ -221,18 +398,6 @@ Dropzone.options.myDropzone = {
                 var supplyPeriod = jQuery("#supplyPeriod").val();
                 var deliveryTime = jQuery("#date").val();
                 var digitEXP = /^[0-9.]*$/;
-
-                //logic
-
-                //  if($("#add_spec_parent").val() !='' && $("#add_spec").val() =='' ){
-                //  $('#add_spec_error').text('Please fill boxes').css("color", "red");
-
-                //  }else if($("#add_spec").val() !='' && $("#add_spec_parent").val() =='' ){
-                //   $('#add_spec_error').text('Please fill boxes').css("color", "red");
-
-                //  }else{
-                //     $('#add_spec_error').text('');
-                //  }
 
                 if ($("#mc_id").val() == "Main category") {
                     $(".main-cats")
@@ -301,29 +466,33 @@ Dropzone.options.myDropzone = {
                 } else {
                     $(".Minimum_order_unit").text("");
                 }
+               
                 if (Min_price == "") {
                     $(".Min_price")
                         .text("This field is required")
                         .css({ color: "red" });
+                }else if(isNaN(Min_price)){
+                      $(".Min_price")
+                       .text("This field must be a number")
+                       .css({ color: "red" });
+                
+                }else{
+                      $(".Min_price")
+                       .text("")
                 }
-                if (isNaN(Min_price)) {
-                    $(".Min_price")
-                        .text("This field must be a number")
-                        .css({ color: "red" });
-                } else {
-                    $(".Min_price").text("");
-                }
-
+              
                 if (Max_price == "") {
-                    $(".Max_price")
-                        .text("This field is required")
-                        .css({ color: "red" });
-                } else {
-                    $(".Max_price").text("");
+                       $(".Max_price")
+                       .text("This field is required")
+                       .css({ color: "red" });
+                }else if(isNaN(Max_price)){
+                      $(".Max_price")
+                       .text("This field must be a number")
+                       .css({ color: "red" });
                 }
-                if (
-                    parseFloat(jQuery("#Max_price").val()) <=
-                    parseFloat(jQuery("#Min_price").val())
+                else if (
+                    parseFloat(Max_price) <=
+                    parseFloat(Min_price)
                 ) {
                     $(".Max_price")
                         .text("Minimum cannot be greater than Max")
@@ -405,7 +574,6 @@ Dropzone.options.myDropzone = {
                 alert("Product added");
                 window.location = "/u/add-new-product";
             }
-            
         });
 
         this.on("complete", function(file) {

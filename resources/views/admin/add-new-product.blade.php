@@ -42,7 +42,6 @@
        <div >
         <ul>
             <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
-
         </ul>
 
        </div>
@@ -62,7 +61,7 @@
     Product Category:       </label>
         <div class="form-group">
             <div id="product-category">
-<div class="form-group row">
+<div class="form-group row"> 
 <div class="col-md-4">
 <label for="Main category">Select a Main category</label>
 <select class="form-control" id="mc_id"  name="mainCategory"   onChange="showCat(this.value);">
@@ -119,7 +118,7 @@
 </div>
 
 <div class="form-group">
-  <label>Product Name (required, at least 2 characters)</label>
+  <label>Product Name</label>
   <input type="text" id="Product_Name" name="Product_Name" maxlength="128"  value="{{ old('Product_Name') }}"  class="form-control" />
   @error('Product_Name')
       <span class="invalid-feedback" role="alert">
@@ -150,7 +149,9 @@
 </div>
   <div id="data-add" class="data-add">
       <button id="add_field_button" onclick="display();" style="display:none;" type="button">Add</button>
+      <span><p class="text-center reachedLimitToAppend" style="color: red;"><i></i></p></span>
   </div>
+
 <div class="form-group row">
   <div class="col-md-12">
     <table class="table table-bordered" id="data-2">
@@ -227,25 +228,25 @@
   <div class="form-group row">
   <div class="col-xs-4">
   <label for="Min-price">Min-price</label>
-  <input class="form-control" id="Min_price" title="Enter Max. Price" value="{{ old('Min_price') }}"  name="Min_price" size="13" maxlength="14" placeholder="R" type="number" min="1">
+  <input class="form-control" id="Min_price" title="Enter Min. Price" value="{{ old('Min_price') }}"  name="Min_price" placeholder="R" type="text" min="1">
   <span class="help-block">Rands (R)</span>
   @error('Min_price')
       <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
       </span>
   @enderror
-     <span class="help-block Min_price"></span>
+     <span class="Min_price"></span>
   </div>
   <div class="col-xs-4">
   <label for="Max-price">Max-price</label>
-  <input class="form-control" id="Max_price" title="Enter Max. Price" value="{{ old('Max_price') }}"  name="Max_price" size="12" maxlength="14" placeholder="R" type="number" min="1">
+  <input class="form-control" id="Max_price" title="Enter Max. Price" value="{{ old('Max_price') }}"  name="Max_price" placeholder="R" type="text" min="1">
   <span class="help-block">Rands (R)</span>
   @error('Max_price')
       <span class="invalid-feedback" role="alert">
           <strong>{{ $message }}</strong>
       </span>
   @enderror
-     <span class="help-block Max_price"></span>
+     <span class="Max_price"></span>
   </div>
   <div class="col-xs-4">
   <label for="Units">Units</label>

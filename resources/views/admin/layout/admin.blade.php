@@ -97,8 +97,6 @@
      <!--js func -->
     <script src="{{ asset('u/js/product/add.js') }}"></script>
         <!--js func -->
-    <script src="{{ asset('u/js/product/edit.js') }}"></script>
-        <!--js func -->
     <script src="{{ asset('u/js/product/manage.js') }}"></script>
 
     <script src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>

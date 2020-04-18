@@ -210,6 +210,7 @@
             </div>
             <div id="data-add" class="data-add">
               <button id="add_field_button" onclick="display()" style="display:none;" type="button">Add</button>
+                <span><p class="text-center reachedLimitToAppend" style="color: red;"></p></span>
             </div>
             <div class="form-group row">
     <div class="col-md-12">

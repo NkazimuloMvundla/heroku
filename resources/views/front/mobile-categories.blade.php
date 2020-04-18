@@ -38,7 +38,7 @@
         text-decoration: none;
         }
         #acdnmenu div.acdnArrowImage {
-        background-image: url("{{ asset('pub/Smooth-Accordion-Menu-Plugin-with-jQuery-accordionMenu/arrows.gif') }}");
+        background-image: url("{{ asset('pub/accordionMenu/arrows.gif') }}");
         background-position: 0 0;
         height: 12px;
         left: 4px;
@@ -85,7 +85,7 @@
         text-decoration: underline;
         }
         #acdnmenu ul.acdnSub div.acdnArrowImage {
-        background-image: url("{{ asset('pub/Smooth-Accordion-Menu-Plugin-with-jQuery-accordionMenu/arrows.gif') }}");
+        background-image: url("{{ asset('pub/accordionMenu/arrows.gif') }}");
         background-position: 0 -24px;
         height: 12px;
         left: 4px;

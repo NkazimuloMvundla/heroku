@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Session;
 
 class SearchController extends Controller
 {
@@ -75,7 +76,8 @@ class SearchController extends Controller
     public function search($pd_name)
     {
 
-        $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
+        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
+        $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->paginate(1);
 
         foreach ($products as $key) {
             if ($key->pd_subCategory_id == $products->first()->pd_subCategory_id) {
@@ -84,7 +86,7 @@ class SearchController extends Controller
             }
         }
 
-        $Productcount = count($products);
+        $Productcount = count($Countproducts);
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
@@ -107,19 +109,14 @@ class SearchController extends Controller
 
     public function formsearch()
     {
-        if (empty(request()->search)) {
-            return redirect()->back();
+        if (request()->search == "") {
+            return redirect()->to('/');
         }
-        $data = request()->validate([
-            'search' => ['string', 'max:255'],
-        ]);
-        $pd_name  = $data['search'];
+        $_SESSION['varname'] = request()->search;
+        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . request()->search . "%")->where('pd_approval_status', 1)->get();
+        $products = DB::table('products')->where("pd_name", "LIKE", "%" . request()->search . "%")->where('pd_approval_status', 1)->paginate(1);
 
-
-        $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
-        $Productcount = count($products);
-
-        $you_may_like = \App\Product::take(8)->where('pd_approval_status', 1)->inRandomOrder()->get();
+        $Productcount = count($Countproducts);
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
@@ -129,10 +126,14 @@ class SearchController extends Controller
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
-            return view('front.search',  compact('you_may_like', 'Productcount', 'pd_name', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+
+            //return related sub_categories for the searched term
+            //$lastCat = \App\lastCategory::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+
+            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
         } else {
 
-            return view('front.search',  compact('you_may_like', 'Productcount', 'pd_name', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images'));
+            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images'));
         }
     }
 

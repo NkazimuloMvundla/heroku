@@ -7,8 +7,8 @@
             <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">«</a></li>
         @endif
 
-        @if($paginator->currentPage() > 3)
-            <li class="hidden-xs"><a href="{{ $paginator->url(1) }}">1</a></li>
+        @if($paginator->currentPage() > 2)
+            <li class="hidden-lg"><a href="{{ $paginator->url(1) }}">1</a></li>
         @endif
         @if($paginator->currentPage() > 4)
             <li><span>...</span></li>
@@ -26,7 +26,7 @@
             <li><span>...</span></li>
         @endif
         @if($paginator->currentPage() < $paginator->lastPage() - 2)
-            <li class="hidden-xs"><a href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a></li>
+            <li class="hidden-lg"><a href="{{ $paginator->url($paginator->lastPage()) }}">{{ $paginator->lastPage() }}</a></li>
         @endif
 
         {{-- Next Page Link --}}
@@ -38,28 +38,3 @@
     </ul>
 @endif
 
-<?php
-
-/*next and prev for mob pagination
-@if ($paginator->hasPages())
-    <ul class="pagination">
-        {{-- Previous Page Link --}}
-        @if ($paginator->onFirstPage())
-            <li class="disabled"><span>{{ __('Prev') }}</span></li>
-        @else
-            <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">{{ __('Prev') }}</a></li>
-        @endif
-        
-        
-        
-        {{ "Page " . $paginator->currentPage() . "  of  " . $paginator->lastPage() }}
-       
-        
-        {{-- Next Page Link --}}
-        @if ($paginator->hasMorePages())
-            <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('Next') }}</a></li>
-        @else
-            <li class="disabled"><span>{{ __('Next') }}</span></li>
-        @endif
-    </ul>
-@endif*/

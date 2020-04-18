@@ -119,7 +119,7 @@ text-overflow: ellipsis;
                                                 <a href="/product-details/{{ $product_id }}">
                                         @foreach ($pd_images as $pd_image)
                                         @if($product->pd_id == $pd_image->pd_photo_id)
-                                    <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="">
+                                    <img src="{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="">
                                     <?php break;?>
                                     @endif
                                     @endforeach

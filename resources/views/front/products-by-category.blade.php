@@ -56,7 +56,7 @@
             <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
               <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item hidden-sm hidden-xs hidden-md">Contact now!</a>
-                                    <a  onclick="myFavorite({{ $product->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md"></a>
+                                    <a  onclick="myFavorite({{ $product->pd_id }});"  id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -64,12 +64,19 @@
                     </div>
                 </div>
     </div>
- <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-          {{$products->links('pager.custom')}}
-        
-       
+<div class="row clearfix" style="padding-right:8px; margin-top:16px;">
+       <div class="col-md-12 hidden-xs hidden-sm text-center">
+              {{$products->links('pager.custom')}}
+        <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
        </div>
-</div>
+     <div class="col-md-6 hidden-lg text-center">
+              {{$products->links('pager.mobile')}}
+     </div>
+      <div class="col-md-6 hidden-lg text-center">
+           <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
+     </div>
+
+ </div>
 
 
 @endsection
