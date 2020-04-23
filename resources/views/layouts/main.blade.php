@@ -30,8 +30,16 @@
   <!-- 1. Link to jQuery (1.8 or later), -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
  <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
+<style>
+        /*
+    DEMO STYLE
+*/
+
+
+
+</style>
 </head>
-<body>
+<body id="bodyStyle">
 <header class="header" style="margin-bottom: -18px;">
     <div class="panel wrapper " id="panel-wrap">
      <div class="tm_header_outer w3-hide-small w3-hide-medium ">
@@ -82,76 +90,35 @@
               </ul>
           </div>
            <div class="tm_header_left">
-                  <div class="header-socail-links ">
-                  <ul>
-                  </ul>
-                  </div>
+            <div class="header-socail-links ">
+            <ul>
+            </ul>
+            </div>
           </div>
       </div>
       </div>
       <div class="header content" id="header">
       <div class="tm_header container-width">
       <div class="hidden-lg">
-          <style>
-    /* Jacob Lett - https//BootstrapCreative.com - Reference / Refresh / Repetition */
 
-.modal-header {
-  border-bottom: none;
-}
-
-.modal-dialog {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.modal-backdrop {
-background-color:#fff;
-  opacity:1!important;
-    border: 10px solid rgba(136, 136, 136, .4);
-}
-
-.modal-content {
-  height: auto;
-  min-height: 100%;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-}
-
-.modal-body {
-  text-align: center;
-}
-
-.modal-body form {
-  margin: 0 auto;
-  float: none;
-  width: 300px;
-}
-
-.modal-content .close {
-  opacity: 1;
-  font-size: 30px;
-}
-
-.navbar-default .navbar-collapse,
-.navbar-default .navbar-form {
-  border: none;
-}
-</style>
       <!-- Header for mobile  -->
       <header id="mobile-header">
           <!-- Navbar (sit on top) -->
-          <div class="w3-hide-large" style="z-index:10;">
-              <div class="w3-bar w3-white"  id="myNavbar">
-              <a href="{{route('admin.index')}}" class="w3-bar-item  w3-hide-large">
-                  <i class="fa fa-bars fa-lg"></i>
-                  </a>
-                  <a href="/" class=" w3-bar-item w3-center"><b><span style="font-size: 14pt">prototype-x.app</span></b>
-                  </a>
-
-              </div>
+          <div class="hidden-lg hidden-md">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header" style="margin-left:2px;">
+                <div class="pull-left">
+                    <button type="button" class="navbar-toggle sidebarCollapse" style="border-radius:0;border: 0;">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                </div>
+                <a class="navbar-brand" href="/">MyWebApp.com</a>
+                </div>
+            </div>
+          </nav>
               <div class="bewlo" style="position:relative;">
                     <form action="/search" method="POST" onsubmit="return validSearchM();" name="">
                     @csrf
@@ -164,7 +131,7 @@ background-color:#fff;
                         </div>
                       </div>
                         <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
+                        <button class="btn btn-default" type="submit" style="color: ;background: #ffa50091;">
                         <i class="glyphicon glyphicon-search"></i>
                         </button>
                         </div>
@@ -174,6 +141,84 @@ background-color:#fff;
           </div>
           <!--menus-->
       </header>
+      <!--sidebar-->
+            <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="pull-right" style="font-size: 21px;margin: 4px 14px 4px 4px;">
+   <button type="button" id="sidebarCollapse" class="navbar-btn sidebarCollapse" style="font-size: 20px;">
+                 <span class="fa fa-times"></span>
+        </button>
+    </div>
+    <div class="sidebar-header">
+          @if (Auth::check())
+          <p class="text-primary">{{ __('Hello!') }} {{ Auth::user()->name}}
+          </p>
+          @else
+           <p><a href="/login">Sign in </a>  |  <a href="/register">Join Free</a></p>
+          @endif
+                </div>
+                <ul class="list-unstyled components">
+                    @if(Auth::check())
+                        <li>
+                        <a  href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+
+                        {{ __('Logout') }}
+                        </a>
+                        </li>
+                    @endif
+                    <li>
+                        <a href="/">
+                        <i class="fa fa-home"></i> <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/u/mailbox/inbox">
+                         <i class="fa fa-envelope"></i> <span>Messages</span>
+                       @if(Auth::check())
+                       <span class="label label-primary pull-right" style="margin-top: 2px;font-size: 12px;">
+                            {{ $count }}
+                        </span>
+                      @endif
+                    </a>
+
+                    </li>
+                     <li>
+                         <a href="{{ route('allBuyingRequests') }}">
+                        <i class="fa fa-chat"></i> <span>Quotations</span>
+                        </a>
+                    </li>
+
+                       <li>
+                        <a href="{{ route('my_favorite') }}">
+                        <i class="fa fa-heart"></i> <span>Favourites</span>
+                        </a>
+                    </li>
+                    <li>
+
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="collapsed">
+                        <i class="fa fa-service"></i> <span>Services</span>
+                        </a>
+                        <ul class="list-unstyled collapse" id="pageSubmenu" aria-expanded="false" style="height: 0px;">
+                            <li><a href="/sell">Sell</a></li>
+                            <li><a href="/membership">Premium membership</a></li>
+                            <li><a href="/services">Advertising</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                        <i class="fa fa-chat"></i> <span>Chat with us</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+                <ul class="list-unstyled CTAs">
+
+                    <li><p> <span>Copyright © <?php echo htmlspecialchars(date('Y'))  ;?> Southbulk.com.</span></p> </li>
+                    <p>Made with <i style="color:red;" class="fa fa-heart"></i> by Judge</p>
+                </ul>
+            </nav>
       </div>
       <div class="header-center" id="header-center">
           <div class="header-logo">
@@ -219,10 +264,10 @@ background-color:#fff;
           <div class="tm_headerlinks_inner">
               <div class="headertoggle_img">
                   <div class="my-account-cms">
-                      <div class="w3-dropdown-hover w3-right w3-card-3">
+                      <div class="w3-dropdown-hover pull-right w3-card-3">
                           <button class="btn btn-success">Trade center</button>
                           <div class="w3-dropdown-content w3-bar-block  w3-card-4" style="right:0; width:224px; z-index:10;">
-                              <a href="/u/mailbox/inbox" class="w3-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger w3-right">
+                              <a href="/u/mailbox/inbox" class="w3-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                   {{ $count }}
                                   @else
@@ -230,14 +275,14 @@ background-color:#fff;
                                   @endif
 
                               </span></a>
-                              <a href="/all-buying-requests" class="w3-bar-item "><span style="font-size: 9pt">Buy Leads</span> <span class="label label-danger w3-right">
+                              <a href="/all-buying-requests" class="w3-bar-item "><span style="font-size: 9pt">Buy Leads</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                       {{ $countBuyingRequest }}
                                       @else
                                       {{ 0 }}
                                       @endif
                                   </span></a>
-                              <a href="{{route('admin.index')}}" class="w3-bar-item "><span style="font-size: 9pt">My account</span> <span class="label label-danger w3-right"></span></a>
+                              <a href="{{route('admin.index')}}" class="w3-bar-item "><span style="font-size: 9pt">My account</span> <span class="label label-danger pull-right"></span></a>
                           </div>
                       </div>
                   </div>
@@ -392,7 +437,15 @@ background-color:#fff;
     </div>
     </div>
     </noscript>
-
+<script>
+             $(document).ready(function () {
+                 $('.sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                     $("#bodyStyle").addClass('overlay');
+                     $(this).toggleClass('active');
+                 });
+             });
+</script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('pub/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
     <!-- responsive tags 3.3.7 -->
@@ -405,7 +458,7 @@ background-color:#fff;
     <script src="pub/js/jquery-ui/jquery-ui.min.js"></script>
     <!--accordian menu-->
     <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.js') }}"></script>
-    <!--jQuery validate-->
+     <!--jQuery validate-->
     <script src="{{ asset('pub/js/validate/dist/jquery.validate.js') }}"></script>
     <!--js fun-->
     <script src="{{ asset('pub/js/functions.js') }}"></script>

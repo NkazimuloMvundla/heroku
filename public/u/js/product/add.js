@@ -7,7 +7,7 @@ $(document).ready(function() {
     var x = 1; //initlal text box count
 
     $("#add_field_button").click(function(e) {
-        e.preventDefault(); 
+        e.preventDefault();
         if (x < max_fields) {
             //max input box allowed
                 x++; //counter increments
@@ -466,7 +466,7 @@ Dropzone.options.myDropzone = {
                 } else {
                     $(".Minimum_order_unit").text("");
                 }
-               
+
                 if (Min_price == "") {
                     $(".Min_price")
                         .text("This field is required")
@@ -475,12 +475,12 @@ Dropzone.options.myDropzone = {
                       $(".Min_price")
                        .text("This field must be a number")
                        .css({ color: "red" });
-                
+
                 }else{
                       $(".Min_price")
                        .text("")
                 }
-              
+
                 if (Max_price == "") {
                        $(".Max_price")
                        .text("This field is required")

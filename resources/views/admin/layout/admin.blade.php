@@ -96,6 +96,8 @@
     <script src="{{ asset('u/js/uu/inbox.js') }}"></script>
      <!--js func -->
     <script src="{{ asset('u/js/product/add.js') }}"></script>
+      <!--js func -->
+    <script src="{{ asset('u/js/uu/favs/remove-favs.js') }}"></script>
         <!--js func -->
     <script src="{{ asset('u/js/product/manage.js') }}"></script>
 

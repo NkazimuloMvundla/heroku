@@ -27,6 +27,8 @@
                             <div class="col-md-3 col-xs-6" style="border:1px dotted #e2e2e2">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
+                        <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
+                        <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                          <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                  <a href="/product-details/{{ $encoded_product_id }}">
                                         @foreach ($pd_images as $pd_image)
@@ -58,6 +60,7 @@
             <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
               <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
+                <a  onclick="myFavorite({{ $product->pd_id }});"  id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md"></a>
                                         </div>
                                     </div>
 

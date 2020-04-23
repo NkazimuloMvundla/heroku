@@ -7,9 +7,6 @@ li{list-style:none;}
 span[role="alert"]{
   color: red;
 }
-.error{
-    color: red;
-  }
 
 body{
     color: #515151;
@@ -33,6 +30,24 @@ body{
     box-shadow: none;
     border-color: #d2d6de;
 }
+
+.navbar {
+
+    margin-bottom: 2px;
+    border-radius: 0;
+     border: 0;
+    /*box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); */
+}
+.navbar-header{
+    margin-left: 2px;
+}
+
+@media only screen and (max-width: 993px) {
+.navbar-toggle {
+    display: block;
+ }
+
+ }
 
 .cms-home .column.main{ margin-top: 0;}
 .cms-home #authenticationPopup ~div{display: none;}
@@ -80,6 +95,107 @@ body{
       display: none;
     }
 
+
+}
+
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+
+
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article, a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+*/
+#sidebarCollapse {
+    width: 50px;
+    height: 40px;
+   /* background: #f5f5f5; */
+}
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 992px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
 
 }
 

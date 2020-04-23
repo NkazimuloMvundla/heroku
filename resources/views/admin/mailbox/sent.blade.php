@@ -36,8 +36,8 @@
                       <table  id="example1"  class="table table-hover table-striped">
                         <thead>
                         <tr>
-                        <th>ID</th>
-                        <th>From:</th>
+                        <th></th>
+                        <th>To:</th>
                         <th>Message</th>
                         <th>Time</th>
                         </tr>
@@ -49,7 +49,7 @@
                                 <td><input type="checkbox" id="{{ $message->id}}" name="emails[]" value=""></td>
                                 @foreach ($users as $user )
                                     @if($message->msg_to_id == $user->id )
-                                  <td class="mailbox-name">To: {{ $user->company_name}}  </td>
+                                  <td class="mailbox-name">{{ $user->company_name}}  </td>
                                     <!--when the click here,  means msg has been read , therefore chnage to 1-->
                                   @endif
                                   @endforeach

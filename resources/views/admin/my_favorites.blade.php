@@ -137,6 +137,7 @@ text-overflow: ellipsis;
                         <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
                         <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                     <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
+                    <button class="btn btn-danger" onclick="removeProduct({{ $product->pd_id }})">remove</button>
                                         </div>
                                     </div>
                                 </div>

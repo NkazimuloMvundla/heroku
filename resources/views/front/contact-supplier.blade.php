@@ -4,6 +4,8 @@
 
 @section('content')
 
+
+
 <div class="container">
 
 <div class="row" style="display:flex;justify-content:center;padding: 12px; background: #eaf4ea7a; margin:8px;">
@@ -23,13 +25,12 @@
         </ul>
     -->
         <div class="contact_supplier" id="contact_supplier">
-                <form name="makeAnOffer" id="makeOffer" action="#" method="POST">
+        <form name="makeAnOffer" id="makeOffer" action="{{ route('contactSupplierStore') }}" method="POST">
                   @csrf
                   <input type="hidden" name="msg_from_id" id="msg_from_id" value="{{Auth::user()->id}}" >
                   <input type="hidden" name="msg_to_id" id="msg_to_id" value="{{ $product->first()->pd_u_id }}" >
                   <div class="form-group">
                     <span class="bg-success" id="successMsg" style="font-size:18px;"></span>
-
                  </div>
                  <div class="form-group ">
                   <img src="/storage/{{ $pd_images->first()->pd_filename }}" class="img-responsive img-fluid" alt="prodoct-image" width="60" height="60">
@@ -46,7 +47,7 @@
                   </div>
                   <label>Your offer(Shipping included)</label>
                   <div class="form-group">
-                  <input type="number" class="form-control" id="price" name="price" placeholder="ZAR" value="{{old('price')}}">
+                  <input type="number" min="1" class="form-control" id="price" name="price" placeholder="ZAR" value="{{old('price')}}">
                       <span class="error" id="priceErr"></span>
                       @error('price')
                           <span class="invalid-feedback" role="alert">
@@ -75,7 +76,7 @@
                   <div class="form-group">
                     <label>Quantity :</label>
                     <div class="quantity">
-                    <input type="number" id="quantity" name="quantity" placeholder="Please enter quantity eg 1000" class="form-control" value="{{old('quantity')}}">
+                    <input type="number" min="1" id="quantity" name="quantity" placeholder="Please enter quantity eg 1000" class="form-control" value="{{old('quantity')}}">
                       <span class="error" id="quantityErr"></span>
                       @error('quantity')
                           <span class="invalid-feedback" role="alert">
@@ -107,6 +108,47 @@
 
 </div>
 </div>
+<script>
+$(document).ready(function() {
+    $( "#makeOffer").validate({
+        rules: {
+            subject: "required",
+            message: "required",
+            price: {
+                required: true,
+                number: true
+            },
+            quantityUnit: {
+                required: true,
+            },
+            quantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            subject: "This filed is required",
+            message: "This filed is required",
+            price: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantityUnit: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantity: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            }
+        }
+    });
+
+
+});
+
+
+</script>
 </div>
 
 

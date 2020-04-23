@@ -12,11 +12,11 @@ div#search-result{
     <div style="margin-top: -24px;">
         @if($Productcount > 0)
          <h4 style="background: #f2f3f7; padding:12px;">
-                About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for "{{ $_SESSION['varname']}}"
+                About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for "{{ Session::get('pd_name') }}"
 
          </h4>
          @endif
-
+ 
          @if($Productcount == 0)
          <h5 style="background: #f2f3f7; padding:12px;" class="text-primary">We couldn't find the product you searched for, why dont you post a buying request here ? <span style="color:orange;weight:bold"></span>
              <a href="{{route('BuyingRequest')}}" style="color:orange"> Post here </a>

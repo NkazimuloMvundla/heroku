@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Session;
+use Auth;
 
 class SuperUserAccess
 {
@@ -16,8 +17,9 @@ class SuperUserAccess
      */
     public function handle($request, Closure $next)
     {
-        if (Session::get('super') == null) {
-            return  redirect()->route('super_user_login');
+         if (request()->search == null ) {
+            return redirect('/');
+
         }
         return $next($request);
     }

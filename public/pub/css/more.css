@@ -78,9 +78,9 @@ h3.shows {
     top: 0;
     left: -250px;
     height: 100vh;
-    /*    z-index: ;  */
-    background: #fff;
-    color: #fff;
+    z-index: 999;
+    background: #fffdfd;
+    color: #000;
     transition: all 0.3s;
     overflow-y: scroll;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
@@ -110,19 +110,19 @@ h3.shows {
     background: #fff;
     color: #7386d5;
 }
-
+/*
 .overlay {
     position: fixed;
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.7);
     z-index: 998;
-    display: none;
+    display: block;
 }
-
+*/
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #cfebd5;
+    background: #ffa38ec4;
 }
 
 #sidebar ul.components {
@@ -131,7 +131,7 @@ h3.shows {
 }
 
 #sidebar ul p {
-    color: #fff;
+    color: #000;
     padding: 10px;
 }
 
@@ -147,12 +147,93 @@ h3.shows {
 
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
-    color: black;
-    background: white;
+    color: #000;
+    background: #fff;
 }
 
 a[data-toggle="collapse"] {
     position: relative;
+}
+
+a[aria-expanded="false"]::before,
+a[aria-expanded="true"]::before {
+    content: "\e259";
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: "Glyphicons Halflings";
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: "\e260";
+}
+a.collapsed {
+    color: #000;
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #fff;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386d5;
+}
+
+a.article,
+a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+#sidebarCollapse {
+    width: 50px;
+    height: 40px;
+    background: #ffa38ec4;
+    padding: 0;
+}
+
+ul.list-unstyled > li > a > .fa,
+ul.list-unstyled > li > a > .glyphicon,
+ul.list-unstyled > li > a > .ion {
+    width: 20px;
+}
+#sidebarCollapse:focus,
+#sidebarCollapse:active {
+    border: 0;
+}
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+.label-primary {
+    background-color: #25cd66;
+}
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 992px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
 }
 
 /*fixed-mobile-navbar*/

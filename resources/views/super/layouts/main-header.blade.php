@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-  <a href="{{route('Index')}}" class="logo">
+  <a href="{{route('home')}}" class="logo">
 
       <!-- mini logo for sidebar mini 50x50 pixels -->
 

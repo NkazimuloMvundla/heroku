@@ -10,7 +10,7 @@ use Session;
 
 class SearchController extends Controller
 {
-    function index()
+    public function index()
     {
         return view('front.Index');
     }
@@ -75,7 +75,9 @@ class SearchController extends Controller
     */
     public function search($pd_name)
     {
-
+        if(request()->pd_name != ""){
+            Session::put("pd_name", $pd_name );
+        }
         $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
         $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->paginate(1);
 
@@ -109,12 +111,12 @@ class SearchController extends Controller
 
     public function formsearch()
     {
-        if (request()->search == "") {
-            return redirect()->to('/');
-        }
-        $_SESSION['varname'] = request()->search;
-        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . request()->search . "%")->where('pd_approval_status', 1)->get();
-        $products = DB::table('products')->where("pd_name", "LIKE", "%" . request()->search . "%")->where('pd_approval_status', 1)->paginate(1);
+        if(request()->search != ""){
+            Session::put("pd_name", request()->search );
+             $pd_name = request()->search;
+
+        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name'). "%")->where('pd_approval_status', 1)->get();
+        $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(1);
 
         $Productcount = count($Countproducts);
         $pCats = \App\productCategory::all();
@@ -133,8 +135,35 @@ class SearchController extends Controller
             return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
         } else {
 
-            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images'));
+            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products' ,'pd_images'));
         }
+        }else if(request()->search == null && Session::get('pd_name') != null){
+               $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name'). "%")->where('pd_approval_status', 1)->get();
+        $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(1);
+
+        $Productcount = count($Countproducts);
+        $pCats = \App\productCategory::all();
+        $subCats = \App\SubCategory::all();
+        $lastCats = \App\lastCategory::all();
+        $pd_images = \App\Photo::all();
+        $buyingRequests = \App\BuyingRequest::all();
+        $countBuyingRequest = count($buyingRequests);
+        if (Auth::check()) {
+            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+            $count = count($userMessages);
+
+            //return related sub_categories for the searched term
+            //$lastCat = \App\lastCategory::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+
+            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+        } else {
+
+            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products' ,'pd_images'));
+        }
+        }else{
+            return redirect()->to('/');
+        }
+       
     }
 
     // Admin email search

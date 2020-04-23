@@ -426,7 +426,7 @@ class ProductController extends Controller
 
             \App\SpecOption::where('id', $data['id'])->update([
                 'spec_option_name' => $data['spec_option_name'],
-                'priority' => 2,
+                //    'priority' => 2,
 
             ]);
         }

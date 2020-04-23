@@ -25,8 +25,6 @@ class LastCategoryController extends Controller
 
     public function create()
     {
-
-
         $parent_category = \App\productCategory::all();
 
         return view('super.subcategory-add', compact('parent_category'));
@@ -46,13 +44,11 @@ class LastCategoryController extends Controller
                 'pc_name' => $data['subcategory'],
                 'pc_id' => $data['category'],
 
-
             ]);
         }
     }
     public function viewSub()
     {
-
         $SubCategories = DB::table('last_categories')->paginate(20);
         $mainCategories = DB::table('product_categories')->get();
         $Categories = DB::table('sub_categories')->get();
@@ -63,7 +59,6 @@ class LastCategoryController extends Controller
 
     public function showSub()
     {
-
         if (request()->ajax()) {
             $data = request()->validate([
                 'id' => ['numeric'],
@@ -80,14 +75,9 @@ class LastCategoryController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
                 'category' => ['required', 'string', 'max:255'],
-
             ]);
-
             \App\lastCategory::where('id', $data['id'])->update([
                 'pc_name' => $data['category'],
-
-
-
             ]);
         }
     }
@@ -98,8 +88,6 @@ class LastCategoryController extends Controller
         if (request()->ajax()) {
             $id = request()->validate([
                 'id' => ['numeric'],
-
-
             ]);
             \App\lastCategory::where('id', $id)->delete();
         }

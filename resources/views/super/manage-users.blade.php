@@ -272,9 +272,6 @@ function checkedAll () {
                          @elseif($user->email_verified_at != NULL )
                           <span class="label label-success">Email verified</span>
                           @endif
-
-
-
                       </td>
 
                       <td> {{ $user->created_at }}</td>

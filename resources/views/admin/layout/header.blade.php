@@ -1,6 +1,6 @@
 <header class="main-header">
         <!-- Logo -->
-      <a href="{{route('Index')}}" class="logo">
+      <a href="{{route('home')}}" class="logo">
 
           <!-- mini logo for sidebar mini 50x50 pixels -->
 
@@ -10,7 +10,7 @@
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <a href="/" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
           </a>
 
@@ -29,17 +29,18 @@
                   <li class="user-header">
 
 
-                    <p> 
-                 {{ Session::get('account_type') }}
-                 <?php $new_date = date('Y-m-d', strtotime(Session::get('date_created'))); // prints the current date ?>
-               
+                    <p>
+                 <?php $new_date = date('Y-m-d', strtotime(Auth::user()->created_at)); // prints the current date
+
+                 ?>
+
                  <small>Member Since {{ $new_date }}</small>
                     </p>
-                    <p> Business type: {{ Session::get('account') }}</p>
+                    <p> Business type: {{ Auth::user()->account_type }}</p>
                   </li>
 
-                  
- 
+
+
 
                   <!-- Menu Footer-->
                   <li class="user-footer">

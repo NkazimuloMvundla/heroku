@@ -31,7 +31,7 @@
 <div class="col-md-4" >
 <label for="">Select a Category</label>
 <div class="" id="coin">
-  <select class="form-control "  name="Category"  id="c_id">
+  <select class="form-control"  name="Category"  id="c_id">
   <option selected disabled> Category</option>
   </select>
   @error('Category')
@@ -46,7 +46,7 @@
 
 <label for="number">Select a Sub Category </label>
 <div class="" id="last">
-  <select class="form-control "  name="subCategory"  id="sc_id">
+  <select class="form-control"  name="subCategory"  id="sc_id">
         <option selected disabled>Sub Category</option>
   </select>
   @error('subCategory')

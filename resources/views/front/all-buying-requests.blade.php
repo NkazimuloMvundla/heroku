@@ -9,7 +9,7 @@
 <div class="row">
         @forelse($buyingRequests as $data)
         <div class="col-md-3">
-        <header class="w3-container w3-light-grey">
+    <header class="w3-container w3-light-grey">
 
         @foreach($lastCats as $cat)
         @if($data->br_pc_id == $cat->id)
@@ -17,8 +17,8 @@
         @endif
         @endforeach
 
-  <h3>{{$data->br_pc_name}}</h3>
-</header>
+        <h3>{{$data->br_pc_name}}</h3>
+     </header>
     <div class="w3-container data">
         @foreach($users as $user)
         @if($data->br_u_id == $user->id)
@@ -31,7 +31,9 @@
         <p>Date posted :{{$created_at}}</p>
         <p>Order Quantity:{{$data->br_order_qty}} / {{$data->br_order_qnty_unit}}</p>
         <?php $new_date = date('Y-m-d', strtotime($data->br_expired_date));  ?>
+        @if($data->br_expired_date != null)
         <p>Valid till : {{$new_date}} </p>
+        @endif
         <hr>
         <div class="thumb">  <p>{{$data->br_pd_spec}}</p> </div>
     </div>
@@ -59,7 +61,7 @@
                 <h4 class="modal-title" id="">Make your best offer for this item</h4>
               </div>
               <div class="modal-body" id="modal-body">
-                <form name="makeAnOffer" id="makeOffer" action="#">
+                <form name="makeAnOffer" id="makeOffer" action="/messages">
                   @csrf
                   <input type="hidden" name="msg_from_id" id="msg_from_id" value="{{Auth::user()->id}}" >
 
@@ -75,7 +77,7 @@
                   </div>
                   <label>Your offer(Shipping included)</label>
                   <div class="form-group">
-                  <input type="number" class="form-control" id="price" name="price">
+                  <input type="text" class="form-control" id="price" name="price">
                       <span class="error" id="priceErr"></span>
                       @error('price')
                           <span class="invalid-feedback" role="alert">
@@ -104,7 +106,7 @@
                   <div class="form-group">
                     <label>Quantity :</label>
                     <div class="quantity">
-                      <input type="number" id="quantity" name="quantity" placeholder="Please enter quantity eg 1000" class="form-control" >
+                      <input type="text" id="quantity" name="quantity" placeholder="Please enter quantity eg 1000" class="form-control" >
                       <span class="error" id="quantityErr"></span>
                       @error('quantity')
                           <span class="invalid-feedback" role="alert">
@@ -117,7 +119,7 @@
                     <label>Add a Comment</label>
                     <div class="comment">
                       <textarea name="comment" id="comment"></textarea>
-                      <span class="error"></span>
+                              <span class="error" id="commentErr"></span>
                       @error('comment')
                           <span class="invalid-feedback" role="alert">
                               <strong>{{ $message }}</strong>

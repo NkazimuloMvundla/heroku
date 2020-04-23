@@ -13,9 +13,6 @@ $(document).ready(function() {
                 success: function(data) {
                     $("#countryList").fadeIn();
                     $("#countryList").html(data);
-                },
-                error: function(data) {
-                    console.log("err", data);
                 }
             });
         } else if ($("#search").val() == "") {
@@ -54,9 +51,6 @@ $(document).ready(function(e) {
                 },
                 success: function(data) {
                     alert(data);
-                },
-                error: function(data) {
-                    console.log("Error", data);
                 }
             });
         }
@@ -77,9 +71,6 @@ $(document).ready(function() {
                 success: function(data) {
                     $("#search_mobile").fadeIn();
                     $("#search_mobile").html(data);
-                },
-                error: function(data) {
-                    console.log("err", data);
                 }
             });
         } else if ($("#search-mobile").val() == "") {
@@ -105,6 +96,40 @@ function validSearch() {
         return true;
     }
 }
+
+/*
+//auto complete mobile
+$(document).ready(function() {
+ $("#search_btn").on("click", function(e) {
+    e.preventDefault();
+    var searchtext = document.getElementById("search");
+    //alert(search_value);
+    if (searchtext.value == "") {
+        alert("Please input a keyword");
+        searchtext.focus();
+        return false;
+    } else {
+          console.log(searchtext.value)
+             $.ajax({
+                type: "POST",
+                url: "/search",
+                data: { pd_name: searchtext.value },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                console.log('Success', data)
+                window.location = "/search";
+                },
+                error: function(data) {
+                    console.log("err", data);
+                }
+            });
+
+       }
+   })
+})
+*/
 function validSearchM() {
     var searchtext = document.getElementById("search-mobile");
     //alert(search_value);
@@ -129,9 +154,6 @@ function myFavorite(id) {
             },
             success: function(data) {
                 alert(data);
-            },
-            error: function(data) {
-                console.log("Error", data);
             }
         });
     } else {
@@ -139,7 +161,7 @@ function myFavorite(id) {
     }
 }
 
-document.getElementById("add-to-span").addEventListener("click", myFavorite);
+//document.getElementById("add-to-span").addEventListener("click", myFavorite);
 
 /*end of add to favourites function */
 
@@ -157,9 +179,6 @@ function showRequest(id) {
             }
             $("#modal-title").text($br_pc_name);
             $("#br_pd_spec").text($br_pd_spec);
-        },
-        error: function(data) {
-            console.log("Error:", data);
         }
     });
 }
@@ -176,15 +195,58 @@ function sendMessage(id) {
             var quantityUnit = $("#quantityUnit").val();
             var quantity = $("#quantity").val();
             var comment = $("#comment").val();
+            var valid = true;
             if (subject == "") {
-                $("#subjectErr").text("Please enter a Subject");
-            } else if (price == "") {
-                $("#priceErr").text("Please enter price");
-            } else if (quantityUnit == "Select") {
-                $("#quantityUnitErr").text("Please select Quantity Unit");
-            } else if (quantity == "") {
-                $("#quantityErr").text("Please enter quantity");
+                $("#subjectErr")
+                    .text("This field is required")
+                    .css({ color: "red" });
+                valid = false;
             } else {
+                $("#subjectErr").text(" ");
+            }
+            if (price == "") {
+                $("#priceErr")
+                    .text("This field is required")
+                    .css({ color: "red" });
+                valid = false;
+            } else if (isNaN(price)) {
+                $("#priceErr")
+                    .text("This field must be a number")
+                    .css({ color: "red" });
+                valid = false;
+            } else {
+                $("#priceErr").text(" ");
+            }
+            if (quantityUnit == "Select") {
+                $("#quantityUnitErr")
+                    .text("This field is required")
+                    .css({ color: "red" });
+                valid = false;
+            } else {
+                $("#quantityUnitErr").text(" ");
+            }
+            if (quantity == "") {
+                $("#quantityErr")
+                    .text("This field is required")
+                    .css({ color: "red" });
+                valid = false;
+            } else if (isNaN(quantity)) {
+                $("#quantityErr")
+                    .text("This field must be a number")
+                    .css({ color: "red" });
+                valid = false;
+            } else {
+                $("#quantityErr").text(" ");
+            }
+            if (comment == "") {
+                $("#commentErr")
+                    .text("This field is required")
+                    .css({ color: "red" });
+                valid = false;
+            } else {
+                $("#commentErr").text(" ");
+            }
+            if (valid) {
                 $.ajax({
                     type: "POST",
                     url: "/messages",

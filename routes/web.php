@@ -47,8 +47,8 @@ Route::post('/account-registration', 'auth\RegisterController@save_account_type'
 Route::get('/autocomplete', 'SearchController@index');
 Route::post('/autocomplete/fetch', 'SearchController@livesearch')->name('autocomplete.fetch');
 Route::get('/search/{pd_name}', 'SearchController@search');
-Route::get('/search', 'SearchController@formsearch');
-Route::post('/search', 'SearchController@formsearch');
+Route::get('/search', 'SearchController@formsearch');;
+Route::post('/search', 'SearchController@formsearch')->name('formsearch');
 
 //Auth::routes(['verify' => true, 'register' => false, 'login' => false]);
 
@@ -64,7 +64,7 @@ Route::get('/singleBuyingRequest', 'BuyingRequestController@allBuyingSingleView'
 Route::post('/messages', 'MessageController@store')->name('messages'); // stores all buying request data
 Route::get('/supplier/{supplier_id}', 'SupplierController@show')->name('supplier');
 Route::get('/contact-supplier/product/{product_id}/supplier/{supplier_id}', 'SupplierController@create')->name('contactSupplier')->middleware('auth');
-Route::post('/contact-supplier/product/{product_id}/supplier/{supplier_id}', 'SupplierController@store')->name('contactSupplierStore');
+Route::post('/contact-supplier', 'SupplierController@store')->name('contactSupplierStore');
 Route::get('/products-by-category/{sub_cat_name}/{sub_category_id}', 'ProductsByCategoryController@create')->name('getFeaturedCats');
 Route::get('/products-by-last-category/{last_cat_name}/{last_category_id}', 'ProductsByCategoryController@showByCat')->name('contactSupplier');
 Route::get('/product-details/{product_id}', 'ProductController@showProductDetails')->name('showProduct');
@@ -114,6 +114,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::get('/mailbox/all-emails', 'MessageController@show')->name('allEmails');
     Route::get('/favorites', 'MyFavoriteController@create')->name('my_favorite');
     Route::post('/favorites', 'MyFavoriteController@addFavorite')->name('my_favorite');
+    Route::post('/remove-favorite', 'MyFavoriteController@removeFav')->name('removeFav');
     Route::post('/search', 'SearchController@AdminEmailSearch')->name('liveSearchAdminEmail');
     Route::post('/All-email-search', 'SearchController@AdminAllEmailSearch')->name('AdminAllEmailSearch');
     Route::get('/sent-emails-search', 'SearchController@AdminSentEmailSearch')->name('liveSearchAdminSentEmail');
@@ -122,10 +123,10 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' => 'AccessSuperUser'], function () {
 
     Route::get('/', 'SuperIndexController@view')->name('super.index');
-   // Route::get('/login', 'Admin\SuperUserLoginController@showLoginForm')->name('super_user_login');
-  //  Route::post('/login', 'Admin\SuperUserLoginController@checklogin')->name('super_user_login');
-  //  Route::get('/registration', 'Admin\SuperUserRegistrationController@Adminregister');
-   // Route::post('/registration', 'Admin\SuperUserRegistrationController@register')->name('super_user_register');
+    // Route::get('/login', 'Admin\SuperUserLoginController@showLoginForm')->name('super_user_login');
+    //  Route::post('/login', 'Admin\SuperUserLoginController@checklogin')->name('super_user_login');
+    //  Route::get('/registration', 'Admin\SuperUserRegistrationController@Adminregister');
+    // Route::post('/registration', 'Admin\SuperUserRegistrationController@register')->name('super_user_register');
     Route::get('/manage-users', 'ManageUserController@create')->name('manage-users');
     Route::get('/manage-reviews', 'ReviewController@create')->name('manage-reviews');
     Route::post('/approve-review', 'ReviewController@approve')->name('approveReview');
