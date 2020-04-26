@@ -447,7 +447,7 @@
              });
 </script>
     <!-- Bootstrap 3.3.7 -->
-    <script src="{{ asset('pub/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
     <!-- responsive tags 3.3.7 -->
     <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.js') }}">
     </script>
