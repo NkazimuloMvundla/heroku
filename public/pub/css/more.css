@@ -171,7 +171,7 @@ a.collapsed {
     color: #000;
 }
 
-ul ul a {
+ul ul a:not([class="acdnLink"]) {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #fff;
