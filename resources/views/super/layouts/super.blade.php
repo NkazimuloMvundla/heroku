@@ -9,7 +9,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('u/bower_components/font-awesome/css/font-awesome.min.css' ) }}">
@@ -128,7 +128,7 @@
 </script>
 <!-- Bootstrap 3.3.7 -->
 
-<script src="{{asset("pub/bootstrap-3.3.7-dist/js/bootstrap.min.js")}}"></script>
+<script src="{{asset("pub/bootstrap-3.3.7/js/bootstrap.min.js")}}"></script>
 <!-- Morris.js charts -->
 <script src="{{asset("u/bower_components/raphael/raphael.min.js")}}"></script>
 <script src="{{asset("u/bower_components/morris.js/morris.min.js")}}"></script>

@@ -23,6 +23,10 @@ class AdminIndexController extends Controller
         Session::put('date_created', $user_details->first()->created_at);
         //dd(Session::get('date_created'));
         $currentUserAccount =  $user_details->first()->account_type;
-        return view('admin.index', compact('count_emails', 'product_listed', 'countUserFavs'));
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
+        return view('admin.index', compact('count_emails', 'product_listed', 'countUserFavs', 'notifications'));
     }
 }

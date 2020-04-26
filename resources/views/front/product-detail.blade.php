@@ -183,9 +183,16 @@ function sendReview(id){
                     <span class="product-description">
                     <span style="font-size: 16px">Payment Terms:</span>
                     </span>
+                     <?php  $i = 1; ?>
                     @foreach ($payments as $payMethod)
                     @if(in_array($payMethod->pt_id ,$payment_t))
-                    <span> {{  $payMethod->pt_name . ' , ' }}  </span>
+
+                    @if($i<count($payment_t))
+                    <?php $payMethod->pt_name.= ', ';?>
+                    <?php $i++;?>
+                    @endif
+
+                    <span> {{  $payMethod->pt_name }}  </span>
                     @endif
                     @endforeach
                 </div>
@@ -342,7 +349,7 @@ function sendReview(id){
             @endif
               <p><i class="fa fa-building"></i><strong> Business type </strong>: 	{{ $user->first()->account_type }} </p>
               <p><i class="fa fa-map"></i> <strong> Location </strong>: South Africa </p>
-              <p><i class="fa fa-registered"></i><strong> Registration number </strong>: 2324616256 <small>  confirmed with <a href="http://www.seda.org.za/">SEDA</a></small></p>
+              <p><i class="fa fa-registered"></i><strong> Registration number </strong>: {{ $user->first()->registration_number }} <small>  confirmed with <a href="http://www.seda.org.za/">SEDA</a></small></p>
                     @if($export > 0)
                     <p> <i class="fa fa-money"></i> <strong> Export percentage </strong>: <b>{{$export_capabilities->first()->export_percentage}} %</b> </p>
                     <p>
@@ -350,14 +357,19 @@ function sendReview(id){
                     $markets = explode(',', $export_capabilities->first()->main_markets);
                     ?>
                     <strong><i class="fa fa-globe"></i> Markets : </strong>
+                       <?php  $i = 1; ?>
                     @foreach ($markets as $ind )
-                    <span  style="font-size: 11px;">{{ $ind }}, </span>
+                    @if($i<count($markets))
+                    <?php $ind.= ', ';?>
+                    <?php $i++;?>
+                    @endif
+                    <span  style="font-size: 11px;">{{ $ind }} </span>
                     @endforeach
                     </p>
                     <p> <i class="fa fa-calendar"></i> <strong>Year started exporting  </strong>: <b>{{$export_capabilities->first()->export_started}}</b> </p>
                     @endif
           </div>
-
+        @if($count_comp_img > 0)
            <div>
               <h4 class="bg-info text-center"><b>Company images</b></h4>
             </div>
@@ -368,6 +380,7 @@ function sendReview(id){
             @endforeach
          </div>
             </div>
+        @endif
             <!--certificates-->
 
            <div>

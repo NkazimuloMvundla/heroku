@@ -14,7 +14,7 @@
             </div>
             <div>
                 <div>
-                    <form method="POST" action="/register">
+                    <form method="POST" action="/register" id="registration_form" name="registration_form ">
                         @csrf
                         <div class="row form-group">
                                 <div class="col-md-6">

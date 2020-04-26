@@ -141,6 +141,7 @@ function showProduct(id){
           data:{id:id},
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
+            //  console.log('Sucess', data)
             for (var i = 0; i < data.length; i++) {
              $id = data[i].pd_id;
              $pd_name = data[i].pd_name;
@@ -256,7 +257,7 @@ function checkedAll () {
                         <th>Sub Category</th>
                         <th>Details</th>
                         <th>Action</th>
-                        <th>Make a Featured Product</th>
+                        <th>Company</th>
                         </tr>
                       </thead>
                     <tbody>
@@ -265,7 +266,70 @@ function checkedAll () {
                     <tr>
                       <td><input type="checkbox" id="{{ $product->pd_id }}" name="pd_id[]" value="{{ $product->pd_id }}"></td>
                       <td> {{ $product->pd_name }}</td>
-                            <!--Moda-->
+                      
+                      <td >
+                            @foreach ($sub_categories as $sub_category )
+                            @if($product->pd_subCategory_id == $sub_category->id)
+                                    {{ $sub_category->pc_name }}
+                            @endif
+                            @endforeach
+                      </td>
+
+                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showProduct({{ $product->pd_id }});"> click</td>
+
+                     <td >
+                     <a href="">
+                     <button name="suspend" class="btn btn-default btn-sm" onclick="suspend({{ $product->pd_id }})";>
+                            @if($product->pd_approval_status == 0)
+                             Suspend
+                            @elseif($product->pd_approval_status == 2)
+                             <span class="label label-danger">Suspended</span>
+                            @elseif($product->pd_approval_status == 1)
+                             Suspend
+                             @endif
+                     </button>
+                     </a>
+                     or
+
+                     <button id="approve" class="btn btn-default btn-sm" onclick="approve({{ $product->pd_id }})";>
+                        @if($product->pd_approval_status == 0)
+                        Approve
+                        @elseif($product->pd_approval_status == 1)
+                        <span class="label label-success">Approved</span>
+                        @elseif($product->pd_approval_status == 2)
+                        Approve
+                        @endif
+
+                    </button>
+                    or
+                    <button id="delete" class="btn btn-default btn-sm" onclick="deleteProduct({{ $product->pd_id }})";>
+                        delete
+                   </button>
+                     </td>
+                     <td>
+                         @foreach ($users as $user)
+                        @if($user->id == $product->pd_u_id)
+                             {{ $user->company_name }}
+                        @endif
+
+                         @endforeach
+                     </td>
+
+                     </tr>
+
+                 @endforeach
+                    </tbody>
+
+                  </table>
+                  <!-- /.table -->
+
+                </div>
+                <!-- /.mail-box-messages -->
+              </div>
+              <!-- /.box-body -->
+
+              <!--modal-->
+                    <!--Moda-->
                             <div class="modal fade" id="modal-default" style="display: none;">
                             <div class="modal-dialog">
                             <div class="modal-content">
@@ -320,84 +384,7 @@ function checkedAll () {
                             </div>
                             <!-- /.modal-dialog -->
                             </div>
-                      <td >
-                            @foreach ($sub_categories as $sub_category )
-                            @if($product->pd_subCategory_id == $sub_category->id)
-                                    {{ $sub_category->pc_name }}
-                            @endif
-                            @endforeach
-                      </td>
 
-                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showProduct({{ $product->pd_id }});"> click</td>
-
-                     <td >
-                     <a href="">
-                     <button name="suspend" class="btn btn-default btn-sm" onclick="suspend({{ $product->pd_id }})";>
-                            @if($product->pd_approval_status == 0)
-                             Suspend
-                            @elseif($product->pd_approval_status == 2)
-                             <span class="label label-danger">Suspended</span>
-                            @elseif($product->pd_approval_status == 1)
-                             Suspend
-                             @endif
-                     </button>
-                     </a>
-                     or
-
-                     <button id="approve" class="btn btn-default btn-sm" onclick="approve({{ $product->pd_id }})";>
-                        @if($product->pd_approval_status == 0)
-                        Approve
-                        @elseif($product->pd_approval_status == 1)
-                        <span class="label label-success">Approved</span>
-                        @elseif($product->pd_approval_status == 2)
-                        Approve
-                        @endif
-
-                    </button>
-                    or
-
-                    <button id="delete" class="btn btn-default btn-sm" onclick="deleteProduct({{ $product->pd_id }})";>
-                        delete
-
-                   </button>
-
-
-                     </td>
-                     <td>
-                            <button id="approve" class="btn btn-default btn-sm" onclick="featured({{ $product->pd_id }})";>
-                                    @if($product->pd_featured_status == 0)
-                                    Make Featured Product
-                                    @elseif($product->pd_featured_status == 1)
-                                    <span class="label label-success">Feat Product</span>
-
-                                    @endif
-
-                                </button>
-                                or
-                                <button id="approve" class="btn btn-default btn-sm" onclick="unfeatured({{ $product->pd_id }})";>
-                                        @if($product->pd_featured_status == 0)
-                                        UnFeatured Product
-                                        @elseif($product->pd_featured_status == 1)
-                                        <span class="label label-danger">UnFeat Product</span>
-
-                                        @endif
-
-                                    </button>
-
-                     </td>
-
-                     </tr>
-
-                 @endforeach
-                    </tbody>
-
-                  </table>
-                  <!-- /.table -->
-
-                </div>
-                <!-- /.mail-box-messages -->
-              </div>
-              <!-- /.box-body -->
               <div class="box-footer no-padding">
                 <div class="mailbox-controls">
                   <!-- Check all button -->
@@ -405,7 +392,6 @@ function checkedAll () {
                   </button>
                    <div class="btn-group">
                    <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
                   </div>
               </div>
             </div>
@@ -419,7 +405,7 @@ function checkedAll () {
               <div class="col-md-4">
                     <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
                             {{$products->links()}}
-                           </div>
+                    </div>
               </div>
           </div>
       </div>

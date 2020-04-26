@@ -8,7 +8,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
-<link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <!--jQuery validate-->
 <link rel="stylesheet" type="text/css" href="pub/js/validate/demo/css/screen.css">
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/w3css.css') }}">
@@ -74,9 +74,9 @@
               </li>
               <li class="w3-dropdown-hover w3-hide-small w3-hide-meduim " style="z-index:10;"><span>For Suppliers<span class="caret"></span></span>
               <div class="w3-dropdown-content w3-bar-block  w3-card" style="width:224px;">
-              <a href="/u/add-new-product" class="w3-bar-item ">Display new products</a>
+              <a href="{{ route('admin.index') }}" class="w3-bar-item ">Display new products</a>
               <a href="/all-buying-requests" class="w3-bar-item ">Search buy trade leads</a>
-              <a href="/u/manage-products" class="w3-bar-item ">Manage products</a>
+              <a href="{{ route('admin.index') }}" class="w3-bar-item ">Manage products</a>
               </div>
               </li>
 
@@ -267,7 +267,7 @@
                       <div class="w3-dropdown-hover pull-right w3-card-3">
                           <button class="btn btn-success">Trade center</button>
                           <div class="w3-dropdown-content w3-bar-block  w3-card-4" style="right:0; width:224px; z-index:10;">
-                              <a href="/u/mailbox/inbox" class="w3-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger pull-right">
+                              <a href="{{ route('admin.index') }}" class="w3-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                   {{ $count }}
                                   @else
@@ -441,7 +441,7 @@
              $(document).ready(function () {
                  $('.sidebarCollapse').on('click', function () {
                      $('#sidebar').toggleClass('active');
-                     $("#bodyStyle").addClass('overlay');
+                   //  $("#bodyStyle").fadeToggle('overlay');
                      $(this).toggleClass('active');
                  });
              });

@@ -49,7 +49,7 @@ class ManageUserController extends Controller
             \App\User::where('id', $data['id'])->update(['status' => 1]);
         }
     }
-
+    /*
     public function assignRole(Request $request)
     {
 
@@ -65,7 +65,7 @@ class ManageUserController extends Controller
             \App\User::where('id', $data['id'])->update(['role' => $data['role']]);
         }
     }
-
+*/
 
 
     public function suspend(Request $request)

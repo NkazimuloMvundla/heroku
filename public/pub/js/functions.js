@@ -433,3 +433,32 @@ function sendReview(id) {
         window.location = "/login";
     }
 }
+
+$(document).ready(function() {
+    $("#registration_form").validate({ 
+        rules: {
+            mainCategory: "required",
+            Category: "required",
+            subCategory: "required",
+            productName: "required",
+            detailedSpecification: "required",
+            orderQuantityUnit: "required",
+            orderQuantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            mainCategory: "This field is required",
+            Category: "This field is required",
+            subCategory: "This field is required",
+            productName: "This field is required",
+            detailedSpecification: "This field is required",
+            orderQuantityUnit: "This field is required",
+            orderQuantity: {
+                required: "This field is required",
+                number: "This field must be numeric"
+            }
+        }
+    });
+});

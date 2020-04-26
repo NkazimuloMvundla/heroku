@@ -20,18 +20,17 @@ span[role="alert"]{
      <div class="tab-content">
       <div id="home" class="container tab-pane fade in active">
         <div class="row">
-       @if(Session::has('message'))
-        <div class="">
-            <ul>
-                <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
 
-            </ul>
-
-        </div>
-        @endif
-            <form method="POST" action="#" enctype="multipart/form-data" id="updateProfile">
+    <form method="POST" action="{{ route('Profile') }}" id="updateProfile">
           @method('PATCH')
         @csrf
+        <div class="row">
+        @if(Session::has('message'))
+        <div class="col-md-12">
+        <p class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</p>
+        </div>
+        @endif
+        </div>
          <div class="row">
         <div class="col-md-4" style="margin-top:9px;">
           <label>About Us</label>
@@ -51,6 +50,15 @@ span[role="alert"]{
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
+          </div>
+          <label>Registration number(<span style="color:red;"><i>This will be validated</i></span>)</label>
+          <div class="form-group">
+            <input type="text" id="registration_number" name="registration_number" class="form-control @error('registration_number') is-invalid @enderror" value="{{old('registration_number') ?? $user_details->first()->registration_number }}">
+            @error('registration_number')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+          @enderror
           </div>
             <label>Company Street Address</label>
           <div class="form-group">
@@ -152,15 +160,6 @@ span[role="alert"]{
 
                <!--second content-->
           <div role="tabpanel"  id="export" class="tab-pane">
-            @if(Session::has('message'))
-               <div class="">
-                <ul>
-                    <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
-
-                </ul>
-
-               </div>
-               @endif
           <form method="POST" action="{{ route('export-capabilities') }}" id="export_capabilities">
               @method('PATCH')
             @csrf

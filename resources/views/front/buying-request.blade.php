@@ -125,7 +125,7 @@ $(document).ready(function() {
             mainCategory: "required",
             Category: "required",
             subCategory: "required",
-            productName: "required",
+            productName: "required", 
             detailedSpecification: "required",
             orderQuantityUnit: "required",
             orderQuantity: {

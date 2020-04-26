@@ -34,6 +34,7 @@ class ProfileController extends Controller
             'zip_code' => ['required', 'numeric', 'digits_between:0,10'],
             'company_name' => ['required', 'string', 'max:255'],
             // 'business_type' => ['required', 'string', 'max:255'],
+            'registration_number' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'numeric', 'digits_between:0,10'],
 
 
@@ -47,11 +48,12 @@ class ProfileController extends Controller
             'zip_code' => $data['zip_code'],
             'company_name' => $data['company_name'],
             // 'account_type' =>$data['business_type'],
+            'registration_number' => $data['registration_number'],
             'phone_number' => $data['phone_number'],
 
         ]);
         Session::flash('message', "Updated Successfully.");
-        return redirect('/admin/profile');
+        return redirect()->route('Profile');
     }
 
     public function showBusinessCard()

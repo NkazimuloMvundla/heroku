@@ -61,7 +61,7 @@
                  else
                      $status = 'Pending Approval';
 
-                 ?>
+                 ?> 
                    <tr>
                      <td><input type="checkbox" id="{{ $product->pd_id }}" name="pd_id[]" value=""></td>
                      <td ><a href=""></a>{{ $product->pd_name }}</td>

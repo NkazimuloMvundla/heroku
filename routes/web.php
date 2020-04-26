@@ -81,6 +81,8 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::get('/profile', 'ProfileController@show')->name('Profile');
     Route::patch('/profile', 'ProfileController@update')->name('Profile');
     Route::post('/profile/certificate', 'ProfileController@saveCertificates')->name('saveCertificates');
+    Route::get('/notifications', 'NotificationsController@create')->name('notifications');
+    Route::post('/deleteNotification', 'NotificationsController@destroy')->name('deleteNotification');
     Route::post('/profile/delete-certificate', 'ProfileController@deleteCompanyCertificate');
     Route::post('/profile', 'ExportCapabilityController@save')->name('export-capabilities');
     Route::get('/business-card', 'ProfileController@showBusinessCard')->name('business_card');

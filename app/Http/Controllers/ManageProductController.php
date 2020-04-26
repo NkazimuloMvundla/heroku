@@ -90,10 +90,28 @@ class ManageProductController extends Controller
     public function view()
     {
 
-        $products = DB::table('products')->paginate(5);
+        $products = DB::table('products')->paginate(100);
         $sub_categories = DB::table('last_categories')->get();
+        $users = DB::table('users')->get();
         $count = count($products);
-        return view('super.manage-products', compact('products', 'count', 'sub_categories'));
+        return view('super.manage-products', compact('products', 'users', 'count', 'sub_categories'));
+    }
+    public function suspend(Request $request)
+    {
+
+        if (request()->ajax()) {
+
+            $data = request()->validate([
+                'id' => ['numeric'],
+
+            ]);
+
+
+
+            \App\Product::where('pd_id', $data['id'])->update(['pd_approval_status' => 2]);
+            $suspend = \App\Product::where('pd_id', $data['id'])->get('pd_approval_status');
+            return response()->json($suspend->first()->pd_approval_status);
+        }
     }
 
     public function approve(Request $request)
@@ -105,9 +123,16 @@ class ManageProductController extends Controller
                 'id' => ['numeric'],
 
             ]);
+            $product = \App\Product::where('pd_id', $data['id'])->get();
 
+            \App\Notifications::create([
+                'message' => " Your product " . $product->first()->pd_name . " has been approved ",
+                'user_id' => $product->first()->pd_u_id,
+                'product_id' => $product->first()->pd_id,
+            ]);
 
-            \App\Product::where('pd_id', $data['id'])->update(['pd_approval_status' => 1]);
+            $res = \App\Product::where('pd_id', $data['id'])->update(['pd_approval_status' => 1]);
+            return $res;
         }
     }
     public function featuredProduct(Request $request)
@@ -159,21 +184,7 @@ class ManageProductController extends Controller
         }
     }
 
-    public function suspend(Request $request)
-    {
 
-        if (request()->ajax()) {
-
-            $data = request()->validate([
-                'id' => ['numeric'],
-
-            ]);
-
-
-
-            \App\Product::where('pd_id', $data['id'])->update(['pd_approval_status' => 2]);
-        }
-    }
 
     public function deleteSingleProduct()
     {

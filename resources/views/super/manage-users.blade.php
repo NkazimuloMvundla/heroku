@@ -100,7 +100,7 @@ function showUser(id){
 }
 
 
-
+/*
 function changeRole(id){
  var role = $("#changeRole").val();
  $.ajax({
@@ -118,7 +118,7 @@ function changeRole(id){
       });
 
 
-}
+}*/
 
 function checkedAll () {
     var check = $('input[name="u_id[]"]:checked').length;
@@ -191,7 +191,7 @@ function checkedAll () {
                     <tr>
                     <th>ID</th>
                     <th>User Name</th>
-                    <th>User Role</th>
+                    <th>Registration Number</th>
                     <th>Status</th>
                     <th>Member since</th>
                     <th>Action</th>
@@ -241,31 +241,14 @@ function checkedAll () {
                             </div>
                             <!-- /.modal-dialog -->
                             </div>
-                            <td  data-toggle="modal" data-target="#modal-changeRole">{{ $user->role }}</td>
-                              <!--Moda-->
-                            <div class="modal fade" id="modal-changeRole" style="display: none;">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="modal-title"></h4>
-                            </div>
-                            <div class="modal-body" id="modal-body">
-                            <div class="">
-                                <input type="text" name="changeRole" id="changeRole" value="{{ $user->role }}">
-                            </div>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                             <button  class="btn btn-default pull-right" id="send-message" onclick="changeRole({{ $user->id }})">Change Role</button>
-                            </div>
-                            </div>
-                            <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                            </div>
 
+                            <td>
+                                @if($user->registration_number)
+                                {{ $user->registration_number }}
+                                @else
+                                {{ "not provided" }}
+                                @endif
+                            </td>
                       <td >
                          @if($user->email_verified_at == NULL )
                          <span class="label label-warning">Email unverified</span>

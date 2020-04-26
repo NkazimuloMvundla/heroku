@@ -72,7 +72,7 @@ $(document).ready(function() {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    alert("Success");
+                    alert("Data saved!");
                 }
             });
         } else {

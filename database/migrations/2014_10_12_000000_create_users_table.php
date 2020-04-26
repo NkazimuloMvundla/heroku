@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('account_type');
             $table->string('role');
             $table->string('about_us')->nullable();
+            $table->string('registration_number')->nullable();
             $table->string('industry');
             $table->string('company_name');
             $table->string('company_logo')->nullable();

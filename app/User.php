@@ -19,19 +19,20 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'lastname',
         'email',
-        'company_name' ,
+        'company_name',
         'phone_number',
         'account_type',
         'password',
         'about_us',
         'industry',
-        'company_logo' ,
+        'company_logo',
         'company_slogan',
-        'company_background_img' ,
+        'company_background_img',
         'zip_code',
         'company_address',
         'country',
         'province',
+        'registration_number'
     ];
 
 
@@ -54,13 +55,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function Profile(){
+    public function Profile()
+    {
         return $this->hasOne(Profile::class);
     }
 
-    public function BuyingRequests(){
+    public function BuyingRequests()
+    {
         return $this->hasMany(BuyingRequest::class);
     }
-
-    
 }

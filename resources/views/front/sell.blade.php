@@ -46,13 +46,13 @@ h2.sell::after {
     text-align: center;
     padding: 13px 20px;
     background: #f5f5f5;
-  
+
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
     color: #fff;
 }
   .row-1 {
-    background-image: url(img/austin-distel-744oGeqpxPQ-unsplash.jpg);
-    background-repeat: no-repeat;
+   /* background-image: url(img/austin-distel-744oGeqpxPQ-unsplash.jpg);
+    background-repeat: no-repeat; */
     background-color: #ccc;
     border: 1px solid;
     width: inherit;
@@ -66,7 +66,7 @@ h2.sell::after {
   .row-1 {
 
     height: 430px;
-   
+
 }
 }
 
@@ -80,12 +80,12 @@ div.flex{
 }
 div.data{
     background: #f5f5f5;
-    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);  
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
     flex-basis: 25%;
     padding: 12px;
     margin: 7px;
-    
-   
+
+
 }
 div.fees{
     flex-basis: 100%;
@@ -100,13 +100,13 @@ div.fees{
 <div class="row-1">
 <h2 class="sell">Who are we ?</h2>
 <div class="col-md-4">
-  <h2 class="sell" data-img>We are dedicated to help <b>South African Based small businesses</b> go big and global</h2>  
+  <h2 class="sell" data-img>We are dedicated to help <b>South African Based small businesses</b> go big and global</h2>
 </div>
 <div class="col-md-4">
- <h2 class="sell" data-img>Our reach, research and targeting tools will help your business thrive </h2>   
+ <h2 class="sell" data-img>Our reach, research and targeting tools will help your business thrive </h2>
  <div class="w3-center">
 	@if(!Auth::check())
-	<button class="btn btn-primary"><a href="{{route('login')}}">Start selling</a></button> 
+	<button class="btn btn-primary"><a href="{{route('login')}}">Start selling</a></button>
 	@endif
 </div>
 </div>
@@ -115,7 +115,7 @@ div.fees{
 </div>
 </div>
 <div class="row">
-<h2 class="sell">Industries we cover</h2>  
+<h2 class="sell">Industries we cover</h2>
 </div>
 <div class="flex">
 <div class=" data">Chemicals</div>
@@ -130,17 +130,17 @@ div.fees{
 <div class=" data">Food</div>
 </div>
 <div class="row" >
-<h2 class="sell">Frequently Asked Questions</h2>   
+<h2 class="sell">Frequently Asked Questions</h2>
 </div>
 <div class="flex" style="background: #f0f0f0;">
  <div class="fees">
- <h2>What fees do I get charged?</h2>   
+ <h2>What fees do I get charged?</h2>
  <p>
-  Listing your products on X-po is always free. You can set up your store and start making connections for absolutely free. However we do have restrictions   
- </p>   
+  Listing your products on X-po is always free. You can set up your store and start making connections for absolutely free. However we do have restrictions
+ </p>
 </div>
 <div class="fess">
- <h2>How do you stand out on X-po? <small>  Its pretty simple. Follow these 5 cardinal rules: </small></h2>   
+ <h2>How do you stand out on X-po? <small>  Its pretty simple. Follow these 5 cardinal rules: </small></h2>
 <ol>
 <li>#1Subscribe to be a premium member and enjoy exclusive privileges and prority listing </li>
 <li>#2 Make use of our Advertising Service and get 100+ times more brand and
@@ -148,8 +148,8 @@ product exposure</li>
 <li>#3 God-like images</li>
 <li>#4 Detailed and accurate names</li>
 <li>#5 Lots of descriptions</li>
-</ol>  
-</div>   
+</ol>
+</div>
 </div>
 </div>
 </div>
