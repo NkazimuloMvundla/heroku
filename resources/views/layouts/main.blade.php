@@ -105,7 +105,7 @@
       <header id="mobile-header">
           <!-- Navbar (sit on top) -->
           <div class="hidden-lg hidden-md">
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" id="mobile_navbar">
             <div class="container">
                 <div class="navbar-header" style="margin-left:2px;">
                 <div class="pull-left">
@@ -174,7 +174,7 @@
                     </li>
                     <li>
                         <a href="/u/mailbox/inbox">
-                         <i class="fa fa-envelope"></i> <span>Messages</span>
+                         <i class="fa fa-envelope" style="color:orange"></i> <span>Messages</span>
                        @if(Auth::check())
                        <span class="label label-primary pull-right" style="margin-top: 2px;font-size: 12px;">
                             {{ $count }}
@@ -191,7 +191,7 @@
 
                        <li>
                         <a href="{{ route('my_favorite') }}">
-                        <i class="fa fa-heart"></i> <span>Favourites</span>
+                        <i class="fa fa-heart" style="color:red;"></i> <span>Favourites</span>
                         </a>
                     </li>
                     <li>

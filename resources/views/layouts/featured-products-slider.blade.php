@@ -6,7 +6,7 @@
 						<div class="col-md-3 col-xs-6 col-sm-4">
 							<div class="thumb-wrapper">
 								<div class="img-box">
-										<?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
+			 							<?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
 										<input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                                     <!--	  <span id="add-to-favs" class="fa fa-heart" data-pd="{{ $slideOne->pd_id }}"></span>-->
                             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>

@@ -68,7 +68,16 @@ h3.shows {
 .row-1 {
     border: 1px dotted #e2e2e2;
 }
-
+/*----------------------------------------------------
+    MOBILE SEARCH-INPUT
+------------------------------------------------------*/
+#mobile_navbar {
+    background-color: #fff;
+}
+input#search-mobile {
+    background-color: #f4f4f4;
+    border: 0;
+}
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
