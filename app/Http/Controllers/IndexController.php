@@ -8,14 +8,14 @@ use Auth;
 
 class IndexController extends Controller
 {
-    
+
 
     public function create()
     {
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $slide_one = \App\Product::take(8)->where('pd_approval_status', 1)->inRandomOrder()->get();
+        $slide_one = \App\Product::take(8)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
         $featured_images = \App\Photo::all();
         $pd_images = \App\Photo::all();
         $buyingRequests = \App\BuyingRequest::all();

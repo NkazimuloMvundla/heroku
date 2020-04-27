@@ -81,6 +81,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="/super/manage-products">View Product</a></li>
+                     <li><a href="{{ route('product_feature') }}">Feature a Product</a></li>
                 </ul>
               </li>
               <li class="treeview">

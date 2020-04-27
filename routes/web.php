@@ -83,6 +83,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::post('/profile/certificate', 'ProfileController@saveCertificates')->name('saveCertificates');
     Route::get('/notifications', 'NotificationsController@create')->name('notifications');
     Route::post('/deleteNotification', 'NotificationsController@destroy')->name('deleteNotification');
+    Route::post('/deleteAllNotification', 'NotificationsController@destroyAll')->name('deleteAllNotification');
     Route::post('/profile/delete-certificate', 'ProfileController@deleteCompanyCertificate');
     Route::post('/profile', 'ExportCapabilityController@save')->name('export-capabilities');
     Route::get('/business-card', 'ProfileController@showBusinessCard')->name('business_card');
@@ -129,6 +130,8 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     //  Route::post('/login', 'Admin\SuperUserLoginController@checklogin')->name('super_user_login');
     //  Route::get('/registration', 'Admin\SuperUserRegistrationController@Adminregister');
     // Route::post('/registration', 'Admin\SuperUserRegistrationController@register')->name('super_user_register');
+    Route::post('/deleteAdminNotification', 'SuperIndexController@destroy')->name('deleteAdminNotification');
+    Route::post('/deleteAllAdminNotification', 'SuperIndexController@destroyAll')->name('deleteAllAdminNotification');
     Route::get('/manage-users', 'ManageUserController@create')->name('manage-users');
     Route::get('/manage-reviews', 'ReviewController@create')->name('manage-reviews');
     Route::post('/approve-review', 'ReviewController@approve')->name('approveReview');
@@ -136,8 +139,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/destroyMultiplereviews', 'ReviewController@destroyMultiplereviews');
     Route::post('/limit', 'ManageUserController@show')->name('limit');
     Route::post('/destroyMultipleUsers', 'ManageUserController@destroyMultipleUsers')->name('deleteMultipleUser');
-    Route::post('/approve-user', 'ManageUserController@approve')->name('approve');
-    Route::post('/suspend-user', 'ManageUserController@suspend')->name('suspend');
+    Route::post('/takeaction-user', 'ManageUserController@takeAction')->name('approve');
     Route::get('/showUser', 'ManageUserController@showUser')->name('showUser'); //returns a single buying requests before making an offer
     Route::get('/cms-add', 'CMSController@create')->name('cmsAdd'); //
     Route::post('/cms-add', 'CMSController@store')->name('cmsAdd'); //
@@ -145,7 +147,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/cms-update', 'CMSController@update')->name('updateCms');
     Route::post('/destroyMultipleCms', 'CMSController@destroyMultipleCms');
     Route::get('/content-management', 'CMSController@show')->name('cms'); //
-    Route::get('/maincategory', 'ProductCategoryController@create')->name('maincategory-add'); //
+    Route::get('/maincategory', 'ProductCategoryController@create')->name('maincategory-add');
     Route::post('/maincategory-add', 'ProductCategoryController@store')->name('maincategory-store'); //
     Route::get('/maincategory-view', 'ProductCategoryController@viewMain');
     Route::get('/category', 'SubCategoryController@create')->name('category-add'); //
@@ -182,11 +184,11 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::get('/showSpecOption', 'SpecOptionController@showSpecOption');
     Route::post('/specOptionUpdate', 'SpecOptionController@specOptionUpdate');
     Route::post('/showSpecList', 'SpecificationController@showSpecList');
-    Route::get('/manage-products', 'ManageProductController@view');
-    Route::post('/approve-product', 'ManageProductController@approve')->name('approve-product');
-    Route::post('/suspend-product', 'ManageProductController@suspend')->name('suspend-product');
-    Route::post('/featured-product', 'ManageProductController@featuredProduct')->name('featured-product');
-    Route::post('/unfeatured-product', 'ManageProductController@unfeaturedProduct')->name('unfeatured-product');
+    Route::get('/manage-products', 'ManageProductController@view')->name("SuperUserManageProducts");
+    Route::get('/feature-products', 'ManageProductController@feature_a_product')->name("product_feature");
+    Route::post('/feature-product', 'ManageProductController@featured_product')->name('featured-product');
+    Route::post('/takeaction-product', 'ManageProductController@takeaction')->name('approve-product');
+
     Route::post('/deleteSingleProduct', 'ManageProductController@deleteSingleProduct');
     Route::post('/destroyMultipleproducts', 'ManageProductController@destroyMultipleproducts');
     Route::get('/showProduct', 'ManageProductController@showProduct')->name('showProduct'); //returns a single buying requests before making an offer

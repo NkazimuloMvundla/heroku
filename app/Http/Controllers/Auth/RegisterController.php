@@ -76,7 +76,7 @@ class RegisterController extends Controller
         ]);
 
         Session::put('account_type',   $data['account_type']);
- 
+
 
         if (Session::get('account_type') == 'Supplier' || Session::get('account_type') == 'Both') {
             $countries = \App\Country::where('cn_name', 'South Africa')->get();
@@ -127,7 +127,9 @@ class RegisterController extends Controller
             'country' => $data['country'],
             'password' => Hash::make($data['password']),
         ]);
-
+        \App\AdminNotifications::create([
+            'message' => " New account registered by " . $data['name'] . " ",
+        ]);
 
         /*if (
             Mail::to($data['email'])->send(new WelcomeMail($user))

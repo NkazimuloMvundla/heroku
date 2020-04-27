@@ -62,7 +62,10 @@ class ProfileController extends Controller
 
         $user_details = \App\User::where('name', $user)->get();
         $company_images = \App\CompanyImages::where('user_id', Auth::user()->id)->get();
-
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
         return view('admin.business-card', compact('user_details', 'company_images'));
     }
 

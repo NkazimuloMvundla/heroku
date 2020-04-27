@@ -21,6 +21,10 @@ class InboxController extends Controller
 
         $users = \App\User::all();
         $user_details = \App\User::where('id', Auth::user()->id)->get();
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
         Session::put('account', $user_details->first()->account_type);
 
         return view('admin.mailbox.inbox', compact('userMessages', 'users', 'count_emails', 'count_sent_emails', 'count_all_emails'));

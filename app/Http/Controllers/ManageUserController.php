@@ -35,18 +35,36 @@ class ManageUserController extends Controller
 
 
 
-    public function approve(Request $request)
+    public function takeAction(Request $request)
     {
 
         if (request()->ajax()) {
 
             $data = request()->validate([
                 'id' => ['numeric'],
+                'u_id' => ['numeric'],
 
             ]);
+            $user = \App\User::where('id', $data['u_id'])->get();
+            if ($data['id'] == 1) {
 
+                \App\AdminNotifications::create([
+                    'message' => "The company " . $user->first()->company_name . " has been Approved ",
+                    'user_id' => $user->first()->id,
+                ]);
+                \App\User::where('id', $data['u_id'])->update(['status' => 1]);
+                $res = \App\User::where('id', $data['u_id'])->get('status');
+                return response($res);
+            } else {
 
-            \App\User::where('id', $data['id'])->update(['status' => 1]);
+                \App\AdminNotifications::create([
+                    'message' => "The company " . $user->first()->company_name . " has been Suspended ",
+                    'user_id' => $user->first()->id,
+                ]);
+                \App\User::where('id', $data['u_id'])->update(['status' => 2]);
+                $res = \App\User::where('id', $data['u_id'])->get('status');
+                return response($res);
+            }
         }
     }
     /*
@@ -66,22 +84,6 @@ class ManageUserController extends Controller
         }
     }
 */
-
-
-    public function suspend(Request $request)
-    {
-
-        if (request()->ajax()) {
-
-            $data = request()->validate([
-                'id' => ['numeric'],
-
-            ]);
-
-
-            \App\User::where('id', $data['id'])->update(['status' => 2]);
-        }
-    }
 
 
     public function destroyMultipleUsers()

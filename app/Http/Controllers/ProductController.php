@@ -30,6 +30,10 @@ class ProductController extends Controller
         $countBuyingRequest = count($buyingRequests);
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
@@ -71,8 +75,13 @@ class ProductController extends Controller
 
         ]);
 
-
-
+        $product = \App\Product::where('pd_u_id', Auth::user()->id)->get();
+        if (count($product) == 5 && Auth::user()->membership == "Free Member") {
+            \App\Notifications::create([
+                'message' => " You are a Free Member, you have reached your limit of 5 product you can upload. Upgrade to Gold membership ",
+                'user_id' => Auth::user()->id,
+            ]);
+        }
 
         $id = DB::table('products')->insertGetId([
             'pd_u_id' => Auth::user()->id,
@@ -95,6 +104,12 @@ class ProductController extends Controller
 
 
         ]);
+        if ($id) {
+            \App\AdminNotifications::create([
+                'message' => Auth::user()->company_name . " added a new product ",
+                'user_id' => Auth::user()->id,
+            ]);
+        }
 
 
         foreach (request()->file('file') as $file) {
@@ -197,6 +212,10 @@ class ProductController extends Controller
         $spec_option = \App\SpecOption::where('product_id', $decoded_product_id)->get();
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
@@ -236,7 +255,7 @@ class ProductController extends Controller
 
         $payment = implode(',', $data['paymentMethod']);
 
-        Product::where('pd_id', $decoded_product_id)->update([
+        $update = Product::where('pd_id', $decoded_product_id)->update([
             'pd_name' => $data['Product_Name'],
             'pd_keyword' => $data['Product_Keyword'],
             'pd_listing_description' => $data['listing_description'],
@@ -254,6 +273,15 @@ class ProductController extends Controller
             'pd_approval_status' => 0,
 
         ]);
+
+        if ($update) {
+            \App\AdminNotifications::create([
+                'message' => Auth::user()->company_name . " has updated their product " .  $data['Product_Name'] . " ",
+                'user_id' => Auth::user()->id,
+                'product_id' => $decoded_product_id
+            ]);
+        }
+
 
         //check how many images already exist in the DB with the same ID
         $images = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
@@ -535,8 +563,6 @@ class ProductController extends Controller
 
             return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img'));
         } else {
-
-
             return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img'));
         }
     }

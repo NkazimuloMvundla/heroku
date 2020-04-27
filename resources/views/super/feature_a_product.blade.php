@@ -1,5 +1,5 @@
 @extends('super.layouts.super')
-@section('title' , 'Manage products')
+@section('title' , 'Feature a product')
 
 @section('content')
 <script>
@@ -23,22 +23,22 @@ function showId(id){
 
 }
 
-function takeAction(id, pd_id){
+function featured_a_product(id, pd_id){
 
    $.ajax({
           type: "POST",
-          url: "/super/takeaction-product",
+          url: "/super/feature-product",
           data:{id:id, pd_id:pd_id},
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
 
          for(var i = 0; i<data.length;i++){
-            if(data[i].pd_approval_status == 1){
-            $("#status" + pd_id).text("Approved").css({"background-color":"#00a65a", "color":"white"});
+            if(data[i].pd_featured_status == 1){
+            $("#status" + pd_id).text("Featured").css({"background-color":"#00a65a", "color":"white"});
 
             }
-            if(data[i].pd_approval_status == 2){
-            $("#status" + pd_id).text("Suspended").css({"background-color":"#dd4b39 ", "color":"white"});
+            if(data[i].pd_featured_status == 2){
+            $("#status" + pd_id).text("Unfeatured").css({"background-color":"#dd4b39 ", "color":"white"});
 
             }
          }
@@ -49,49 +49,6 @@ function takeAction(id, pd_id){
       });
 
 }
-
-function featured(id){
-    $.ajax({
-          type: "POST",
-          url: "/super/featured-product",
-          data:{id:id},
-          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          success: function (data) {
-            alert(data);
-            window.location="/super/manage-products";
-
-
-        //      console.log(data);
-          },
-          error: function (data) {
-              console.log('Error:', data);
-          }
-      });
-
-
-}
-function unfeatured(id){
-    $.ajax({
-          type: "POST",
-          url: "/super/unfeatured-product",
-          data:{id:id},
-          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          success: function (data) {
-           // alert("Product suspended");
-            window.location="/super/manage-products";
-
-
-        //      console.log(data);
-          },
-          error: function (data) {
-              console.log('Error:', data);
-          }
-      });
-
-
-}
-
-
 
 function deleteProduct(id){
             $(document).ready(function() {
@@ -220,7 +177,7 @@ function checkedAll () {
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-         Manage Products
+         Feature a Product
           <small>{{ " There are " . $count ." registered products "}}</small>
         </h1>
 
@@ -242,7 +199,6 @@ function checkedAll () {
                         <tr>
                         <th>ID</th>
                         <th>Product Name</th>
-                        <th>Sub Category</th>
                         <th>Details</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -255,29 +211,20 @@ function checkedAll () {
                     <tr>
                       <td><input type="checkbox" id="{{ $product->pd_id }}" name="pd_id[]" value="{{ $product->pd_id }}"></td>
                       <td> {{ $product->pd_name }}</td>
-
-                      <td >
-                            @foreach ($sub_categories as $sub_category )
-                            @if($product->pd_subCategory_id == $sub_category->id)
-                                    {{ $sub_category->pc_name }}
-                            @endif
-                            @endforeach
-                      </td>
-
                       <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showProduct({{ $product->pd_id }});"> click</td>
                     <td id="{{ "status" .$product->pd_id  }}">
-                        @if($product->pd_approval_status == 1 )
-                        <span class="label label-success">Approved</span>
+                        @if($product->pd_featured_status == 1 )
+                        <span class="label label-success">Featured</span>
                         @else
-                        <span class="label label-danger">Suspended</span>
+                        <span class="label label-danger">UnFeatured</span>
                         @endif
                     </td>
                      <td >
 
-                    <select id="productAction" onchange="takeAction(this.value, {{ $product->pd_id }})">
+                    <select id="productAction" onchange="featured_a_product(this.value, {{ $product->pd_id}})">
                         <option selected disabled>Select</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Suspend</option>
+                        <option value="1">Feature</option>
+                        <option value="2">unFeature</option>
                     </select>
                     or
                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteProduct({{ $product->pd_id }})";>

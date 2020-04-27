@@ -43,23 +43,30 @@ function approve(id){
 
 }
 
-function suspend(id){
-    $.ajax({
+function takeAction(id, u_id){
+
+   $.ajax({
           type: "POST",
-          url: "/super/suspend-user",
-          data:{id:id},
+            url: "/super/takeaction-user",
+          data:{id:id, u_id:u_id},
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
-            window.location="/super/manage-users";
 
+         for(var i = 0; i<data.length;i++){
+            if(data[i].status == 1){
+            $("#status" + u_id).text("Approved").css({"background-color":"#00a65a", "color":"white"});
 
-        //      console.log(data);
+            }
+            if(data[i].status == 2){
+            $("#status" + u_id).text("Suspended").css({"background-color":"#dd4b39 ", "color":"white"});
+
+            }
+         }
           },
           error: function (data) {
               console.log('Error:', data);
           }
       });
-
 
 }
 
@@ -193,6 +200,7 @@ function checkedAll () {
                     <th>User Name</th>
                     <th>Registration Number</th>
                     <th>Status</th>
+                    <th>Action</th>
                     <th>Member since</th>
                     <th>Action</th>
                     <th>Account Type</th>
@@ -258,31 +266,19 @@ function checkedAll () {
                       </td>
 
                       <td> {{ $user->created_at }}</td>
-
-                     <td>
-                     <a href="">
-                     <button name="suspend" class="btn btn-default btn-sm" onclick="suspend({{ $user->id }})";>
-                            @if($user->status == 0)
-                             Suspend
-                            @elseif($user->status == 2)
-                             <span class="label label-danger">Suspended</span>
-                            @elseif($user->status == 1)
-                             Suspend
-                             @endif
-                     </button>
-                     </a>
-                     or
-
-                     <button id="approve" class="btn btn-default btn-sm" onclick="approve({{ $user->id }})";>
-                        @if($user->status == 0)
-                        Approve
-                        @elseif($user->status == 1)
+                   <td id="{{ "status" .$user->id  }}">
+                        @if($user->status == 1 )
                         <span class="label label-success">Approved</span>
-                        @elseif($user->status == 2)
-                        Approve
+                        @else
+                        <span class="label label-danger">Suspended</span>
                         @endif
-
-                    </button>
+                    </td>
+                     <td>
+                    <select id="productAction" onchange="takeAction(this.value, {{ $user->id }})">
+                        <option selected disabled>Select</option>
+                        <option value="1">Approve</option>
+                        <option value="2">Suspend</option>
+                    </select>
                      </td>
 
                      <td class="">{{ $user->account_type }}</td>
