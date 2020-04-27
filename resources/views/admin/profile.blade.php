@@ -12,16 +12,15 @@ span[role="alert"]{
 <div class="content-wrapper">
   <section class="content">
     <ul class="nav nav-tabs">
-      <li class="active"><a data-toggle="tab" href="#home">Company introduction</a></li>
-      <li><a data-toggle="tab" href="#certificates">Certificates</a></li>
+    <li class="active">
+       <a data-toggle="tab" href="#home">Company introduction</a></li>
+       <li><a data-toggle="tab" href="#certificates">Certificates</a></li>
        <li><a data-toggle="tab" href="#export">Export capabilty</a></li>
     </ul>
-
      <div class="tab-content">
       <div id="home" class="container tab-pane fade in active">
         <div class="row">
-
-    <form method="POST" action="{{ route('Profile') }}" id="updateProfile">
+        <form method="POST" action="{{ route('Profile') }}" id="updateProfile">
           @method('PATCH')
         @csrf
         <div class="row">

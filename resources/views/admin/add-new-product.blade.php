@@ -61,7 +61,7 @@
     Product Category:       </label>
         <div class="form-group">
             <div id="product-category">
-<div class="form-group row"> 
+<div class="form-group row">
 <div class="col-md-4">
 <label for="Main category">Select a Main category</label>
 <select class="form-control" id="mc_id"  name="mainCategory"   onChange="showCat(this.value);">

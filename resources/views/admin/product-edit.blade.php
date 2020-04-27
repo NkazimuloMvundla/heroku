@@ -19,11 +19,6 @@
 
 
 </style>
-
-<script>
-
-
-</script>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -36,9 +31,19 @@
       <li class="active">Update Product Details</li>
     </ol>
   </section>
+
   <section class="content">
+     <ul class="nav nav-tabs">
+      <li class="active">
+       <a data-toggle="tab" href="#product_detail">Product details</a></li>
+      <li><a data-toggle="tab" href="#Q">Product Questions & Answers</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="product_detail" role="tabpanel" class="tab-pane fade in active">
+
       @if(Session::has('message'))
-  <div style="margin: 9px;">
+     <div style="margin: 9px;">
         <ul>
             <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
         </ul>
@@ -429,6 +434,16 @@
 
     </div>
   </div>
+
+       </div>
+    <!--Questions and Answers tab-->
+      <div id="Q" role="tabpanel" class="tab-pane">
+
+<h1>Two</h1>
+      </div>
+
+    </div>
+
 
   </section>
 
