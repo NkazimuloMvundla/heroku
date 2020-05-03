@@ -45,6 +45,7 @@
                    <th>ID</th>
                    <th>Product Name</th>
                    <th>Status</th>
+                   <th>Product analytics</th>
                    <th>Date added</th>
                    <th>Action</th>
 
@@ -61,12 +62,14 @@
                  else
                      $status = 'Pending Approval';
 
-                 ?> 
+                 ?>
                    <tr>
-                     <td><input type="checkbox" id="{{ $product->pd_id }}" name="pd_id[]" value=""></td>
-                     <td ><a href=""></a>{{ $product->pd_name }}</td>
+                     <td style="width:10%">
+                        <input type="checkbox" id="{{ $product->pd_id }}" name="pd_id[]">
+                    </td>
+                     <td>{{ $product->pd_name }}</td>
 
-                     <td >
+                     <td>
                         @if($product->pd_approval_status == 0)
                         <span class="label label-warning">{{ $status }}</span>
                         @endif
@@ -78,9 +81,11 @@
                          @endif
 
                      </td>
-
+                     <th>
+                      <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                         <a href="/u/product-analytics/{{ $encoded_product_id }}">view</a>
+                      </th>
                      <td >{{ $product->created_at }}</td>
-
                     <td >
                       <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                     <a href="/u/product/{{ $encoded_product_id }}/edit">

@@ -37,6 +37,8 @@ class ProductController extends Controller
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
+            Session::put('user_messages', $userMessages);
+            Session::put('user_messages_count', $count);
 
             return view('admin.add-new-product', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'measurementUnits', 'paymentTerms', 'count', 'countBuyingRequest'));
         } else {
@@ -206,6 +208,9 @@ class ProductController extends Controller
         $product = \App\Product::where('pd_id', $decoded_product_id)->get();
         $pd_images = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
 
+        $questions = \App\Questions::where('pd_id', $decoded_product_id)->get();
+        $answers = \App\Answers::all();
+
         $buyingRequests = \App\BuyingRequest::all();
         $countBuyingRequest = count($buyingRequests);
         $specifications = \App\Specification::all();
@@ -219,11 +224,13 @@ class ProductController extends Controller
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
-            return view('admin.product-edit', compact('parent_category', 'specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'count', 'countBuyingRequest'));
+            Session::put('user_messages', $userMessages);
+            Session::put('user_messages_count', $count);
+            return view('admin.product-edit', compact('parent_category', 'specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'count', 'countBuyingRequest', 'questions', 'answers'));
         } else {
 
 
-            return view('admin.product-edit', compact('specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images'));
+            return view('admin.product-edit', compact('specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'questions', 'answers'));
         }
     }
 
@@ -564,6 +571,37 @@ class ProductController extends Controller
             return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img'));
         } else {
             return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img'));
+        }
+    }
+
+    public function productAnalytics($product_id)
+    {
+        $decoded_product_id = base64_decode($product_id);
+        $data = request()->validate([
+            'product_id' => ['numeric'],
+
+        ]);
+        $product = \App\Product::where('pd_id', $decoded_product_id)->get();
+        $pd_images = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
+
+        $buyingRequests = \App\BuyingRequest::all();
+        $countBuyingRequest = count($buyingRequests);
+        $user_details = \App\User::where('id', Auth::user()->id)->get();
+        Session::put('account', $user_details->first()->account_type);
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
+        $result = \App\Review::where(['pd_id' => $decoded_product_id, 'status' => 1])->get();
+        if (Auth::check()) {
+            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+            $count = count($userMessages);
+            Session::put('user_messages', $userMessages);
+            Session::put('user_messages_count', $count);
+            return view('admin.product-analytics', compact('pd_images', 'count', 'countBuyingRequest', 'product', 'result'));
+        } else {
+
+            return view('admin.product-analytics', compact('product', 'pd_images'));
         }
     }
 }

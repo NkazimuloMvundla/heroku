@@ -20,22 +20,22 @@ function showId(id){
 
 }
 
-function takeAction(id, br_id){
+function takeActionSellingRequests(id, sr_id){
 
    $.ajax({
           type: "POST",
-          url: "/super/takeaction-buying-requests",
-          data:{id:id, br_id:br_id},
+          url: "/super/takeaction-selling-requests",
+          data:{id:id, sr_id:sr_id},
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
 
          for(var i = 0; i<data.length;i++){
-            if(data[i].br_approval_status == 1){
-            $("#status" + br_id).text("Approved").css({"background-color":"#00a65a", "color":"white"});
+            if(data[i].sr_approval_status == 1){
+            $("#status" + sr_id).text("Approved").css({"background-color":"#00a65a", "color":"white"});
 
             }
-            if(data[i].br_approval_status == 2){
-            $("#status" + br_id).text("Suspended").css({"background-color":"#dd4b39 ", "color":"white"});
+            if(data[i].sr_approval_status == 2){
+            $("#status" + sr_id).text("Suspended").css({"background-color":"#dd4b39 ", "color":"white"});
 
             }
          }
@@ -46,6 +46,41 @@ function takeAction(id, br_id){
       });
 
 }
+
+
+function showSellingRequest(id){
+  $.ajax({
+          type: "GET",
+          url: "/super/showSellingRequest",
+          data:{id:id},
+           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+          success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+             $id = data[i].id;
+             $sr_pc_name = data[i].sr_pc_name;
+             $sr_pd_spec = data[i].sr_pd_spec;
+             $sr_order_qty = data[i].sr_order_qty;
+             $sr_expired_date = data[i].sr_expired_date;
+             $created_at = data[i].created_at;
+
+            }
+            $("#modal-title").text($id);
+            $("#sr_pc_name").text($sr_pc_name);
+            $("#sr_pd_spec").text($sr_pd_spec);
+            $("#sr_order_qty").text($sr_order_qty);
+            $("#sr_expired_date").text($sr_expired_date);
+            $("#created_at").text($created_at);
+
+
+
+          },
+          error: function (data) {
+              console.log('Error:', data);
+          }
+      });
+
+
+}
 function deleterequest(id){
             $(document).ready(function() {
 
@@ -53,12 +88,12 @@ function deleterequest(id){
             if(res){
                 $.ajax({
                 type: "POST",
-                 url: "/super/deleteSingleRequest",
+                 url: "/super/deleteSingleSellingRequest",
                   data:{id:id},
                   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                   success: function (data) {
                    alert('request  deleted');
-                    window.location.reload();
+                   window.location.reload();
 
                      },
                 error: function (data) {
@@ -73,41 +108,6 @@ function deleterequest(id){
             });
 
         }
-
-function showrequest(id){
-  $.ajax({
-          type: "GET",
-          url: "/super/showrequest",
-          data:{id:id},
-           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          success: function (data) {
-            for (var i = 0; i < data.length; i++) {
-             $id = data[i].id;
-             $br_pc_name = data[i].br_pc_name;
-             $br_pd_spec = data[i].br_pd_spec;
-             $br_order_qty = data[i].br_order_qty;
-             $br_expired_date = data[i].br_expired_date;
-             $created_at = data[i].created_at;
-
-            }
-            $("#modal-title").text($id);
-            $("#br_pc_name").text($br_pc_name);
-            $("#br_pd_spec").text($br_pd_spec);
-            $("#br_order_qty").text($br_order_qty);
-            $("#br_expired_date").text($br_expired_date);
-            $("#created_at").text($created_at);
-
-
-
-          },
-          error: function (data) {
-              console.log('Error:', data);
-          }
-      });
-
-
-}
-
 
 function checkedAll () {
     var check = $('input[name="id[]"]:checked').length;
@@ -125,12 +125,12 @@ function checkedAll () {
 
                         $.ajax({
                         type: "POST",
-                        url: "/super/destroyMultiplerequests",
+                        url: "/super/destroyMultipleSellingrequests",
                         data:{checked:checked},
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         success: function (data) {
                          alert('All deleted');
-                             window.location.reload();
+                    window.location.reload();
                         },
                         error: function (data) {
                         console.log('Error:', data);
@@ -150,10 +150,10 @@ function checkedAll () {
 
 }
 
-function showUser(id){
+function showSellingRequestUser(id){
   $.ajax({
           type: "GET",
-          url: "/super/showRequestUser",
+          url: "/super/showSellingRequestUser",
           data:{id:id},
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
@@ -195,7 +195,7 @@ function showUser(id){
       <section class="content-header">
         <h1>
          Manage Request
-          <small>{{ " There are " . $count ." posted requests "}}</small>
+          <small>{{ " There are " . $count ." posted Selling requests "}}</small>
         </h1>
 
 
@@ -225,10 +225,10 @@ function showUser(id){
                    </tr>
                       </thead>
                     <tbody>
-                  @foreach( $buyingRequests as $request )
+                  @foreach( $sellingRequests as $request )
                     <tr>
                       <td><input type="checkbox" id="{{ $request->id }}" name="id[]" value="{{ $request->id }}"></td>
-                      <td> {{ $request->br_pc_name }}</td>
+                      <td> {{ $request->sr_pc_name }}</td>
                             <!--Moda-->
                             <div class="modal fade" id="modal-default" style="display: none;">
                             <div class="modal-dialog">
@@ -243,20 +243,20 @@ function showUser(id){
                                 <div class="col-md-12">
                                         <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
                                             <label>Product Name:</label>
-                                                <p name="br_pc_name" id="br_pc_name"></p>
+                                                <p name="sr_pc_name" id="sr_pc_name"></p>
                                             </div>
                                             <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
                                                     <label>Specification:</label>
-                                                <p name="br_pd_spec" id="br_pd_spec"></p>
+                                                <p name="sr_pd_spec" id="sr_pd_spec"></p>
                                             </div>
                                             <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
                                                     <label>Order Quantity:</label>
-                                                    <span name="br_order_qty" id="br_order_qty"></span> ::  <span name="minOrderUnit" id="minOrderUnit"></span>
+                                                    <span name="sr_order_qty" id="sr_order_qty"></span> ::  <span name="minOrderUnit" id="minOrderUnit"></span>
                                             </div>
 
                                             <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
                                                     <label>Date expiring:</label>
-                                                    <p name="br_expired_date" id="br_expired_date"></p>
+                                                    <p name="sr_expired_date" id="sr_expired_date"></p>
                                             </div>
 
                                             <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
@@ -277,29 +277,30 @@ function showUser(id){
                             </div>
                       <td >
                             @foreach ($sub_categories as $sub_category )
-                            @if($request->br_pc_id == $sub_category->id)
+                            @if($request->sr_pc_id == $sub_category->id)
                                     {{ $sub_category->pc_name }}
                             @endif
                             @endforeach
                       </td>
 
-                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showrequest({{ $request->id }});"> click</td>
-                    <td id="{{ "status" .$request->id  }}">
-                        @if($request->br_approval_status == 1 )
+                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showSellingRequest({{ $request->id }});"> click</td>
+
+                      <td id="{{ "status" .$request->id  }}">
+                        @if($request->sr_approval_status == 1 )
                         <span class="label label-success">Approved</span>
-                        @elseif($request->br_approval_status == 2)
+                        @elseif($request->sr_approval_status == 2)
                         <span class="label label-danger">Suspended</span>
                         @else
                         <span class="label label-warning">Pending</span>
                         @endif
                     </td>
-                     <td >
-                 <select id="productAction" onchange="takeAction(this.value, {{ $request->id }})">
+                     <td>
+                  <select id="productAction" onchange="takeActionSellingRequests(this.value, {{ $request->id }})">
                         <option selected disabled>Select</option>
                         <option value="1">Approve</option>
                         <option value="2">Suspend</option>
                     </select>
-                    or
+
 
                     <button id="delete" class="btn btn-default btn-sm" onclick="deleterequest({{ $request->id }})";>
                         delete
@@ -308,7 +309,7 @@ function showUser(id){
 
 
                      </td>
-                     <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-request"  onclick="showUser({{ $request->br_u_id }});">
+                     <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-request"  onclick="showSellingRequestUser({{ $request->sr_u_id }});">
                            click
                       </td>
                               <!--Moda-->
@@ -379,7 +380,7 @@ function showUser(id){
       </section>
       <!-- /.content -->
       <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-        {{$buyingRequests->links()}}
+        {{$sellingRequests->links()}}
        </div>
     </div>
     <!-- /.content-wrapper -->

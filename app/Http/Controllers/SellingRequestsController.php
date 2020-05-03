@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use Response;
 use Session;
 
-class BuyingRequestController extends Controller
+class SellingRequestsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -29,78 +28,82 @@ class BuyingRequestController extends Controller
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
         $measurementUnits = \App\MeasurementUnit::all();
+        $sellingRequests = \App\SellingRequests::all();
+        $countSellingRequest = count($sellingRequests);
         $buyingRequests = \App\BuyingRequest::all();
         $countBuyingRequest = count($buyingRequests);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
-            return view('front.buying-request', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'measurementUnits', 'count', 'countBuyingRequest'));
+            return view('front.selling-request', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'measurementUnits', 'count', 'countBuyingRequest', 'countSellingRequest'));
         } else {
 
-            return view('front.buying-request', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'measurementUnits'));
+            return view('front.selling-request', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'measurementUnits'));
         }
     }
 
+
     public function store(Request $request)
     {
-
-        //dd(request()->subCategory);
 
         $data = request()->validate([
             'mainCategory' => ['required', 'numeric'],
             'Category' => ['required', 'numeric'],
             'subCategory' => ['required', 'numeric'],
             'productName' => ['required', 'string', 'max:255'],
+            'message' => ['required', 'string', 'max:255'],
             'detailedSpecification' => ['required', 'string', 'max:255'],
             'orderQuantity' => ['required', 'numeric'],
             'orderQuantityUnit' => ['required', 'string', 'max:255'],
-            'deliveryDate' => ['string'],
-            'br_u_id' => ['numeric'],
-
-
+            'deliveryDate' => ['required', 'string', 'max:255'],
+            'sr_u_id' => ['numeric'],
 
         ]);
 
-        \App\BuyingRequest::create([
-            'br_u_id' => $data['br_u_id'],
-            'br_pc_id' => $data['subCategory'],
-            'br_pc_name' => $data['productName'],
-            'br_pd_spec' => $data['detailedSpecification'],
-            'br_order_qty' => $data['orderQuantity'],
-            'br_order_qnty_unit' => $data['orderQuantityUnit'],
-            'br_expired_time' => $data['deliveryDate']
+        \App\SellingRequests::create([
+            'sr_u_id' => $data['sr_u_id'],
+            'sr_pc_id' => $data['subCategory'],
+            'sr_pc_name' => $data['productName'],
+            'sr_pd_spec' => $data['detailedSpecification'],
+            'message' => $data['message'],
+            'sr_order_qty' => $data['orderQuantity'],
+            'sr_order_qnty_unit' => $data['orderQuantityUnit'],
+            'sr_expired_time' => $data['deliveryDate']
         ]);
 
         \App\AdminNotifications::create([
-            'message' => $data['br_u_id'] . " has posted a buying request " . " ",
+            'message' => $data['sr_u_id'] . " has posted a selling request " . " ",
         ]);
-        Session::flash('buyingRequestPosted', "Buying Request Posted Successfully. ");
+        Session::flash('sellingRequestPosted', "Selling Request Posted Successfully. ");
         return redirect()->back();
     }
 
-    //all buying requests
-
-    public function allBuyingView()
+    //all selling requests
+    public function allSellingView()
     {
 
         $parent_category = \App\productCategory::all();
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
+        $sellingRequests = \App\SellingRequests::where('sr_approval_status', 1)->get();
         $measurementUnits = \App\MeasurementUnit::all();
         $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-        $countBuyingRequest = count($buyingRequests);
+        $countSellingRequest = count($sellingRequests);
         $count = count($userMessages);
         $users = \App\User::all();
+        $buyingRequests = \App\BuyingRequest::all();
+        $countBuyingRequest = count($buyingRequests);
 
         if (!empty($buyingRequests)) {
 
-            return view('front.all-buying-requests', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest'));
+            return view('front.all-selling-requests', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countSellingRequest', 'countBuyingRequest', 'sellingRequests'));
         }
 
-        return view('front.all-buying-requests', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
+        return view('front.all-selling-requests', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'sellingRequests', 'users'));
     }
+
+
     public function sendAmessageView($request_id)
     {
         $decoded_id = base64_decode($request_id);
@@ -112,7 +115,7 @@ class BuyingRequestController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $sendAmessage = \App\BuyingRequest::where('id', $decoded_id)->get();
+        $sendAmessage = \App\SellingRequests::where('id', $decoded_id)->get();
         $measurementUnits = \App\MeasurementUnit::all();
         $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
         $count = count($userMessages);
@@ -122,19 +125,20 @@ class BuyingRequestController extends Controller
 
         if (!empty($buyingRequests)) {
 
-            return view('front.send-buying-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest', 'sendAmessage'));
+            return view('front.send-selling-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest', 'sendAmessage'));
         }
 
-        return view('front.send-buying-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
+        return view('front.send-selling-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
     }
-    public function allBuyingSingleView()
+
+    public function allSellingSingleView()
     {
         if (request()->ajax()) {
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
             // $result = \App\BuyingRequest::where('id', $data['id'])->get();
-            $result = \App\BuyingRequest::where('id', $data['id'])->get(['br_pc_name', 'br_pd_spec']);
+            $result = \App\SellingRequests::where('id', $data['id'])->get(['sr_pc_name', 'sr_pd_spec', 'message']);
             return $result;
         }
     }

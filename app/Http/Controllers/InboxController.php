@@ -18,6 +18,8 @@ class InboxController extends Controller
 
         $allMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 1])->get();
         $count_all_emails = count($allMessages);
+        Session::put('user_messages', $userMessages);
+        Session::put('user_messages_count', $count_emails);
 
         $users = \App\User::all();
         $user_details = \App\User::where('id', Auth::user()->id)->get();

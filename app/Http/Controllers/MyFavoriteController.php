@@ -15,7 +15,10 @@ class MyFavoriteController extends Controller
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
-
+        $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+        $count = count($userMessages);
+        Session::put('user_messages', $userMessages);
+        Session::put('user_messages_count', $count);
         $products = \App\Product::all();
         $pd_images = \App\Photo::all();
 

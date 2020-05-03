@@ -10,7 +10,7 @@
 										<input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                                     <!--	  <span id="add-to-favs" class="fa fa-heart" data-pd="{{ $slideOne->pd_id }}"></span>-->
                             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>
-										<a href="/product-details/{{ $encoded_product_id }}">
+										<a href="/product-details/{{ $encoded_product_id }}" class="view_product">
 										@foreach ($featured_images as $pd_image)
 										@if($slideOne->pd_id == $pd_image->pd_photo_id )
 										<img src="{{$pd_image->pd_filename  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" width="150" height="150">
@@ -21,9 +21,10 @@
 								</div>
 								<div class="thumb-content">
                         <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>
-										<a href="/product-details/{{ $encoded_product_id }}">
+										<a href="/product-details/{{ $encoded_product_id }}" class="view_product">
 										<p class="item-name">{{ $slideOne->pd_name }}</p>
-										</a><p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $slideOne->min_price }}-{{ $slideOne->max_price }}</span></p>
+                                        </a>
+                                        <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $slideOne->min_price }}-{{ $slideOne->max_price }}</span></p>
                                         <p class="item-price"><span>MOQ:{{ $slideOne->pd_min_order_qty  }}  {{ $slideOne->minOrderUnit }}</span></p>
             <?php  $encoded_user_id = base64_encode($slideOne->pd_u_id ) ;?>
             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>

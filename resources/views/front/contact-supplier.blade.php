@@ -25,7 +25,7 @@
         </ul>
     -->
         <div class="contact_supplier" id="contact_supplier">
-        <form name="makeAnOffer" id="makeOffer" action="{{ route('contactSupplierStore') }}" method="POST">
+        <form name="contactSupplierStore" id="contactSupplierStore" action="{{ route('contactSupplierStore') }}" method="POST">
                   @csrf
                   <input type="hidden" name="msg_from_id" id="msg_from_id" value="{{Auth::user()->id}}" >
                   <input type="hidden" name="msg_to_id" id="msg_to_id" value="{{ $product->first()->pd_u_id }}" >
@@ -110,7 +110,7 @@
 </div>
 <script>
 $(document).ready(function() {
-    $( "#makeOffer").validate({
+    $( "#contactSupplierStore").validate({
         rules: {
             subject: "required",
             message: "required",

@@ -21,6 +21,13 @@
 
 <div class="container">
 <div class="row" style="padding: 12px; background: #eaf4ea7a; margin:8px;">
+    @if(Session::has('buyingRequestPosted'))
+            <div>
+            <ul>
+                <li class="label label-success"  style="font-size:15px;">{{ Session::get('buyingRequestPosted') }}</li>
+            </ul>
+            </div>
+        @endif
 <div class="col-md-2"></div>
 
 <div class="col-md-8 w3-margin-top" style=" padding: 12px;">
@@ -125,7 +132,7 @@ $(document).ready(function() {
             mainCategory: "required",
             Category: "required",
             subCategory: "required",
-            productName: "required", 
+            productName: "required",
             detailedSpecification: "required",
             orderQuantityUnit: "required",
             orderQuantity: {

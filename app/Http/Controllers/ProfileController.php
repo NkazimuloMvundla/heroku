@@ -21,6 +21,14 @@ class ProfileController extends Controller
         $ExportCapability = \App\ExportCapability::where('user_id', Auth::user()->id)->get();
         $CompanyCertificate = \App\CompanyCertificate::where('user_id', Auth::user()->id)->get();
         $countExportCapability = count($ExportCapability);
+        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $countNotifications = count($notifications);
+        Session::put('notifications', $notifications);
+        Session::put('count_notifications', $countNotifications);
+        $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+        $count = count($userMessages);
+        Session::put('user_messages', $userMessages);
+        Session::put('user_messages_count', $count);
         return view('admin.profile', compact('user_details', 'ExportCapability', 'countExportCapability', 'CompanyCertificate'));
     }
 
@@ -66,6 +74,10 @@ class ProfileController extends Controller
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
+        $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+        $count = count($userMessages);
+        Session::put('user_messages', $userMessages);
+        Session::put('user_messages_count', $count);
         return view('admin.business-card', compact('user_details', 'company_images'));
     }
 

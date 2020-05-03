@@ -189,4 +189,17 @@ class ManageUserController extends Controller
             return response::json($result);
         }
     }
+
+    //show buyer details for the Admin section
+    public function showBuyerDetails()
+    {
+
+        if (request()->ajax()) {
+            $data = request()->validate([
+                'id' => ['numeric'],
+            ]);
+            $result = \App\User::where('id', $data['id'])->get(['company_name', 'lastname', 'name', 'about_us', 'country']);
+            return response::json($result);
+        }
+    }
 }

@@ -277,7 +277,7 @@ function showSpec(id) {
 
 function addSpec() {
     var spec_option_name = $("#spec_details").val();
-    var id = $("#modal-spec-id").html();
+    var id = $("#modal-spec-id").text();
     $.ajax({
         type: "POST",
         url: "/u/product/addSpec",

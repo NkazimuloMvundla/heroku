@@ -25,7 +25,7 @@
                         <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                                <a href="/product-details/{{ $encoded_product_id }}">
+                                                <a href="/product-details/{{ $encoded_product_id }}" class="view_product">>
                                         @foreach ($pd_images as $pd_image)
                                         @if($product->pd_id == $pd_image->pd_photo_id)
                                     <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="product-image">
@@ -37,7 +37,7 @@
                                         <div class="thumb-content">
                                             <p class="item-name">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                            <a href="/product-details/{{ $encoded_product_id }}">
+                                            <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                                             <span>{{ $product->pd_name }}</span>
                                              </a>
                                             </p>

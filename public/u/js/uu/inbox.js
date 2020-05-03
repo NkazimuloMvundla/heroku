@@ -42,7 +42,7 @@ function checkedAl() {
             }
         });
     } else {
-        alert("Please check atleast one ");
+        alert("Please check atleast one! ");
     }
 }
 

@@ -16,7 +16,7 @@ div#search-result{
 
          </h4>
          @endif
- 
+
          @if($Productcount == 0)
          <h5 style="background: #f2f3f7; padding:12px;" class="text-primary">We couldn't find the product you searched for, why dont you post a buying request here ? <span style="color:orange;weight:bold"></span>
              <a href="{{route('BuyingRequest')}}" style="color:orange"> Post here </a>
@@ -51,7 +51,7 @@ div#search-result{
                              <div class="thumb-wrapper">
                                 <div class="img-box">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                    <a href="/product-details/{{ $encoded_product_id}}">
+                                    <a href="/product-details/{{ $encoded_product_id}}" class="view_product">
                                     @foreach ($pd_images as $pd_image)
                                     @if($product->pd_id == $pd_image->pd_photo_id)
                                 <img src="{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="product-image">
@@ -63,7 +63,7 @@ div#search-result{
                                     <div class="thumb-content">
                                         <p class="item-name">
                                         <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                        <a href="/product-details/{{ $encoded_product_id }}">
+                                        <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                                         <span>{{ $product->pd_name }}</span>
                                          </a>
                                         </p>

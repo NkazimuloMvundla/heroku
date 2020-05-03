@@ -91,7 +91,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                      <li><a href="/super/manage-request">View Requests</a></li>
+                      <li><a href="/super/manage-buying-request">Manage Buying Requests</a></li>
+                      <li><a href="/super/manage-selling-request">Manage Selling Requests</a></li>
                     </ul>
                   </li>
                   <li class="treeview">

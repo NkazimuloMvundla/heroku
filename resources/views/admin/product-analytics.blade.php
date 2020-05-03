@@ -1,21 +1,49 @@
-@extends('layouts.main')
-@section('title' ,'Product Reviews')
-@section('content')
+@extends('admin.layout.admin')
+@section('title' , ' Product analytics')
 
-<div class="container">
-        <div class="row" style="display: flex;justify-content: center;padding: 12px;">
-            <img src="/storage/{{ $pd_images->first()->pd_filename }}" class="img-responsive img-thumbnail" alt="{{ $pd_images->first()->pd_filename }}" style="height:200px;width:200px;">
+@section('content')
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Product analytics
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ route('admin.index') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+    <div class="row">
+    <div class="form-group">
+        <div class="col-md-2">
+            <label>Product Name:</label>
+            <p>{{ $product->first()->pd_name }}</p>
+        </div>
+        <div class="col-md-3">
+            <label>Product Name:</label>
+            <p>This product has been viewed 13 times</p>
+        </div>
+    </div>
+<style>
+    .fa-star{
+        color:orange;
+    }
+</style>
     </div>
     <div class="row">
         <div class="col-md-12">
-                    <?php   $encoded_product_id = base64_encode($product->first()->pd_id) ;?>
-                <h2 class="title">Review(s) on <a href="/product-details/{{ $encoded_product_id}}" title="product review">{{ $product->first()->pd_name }}</a></h2>
+        <div class="form-group">
+              <?php   $encoded_product_id = base64_encode($product->first()->pd_id) ;?>
+                <h5 class="title">Review(s) on <a href="/product-details/{{ $encoded_product_id}}" title="product review">{{ $product->first()->pd_name }}
+                </a></h5>
                 <table class="table table-striped table-bordered">
                         <tbody>
                         @forelse($result as $review)
-
                         <tr>
-                        <td style="width: 50%;"><strong>{{$review->rated_by}}</strong></td>
+                        <td style="width: 50%;">reviewed by <strong>{{$review->rated_by}}</strong></td>
                         <?php $date = date('Y-m-d', strtotime( $review->created_at )); ?>
                         <td class="text-right">{{ $date}}</td>
                         </tr>
@@ -75,11 +103,14 @@
 
                         </tbody>
                         </table>
+
         </div>
-
-
+        </div>
     </div>
 
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
-</div>
 @endsection

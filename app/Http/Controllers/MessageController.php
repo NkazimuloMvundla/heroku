@@ -9,38 +9,42 @@ use Auth;
 
 class MessageController extends Controller
 {
-    public function store(Request $request)
+    public function store($msg_to_id)
     {
+        $msg_to_id = base64_decode($msg_to_id);
+
+        validator([
+            $msg_to_id => ['required', 'numeric'],
+        ]);
+
+        $exist = \App\User::where('id', $msg_to_id)->get();
+        if (count($exist) > 0) {
+            $data = request()->validate([
+                'msg_from_id' => ['numeric'],
+                'subject' => ['required', 'string', 'max:255'],
+                'price' => ['required', 'numeric'],
+                'quantityUnit' => ['required', 'string', 'max:255'],
+                'quantity' => ['required', 'numeric'],
+                'comment' => ['required', 'string', 'max:255'],
 
 
-        if (request()->ajax()) {
-            $exist = \App\User::where('id', request()->msg_to_id)->get();
-            if (count($exist) > 0) {
-                $data = request()->validate([
-                    'msg_from_id' => ['numeric'],
-                    'msg_to_id' => ['numeric'],
-                    'subject' => ['required', 'string', 'max:255'],
-                    'price' => ['required', 'numeric'],
-                    'quantityUnit' => ['required', 'string', 'max:255'],
-                    'quantity' => ['required', 'numeric'],
-                    'comment' => ['required', 'string', 'max:255'],
+            ]);
 
 
-                ]);
+            \App\Message::create([
+                'msg_from_id' => $data['msg_from_id'],
+                'msg_to_id' => $msg_to_id,
+                'msg_subject' => $data['subject'],
+                'msg_body' => $data['comment'],
+                'price' => $data['price'],
+                'quantity_unit' => $data['quantityUnit'],
+                'quantity' => $data['quantity'],
 
 
-                \App\Message::create([
-                    'msg_from_id' => $data['msg_from_id'],
-                    'msg_to_id' => $data['msg_to_id'],
-                    'msg_subject' => $data['subject'],
-                    'msg_body' => $data['comment'],
-                    'price' => $data['price'],
-                    'quantity_unit' => $data['quantityUnit'],
-                    'quantity' => $data['quantity'],
+            ]);
 
-
-                ]);
-            }
+            Session::flash('Message_sent', "Message sent successfully.");
+            return redirect()->back();
         }
     }
 

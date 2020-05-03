@@ -240,10 +240,16 @@ ul.list-unstyled > li > a > .ion {
 ----------------------------------------------------- */
 @media (max-width: 992px) {
     #sidebar {
-        margin-left: -250px;
+        margin-left: -2000px;
     }
     #sidebar.active {
         margin-left: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    #sidebar {
+        display: none;
     }
 }
 

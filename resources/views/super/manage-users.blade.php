@@ -200,8 +200,8 @@ function checkedAll () {
                     <th>User Name</th>
                     <th>Registration Number</th>
                     <th>Status</th>
-                    <th>Action</th>
                     <th>Member since</th>
+                    <th>Action Taken</th>
                     <th>Action</th>
                     <th>Account Type</th>
                     </tr>

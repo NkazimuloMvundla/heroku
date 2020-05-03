@@ -1,3 +1,10 @@
+//product views
+document
+    .querySelector("[class=view_product]")
+    .addEventListener("click", function(e) {
+        alert("Clicked");
+    });
+
 //auto complete
 $(document).ready(function() {
     $("#search").keyup(function() {
@@ -182,107 +189,29 @@ function showRequest(id) {
         }
     });
 }
-function sendMessage(id) {
-    $(document).ready(function() {
-        $("#send-message").click(function(e) {
-            e.preventDefault();
-            $(".alert-danger").hide();
-            $(".alert-danger").html("");
-            var msg_from_id = $("#msg_from_id").val();
-            var msg_to_id = id;
-            var subject = $("#subject").val();
-            var price = $("#price").val();
-            var quantityUnit = $("#quantityUnit").val();
-            var quantity = $("#quantity").val();
-            var comment = $("#comment").val();
-            var valid = true;
-            if (subject == "") {
-                $("#subjectErr")
-                    .text("This field is required")
-                    .css({ color: "red" });
-                valid = false;
-            } else {
-                $("#subjectErr").text(" ");
+
+function showSellingRequest(id) {
+    $.ajax({
+        type: "GET",
+        url: "/singleSellingRequest",
+        data: { id: id },
+        success: function(data) {
+            for (var i = 0; i < data.length; i++) {
+                var id = data[i].id;
+                var sr_pc_name = data[i].sr_pc_name;
+                var sr_pd_spec = data[i].sr_pd_spec;
+                var message = data[i].message;
             }
-            if (price == "") {
-                $("#priceErr")
-                    .text("This field is required")
-                    .css({ color: "red" });
-                valid = false;
-            } else if (isNaN(price)) {
-                $("#priceErr")
-                    .text("This field must be a number")
-                    .css({ color: "red" });
-                valid = false;
-            } else {
-                $("#priceErr").text(" ");
-            }
-            if (quantityUnit == "Select") {
-                $("#quantityUnitErr")
-                    .text("This field is required")
-                    .css({ color: "red" });
-                valid = false;
-            } else {
-                $("#quantityUnitErr").text(" ");
-            }
-            if (quantity == "") {
-                $("#quantityErr")
-                    .text("This field is required")
-                    .css({ color: "red" });
-                valid = false;
-            } else if (isNaN(quantity)) {
-                $("#quantityErr")
-                    .text("This field must be a number")
-                    .css({ color: "red" });
-                valid = false;
-            } else {
-                $("#quantityErr").text(" ");
-            }
-            if (comment == "") {
-                $("#commentErr")
-                    .text("This field is required")
-                    .css({ color: "red" });
-                valid = false;
-            } else {
-                $("#commentErr").text(" ");
-            }
-            if (valid) {
-                $.ajax({
-                    type: "POST",
-                    url: "/messages",
-                    data: {
-                        msg_from_id: msg_from_id,
-                        msg_to_id: msg_to_id,
-                        subject: subject,
-                        price: price,
-                        quantityUnit: quantityUnit,
-                        quantity: quantity,
-                        comment: comment
-                    },
-                    headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                            "content"
-                        )
-                    },
-                    success: function(data) {
-                        $(".modal-content").html(
-                            "<div class='alert alert-success' style='font-size:22px;'>Your message was sent successfully</div>"
-                        );
-                        window.location = "/all-buying-requests";
-                    },
-                    error: function(request, status, error) {
-                        json = $.parseJSON(request.responseText);
-                        $.each(json.errors, function(key, value) {
-                            $(".alert-danger").show();
-                            $(".alert-danger").append("<p>" + value + "</p>");
-                        });
-                        $("#result").html("");
-                    }
-                });
-            }
-        });
+            $("#modal-title").text(sr_pc_name);
+            $("#sr_pd_spec").text(sr_pd_spec);
+            $("#sr_message").text(message);
+        },
+        error: function(data) {
+            console.log("Error", data);
+        }
     });
 }
+
 /*end of all buying req function */
 
 //=======================PODUCT DETAIL=======================//
@@ -435,7 +364,7 @@ function sendReview(id) {
 }
 
 $(document).ready(function() {
-    $("#registration_form").validate({ 
+    $("#registration_form").validate({
         rules: {
             mainCategory: "required",
             Category: "required",

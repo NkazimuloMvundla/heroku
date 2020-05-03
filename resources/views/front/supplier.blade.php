@@ -68,7 +68,7 @@
                                     <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/{{ $supplier->company_logo }}">
                                     @endif
                                 </a>
-                                 <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
+                                 <?php $encoded_supplier_id = base64_encode( $supplier->id) ;?>
                               <h4 class="mar-no"><a href="/supplier/{{ $encoded_supplier_id }}">{{ $supplier->company_name }}</a></h4>
                               @if(empty($supplier->company_slogan))
                               <p class="text-muted mar-btm w3-margin-top">

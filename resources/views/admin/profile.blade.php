@@ -15,7 +15,9 @@ span[role="alert"]{
     <li class="active">
        <a data-toggle="tab" href="#home">Company introduction</a></li>
        <li><a data-toggle="tab" href="#certificates">Certificates</a></li>
+       @if(Auth::user()->account_type == "Supplier" || Auth::user()->account_type == "Both")
        <li><a data-toggle="tab" href="#export">Export capabilty</a></li>
+       @endif
     </ul>
      <div class="tab-content">
       <div id="home" class="container tab-pane fade in active">
@@ -50,6 +52,7 @@ span[role="alert"]{
             </span>
         @enderror
           </div>
+          @if(Auth::user()->account_type == "Supplier" || Auth::user()->account_type == "Both")
           <label>Registration number(<span style="color:red;"><i>This will be validated</i></span>)</label>
           <div class="form-group">
             <input type="text" id="registration_number" name="registration_number" class="form-control @error('registration_number') is-invalid @enderror" value="{{old('registration_number') ?? $user_details->first()->registration_number }}">
@@ -59,6 +62,7 @@ span[role="alert"]{
             </span>
           @enderror
           </div>
+          @endif
             <label>Company Street Address</label>
           <div class="form-group">
             <input type="text" name="company_address"  class="form-control @error('company_address') is-invalid @enderror"value="{{old('company_address')?? $user_details->first()->company_address}}">

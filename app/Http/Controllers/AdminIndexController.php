@@ -25,6 +25,8 @@ class AdminIndexController extends Controller
         $currentUserAccount =  $user_details->first()->account_type;
         $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
+        Session::put('user_messages', $userMessages);
+        Session::put('user_messages_count', $count_emails);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
         return view('admin.index', compact('count_emails', 'product_listed', 'countUserFavs', 'notifications'));

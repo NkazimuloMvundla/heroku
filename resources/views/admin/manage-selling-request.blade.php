@@ -1,5 +1,5 @@
-@extends('admin.layout.admin')
-@section('title' , 'Manage buying request')
+ @extends('admin.layout.admin')
+@section('title' , 'Manage selling request')
 
 @section('content')
 
@@ -22,12 +22,12 @@
                       <th>Status</th>
                       <th>Details</th>
                     </tr>
-                    @forelse($buyingRequests as $buyingRequest)
-                    <?php $status = $buyingRequest->br_approval_status ;?>
+                    @forelse($sellingRequests as $sellingRequest)
+                    <?php $status = $sellingRequest->br_approval_status ;?>
                     <?php
-                     if( $buyingRequest->br_approval_status == 1 )
+                     if( $sellingRequest->br_approval_status == 1 )
                          $status = 'Approved';
-                     elseif($buyingRequest->br_approval_status == 2)
+                     elseif($sellingRequest->br_approval_status == 2)
                          $status = 'Suspended';
                      else
                             $status = 'Pending';
@@ -35,10 +35,10 @@
                      ?>
 
 
-                    <tr id="{{ $buyingRequest->id }}">
-                      <td>{{ $buyingRequest->id }}</td>
-                      <td class="message"><button class="btn btn-default btn-sm" onclick="deleteRequest({{ $buyingRequest->id }})">Delete</button> </br><a href="#" data-role="update" data-id="{{ $buyingRequest->id }}"><button style="margin-top:8px;" class="btn btn-info btn-sm">Update</button></a> </td>
-                      <td>{{ $buyingRequest->created_at }}</td>
+                    <tr id="{{ $sellingRequest->id }}">
+                      <td>{{ $sellingRequest->id }}</td>
+                      <td class="message"><button class="btn btn-default btn-sm" onclick="deleteRequest({{ $sellingRequest->id }})">Delete</button> </br><a href="#" data-role="update" data-id="{{ $sellingRequest->id }}"><button style="margin-top:8px;" class="btn btn-info btn-sm">Update</button></a> </td>
+                      <td>{{ $sellingRequest->created_at }}</td>
 
                       <td >
                          @if($status == 'Pending')
@@ -51,9 +51,9 @@
                            <span class="label label-danger">{{ $status }}</span>
                            @endif
                       </td>
-                      <td data-target="br_pd_spec">{{ $buyingRequest->br_pd_spec }}</td>
+                      <td data-target="sr_pd_spec">{{ $sellingRequest->sr_pd_spec }}</td>
                       @empty
-                      <td class="">You currently have not posted any buying request(s)</td>
+                      <td class="">You currently have not posted any selling request(s)</td>
                     </tr>
                     @endforelse
                   </tbody>
@@ -70,7 +70,7 @@
               </div>
               <div class="modal-body">
                 <form method="post" id="insert_form">
-                       <textarea name="br_pd_spec" id="br_pd_spec" class="form-control"></textarea>
+                       <textarea name="sr_pd_spec" id="sr_pd_spec" class="form-control"></textarea>
                 </form>
 
               </div>
@@ -102,9 +102,9 @@
 //  append values in input fields
 $(document).on('click','a[data-role=update]',function(){
             var id  = $(this).data('id');
-            var br_pd_spec  = $('#'+id).children('td[data-target=br_pd_spec]').text();
+            var sr_pd_spec  = $('#'+id).children('td[data-target=sr_pd_spec]').text();
 
-            $('#br_pd_spec').val(br_pd_spec);
+            $('#sr_pd_spec').val(sr_pd_spec);
              $('#userId').val(id);
 
             $('#modal-default').modal('toggle');
@@ -112,20 +112,20 @@ $(document).on('click','a[data-role=update]',function(){
 
       $('#save').click(function(){
          var id  = $('#userId').val();
-         var br_pd_spec =  $('#br_pd_spec').val();
-         if(br_pd_spec == ""){
+         var sr_pd_spec =  $('#sr_pd_spec').val();
+         if(sr_pd_spec == ""){
              alert('This cannot be empty');
          }else{
 
           $.ajax({
-              url      : '/u/update-buying-request',
+              url      : '/u/update-selling-request',
               method   : 'POST',
-              data     : {br_pd_spec : br_pd_spec , id: id},
+              data     : {sr_pd_spec : sr_pd_spec , id: id},
               headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 success  : function(data){
 
                     // now update user record in table
-                    $('#'+id).children('td[data-target=br_pd_spec]').text(br_pd_spec);
+                    $('#'+id).children('td[data-target=sr_pd_spec]').text(sr_pd_spec);
 
                     $('#modal-default').modal('toggle');
 

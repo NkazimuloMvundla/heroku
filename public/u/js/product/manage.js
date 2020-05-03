@@ -12,9 +12,6 @@ function sendId(id) {
                 success: function(data) {
                     $(".message").text("Deleting...");
                     window.location.reload();
-                },
-                error: function(data) {
-                    console.log("Error", data);
                 }
             });
         } else {
@@ -36,8 +33,8 @@ function checkedAll() {
                         ? checked.push(this.id)
                         : notChecked.push(this.id);
                 });
-                console.log("Checked " + checked);
-                console.log("Not checked " + notChecked);
+                //console.log("Checked " + checked);
+                // console.log("Not checked " + notChecked);
 
                 $.ajax({
                     type: "POST",
@@ -51,9 +48,6 @@ function checkedAll() {
                     success: function(data) {
                         $(".message").text("Deleting...");
                         window.location.reload();
-                    },
-                    error: function(data) {
-                        console.log("Error", data);
                     }
                 });
             } else {

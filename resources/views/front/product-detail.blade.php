@@ -526,7 +526,7 @@ function sendReview(id){
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
 
                      <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                        <a href="/product-details/{{ $encoded_product_id }}">
+                        <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                         @foreach ($featured_images as $pd_image)
                         @if($product->pd_id == $pd_image->pd_photo_id)
                         <img src="{{$pd_image->pd_filename  }}" class="img-responsive" alt="product image" width="150" height="150">
@@ -538,7 +538,7 @@ function sendReview(id){
                 <div class="thumb-content">
                     <p class="item-name">
                       <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                    <a href="/product-details/{{ $encoded_product_id }}">
+                    <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                     <span>{{ $product->pd_name }}</span>
                     </a>
                     </p>

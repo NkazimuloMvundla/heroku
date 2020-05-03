@@ -342,6 +342,9 @@
                                       <li class="cats">
                                       <span id="megaLists"><a href="{{route('allBuyingRequests')}}">Buying Requests</a></span>
                                       </li>
+                                       <li class="cats">
+                                      <span id="megaLists"><a href="{{route('allSellingRequests')}}">Selling Requests</a></span>
+                                      </li>
                                       </ul>
                                       </div>
                                   </div>
