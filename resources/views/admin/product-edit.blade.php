@@ -36,7 +36,7 @@
      <ul class="nav nav-tabs">
       <li class="active">
        <a data-toggle="tab" href="#product_detail">Product details</a></li>
-      <li><a data-toggle="tab" href="#Q">Product Questions & Answers</a></li>
+      <li id="questionsTab"><a data-toggle="tab" href="#Q">Product Questions & Answers</a></li>
     </ul>
 
     <!--start of tab-conent-->
@@ -59,7 +59,6 @@
             @csrf
             @method('PATCH')
             <div id="subs">
-
             </div>
             <div class="form-group">
                 <label for="Product Name">Product Name</label>
@@ -120,7 +119,7 @@
                 <div class="row">
                 <div class="form-group">
                 <div class="col-md-8">
-                <input type="text" class="form-control" name="spec_details" id="spec_details" value="">
+                <input type="text" class="form-control" name="spec_details" id="spec_details" >
                 <span class="help-block" style="color:red;" id="subCategoryErr"></span>
                 </div>
                 </div>
@@ -243,11 +242,20 @@
                 <div class="img" style="padding:6px;">
                 @foreach ($pd_images as $pd_image )
                 <div style="display:inline">
-                <span style="border:1px solid #e2e2e2;">
-                <img src="/storage/{{ $pd_image->pd_filename }}" width="100" height="100">
-                <button type="button" onclick="deleteProductImg({{ $pd_image->id }})">delete</button>
-                <input type="hidden" name="pd_photo" value="{{ $pd_image->pd_photo_id }}" id="pd_photo">
-                </span>
+                    <span style="border:1px solid #e2e2e2;">
+                    @if($product->first()->pd_photo == $pd_image->pd_filename)
+                    <div class="" style="margin:6px;padding:6px;">
+                    <img src="/storage/{{ $pd_image->pd_filename }}" width="100" height="100">
+                    <span class="bg bg-warning">main photo</span>
+                    </div>
+                    @else
+                    <div class="" style="margin:6px;padding:6px;">
+                    <img src="/storage/{{ $pd_image->pd_filename }}" width="100" height="100">
+                    </div>
+                    @endif
+                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteProductImg({{ $pd_image->id }})">delete</button>
+                    <input type="hidden" name="pd_photo" value="{{ $pd_image->pd_photo_id }}" id="pd_photo">
+                    </span>
                 </div>
                 @endforeach
                 </div>
@@ -362,13 +370,13 @@
 
             <div class="form-group row">
             <div class="col-xs-4">
-            <label for="ex1">Capacity</label>
-            <input class="form-control" id="supplyQuantity" name="supplyQuantity" value="{{ old('supplyQuantity') ?? $product->first()->capacity}}" placeholder="Quantity">
-            @error('supplyQuantity')
-            <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-            </span>
-            @enderror
+                <label for="ex1">Capacity</label>
+                <input class="form-control" id="supplyQuantity" name="supplyQuantity" value="{{ old('supplyQuantity') ?? $product->first()->capacity}}" placeholder="Quantity">
+                @error('supplyQuantity')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+                </span>
+                @enderror
             </div>
 
                 <div class="col-xs-4">
@@ -434,41 +442,41 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <label>Question1</label>
-                    <input type="text" class="form-control" name="question1" id="question1" placeholder="eg, is this product wash & wear ? " value="">
+                    <input type="text" class="form-control" name="question1" id="question1" placeholder="eg, is this product wash & wear ?">
                 </div>
                 <div class="col-md-6">
                     <label>Answer</label>
-                    <input type="text" id="answer1" class="form-control" name="answer1" placeholder="eg, Yes, this product is wash and wear" value="">
+                    <input type="text" id="answer1" class="form-control" name="answer1" placeholder="eg, Yes, this product is wash and wear">
                 </div>
             </div>
               <div class="form-group row">
                 <div class="col-md-6">
                     <label>Question2</label>
-                    <input type="text" class="form-control" id="question2" name="question2" placeholder="eg, is this product wash & wear ? " value="">
+                    <input type="text" class="form-control" id="question2" name="question2" placeholder="eg, is this product wash & wear ?">
                 </div>
                 <div class="col-md-6">
                     <label>Answer</label>
-                    <input type="text" class="form-control" id="answer2" name="answer2" placeholder="eg, Yes, this product is wash and wear" value="">
+                    <input type="text" class="form-control" id="answer2" name="answer2" placeholder="eg, Yes, this product is wash and wear ?">
                 </div>
             </div>
               <div class="form-group row">
                 <div class="col-md-6">
                     <label>Question3</label>
-                    <input type="text" class="form-control" id="question3" name="question3" placeholder="eg, is this product wash & wear ? " value="" maxlength="255">
+                    <input type="text" class="form-control" id="question3" name="question3" placeholder="eg, is this product wash & wear ?"  maxlength="255">
                 </div>
                 <div class="col-md-6">
                     <label>Answer</label>
-                    <input type="text" class="form-control" id="answer3" name="answe3" placeholder="eg, Yes, this product is wash and wear" value="" maxlength="255">
+                    <input type="text" class="form-control" id="answer3" name="answe3" placeholder="eg, Yes, this product is wash and wear ?"  maxlength="255">
                 </div>
             </div>
               <div class="form-group row">
                 <div class="col-md-6">
                     <label>Question4</label>
-                    <input type="text" class="form-control"  id="question4" name="question4" placeholder="eg, is this product wash & wear ? " value="" maxlength="255">
+                    <input type="text" class="form-control"  id="question4" name="question4" placeholder="eg, is this product wash & wear ?"  maxlength="255">
                 </div>
                 <div class="col-md-6">
                     <label>Answer</label>
-                    <input type="text" class="form-control" id="answer4" name="answer4" placeholder="eg, Yes, this product is wash and wear" value="" maxlength="255">
+                    <input type="text" class="form-control" id="answer4" name="answer4" placeholder="eg, Yes, this product is wash and wear ?"  maxlength="255">
                 </div>
             </div>
 
@@ -681,7 +689,7 @@ function deleteQuestionAndAswer(question_id) {
               }else{
                 var question = $(".questionUpdate").val();
                 var id = $("#queId").text();
-                console.log(`question is ${question} and id is ${id}`)
+                $('#modal-question').modal('toggle');
                 valid = true;
                 $.ajax({
                 type: "POST",
@@ -762,8 +770,7 @@ function deleteQuestionAndAswer(question_id) {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                  $("#example1").load(window.location.href + " #example1");
-                  alert(data);
+                   window.location.reload();
                 }
               });
 

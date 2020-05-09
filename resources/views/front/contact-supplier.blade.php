@@ -33,7 +33,7 @@
                     <span class="bg-success" id="successMsg" style="font-size:18px;"></span>
                  </div>
                  <div class="form-group ">
-                  <img src="/storage/{{ $pd_images->first()->pd_filename }}" class="img-responsive img-fluid" alt="prodoct-image" width="60" height="60">
+                  <img src="/storage/{{ $product->first()->pd_photo }}" class="img-responsive img-fluid" alt="prodoct-image" width="60" height="60">
                  </div>
                   <div class="form-group">
                         <label>Subject</label>

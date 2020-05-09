@@ -15,7 +15,7 @@ class IndexController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $slide_one = \App\Product::take(8)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
+        $featured_products = \App\Product::take(8)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
         $featured_images = \App\Photo::all();
         $pd_images = \App\Photo::all();
         $buyingRequests = \App\BuyingRequest::all();
@@ -28,9 +28,9 @@ class IndexController extends Controller
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
-            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'slide_one', 'pd_images', 'featured_images', 'find_by_category', 'featured_suppliers', 'count', 'countBuyingRequest', 'banners'));
+            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'find_by_category', 'featured_suppliers', 'count', 'countBuyingRequest', 'banners'));
         } else {
-            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'slide_one', 'pd_images', 'featured_images', 'find_by_category', 'featured_suppliers', 'banners'));
+            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'find_by_category', 'featured_suppliers', 'banners'));
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use DB;
 
 class AdminIndexController extends Controller
 {
@@ -23,7 +24,7 @@ class AdminIndexController extends Controller
         Session::put('date_created', $user_details->first()->created_at);
         //dd(Session::get('date_created'));
         $currentUserAccount =  $user_details->first()->account_type;
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('user_messages', $userMessages);
         Session::put('user_messages_count', $count_emails);

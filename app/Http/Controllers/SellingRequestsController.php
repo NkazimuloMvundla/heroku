@@ -72,7 +72,7 @@ class SellingRequestsController extends Controller
         ]);
 
         \App\AdminNotifications::create([
-            'message' => $data['sr_u_id'] . " has posted a selling request " . " ",
+            'message' => " a selling request has been posted " .  " for " . $data['productName'],
         ]);
         Session::flash('sellingRequestPosted', "Selling Request Posted Successfully. ");
         return redirect()->back();

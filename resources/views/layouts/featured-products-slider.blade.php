@@ -2,8 +2,8 @@
 		<div class="col-md-12">
 			<h2 id="Trend" class="featured">Trending <b>Products</b></h2>
 					<div class="row">
-              @foreach($slide_one as $slideOne)
-						<div class="col-md-3 col-xs-6 col-sm-4">
+              @foreach($featured_products as $slideOne)
+						<div class="col-md-3 col-xs-6 col-sm-4 product-item-container">
 							<div class="thumb-wrapper">
 								<div class="img-box">
 			 							<?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
@@ -11,12 +11,8 @@
                                     <!--	  <span id="add-to-favs" class="fa fa-heart" data-pd="{{ $slideOne->pd_id }}"></span>-->
                             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>
 										<a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-										@foreach ($featured_images as $pd_image)
-										@if($slideOne->pd_id == $pd_image->pd_photo_id )
-										<img src="{{$pd_image->pd_filename  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" width="150" height="150">
-										<?php break;?>
-										@endif
-										@endforeach
+										<img src="/storage/{{$slideOne->pd_photo  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" width="150" height="150">
+
 										</a>
 								</div>
 								<div class="thumb-content">

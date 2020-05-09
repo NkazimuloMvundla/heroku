@@ -132,8 +132,8 @@ function sendReview(id){
                   <ul id="image-gallery" class="gallery list-unstyled cS-hidden">
                   @foreach ($pd_images as $pd_image)
                   @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                  <li data-thumb="{{ $pd_image->pd_filename }}" id="data-thumbs">
-                  <img src="{{ $pd_image->pd_filename }}" class="img-responsive  img-large" style="display:inline-block;" alt="">
+                  <li data-thumb="/storage/{{ $pd_image->pd_filename }}" id="data-thumbs">
+                  <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive  img-large" style="display:inline-block;" alt="">
 
                   </li>
                   @endif
@@ -246,36 +246,34 @@ function sendReview(id){
         </div>
         <!--product tabs-->
 
-
-  <div class="w3-margin-top container">
+    <div class="w3-margin-top container">
       <div id="container">
           <div id="product_detail">
               <ul class="resp-tabs-list hor_1">
                   <li>Products details</li>
                   <li>Company details</li>
                   <li>Reviews</li>
+                  @if(count($questions) > 0)
+                  <li>Product FAQ's</li>
+                  @endif
               </ul>
           <div class="resp-tabs-container hor_1">
               <div>
                   <div class="panel-body">
                       <div class="row">
+                         @if(count($spec_option) > 0)
                           <div class="col-md-6">
                               <h4 class="bg-info text-center">Specifications</h4>
-
-                              @forelse($spec_option as $spec_opt)
-                              @foreach($specifications as $spec)
-
-                              @if($spec_opt->spec_parent_id == $spec->spec_id)
-
-                              <p> {{ $spec->spec_name }} : {{ $spec_opt->spec_option_name}}   </p>
-
-                              @endif
-                              @endforeach
-                              @empty
-                              <p><i>No data</i></p>
-                              @endforelse
+                                @foreach($spec_option as $spec_opt)
+                                    @foreach($specifications as $spec)
+                                        @if($spec_opt->spec_parent_id == $spec->spec_id)
+                                            <p> {{ $spec->spec_name }} : {{ $spec_opt->spec_option_name}}   </p>
+                                        @endif
+                                    @endforeach
+                                @endforeach
 
                           </div>
+                              @endif
                       <div class="col-md-6">
                             <h4 class="bg-info text-center">Trade information</h4>
                             <div>
@@ -333,8 +331,9 @@ function sendReview(id){
                 </div>
             </div>
 
+    <!--second tab start-->
           <div>
-          <div>
+           <div>
             <div>
               <h4 class="bg-info text-center"><b>Basic Information</b></h4>
             </div>
@@ -397,23 +396,22 @@ function sendReview(id){
             </div>
           </div>
           </div>
+          <!--second tab end-->
 
-
-          <div>
+          <!--reviews tab start-->
+           <div>
               <div>
                 <div>
-                  <div>
-                        <div id="review">
+                   <div>
+                      <div id="review">
                             <table class="table table-striped table-bordered">
                                 <tbody>
                                 @forelse($reviews as $review)
-
                                     <tr>
                                     <td style="width: 50%;"><strong>{{$review->rated_by}}</strong></td>
                                     <?php $date = date('Y-m-d', strtotime( $review->created_at )); ?>
                                     <td class="text-right">{{ $date}}</td>
                                     </tr>
-
                                       <tr>
                                       <td colspan="2">
                                       <p>{{ $review->review }}</p>
@@ -511,39 +509,67 @@ function sendReview(id){
                 </div>
               </div>
           </div>
+          <!--reviews tab end-->
+
+          <!--product FAQ's tab start-->
+          <div>
+           <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        @foreach( $questions as $question )
+                            <tr>
+                                <td id="questionUpdates" style="width:50%;">
+                                {{ $question->question }}
+                                </td>
+                                <td>
+                                @foreach($answers as $answer)
+                                @if($answer->question_id == $question->id)
+                                {{ $answer->answer }}
+                                @endif
+                                @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                  <!-- /.table -->
+           </div>
+          <!--product FAQ's tab end-->
           </div>
-          </div>
+        </div>
 
       <!--you may like-->
       <div class="you-may-like">
         <div class="row w3-margin-top">
         <h6 class="block-title">You May Aslo Like</h6>
-        @foreach ($you_may_like as $product)
+
+        @foreach ($you_may_like as $collection)
+            @if($collection->pd_photo != null)
             <div class="col-md-3 col-xs-6 row-1">
                 <div class="thumb-wrapper">
                     <div class="img-box">
                         <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
-                        <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
-
-                     <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                        <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}">
+                       <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
                         <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                        @foreach ($featured_images as $pd_image)
-                        @if($product->pd_id == $pd_image->pd_photo_id)
-                        <img src="{{$pd_image->pd_filename  }}" class="img-responsive" alt="product image" width="150" height="150">
-                        <?php break; ?>
-                        @endif
-                        @endforeach
+                        <img src="/storage/{{ $collection->pd_photo  }}" class="img-responsive" alt="product image" width="150" height="150">
+
                         </a>
                     </div>
                 <div class="thumb-content">
                     <p class="item-name">
-                      <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                      <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
                     <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                    <span>{{ $product->pd_name }}</span>
+                    <span>{{ $collection->pd_name }}</span>
                     </a>
                     </p>
-                        <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $product->min_price }}-{{ $product->max_price }}</span></p>
-                        <p class="item-price"><span>MOQ:{{ $product->pd_min_order_qty  }}  {{ $product->minOrderUnit }}</span></p>
+                        <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $collection->min_price }}-{{ $collection->max_price }}</span></p>
+                        <p class="item-price"><span>MOQ:{{ $collection->pd_min_order_qty  }}  {{ $collection->minOrderUnit }}</span></p>
                       <div class="star-rating w3-hide">
                           <ul class="list-inline">
                               <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -553,13 +579,14 @@ function sendReview(id){
                               <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                           </ul>
                       </div>
-                        <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
-                        <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                        <?php  $encoded_user_id = base64_encode($collection->pd_u_id ) ;?>
+                        <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
                     <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                    <a  onclick="myFavorite({{ $product->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md"></a>
+                    <a  onclick="myFavorite({{ $collection->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md"></a>
                 </div>
               </div>
             </div>
+            @endif
         @endforeach
         </div>
       </div>

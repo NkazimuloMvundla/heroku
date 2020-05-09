@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\BlockGetRequest::class,
     ];
 
     /**
@@ -35,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
         ],
 
         'api' => [
@@ -64,6 +66,7 @@ class Kernel extends HttpKernel
         'AccountType' => \App\Http\Middleware\AccountType::class,
         'AccessSuperUser' => \App\Http\Middleware\AccessSuperUser::class,
         'SuperUserAccess' => \App\Http\Middleware\SuperUserAccess::class,
+        //'BlockGetRequest' => \App\Http\Middleware\BlockGetRequest::class,
     ];
 
     /**

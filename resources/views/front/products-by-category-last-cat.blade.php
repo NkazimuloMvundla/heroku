@@ -12,11 +12,10 @@
         <a href="/products-by-last-category/{{ $lastCat->pc_name }}/{{ $lastCat_id }}">{{ $lastCat->pc_name }}</a></li>
         @endforeach
         </ul>
-    </div>
+         </div>
                 <div class="col-md-10">
                     @foreach ($subCats as $subCat )
                     @foreach ($lasts as $lastCat)
-
                     @if($lastCat->pc_id == $subCat->id)
                     <h3 class="text-primary">{{ $subCat->pc_name }}  <small>{{ $lasts->first()->pc_name }} </small> </h3>
                         @endif
@@ -31,18 +30,13 @@
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                          <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                  <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                                        @foreach ($pd_images as $pd_image)
-                                        @if($product->pd_id == $pd_image->pd_photo_id)
-                                    <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="">
-                                    <?php break ;?>
-                                    @endif
-                                    @endforeach
+                              <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="">
                                         </a>
                                         </div>
                                         <div class="thumb-content">
                                             <p class="item-name">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                                    <a href="/product-details/{{ $encoded_product_id }}" class="view_product">>
+                            <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                                             <span>{{ $product->pd_name }}</span>
                                              </a>
                                             </p>
@@ -57,13 +51,12 @@
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-            <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
-            <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-              <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                <a  onclick="myFavorite({{ $product->pd_id }});"  id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md"></a>
+                                <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
+                                <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                                <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
+                                <a  onclick="myFavorite({{ $product->pd_id }});"  id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md"></a>
                                         </div>
                                     </div>
-
                                 </div>
                                 @empty
                                 <p class="text-primary">There are no products in this Category as yet, but please do check back later!</p>
@@ -71,7 +64,7 @@
                     </div>
                 </div>
     </div>
- <div class="row clearfix" style="padding-right:8px; margin-top:16px;">
+   <div class="row clearfix" style="padding-right:8px; margin-top:16px;">
        <div class="col-md-12 hidden-xs hidden-sm text-center">
               {{$products->links('pager.custom')}}
         <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
@@ -82,7 +75,6 @@
       <div class="col-md-6 hidden-lg text-center">
            <i>Page  {{$products->currentPage()}} of {{$products->lastPage()}}</i>
      </div>
-
  </div>
  </div>
 

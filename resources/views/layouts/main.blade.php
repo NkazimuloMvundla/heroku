@@ -45,47 +45,52 @@
      <div class="tm_header_outer w3-hide-small w3-hide-medium ">
       <div class="tm_header_top container-width">
           <div class="header-offerzone">
-              <ul class="w3-hide-medium w3-hide-small">
+              <ul class="hidden-sm hidden-md">
           @if (Auth::check())
-          <li class="text-primary">{{ __('Hello') }} {{ Auth::user()->name }}
-          </li>
-          <li><a  href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                       document.getElementById('logout-form').submit();">
-
-          {{ __('Logout') }}
-          </a>
-
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                          @csrf
-                          </form></li>
-          @else
-          <li><a href="{{route('login')}}"> {{ __('Sign in')}}</a>  | <a href="{{route('register')}}"> {{ __('Register')}}</a>
-          </li>
-          @endif
-
+                <li class="text-primary">{{ __('Hello') }}
+                {{ Auth::user()->name }}
+                </li>
+                <li>
+                <a  href="{{ route('logout') }}" onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+                </form>
+                </li>
+                @else
+                <li>
+                <a href="{{route('login')}}"> {{ __('Sign in')}}</a>  | <a href="{{route('register')}}"> {{ __('Register')}}</a>
+                </li>
+                @endif
               <li><a href="{{url('sell')}}">{{ __('Sell')}}</a></li>
-              <li class="w3-dropdown-hover w3-hide-small w3-hide-meduim " style="z-index:10;"><span>Buyers<span class="caret"></span></span>
-              <div class="w3-dropdown-content w3-bar-block w3-card" style="width:224px;">
-              <a href="{{route('BuyingRequest')}}" class="w3-bar-item">Post buying requests</a>
-              <a href="/suppliers" class="w3-bar-item">Search for suppliers</a>
-              </div>
 
+              <li class="dropdown hidden-sm hidden-md">
+              <span>Buyers<span class="caret"></span>
+               </span>
+              <div class="dropdown-content shadow">
+              <a href="{{route('BuyingRequest')}}" class="dropdown-bar-item">Post buying requests</a>
+              <a href="/suppliers" class="dropdown-bar-item">Search for suppliers</a>
+              </div>
 
               </li>
-              <li class="w3-dropdown-hover w3-hide-small w3-hide-meduim " style="z-index:10;"><span>For Suppliers<span class="caret"></span></span>
-              <div class="w3-dropdown-content w3-bar-block  w3-card" style="width:224px;">
-              <a href="{{ route('admin.index') }}" class="w3-bar-item ">Display new products</a>
-              <a href="/all-buying-requests" class="w3-bar-item ">Search buy trade leads</a>
-              <a href="{{ route('admin.index') }}" class="w3-bar-item ">Manage products</a>
-              </div>
+
+              <li class="dropdown hidden-sm hidden-md">
+                <span>For Suppliers<span class="caret"></span></span>
+                <div class="dropdown-content shadow">
+                <a href="{{ route('admin.index') }}" class="dropdown-bar-item ">Display new products</a>
+                <a href="/all-buying-requests" class="dropdown-bar-item ">Search buy trade leads</a>
+                <a href="{{ route('admin.index') }}" class="dropdown-bar-item ">Manage products</a>
+                </div>
               </li>
 
-              <li class="w3-dropdown-hover hidden-sm hidden-md " style="z-index:10"><a href=""> Service &amp; Membership<span class="caret"></span> </a>
-              <div class="w3-dropdown-content w3-bar-block  w3-card" style="width:224px;">
-              <a href="{{route('membership')}}" class="w3-bar-item ">Premium memberships</a>
-              <a href="/services" class="w3-bar-item"> Services<span class="w3-tag w3-blue">New</span></a>
+              <li class="dropdown hidden-sm hidden-md"><span>Service &amp; Membership</span>  <span class="caret"></span> </a>
+              <div class="dropdown-content shadow">
+              <a href="{{route('membership')}}" class="dropdown-bar-item ">Premium memberships</a>
+              <a href="/services" class="dropdown-bar-item"> Services<span class="tag-blue">New</span></a>
               </div>
-            </li>
+              </li>
 
               </ul>
           </div>
@@ -120,10 +125,10 @@
             </div>
           </nav>
               <div class="bewlo" style="position:relative;">
-                    <form action="/search" method="POST" onsubmit="return validSearchM();" name="">
+                    <form action="/search" method="POST" onsubmit="return validSearchM();" name="searchForm">
                     @csrf
-                        <div class="input-group">
-                     <div class="control">
+                     <div class="input-group">
+                        <div class="control">
                           <div class="search-box" >
                           <input type="text" class="form-control" autocomplete="off" placeholder="Search" id="search-mobile" name="search">
                           <div id="search_mobile" class="search_mobile">
@@ -155,7 +160,7 @@
           </p>
           @else
            <p><a href="/login">Sign in </a>  |  <a href="/register">Join Free</a></p>
-          @endif
+            @endif
                 </div>
                 <ul class="list-unstyled components">
                     @if(Auth::check())
@@ -232,7 +237,6 @@
       <div class="header-right w3-hide-small w3-hide-medium " id="header-right"><div class="block block-search">
           <div class="block-search-inner">
               <div class="block block-title"><strong>Search</strong></div>
-
               <div class="block block-content">
                 <form action="/search" method="POST" onsubmit="return validSearch();" name="searchForm">
                     @csrf
@@ -240,34 +244,37 @@
                       <label class="label" for="search" data-role="minisearch-label">
                       <span>Search</span>
                       </label>
-                      <div class="control">
-                          <div class="search-box" >
-                          <input type="text" class="form-control" autocomplete="off" placeholder="Search" id="search" name="search">
-                          <div id="countryList" class="search-res">
-                          </div>
-                          </div>
-                      </div>
+                    <div class="control">
+                        <div class="search-box">
+                            <div class="input-group">
+                            <div class="control">
+                                <div class="search-box" >
+                                <input type="text" class="form-control" autocomplete="off" placeholder="Search" id="search" name="search">
+                                <div id="countryList" class="search-res">
+                                </div>
+                                </div>
+                            </div>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit" style="color: ;background: #ffa50091;">
+                                <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                   </div>
-              <div class="actions">
-                  <button
-                  title="Search"
-                  class="btn btn-primary" >
-                  <span>Search</span>
-                  </button>
-              </div>
             </form>
          </div>
-
       </div>
       </div>
       <div class="tm_headerlinkmenu">
           <div class="tm_headerlinks_inner">
               <div class="headertoggle_img">
                   <div class="my-account-cms">
-                      <div class="w3-dropdown-hover pull-right w3-card-3">
-                          <button class="btn btn-success">Trade center</button>
-                          <div class="w3-dropdown-content w3-bar-block  w3-card-4" style="right:0; width:224px; z-index:10;">
-                              <a href="{{ route('admin.index') }}" class="w3-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger pull-right">
+                      <div class="dropdown pull-right">
+                          <span class="btn">Trade center</span>
+                          <div class="dropdown-content shadow" style="right:0; width:224px; z-index:10;">
+                              <a href="{{ route('admin.index') }}" class="dropdown-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                   {{ $count }}
                                   @else
@@ -275,14 +282,14 @@
                                   @endif
 
                               </span></a>
-                              <a href="/all-buying-requests" class="w3-bar-item "><span style="font-size: 9pt">Buy Leads</span> <span class="label label-danger pull-right">
+                              <a href="/all-buying-requests" class="dropdown-bar-item "><span style="font-size: 9pt">Buy Leads</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                       {{ $countBuyingRequest }}
                                       @else
                                       {{ 0 }}
                                       @endif
                                   </span></a>
-                              <a href="{{route('admin.index')}}" class="w3-bar-item "><span style="font-size: 9pt">My account</span> <span class="label label-danger pull-right"></span></a>
+                              <a href="{{route('admin.index')}}" class="dropdown-bar-item "><span style="font-size: 9pt">My account</span> <span class="label label-danger pull-right"></span></a>
                           </div>
                       </div>
                   </div>

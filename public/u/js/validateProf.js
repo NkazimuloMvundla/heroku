@@ -122,6 +122,7 @@ function deleteCompanyCertificate(id) {
 Dropzone.options.myDropzoneCertificate = {
     // Dropzone.autoDiscover = false;
     url: "/u/profile/certificate",
+    method: "POST",
     headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") },
     autoProcessQueue: false,
     uploadMultiple: true,

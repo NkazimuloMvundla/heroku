@@ -1,9 +1,4 @@
 //product views
-document
-    .querySelector("[class=view_product]")
-    .addEventListener("click", function(e) {
-        alert("Clicked");
-    });
 
 //auto complete
 $(document).ready(function() {
@@ -104,39 +99,6 @@ function validSearch() {
     }
 }
 
-/*
-//auto complete mobile
-$(document).ready(function() {
- $("#search_btn").on("click", function(e) {
-    e.preventDefault();
-    var searchtext = document.getElementById("search");
-    //alert(search_value);
-    if (searchtext.value == "") {
-        alert("Please input a keyword");
-        searchtext.focus();
-        return false;
-    } else {
-          console.log(searchtext.value)
-             $.ajax({
-                type: "POST",
-                url: "/search",
-                data: { pd_name: searchtext.value },
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                },
-                success: function(data) {
-                console.log('Success', data)
-                window.location = "/search";
-                },
-                error: function(data) {
-                    console.log("err", data);
-                }
-            });
-
-       }
-   })
-})
-*/
 function validSearchM() {
     var searchtext = document.getElementById("search-mobile");
     //alert(search_value);
@@ -175,9 +137,12 @@ function myFavorite(id) {
 //all-buying-request
 function showRequest(id) {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/singleBuyingRequest",
         data: { id: id },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
         success: function(data) {
             for (var i = 0; i < data.length; i++) {
                 $id = data[i].id;
@@ -192,9 +157,12 @@ function showRequest(id) {
 
 function showSellingRequest(id) {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/singleSellingRequest",
         data: { id: id },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
         success: function(data) {
             for (var i = 0; i < data.length; i++) {
                 var id = data[i].id;

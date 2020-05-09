@@ -46,7 +46,7 @@
                                                  @endif
                                         @if($supplier->membership == 'Gold Member')
                                          <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
-                                        @endif
+                                    @endif
 
                                         </span>
                         @if(empty($supplier->company_background_img))
@@ -167,14 +167,9 @@
                                     <div class="img-box">
                                     <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
                                     <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
-                                          <?php   $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                        <?php   $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                     <a href="/product-details/{{ $encoded_product_id}}">
-                                        @foreach ($pd_images as $img)
-                                        @if($img->pd_photo_id == $product->pd_id)
-                                      <img src="/storage/{{ $img->pd_filename }}" class="img-responsive img-fluid" alt="product image">
-                                      <?php break;?>
-                                        @endif
-                                      @endforeach
+                                      <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="product image">
                                       </a>
                                     </div>
                                     <div class="thumb-content">

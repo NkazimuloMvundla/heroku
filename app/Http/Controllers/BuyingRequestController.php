@@ -44,8 +44,6 @@ class BuyingRequestController extends Controller
     public function store(Request $request)
     {
 
-        //dd(request()->subCategory);
-
         $data = request()->validate([
             'mainCategory' => ['required', 'numeric'],
             'Category' => ['required', 'numeric'],
@@ -56,8 +54,6 @@ class BuyingRequestController extends Controller
             'orderQuantityUnit' => ['required', 'string', 'max:255'],
             'deliveryDate' => ['string'],
             'br_u_id' => ['numeric'],
-
-
 
         ]);
 
@@ -72,7 +68,7 @@ class BuyingRequestController extends Controller
         ]);
 
         \App\AdminNotifications::create([
-            'message' => $data['br_u_id'] . " has posted a buying request " . " ",
+            'message' => " a buying request has been posted " .  " for " . $data['productName'],
         ]);
         Session::flash('buyingRequestPosted', "Buying Request Posted Successfully. ");
         return redirect()->back();

@@ -41,12 +41,10 @@ function showCat(id) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
         },
         success: function(data) {
-            //console.log(data);
             var select =
                 '<select class="form-control" name="Category" onChange="showSubCat(this.value);" id="Category">';
             select += "<option>" + "Select" + "</option>" + "<br>";
             for (var i = 0; i < data.length; i++) {
-                //  console.log(data[i].pc_)
 
                 select +=
                     '<option value="' +
@@ -55,13 +53,10 @@ function showCat(id) {
                     data[i].pc_name +
                     "</option>" +
                     "<br>";
-                //$("#coin").html("Judge"
+
             }
             select += "</select";
-
             $("#coin").html(select);
-
-            //      console.log(data);
         }
     });
 }
@@ -75,7 +70,6 @@ function showSubCat(id) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
         },
         success: function(data) {
-            //console.log(data);
             var select =
                 '<select class="form-control" name="subCategory" onchange="show_list(),showBtn(),getId(this.value);"  id="subCategory">';
             select +=
@@ -84,8 +78,6 @@ function showSubCat(id) {
                 "</option>" +
                 "<br>";
             for (var i = 0; i < data.length; i++) {
-                //  console.log(data[i].pc_)
-
                 select +=
                     '<option value="' +
                     data[i].id +
@@ -98,10 +90,6 @@ function showSubCat(id) {
 
             $("#last").html(select);
 
-            //      console.log(data);
-        },
-        error: function(data) {
-            console.log("Error:", data);
         }
     });
 }
@@ -118,6 +106,9 @@ function deleteProductImg(id) {
                 },
                 success: function(data) {
                     window.location.reload();
+                    console.log(data)
+                }, error: function (data) {
+                    console.log("Err", data)
                 }
             });
         }
@@ -255,7 +246,7 @@ function updateSpec(id) {
 
 function showSpec(id) {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/u/product/showSpec",
         data: { id: id },
         headers: {
@@ -340,6 +331,7 @@ $(".paymentMethod").on("click", function() {
 Dropzone.options.myDropzone = {
     // Dropzone.autoDiscover = false;
     url: "/u/add-new-product",
+    method:"POST",
     headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") },
     autoProcessQueue: false,
     uploadMultiple: true,
@@ -350,7 +342,7 @@ Dropzone.options.myDropzone = {
     addRemoveLinks: true,
 
     success: function(responseText, data) {
-        alert(data);
+      //  alert(data);
     },
 
     error: function(file, response) {

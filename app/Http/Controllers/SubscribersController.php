@@ -11,7 +11,7 @@ class SubscribersController extends Controller
     {
         if (request()->ajax()) {
             $data = request()->validate([
-                'email' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'email', 'max:255'],
             ]);
             $email = \App\Subscribers::where('email', $data['email'])->get();
             if (count($email) > 0) {

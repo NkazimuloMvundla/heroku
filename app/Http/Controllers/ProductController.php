@@ -52,13 +52,13 @@ class ProductController extends Controller
 
 
         $data = request()->validate([
-            // 'u_id' => ['numeric'],
             'mainCategory' => ['required', 'numeric'],
             'Category' => ['required', 'numeric'],
             'subCategory' => ['required', 'numeric'],
             'Product_Name' => ['required', 'string', 'max:255'],
             'Product_Keyword' => ['required', 'string', 'max:255'],
-            'file' => ['required', new PhotoMaxUpload],
+            'file' => ['array'],
+            'file.*' => ['image', 'mimes:jpeg,png'],
             'listing_description' => ['required', 'string', 'max:255'],
             'Minimum_Order_Quantity' => ['required', 'numeric'],
             'Minimum_order_unit' => ['required', 'string', 'max:255'],
@@ -114,18 +114,25 @@ class ProductController extends Controller
         }
 
 
+
+        $i = 1;
         foreach (request()->file('file') as $file) {
-
             $imgPath = $file->store('pd_images', 'public');
-
             \App\Photo::create([
                 'pd_photo_id' => $id,
                 'pd_u_id' => Auth::user()->id,
                 'pd_filename' => $imgPath,
-                'pd_priority' => 1,
+                'pd_priority' => $i++,
 
             ]);
         }
+        //get any image from photos and make it a main photo
+        $mainImage = \App\Photo::where('pd_photo_id', $id)->get();
+
+        //store the main Image
+        \App\Product::where('pd_id', $id)->update([
+            'pd_photo' => $mainImage->first()->pd_filename,
+        ]);
 
         //inserting into pre defined Specs
         if (!empty(request()->stringName) && !empty(request()->stringIds)) {
@@ -241,7 +248,8 @@ class ProductController extends Controller
         $data = request()->validate([
             'Product_Name' => ['required', 'string', 'max:255'],
             'Product_Keyword' => ['required', 'string', 'max:255'],
-            //  'Product_photo' => ['required', new PhotoMaxUpload],
+            'Product_photo' => ['array'],
+            'Product_photo.*' => ['image', 'mimes:jpeg,png'],
             'listing_description' => ['required', 'string', 'max:255'],
             'Minimum_Order_Quantity' => ['required', 'numeric'],
             'Minimum_order_unit' => ['required', 'string', 'max:255'],
@@ -296,44 +304,52 @@ class ProductController extends Controller
         //IF THERE'S NO IMAGES IN THE DB
         if ($countImgs < 1) {
             request()->validate([
-                'Product_photo' => ['required', new PhotoMaxUpload, 'image'],
+                'Product_photo' => ['required', new PhotoMaxUpload],
             ]);
             //IF THERE'S 2 IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 1 SINCE LIMIT IS 3
         } else if ($countImgs == 2) {
             request()->validate([
-                'Product_photo' => [new PhotoMaxUpload, new PhotoEditMaxUpload, 'image'],
+                'Product_photo' => [new PhotoMaxUpload, new PhotoEditMaxUpload],
             ]);
             //IF THERE'S 3 IMAGES IN THE DB, A USER CANT UPLOAD ANY PHOTO AT ALL SINCE LIMIT IS 3
         } else if ($countImgs == 3) {
             request()->validate([
-                'Product_photo' => [new PhotoEditEqualToThree, 'image'],
+                'Product_photo' => [new PhotoEditEqualToThree],
             ]);
         }
         //IF THERE'S 1 IMAGE IN THE DB, A USER CANT UPLOAD MORE THAN 2 SINCE LIMIT IS 3
         else if ($countImgs == 1) {
             request()->validate([
-                'Product_photo' =>  [new PhotoMaxUpload, new PhotoEditEqualToOne, 'image'],
+                'Product_photo' =>  [new PhotoMaxUpload, new PhotoEditEqualToOne],
             ]);
         }
         //IF THERE'S NO IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 3 SINCE LIMIT IS 3
         else {
             request()->validate([
-                'Product_photo' => [new PhotoMaxUpload, 'image'],
+                'Product_photo' => [new PhotoMaxUpload],
             ]);
         }
         if (request()->has('Product_photo') && !empty(request()->Product_photo)) {
-            $i = 1;
             foreach (request()->file('Product_photo') as $file) {
-
                 $imgPath = $file->store('pd_images', 'public');
 
                 \App\Photo::create([
                     'pd_photo_id' => $decoded_product_id,
                     'pd_u_id' => Auth::user()->id,
                     'pd_filename' => $imgPath,
-                    'pd_priority' => $i++,
+
                 ]);
             }
+        }
+        //check if the main photo is empty then update it
+        $mainImage = \App\Product::where('pd_id', $decoded_product_id)->get();
+        if ($mainImage->first()->pd_photo == NULL) {
+            //get any image from photos and make it a main photo
+            $PhotoMainImage = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
+            //store the main Image
+            \App\Product::where('pd_id', $decoded_product_id)->update([
+                'pd_photo' => $PhotoMainImage->first()->pd_filename,
+            ]);
         }
 
 
@@ -386,9 +402,6 @@ class ProductController extends Controller
 
                 $specParr = explode(',', $validate['specP']); //thres 2 here ['Judge', 'steve']
                 $specCarr = explode(',', $validate['specC']); //thres 1 here ['judge']
-                // $countP = count($specParr);
-                // $countC = count($specCarr);
-
 
                 for ($i = 0; $i < count($specParr); $i++) {
                     if (!empty($specParr[$i]) && !empty($specCarr[$i]) && count($specParr) == count($specCarr)) {
@@ -487,6 +500,16 @@ class ProductController extends Controller
                     \App\Photo::where('id', $data['id'])->delete();
                 }
             }
+
+            //check if the main photo is empty then update it
+            $mainImage = \App\Product::where('pd_id', $path->first()->pd_photo_id)->get();
+            //check ig the photo they want to delete is the main
+            if ($mainImage->first()->pd_photo == $paths) {
+                \App\Product::where('pd_id', $path->first()->pd_photo_id)->update([
+                    'pd_photo' => NULL,
+                ]);
+            }
+            return "No";
         }
     }
 
@@ -518,13 +541,9 @@ class ProductController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-
         $product = \App\Product::where('pd_id', $decoded_product_id)->get();
-
         $count = count($product);
 
-
-        $you_may_like = \App\Product::take(8)->where(['pd_approval_status' => 1])->inRandomOrder()->get();
 
         foreach ($product as $pro) {
 
@@ -546,31 +565,31 @@ class ProductController extends Controller
         } else {
             return redirect()->back();
         }
-        $featured_images = \App\Photo::all();
 
+        $you_may_like = DB::table('products')->take(8)->inRandomOrder()->get();
+        $featured_images = \App\Photo::all();
         $payments = \App\PaymentTerms::all();
         $payment_t = explode(',', $payment_tem);
         $reviews = \App\Review::where(['pd_id' => $pd_id, 'status' => 1])->take(2)->get();
-
         $buyingRequests = \App\BuyingRequest::all();
         $countBuyingRequest = count($buyingRequests);
         $specifications = \App\Specification::all();
         $spec_option = \App\SpecOption::where('product_id', $decoded_product_id)->get();
-        if (Auth::check()) {
-        }
         $export_capabilities = \App\ExportCapability::where('user_id', $product->first()->pd_u_id)->get();
         $export = count($export_capabilities);
         $company_images = \App\CompanyImages::where('user_id', $product->first()->pd_u_id)->get();
         $count_comp_img = count($company_images);
         $certificates = \App\CompanyCertificate::where('user_id', $product->first()->pd_u_id)->get();
         $count_certificates = count($certificates);
+        $questions = \App\Questions::where('pd_id', $decoded_product_id)->get();
+        $answers = \App\Answers::all();
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
 
-            return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img'));
+            return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img', 'questions', 'answers'));
         } else {
-            return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img'));
+            return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img', 'questions', 'answers'));
         }
     }
 

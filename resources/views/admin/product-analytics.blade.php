@@ -54,29 +54,25 @@
                         <div class="ratings">
 
                         @if($review->rating == 1 )
-                        <div class="rating-box star-rating ">
-
+                        <div class="rating-box star-rating">
                         <i class="fa fa-star checked"></i>
                             </div>
                         @endif
                         @if($review->rating == 2 )
-                        <div class="rating-box star-rating ">
-
+                        <div class="rating-box star-rating">
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                             </div>
                         @endif
                         @if($review->rating == 3 )
-                        <div class="rating-box star-rating ">
-
+                        <div class="rating-box star-rating">
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                             </div>
                         @endif
                         @if($review->rating == 4 )
-                        <div class="rating-box star-rating ">
-
+                        <div class="rating-box star-rating">
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
@@ -84,8 +80,7 @@
                             </div>
                         @endif
                         @if($review->rating == 5 )
-                        <div class="rating-box star-rating ">
-
+                        <div class="rating-box star-rating">
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>
                         <i class="fa fa-star checked"></i>

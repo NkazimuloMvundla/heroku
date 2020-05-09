@@ -22,12 +22,12 @@
           <ul class="treeview-menu">
             <li>
               <a href="{{ url('u/manage-products') }}">
-              <i class="fa fa-shopping-cart"></i> <span>Manage-products</span>
+                <span>Manage-products</span>
               </a>
             </li>
             <li>
               <a href="{{url('u/add-new-product')}}">
-              <i class="fa fa-plus"></i> <span>Add new products</span>
+               <span>Add new products</span>
               <span class="pull-right-container">
               </span>
               </a>

@@ -8,7 +8,7 @@ div#search-result{
 }
 
 </style>
-<div class="w3-container">
+<div class="container">
     <div style="margin-top: -24px;">
         @if($Productcount > 0)
          <h4 style="background: #f2f3f7; padding:12px;">
@@ -23,9 +23,8 @@ div#search-result{
          </h5>
          @endif
     </div>
-
     <div class="row" id="search-result">
-        <div class="col-md-2 w3-hide-small w3-hide-medium" id="category" style="border-right: 1px solid lightgreen;">
+        <div class="col-md-2 hidden-sm hidden-md" id="category" style="border-right: 1px solid lightgreen;">
             <p id="related-categories">Related categories</p>
             <ul>
             @forelse ($lastCats as $related)
@@ -42,6 +41,14 @@ div#search-result{
             @empty
             @endforelse
         </ul>
+
+          <div class="">
+        <span>Sort By:</span>
+        <select>
+            <option>MIN PRICE</option>
+            <option>MAX PRICE</option>
+        </select>
+        </div>
             </div>
             <div class="col-md-10">
                 @if($Productcount > 0)
@@ -52,12 +59,8 @@ div#search-result{
                                 <div class="img-box">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                     <a href="/product-details/{{ $encoded_product_id}}" class="view_product">
-                                    @foreach ($pd_images as $pd_image)
-                                    @if($product->pd_id == $pd_image->pd_photo_id)
-                                <img src="{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="product-image">
-                                <?php break;?>
-                                @endif
-                                @endforeach
+
+                                <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="product-image">
                                     </a>
                                     </div>
                                     <div class="thumb-content">

@@ -4,16 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h4 class="ui-form-group-title text-center text-primary" style="font-size: 20px; background-color:#f8f8f8">Buying and Selling requests</h4>
-           @if(Session::has('banner'))
-               <div class="">
-                <ul>
-                    <li class="label label-success"  style="font-size:15px;">{{ Session::get('banner') }}</li>
-
-                </ul>
-
-               </div>
-           @endif
+    <h4 class="ui-form-group-title text-center text-primary" style="font-size: 20px; background-color:#f8f8f8">Buying requests</h4>
 <style>
     header.card-header{
     color: #000;
@@ -57,8 +48,6 @@
     <?php $encoded_request_id = base64_encode( $data->id) ;?>
     <a href="/send-a-buy-message/{{  $encoded_request_id }}">+ Make an offer</a></button>
     @endif
-
-
 
     <button class="btn btn-default " data-toggle="modal" data-target="#modal-default"  onclick="showRequest({{$data->id}});"> + View request </button>
 

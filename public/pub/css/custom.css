@@ -35,7 +35,6 @@ body{
 }
 
 .navbar {
-
     margin-bottom: 2px;
     border-radius: 0;
      border: 0;
@@ -66,7 +65,9 @@ body{
 
  }
 
-
+ input#search{
+     border: 2px solid #ffa50091;
+ }
 
 /*-------------------------------------------------------------------------Header CSS-----------------------------------------------------------*/
 /**/
@@ -79,13 +80,9 @@ body{
 }
 @media only screen and (max-width: 768px) {
     .page-wrapper .row{
-
         margin-right: -15px;
         margin-left: -15px;
-
     }
-
-
   }
 
 .header/*,.header-menu-outer*/{position: relative;}
@@ -120,10 +117,59 @@ a, a:hover, a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
+/*amazon backColor #232f3e*/
+/*dropdown*/
+.dropdown:hover div.dropdown-content{
+  display: block;
+}
+.dropdown{
+    z-index: 999;
+}
+div.dropdown-content{
+    cursor: auto;
+    color: #000;
+    background-color: #fff;
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    width: 224px;
+}
+.dropdown-content>a:hover{
+    color: #ff6a00;
+}
+.dropdown-bar-item {
+    width: 100%;
+    display: block;
+    padding: 8px 16px;
+    text-align: left;
+    border: none;
+    white-space: normal;
+    float: none;
+    outline: 0;
+}
+.shadow{
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.tag-blue {
 
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
+    color: #fff ;
+    background-color: #2196F3 ;
+    padding: 4px;
+}
+
+/*trade center btn*/
+.btn{
+    background-color: #00b89c;
+    border-color: transparent;
+    color: #fff;
+}
+.btn:hover{
+    color:#fff;
+}
+
 
 /*slideer background */
 .slider-background {
@@ -181,6 +227,15 @@ h2.featured{
         position: relative;
         margin: 17px 0 50px;
 
+}
+div.product-item-container{
+    margin: 0px 0px 5px 0px;
+    padding: 15px;
+    border: 1px solid #dddddd;
+    overflow: hidden;
+}
+.product-item-container:hover {
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.2);
 }
 @media screen and (max-width: 974px) {
 /* One or more CSS rules to apply when the query is satisfied */

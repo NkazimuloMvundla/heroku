@@ -45,7 +45,6 @@
                    <th>ID</th>
                    <th>Product Name</th>
                    <th>Status</th>
-                   <th>Product analytics</th>
                    <th>Date added</th>
                    <th>Action</th>
 
@@ -81,10 +80,6 @@
                          @endif
 
                      </td>
-                     <th>
-                      <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                         <a href="/u/product-analytics/{{ $encoded_product_id }}">view</a>
-                      </th>
                      <td >{{ $product->created_at }}</td>
                     <td >
                       <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
@@ -96,12 +91,9 @@
                     or
 
                     <button id="sendID" class="btn btn-default btn-sm" onclick="sendId({{ $product->pd_id }})";><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
-
                     @empty
-                    <td class="">You haven't added any product as yet</td>
+                    <td>You haven't added any product as yet</td>
                     </tr>
-
-
                    @endforelse
                     </tbody>
 

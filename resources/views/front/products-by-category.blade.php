@@ -25,23 +25,23 @@
                         <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                                <a href="/product-details/{{ $encoded_product_id }}" class="view_product">>
-                                        @foreach ($pd_images as $pd_image)
-                                        @if($product->pd_id == $pd_image->pd_photo_id)
-                                    <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="product-image">
-                                    <?php break;?>
-                                    @endif
-                                    @endforeach
+                                                <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
+
+                                    <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="product-image">
+
                                         </a>
                                         </div>
                                         <div class="thumb-content">
-                                            <p class="item-name">
-                            <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
+                                        <p class="item-name">
+                                            <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                             <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                                             <span>{{ $product->pd_name }}</span>
-                                             </a>
-                                            </p>
-                                        <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $product->min_price }}-{{ $product->max_price }}</span></p>
+                                            </a>
+                                        </p>
+                                        <p class="item-price">
+                                            <span>ZAR {{ $product->min_price }}-{{ $product->max_price }}
+                                            </span>
+                                        </p>
                                             <p class="item-price"><span>MOQ:{{ $product->pd_min_order_qty  }}  {{ $product->minOrderUnit }}</span></p>
                                             <div class="star-rating" style="display:none;">
                                                 <ul class="list-inline">

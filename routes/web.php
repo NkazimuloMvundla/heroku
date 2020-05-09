@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Middleware\BlockGetRequest;
 
 Auth::routes(['verify' => true]);
 Route::get('/', 'IndexController@create')->name('home');
@@ -53,9 +54,12 @@ Route::post('/search', 'SearchController@formsearch')->name('formsearch');
 //Auth::routes(['verify' => true, 'register' => false, 'login' => false]);
 
 
-Route::post('/subcats', 'SubCategoryController@show')->name('subcats'); // retuns Category via Ajax onchange
-Route::post('/lastcats', 'LastCategoryController@show')->name('lastcats'); // retuns subCategory via Ajax onchange
-Route::get('/buying-request', 'BuyingRequestController@create')->name('BuyingRequest'); //returns a buying requests view
+Route::post('/subcats', 'SubCategoryController@show')->name('subcats');
+Route::post('/lastcats', 'LastCategoryController@show')->name('lastcats');
+
+
+
+Route::get('/buying-request', 'BuyingRequestController@create')->name('BuyingRequest');
 Route::post('/buying-request', 'BuyingRequestController@store')->name('BuyingRequest'); // stores all buying request data
 //selling reuests
 Route::get('/selling-request', 'SellingRequestsController@create')->name('SellingRequest'); //returns a Selling requests view
@@ -68,9 +72,8 @@ Route::get('/all-buying-requests', 'BuyingRequestController@allBuyingView')->nam
 Route::get('/suppliers', 'SupplierController@showAll')->name('suppliers');
 
 //Route::get('/suppliers/{industry}', 'SupplierController@findByIndustry')->name('sortByIndustry');//
-Route::get('/singleBuyingRequest', 'BuyingRequestController@allBuyingSingleView')->name('singleBuyingRequest')->middleware('auth'); //returns a single buying requests before making an offer
-
-Route::get('/singleSellingRequest', 'SellingRequestsController@allSellingSingleView')->name('singleSellingRequest')->middleware('auth'); //returns a single buying requests before making an offer
+Route::post('/singleBuyingRequest', 'BuyingRequestController@allBuyingSingleView')->name('singleBuyingRequest')->middleware('auth'); //returns a single buying requests before making an offer
+Route::post('/singleSellingRequest', 'SellingRequestsController@allSellingSingleView')->name('singleSellingRequest')->middleware('auth'); //returns a single buying requests before making an offer
 Route::post('/messages/{msg_to_id}', 'MessageController@store')->name('messages'); // stores all buying request data
 Route::get('/supplier/{supplier_id}', 'SupplierController@show')->name('supplier');
 Route::get('/contact-supplier/product/{product_id}/supplier/{supplier_id}', 'SupplierController@create')->name('contactSupplier')->middleware('auth');
@@ -106,7 +109,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::post('/business-card', 'ProfileController@storeCardDetails')->name('storeCardDetails'); //
     Route::get('/add-new-product', 'ProductController@create')->name('add-new-product');
     Route::post('/add-new-product', 'ProductController@store')->name('addingNewProduct');
-    Route::get('/product-analytics/{product_id}', 'ProductController@productAnalytics')->name('productAnalytics');
+    // Route::get('/product-analytics/{product_id}', 'ProductController@productAnalytics')->name('productAnalytics');
     Route::post('/showSpecList', 'SpecificationController@showSpecList');
     Route::get('/manage-products', 'ManageProductController@create')->name('manageProduct');
     Route::post('/deleteSingleProduct', 'ManageProductController@destroy')->name('deleteSingleProduct');
@@ -115,7 +118,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::post('/product/updateSpecs', 'ProductController@updateSpecs')->name('updateSpecs');
     Route::post('/product/deleteSpecs', 'ProductController@deleteSpecs')->name('deleteSpecs');
     Route::post('/product/updateSpecOption', 'ProductController@updateSpecOption')->name('updateSpecOption');
-    Route::get('/product/showSpec', 'ProductController@showSpec')->name('showSpec');
+    Route::post('/product/showSpec', 'ProductController@showSpec')->name('showSpec');
     Route::post('/product/addSpec', 'ProductController@addSpec')->name('addSpec');
     Route::post('/product/addSpecsParams', 'ProductController@addSpec')->name('addSpec');
     Route::patch('/product/{product_id}', 'ProductController@update')->name('productUpdate');
@@ -199,7 +202,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::get('/add-specification', 'SpecificationController@create')->name('add-specification'); //
     Route::post('/add-specification', 'SpecificationController@store')->name('add-specification'); //
     Route::get('/spec-view', 'SpecificationController@viewSpec');
-    Route::get('/showSpec', 'SpecificationController@showSpec');
+    Route::post('/showSpec', 'SpecificationController@showSpec');
     Route::post('/specUpdate', 'SpecificationController@specUpdate');
     Route::post('/deleteSingleSpec', 'SpecificationController@deleteSingleSpec');
     Route::post('/destroyMultipleSpecs', 'SpecificationController@destroyMultipleSpecs');

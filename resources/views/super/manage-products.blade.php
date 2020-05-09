@@ -3,7 +3,7 @@
 
 @section('content')
 <script>
-
+ "use scrict"
 function showId(id){
     $.ajax({
           type: "POST",
@@ -13,8 +13,6 @@ function showId(id){
           success: function (data) {
           console.log(data);
 
-
-        //      console.log(data);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -122,6 +120,7 @@ function deleteProduct(id){
         }
 
 function showProduct(id){
+    console.log(id);
         var imagesArray = [];
   $.ajax({
           type: "GET",
@@ -129,16 +128,16 @@ function showProduct(id){
           data:{id:id},
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
-            //  console.log('Sucess', data)
+              console.log('Sucess', data)
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].pd_id;
-             $pd_name = data[i].pd_name;
-             $pd_keyword = data[i].pd_keyword;
-             $pd_listing_description = data[i].pd_listing_description;
-             $pd_min_order_qty = data[i].pd_min_order_qty;
-             $minOrderUnit = data[i].minOrderUnit;
-             $min_price = data[i].min_price;
-             $max_price = data[i].max_price;
+             var id = data[i].pd_id;
+             var pd_name = data[i].pd_name;
+             var pd_keyword = data[i].pd_keyword;
+             var pd_listing_description = data[i].pd_listing_description;
+             var pd_min_order_qty = data[i].pd_min_order_qty;
+             var minOrderUnit = data[i].minOrderUnit;
+             var min_price = data[i].min_price;
+             var max_price = data[i].max_price;
 
              imagesArray.push(data[i].pd_filename);
 
@@ -150,14 +149,14 @@ function showProduct(id){
                // console.log(imagesArray[x]);
                 html +='<img src="/storage/'+imagesArray[x]+'" width="250px" height="400px">'
              }
-            $("#modal-title").text($id);
-            $("#pd_name").text($pd_name);
-            $("#pd_keyword").text($pd_keyword);
-            $("#pd_listing_description").text($pd_listing_description);
-            $("#pd_min_order_qty").text($pd_min_order_qty);
-            $("#minOrderUnit").text($minOrderUnit);
-            $("#min_price").text($min_price);
-            $("#max_price").text($max_price);
+            $("#modal-title").text(id);
+            $("#pd_name").text(pd_name);
+            $("#pd_keyword").text(pd_keyword);
+            $("#pd_listing_description").text(pd_listing_description);
+            $("#pd_min_order_qty").text(pd_min_order_qty);
+            $("#minOrderUnit").text(minOrderUnit);
+            $("#min_price").text(min_price);
+            $("#max_price").text(max_price);
              $("#pd_photo").html(html);
 
 
@@ -268,8 +267,10 @@ function checkedAll () {
                     <td id="{{ "status" .$product->pd_id  }}">
                         @if($product->pd_approval_status == 1 )
                         <span class="label label-success">Approved</span>
-                        @else
+                        @elseif($product->pd_approval_status == 2 )
                         <span class="label label-danger">Suspended</span>
+                        @else
+                          <span class="label label-warning">Pending</span>
                         @endif
                     </td>
                      <td >
