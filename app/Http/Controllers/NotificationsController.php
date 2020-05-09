@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use DB;
 
 class NotificationsController extends Controller
 {
     public function create()
     {
 
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->latest('id', 'asc')->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Session;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 class MyFavoriteController extends Controller
 {
     public function create()
     {
         $favorites = \App\my_favorite::where('mf_u_id', Auth()->user()->id)->get();
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);

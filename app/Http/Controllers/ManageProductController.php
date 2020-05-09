@@ -19,7 +19,7 @@ class ManageProductController extends Controller
         $products = \App\Product::where('pd_u_id', Auth::user()->id)->get();
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
         $count = count($userMessages);

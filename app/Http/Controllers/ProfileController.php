@@ -10,6 +10,7 @@ use App\Rules\PhotoEditEqualToThree;
 use App\Rules\PhotoEditMaxUpload;
 use App\Rules\PhotoMaxUpload;
 use Validator;
+use DB;
 
 class ProfileController extends Controller
 {
@@ -21,7 +22,7 @@ class ProfileController extends Controller
         $ExportCapability = \App\ExportCapability::where('user_id', Auth::user()->id)->get();
         $CompanyCertificate = \App\CompanyCertificate::where('user_id', Auth::user()->id)->get();
         $countExportCapability = count($ExportCapability);
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
@@ -70,7 +71,7 @@ class ProfileController extends Controller
 
         $user_details = \App\User::where('name', $user)->get();
         $company_images = \App\CompanyImages::where('user_id', Auth::user()->id)->get();
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);

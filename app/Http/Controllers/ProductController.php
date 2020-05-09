@@ -30,7 +30,7 @@ class ProductController extends Controller
         $countBuyingRequest = count($buyingRequests);
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
@@ -224,7 +224,7 @@ class ProductController extends Controller
         $spec_option = \App\SpecOption::where('product_id', $decoded_product_id)->get();
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);

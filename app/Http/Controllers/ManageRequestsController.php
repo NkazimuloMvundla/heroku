@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Response;
 use Illuminate\Support\Facades\DB;
 use Session;
+use DB;
 
 class ManageRequestsController extends Controller
 {
@@ -15,7 +16,7 @@ class ManageRequestsController extends Controller
         $user = Auth::user()->id;
 
         $buyingRequests = \App\BuyingRequest::where('br_u_id', $user)->get();
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
@@ -30,7 +31,7 @@ class ManageRequestsController extends Controller
     {
         $user = Auth::user()->id;
         $sellingRequests = \App\SellingRequests::where('sr_u_id', $user)->get();
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);

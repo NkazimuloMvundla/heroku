@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use DB;
 
 class InboxController extends Controller
 {
@@ -23,7 +24,7 @@ class InboxController extends Controller
 
         $users = \App\User::all();
         $user_details = \App\User::where('id', Auth::user()->id)->get();
-        $notifications = \App\Notifications::where('user_id', Auth::user()->id)->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);
         Session::put('count_notifications', $countNotifications);
