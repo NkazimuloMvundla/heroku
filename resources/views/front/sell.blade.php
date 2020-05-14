@@ -94,7 +94,7 @@ div.fees{
 
 }
  </style>
-<div class="w3-container">
+<div class="container">
 <div class="col-md-12">
 <div class="row">
 <div class="row-1">
@@ -110,7 +110,7 @@ div.fees{
 	@endif
 </div>
 </div>
-<div class="col-md-4 w3-hide-small w3-hide-medium">
+<div class="col-md-4 hidden-sm hidden-xs hidden-md">
 <h2 class="sell" data-img>Connect with a global audince to scale your business.</h2>
 </div>
 </div>

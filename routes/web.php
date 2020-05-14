@@ -87,6 +87,8 @@ Route::get('/product/{pd_id}/reviews', 'ReviewController@showReviews')->name('sh
 Route::get('/categories', 'ProductCategoryController@showCategories')->name('categories'); //returns a single buying requests before making an offer
 Route::get('/services', 'ServicesController@create')->name('services');
 
+Route::get('/filter-by-price', 'SearchController@filterByPrice')->name('filterByPrice');
+Route::post('/filter-by-price', 'SearchController@filterByPrice')->name('filterByPrice');
 
 
 Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
@@ -162,6 +164,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/deleteAdminNotification', 'SuperIndexController@destroy')->name('deleteAdminNotification');
     Route::post('/deleteAllAdminNotification', 'SuperIndexController@destroyAll')->name('deleteAllAdminNotification');
     Route::get('/manage-users', 'ManageUserController@create')->name('manage-users');
+    Route::get('/feature-a-supplier', 'ManageUserController@featureSupplier')->name('featureSupplier');
     Route::get('/manage-reviews', 'ReviewController@create')->name('manage-reviews');
     Route::post('/approve-review', 'ReviewController@approve')->name('approveReview');
     Route::post('/suspend-review', 'ReviewController@suspend')->name('suspendReview');
@@ -169,6 +172,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/limit', 'ManageUserController@show')->name('limit');
     Route::post('/destroyMultipleUsers', 'ManageUserController@destroyMultipleUsers')->name('deleteMultipleUser');
     Route::post('/takeaction-user', 'ManageUserController@takeAction')->name('takeactionUser');
+    Route::post('/feature-user', 'ManageUserController@FeatureUser')->name('FeatureUser');
     Route::get('/showUser', 'ManageUserController@showUser')->name('showUser'); //returns a single buying requests before making an offer
 
     Route::get('/cms-add', 'CMSController@create')->name('cmsAdd'); //
@@ -218,7 +222,6 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::get('/feature-products', 'ManageProductController@feature_a_product')->name("product_feature");
     Route::post('/feature-product', 'ManageProductController@featured_product')->name('featured-product');
     Route::post('/takeaction-product', 'ManageProductController@takeaction')->name('approve-product');
-
     Route::post('/deleteSingleProduct', 'ManageProductController@deleteSingleProduct');
     Route::post('/destroyMultipleproducts', 'ManageProductController@destroyMultipleproducts');
     Route::get('/showProduct', 'ManageProductController@showProduct')->name('showProduct'); //returns a single buying requests before making an offer
@@ -228,7 +231,6 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/destroyMultiplerequests', 'ManageRequestsController@destroyMultiplerequests');
     Route::get('/showrequest', 'ManageRequestsController@showRequest')->name('showRequest'); //returns a single buying requests before making an offer
     Route::get('/showRequestUser', 'ManageRequestsController@showUser')->name('showUser');
-
     //selling request
     Route::get('/manage-selling-request', 'ManageRequestsController@SellingRequestsView');
     Route::post('/takeaction-selling-requests', 'ManageRequestsController@takeActionSellingRequests')->name('takeActionSellingrequest');
@@ -236,7 +238,6 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/destroyMultipleSellingrequests', 'ManageRequestsController@destroyMultipleSellingrequests');
     Route::get('/showSellingRequest', 'ManageRequestsController@showSellingRequest')->name('showSellingrequest');
     Route::get('/showSellingRequestUser', 'ManageRequestsController@showSellingRequestUser')->name('showSellingRequestUser');
-
     Route::get('/add-banner', 'BannerController@create')->name('addBanner'); //returns a single buying requests before making an offer
     Route::post('/add-banner', 'BannerController@store')->name('storeBanner'); //returns a single buying requests before making an offer
     Route::get('/view-banner', 'BannerController@show')->name('viewBanners'); //
@@ -252,7 +253,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/deleteSinglefaq', 'FaqController@deleteSinglefaq');
     Route::post('/destroyMultipleFaq', 'FaqController@destroyMultipleFaq');
     Route::get('/add-faq-content', 'FaqController@addFaqContent')->name('faq-add'); //
-    Route::post('/add-faq-content', 'FaqController@storeFaqContent')->name('faq-addContent'); //
+    Route::post('/add-faq-content', 'FaqController@storeFaqContent')->name('faq-addContent');
     Route::get('/faq/{faq_name}/edit', 'FaqController@edit')->name('faqContentEdit');
     Route::post('/faq-contentUpdate', 'FaqController@faqContentUpdate')->name('faq-ContentUpdate'); //
     Route::get('/add-country', 'CountryController@create')->name('country-add'); //

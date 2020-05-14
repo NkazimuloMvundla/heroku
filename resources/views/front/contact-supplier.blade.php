@@ -108,47 +108,7 @@
 
 </div>
 </div>
-<script>
-$(document).ready(function() {
-    $( "#contactSupplierStore").validate({
-        rules: {
-            subject: "required",
-            message: "required",
-            price: {
-                required: true,
-                number: true
-            },
-            quantityUnit: {
-                required: true,
-            },
-            quantity: {
-                required: true,
-                number: true
-            }
-        },
-        messages: {
-            subject: "This filed is required",
-            message: "This filed is required",
-            price: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
-            },
-            quantityUnit: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
-            },
-            quantity: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
-            }
-        }
-    });
 
-
-});
-
-
-</script>
 </div>
 
 

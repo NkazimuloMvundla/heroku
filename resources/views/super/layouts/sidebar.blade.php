@@ -14,6 +14,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/super/manage-users">Manage users</a></li>
+            <li><a href="/super/feature-a-supplier">Feature Supplier</a></li>
           </ul>
         </li>
         <li class="treeview">

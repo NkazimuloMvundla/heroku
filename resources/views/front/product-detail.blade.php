@@ -5,61 +5,6 @@
 .breadcrumb{background: #FFF;}
 </style>
 
-<script type="text/javascript">
-
-function sendReview(id){
-    //alert("sidd");
-    if($('#u_id').val() != ''){
-    var product_id=id;
-    var name=$("#apr_name").val();
-    var comment=$("#comment").val();
-    var rating=$("input[name='rating']:checked").val();
-    $('.alert-danger').hide();
-    $('.alert-danger').html('');
-    if(name.trim()==""){
-        alert("Your Name is Required !!!");
-        $("#apr_name").focus();
-        return false;
-    }
-
-    if(comment.trim()==""){
-        alert("Your comment is required !!!");
-        $("#comment").focus();
-        return false;
-    }
-    if (!rating) {
-        alert("Please give your rating.....");
-        return false;
-    }else {
-      $.ajax({
-        type: "POST",
-        url: "/reviews",
-        data:{name:name,rating:rating,comment:comment,product_id:product_id},
-          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        success: function (data) {
-        alert('Your review has been posted successfully');
-         window.location="/product-details/{{ $product->first()->pd_id }} " ;
-
-
-        },
-        error: function (request , status , error) {
-        json = $.parseJSON(request.responseText);
-        $.each(json.errors, function(key,value){
-          $('.alert-danger').show();
-          $('.alert-danger').append('<p>' + value + '</p>');
-        });
-        $('#result').html('');
-        }
-    });
-    }
-
-    }else{
-        window.location="/login";
-    }
-}
-
-
-</script>
  <script>
     $(document).ready(function() {
        $("#content-slider").lightSlider({
@@ -103,7 +48,7 @@ function sendReview(id){
     }
 </style>
     <div class="container">
-        <div class="w3-hide-small w3-hide-meduim">
+        <div class="hidden-xs hidden-sm hidden-meduim">
           <ul class="breadcrumb">
               <li><a href="/">Home</a></li>
 
@@ -174,12 +119,12 @@ function sendReview(id){
                     <span style="font-size: 14px"><b></b></span>
                     </span>
                 </div>
-                <div class="w3-margin-top w3-hide-small w3-hide-medium">
+                <div class="w3-margin-top hidden-xs hidden-sm hidden-md">
                   <span class="product-description">
                   <span style="font-size: 16px">Supplier Ability</span>: {{ $product->first()->capacity  }}  {{ $product->first()->pd_supply_ability }} <b>:</b> <b>PER</b> {{ $product->first()->supplyPeriod }}<b>
                   <span style="font-size: 14px"></span></b></span>
                 </div>
-                <div class="w3-margin-top w3-hide-small w3-hide-medium">
+                <div class="w3-margin-top hidden-xs hidden-sm hidden-md">
                     <span class="product-description">
                     <span style="font-size: 16px">Payment Terms:</span>
                     </span>
@@ -204,7 +149,7 @@ function sendReview(id){
             </div>
             <div class="row">
                     <span id="social-conn">
-                    <p class="social social-colour  w3-margin-left w3-hide-small w3-hide-medium" style="margin-top:25px;">
+                    <p class="social social-colour  w3-margin-left hidden-xs hidden-sm hidden-md" style="margin-top:25px;">
                     <span style="font-size: 10pt">Share  </span>
                     <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fb2c.itechscripts.com%2Fproduct.php%3Fp%3D3c59dc048e8850243be8079a5c74d079" class="facebook">
                     <i class="socicon-facebook"></i><span class="sr-only">Share on Facebook</span>
@@ -220,7 +165,7 @@ function sendReview(id){
             </div>
         </div>
 
-        <div class="w3-hide-small w3-hide-medium row-1 w3-padding col-md-2">
+        <div class="hidden-xs hidden-sm hidden-md row-1 w3-padding col-md-2">
             <div class="w3-margin-top">
                 <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
                 <a href="/supplier/{{ $encoded_user_id}}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
@@ -239,7 +184,7 @@ function sendReview(id){
     </div>
     <!--end of first row-->
   </div>
-        <div class="w3-bottom w3-hide-large" style="display:none;">
+        <div class="w3-bottom hidden-lg" style="display:none;">
             <div class="w3-bar w3-center w3-white w3-card-4 w3-padding">
             <span class="btn btn-primary"><span> Contacts Now <i class="fa fa-envelope"> </i></span></span>
             </div>
@@ -288,7 +233,7 @@ function sendReview(id){
                             </div>
                       </div>
 
-                      <div class="text-primary w3-center w3-hide-large" style="decoration:underline; display:none;">
+                      <div class="text-primary w3-center hidden-lg" style="decoration:underline; display:none;">
                             <span data-toggle="modal" data-target="#modal-default"  class="w3-margin-top btn btn-success btn-sm" >More details</span>
                             <!--Moda-->
                             <div class="modal fade" id="modal-default" style="display: none;">
@@ -570,7 +515,7 @@ function sendReview(id){
                     </p>
                         <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $collection->min_price }}-{{ $collection->max_price }}</span></p>
                         <p class="item-price"><span>MOQ:{{ $collection->pd_min_order_qty  }}  {{ $collection->minOrderUnit }}</span></p>
-                      <div class="star-rating w3-hide">
+                      <div class="star-rating hidden">
                           <ul class="list-inline">
                               <li class="list-inline-item"><i class="fa fa-star"></i></li>
                               <li class="list-inline-item"><i class="fa fa-star"></i></li>

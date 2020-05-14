@@ -1,5 +1,5 @@
 @extends('super.layouts.super')
-@section('title' , 'Manage users')
+@section('title' , 'Feature a supplier')
 
 @section('content')
 <script>
@@ -13,7 +13,7 @@ function showId(id){
           success: function (data) {
           console.log(data);
 
-
+ 
         //      console.log(data);
           },
           error: function (data) {
@@ -47,18 +47,18 @@ function takeAction(id, u_id){
 
    $.ajax({
           type: "POST",
-            url: "/super/takeaction-user",
+          url: "/super/feature-user",
           data:{id:id, u_id:u_id},
           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
 
          for(var i = 0; i<data.length;i++){
-            if(data[i].status == 1){
-            $("#status" + u_id).text("Approved").css({"background-color":"#00a65a", "color":"white"});
+            if(data[i].featured == 1){
+            $("#status" + u_id).text("Featured").css({"background-color":"#00a65a", "color":"white"});
 
             }
-            if(data[i].status == 2){
-            $("#status" + u_id).text("Suspended").css({"background-color":"#dd4b39 ", "color":"white"});
+            if(data[i].featured == 2){
+            $("#status" + u_id).text("Unfeatured").css({"background-color":"#dd4b39 ", "color":"white"});
 
             }
          }
@@ -184,7 +184,7 @@ function checkedAll () {
 
       </section>
 
-      <!-- Main content -->
+      <!-- Main content --> 
       <section class="content container-fluid">
         <div class="col-md-12">
 
@@ -266,11 +266,11 @@ function checkedAll () {
                       </td>
 
                       <td> {{ $user->created_at }}</td>
-                   <td id="{{ "status" .$user->id  }}">
-                        @if($user->status == 1 )
-                        <span class="label label-success">Approved</span>
-                        @elseif($user->status == 2)
-                        <span class="label label-danger">Suspended</span>
+                     <td id="{{ "status" .$user->id  }}">
+                        @if($user->featured == 1 )
+                        <span class="label label-success">Featured</span>
+                        @elseif($user->featured == 2)
+                        <span class="label label-danger">Unfeatured</span>
                         @else
                         <span class="label label-warning">Pending</span>
                         @endif
@@ -278,8 +278,8 @@ function checkedAll () {
                      <td>
                     <select id="productAction" onchange="takeAction(this.value, {{ $user->id }})">
                         <option selected disabled>Select</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Suspend</option>
+                        <option value="1">feature</option>
+                        <option value="2">Unfeature</option>
                     </select>
                      </td>
 

@@ -377,6 +377,22 @@ ul.list-unstyled > li > a > .ion {
 #footer a:hover {
     color: #ff8e0a;
 }
+.footer-bottom-inner {
+    background-color: #445268;
+}
+
+span.copyright {
+    background: white;
+    padding: 10px;
+}
+
+.inner-footer-content {
+    margin-top: -12px;
+}
+
+.page-footer {
+    padding: 20px;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {

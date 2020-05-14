@@ -50,7 +50,7 @@
                     <div class="form-group">
                       <label>Message</label>
 
-                        <textarea name="message" id="compose-textarea" class="form-control" placeholder="Type your message here.."></textarea>
+                        <textarea name="message"  class="form-control" placeholder="Type your message here.."></textarea>
 
                     </div>
 					 <div class="modal-footer">

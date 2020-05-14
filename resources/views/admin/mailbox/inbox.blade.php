@@ -149,43 +149,6 @@
   </section>
 
 </div>
-<script>
-    function showBuyerDetails(id) {
-   $.ajax({
-        type: "GET",
-        url: "{{ route('showBuyerDetails') }}",
-        data: { id: id },
-        success: function(data) {
-            for (var i = 0; i < data.length; i++) {
-                var id = data[i].id;
-                var company_name = data[i].company_name;
-                var lastname = data[i].lastname;
-                var name = data[i].name;
-                var about_us = data[i].about_us;
-                var zip_code = data[i].zip_code;
-                var country = data[i].country;
-
-            }
-            $("#company_name").text(company_name);
-            $("#lastname").text(lastname);
-            $("#name").text(name);
-
-            $("#zip_code").text(zip_code);
-            $("#country").text(country);
-            if(about_us == "" || about_us == null){
-             $("#about_us").text("Not provided yet!");
-            }else{
-             $("#about_us").text(about_us);
-            }
-
-
-        },
-        error: function(data) {
-            console.log("Error", data);
-        }
-    });
-   }
-</script>
 
 
 @endsection

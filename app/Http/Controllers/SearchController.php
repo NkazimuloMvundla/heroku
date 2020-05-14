@@ -10,22 +10,30 @@ use Session;
 
 class SearchController extends Controller
 {
-    public function index()
-    {
-        return view('front.Index');
-    }
+
     public function livesearch(Request $request)
     {
         $term = $request->get('query');
+        request()->validate([
+
+            'query' => ['nullable', 'string', 'max:255'],
+
+        ]);
         $count = DB::table('products')->where("pd_name", "LIKE", "%$term%")->orderBy('pd_name')->get();
         $res = count($count);
         if (!empty($term) && $res > 0) {
             $data = DB::table('products')->where("pd_name", "LIKE", "%$term%")->where('pd_approval_status', 1)->get();
 
-            $output = '<ul class="dropdown-menu" id="liveSearch" style="display:block;position:obsolute">';
-            foreach ($data as $row) {
+            $searched_products = [];
+            foreach ($data as $row1) {
+                array_push($searched_products, $row1->pd_name);
+                $uniqueProducts = array_unique($searched_products);
+            }
 
-                $output .= '<li id="pd_search"><a href="/search/' . htmlspecialchars($row->pd_name) . '">' . htmlspecialchars($row->pd_name) . '</a></li>';
+            $output = '<ul class="dropdown-menu" id="liveSearch" style="display:block;position:obsolute">';
+            foreach ($uniqueProducts as $row) {
+
+                $output .= '<li id="pd_search"><a href="/search/' . htmlspecialchars($row) . '">' . htmlspecialchars($row) . '</a></li>';
             }
             $output .= '</ul>';
 
@@ -43,310 +51,176 @@ class SearchController extends Controller
 		*/
     }
 
-    /*public function AjaxSearch()
+
+    public function search($pd_name)
     {
+        if (request()->pd_name != "") {
+            Session::put("pd_name", $pd_name);
+            request()->validate([
 
-        if (request()->ajax()) {
+                'pd_name' => ['nullable', 'string', 'max:255'],
 
-            $data = request()->validate([
-                'query' => ['string', 'max:255'],
             ]);
-            $query  = $data['query'];
-            $products = DB::table('products')->where("pd_name", "LIKE", "%$query%")->where('pd_approval_status', 1)->get();
-            var_dump($products);
-            //   dd($products);
+        }
+        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
+        $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->paginate(50);
+
+        $Productcount = count($Countproducts);
+        $pCats = \App\productCategory::all();
+        $subCats = \App\SubCategory::all();
+        $lastCats = \App\lastCategory::all();
+        $pd_images = \App\Photo::all();
+        $buyingRequests = \App\BuyingRequest::all();
+        $countBuyingRequest = count($buyingRequests);
+        $related_cats = DB::table('products')
+            ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->get();
+        $count_related_cats  =  count($related_cats);
+        if (Auth::check()) {
+            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+            $count = count($userMessages);
+
+            return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'subCats', 'related_cats', 'count_related_cats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+        } else {
+
+            return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'related_cats', 'count_related_cats', 'subCats', 'lastCats', 'products', 'pd_images'));
+        }
+    }
+
+    public function formsearch()
+    {
+        if (request()->search != "") {
+            Session::put("pd_name", request()->search);
+            $pd_name = request()->search;
+            request()->validate([
+
+                'pd_name' => ['nullable', 'string', 'max:255'],
+
+            ]);
+
+            $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->get();
+            $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(50);
+            // dd($Countproducts);
+
+            $Productcount = count($Countproducts);
             $pCats = \App\productCategory::all();
             $subCats = \App\SubCategory::all();
             $lastCats = \App\lastCategory::all();
             $pd_images = \App\Photo::all();
             $buyingRequests = \App\BuyingRequest::all();
             $countBuyingRequest = count($buyingRequests);
+
+            $related_cats = DB::table('products')
+                ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->get();
+            $count_related_cats  =  count($related_cats);
+            //  dd($count_related_cats);
+
             if (Auth::check()) {
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
-                return view('front.search',  compact('pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+
+                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
             } else {
 
-                return view('front.search',  compact('pCats', 'subCats', 'lastCats', 'products', 'pd_images'));
+                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images'));
             }
-        }
-        dd($products);
-    }
-    */
-    public function search($pd_name)
-    {
-        if(request()->pd_name != ""){
-            Session::put("pd_name", $pd_name );
-        }
-        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
-        $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->paginate(1);
+        } else if (request()->search == null && Session::get('pd_name') != null) {
+            $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->get();
+            $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(50);
 
-        foreach ($products as $key) {
-            if ($key->pd_subCategory_id == $products->first()->pd_subCategory_id) {
-                break;
-                //var_dump($key->pd_subCategory_id);
+            $Productcount = count($Countproducts);
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $pd_images = \App\Photo::all();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
+
+            $related_cats = DB::table('products')
+                ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->get();
+            $count_related_cats  =  count($related_cats);
+            if (Auth::check()) {
+                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+                $count = count($userMessages);
+
+                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+            } else {
+
+                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images'));
             }
-        }
-
-        $Productcount = count($Countproducts);
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $pd_images = \App\Photo::all();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
-        if (Auth::check()) {
-            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-            $count = count($userMessages);
-
-            //return related sub_categories for the searched term
-            //$lastCat = \App\lastCategory::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-
-            return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
         } else {
-
-            return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images'));
-        }
-    }
-
-    public function formsearch()
-    {
-        if(request()->search != ""){
-            Session::put("pd_name", request()->search );
-             $pd_name = request()->search;
-
-        $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name'). "%")->where('pd_approval_status', 1)->get();
-        $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(1);
-
-        $Productcount = count($Countproducts);
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $pd_images = \App\Photo::all();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
-        if (Auth::check()) {
-            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-            $count = count($userMessages);
-
-            //return related sub_categories for the searched term
-            //$lastCat = \App\lastCategory::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-
-            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
-        } else {
-
-            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products' ,'pd_images'));
-        }
-        }else if(request()->search == null && Session::get('pd_name') != null){
-               $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name'). "%")->where('pd_approval_status', 1)->get();
-        $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(1);
-
-        $Productcount = count($Countproducts);
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $pd_images = \App\Photo::all();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
-        if (Auth::check()) {
-            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-            $count = count($userMessages);
-
-            //return related sub_categories for the searched term
-            //$lastCat = \App\lastCategory::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-
-            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
-        } else {
-
-            return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'products' ,'pd_images'));
-        }
-        }else{
             return redirect()->to('/');
         }
-       
-    }
-
-    // Admin email search
-
-    public function AdminEmailSearch(Request $request)
-    {
-        if ($request->ajax() && $request->get('query') != '') {
-            $output = '';
-            $search = request()->validate([
-                'query' => ['string', 'max:255'],
-            ]);
-
-            $query = $search['query'];
-
-            $data = DB::table('messages')
-                ->where('msg_subject', 'like', '%' . $query . '%')->where('msg_to_id', Auth::user()->id)
-                //    ->orWhere(['msg_body', 'like', '%'.$query.'%' , 'id' => Auth::user()->id])
-                ->orderBy('id', 'desc')
-                ->get();
-
-            $total_row = $data->count();
-            if ($total_row > 0) {
-                $output .= '
-       <div>
-       <thead>
-       <tr>
-       <th>From : </th>
-       <th>Subject : </th>
-       <th>Date : </th>
-       </tr>
-       </thead>
-       </div>
-
-       ';
-
-
-                foreach ($data as $row) {
-                    $user = \App\User::where('id', $row->msg_from_id)->get();
-
-                    $output .= '
-
-        <tr class="success">
-
-         <td style="padding:9px;">' . htmlspecialchars($user->first()->company_name) . '</td>
-         <td style="padding:9px;"><a href="/admin/mailbox/inbox/read/' . htmlspecialchars($row->id) . '" onclick="updateStatus(' . htmlspecialchars($row->id) . ');">' . htmlspecialchars($row->msg_subject) . '</a></td>
-         <td style="padding:9px;">' . htmlspecialchars($row->created_at) . '</td>
-        </tr>
-        ';
-                }
-            } else {
-                $output = '
-       <tr>
-        <td align="center" colspan="5">No Data Found</td>
-       </tr>
-       ';
-            }
-            $data = array(
-                'table_data'  => $output,
-                'total_data'  => $total_row
-            );
-
-            echo json_encode($data);
-        }
     }
 
 
-    public function AdminAllEmailSearch(Request $request)
+    //filter by price
+    public function filterByPrice()
     {
-        if ($request->ajax() && $request->get('query') != '') {
-            $output = '';
-            $search = request()->validate([
-                'query' => ['string', 'max:255'],
+        //cehck if it empty
+
+        if (request('max_price') != null && request('min_price') != null) {
+            request()->validate([
+                'min_price' => ['numeric'],
+                'max_price' => ['numeric'],
             ]);
 
-            $query = $search['query'];
+            Session::put("min_price", request()->min_price);
+            Session::put("max_price", request()->max_price);
 
-            $data = DB::table('messages')
-                ->where('msg_subject', 'like', '%' . $query . '%')->where('msg_to_id', Auth::user()->id)->where('msg_read', 1)
-                //    ->orWhere(['msg_body', 'like', '%'.$query.'%' , 'id' => Auth::user()->id])
-                ->orderBy('id', 'desc')
-                ->get();
-
-            $total_row = $data->count();
-            if ($total_row > 0) {
-                $output .= '
-       <div>
-       <thead>
-       <tr>
-       <th>From : </th>
-       <th>Subject : </th>
-       <th>Date : </th>
-       </tr>
-       </thead>
-       </div>
-
-       ';
+            $Countproducts = DB::table('products')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->where('pd_approval_status', 1)->get();
+            $products = DB::table('products')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->where('pd_approval_status', 1)->paginate(50);
 
 
-                foreach ($data as $row) {
-                    $user = \App\User::where('id', $row->msg_from_id)->get();
+            $Productcount = count($Countproducts);
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $pd_images = \App\Photo::all();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
 
-                    $output .= '
 
-        <tr class="success">
+            $related_cats = DB::table('products')
+                ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->get();
+            $count_related_cats  =  count($related_cats);
 
-         <td style="padding:9px;">' . htmlspecialchars($user->first()->company_name) . '</td>
-         <td style="padding:9px;"><a href="/admin/mailbox/inbox/read/' . htmlspecialchars($row->id) . '" onclick="updateStatus(' . htmlspecialchars($row->id) . ');">' . htmlspecialchars($row->msg_subject) . '</a></td>
-         <td style="padding:9px;">' . htmlspecialchars($row->created_at) . '</td>
-        </tr>
-        ';
-                }
+
+            if (Auth::check()) {
+                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+                $count = count($userMessages);
+
+
+                return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
             } else {
-                $output = '
-       <tr>
-        <td align="center" colspan="5">No Data Found</td>
-       </tr>
-       ';
+
+                return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images'));
             }
-            $data = array(
-                'table_data'  => $output,
-                'total_data'  => $total_row
-            );
+        } else if ((Session::get("min_price") != null && request('min_price') == null) && (Session::get("max_price") != null && request('max_price') == null)) {
+            $Countproducts = DB::table('products')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->where('pd_approval_status', 1)->get();
+            $products = DB::table('products')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->where('pd_approval_status', 1)->paginate(50);
 
-            echo json_encode($data);
-        }
-    }
+            $Productcount = count($Countproducts);
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $pd_images = \App\Photo::all();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
+            $related_cats = DB::table('products')
+                ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->get();
+            $count_related_cats  =  count($related_cats);
 
 
-    public  function AdminSentEmailSearch(Request $request)
-    {
-        if ($request->ajax() && $request->get('query') != '') {
-            $output = '';
-            $search = request()->validate([
-                'query' => ['string', 'max:255'],
-            ]);
-
-            $query = $search['query'];
-
-            $data = DB::table('messages')
-                ->where('msg_subject', 'like', '%' . $query . '%')->where('msg_from_id', Auth::user()->id)
-                //    ->orWhere(['msg_body', 'like', '%'.$query.'%' , 'id' => Auth::user()->id])
-                ->orderBy('id', 'desc')
-                ->get();
-
-            $total_row = $data->count();
-            if ($total_row > 0) {
-                $output .= '
-        <div >
-        <thead>
-        <tr>
-        <th>To : </th>
-        <th>Subject : </th>
-        <th>Date : </th>
-        </tr>
-        </thead>
-        </div> ';
-
-                foreach ($data as $row) {
-                    $user = \App\User::where('id', $row->msg_to_id)->get();
-
-                    $output .= '
-
-        <tr class="success">
-
-         <td style="padding:9px;">' . htmlspecialchars($user->first()->company_name) . '</td>
-         <td style="padding:9px;"><a href="/admin/mailbox/inbox/read/' . htmlspecialchars($row->id) . '">' . htmlspecialchars($row->msg_subject) . '</a></td>
-         <td style="padding:9px;">' . htmlspecialchars($row->created_at) . '</td>
-        </tr>
-        ';
-                }
+            if (Auth::check()) {
+                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+                $count = count($userMessages);
+                return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
             } else {
-                $output = '
-       <tr>
-        <td align="center" colspan="5">No Data Found</td>
-       </tr>
-       ';
-            }
-            $data = array(
-                'table_data'  => $output,
-                'total_data'  => $total_row
-            );
 
-            echo json_encode($data);
+                return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images'));
+            }
+        } else {
+            return redirect()->back();
         }
     }
 }

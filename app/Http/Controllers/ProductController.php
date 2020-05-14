@@ -398,8 +398,6 @@ class ProductController extends Controller
                 ]);
                 $product = \App\Product::where('pd_id', $validate['id'])->get();
 
-
-
                 $specParr = explode(',', $validate['specP']); //thres 2 here ['Judge', 'steve']
                 $specCarr = explode(',', $validate['specC']); //thres 1 here ['judge']
 

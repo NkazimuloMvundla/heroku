@@ -19,8 +19,9 @@ class IndexController extends Controller
         $featured_images = \App\Photo::all();
         $pd_images = \App\Photo::all();
         $buyingRequests = \App\BuyingRequest::all();
+        $measurementUnits = \App\MeasurementUnit::all();
         $find_by_category = DB::table('sub_categories')->whereIn('pc_name', array('Fruit & Veg', 'Bags', 'Home & Appliances', 'Health & Beauty', 'Shoes', 'Cell Phones & Accessories', 'Baby Food', 'Dairy Products', 'Baked Goods', 'Safety Product', 'Construction steel', 'Textile', 'Apparels'))->get();
-        $featured_suppliers = \App\User::where('account_type', 'supplier')->take(4)->get();
+        $featured_suppliers = \App\User::where('featured', 1)->take(6)->get();
         $countBuyingRequest = count($buyingRequests);
         $banners = \App\Banner::all();
 
@@ -28,9 +29,9 @@ class IndexController extends Controller
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
-            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'find_by_category', 'featured_suppliers', 'count', 'countBuyingRequest', 'banners'));
+            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'measurementUnits', 'find_by_category', 'featured_suppliers', 'count', 'countBuyingRequest', 'banners'));
         } else {
-            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'find_by_category', 'featured_suppliers', 'banners'));
+            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'measurementUnits', 'find_by_category', 'featured_suppliers', 'banners'));
         }
     }
 

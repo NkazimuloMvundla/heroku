@@ -128,7 +128,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         \App\AdminNotifications::create([
-            'message' => " New account registered by " . $data['name'] . " ",
+            'message' => " New account registered by " . $data['company_name'] . " ",
         ]);
 
         /*if (

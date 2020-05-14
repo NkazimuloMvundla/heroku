@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
         <div class="row">
-            <div class="col-md-2 w3-hide-small w3-hide-medium" id="category" style="padding:7px;margin-top:7px;border-right: 1px solid lightgreen;background: #fff;z-index: 10;height: max-content;">
+            <div class="col-md-2  hidden-xs hidden-sm hidden-md" id="category" style="padding:7px;margin-top:7px;border-right: 1px solid lightgreen;background: #fff;z-index: 10;height: max-content;">
                 <p id="related-categories">Category</p>
                 <ul >
                 @forelse($lasts as $lastCat )

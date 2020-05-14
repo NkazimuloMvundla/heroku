@@ -202,4 +202,62 @@ class ManageUserController extends Controller
             return response::json($result);
         }
     }
+
+    //feature a supplier
+
+    public function featureSupplier()
+    {
+
+        $users = DB::table('users')->paginate(50);
+        $allusers = \App\User::all();
+        $count = count($allusers);
+
+        return view('super.feature-a-supplier', compact('users', 'count'));
+    }
+
+    public function FeatureUser(Request $request)
+    {
+
+        if (request()->ajax()) {
+
+            $data = request()->validate([
+                'id' => ['numeric'],
+                'u_id' => ['numeric'],
+
+            ]);
+            $user = \App\User::where('id', $data['u_id'])->get();
+            if ($data['id'] == 1) {
+
+                \App\AdminNotifications::create([
+                    'message' => "The company " . $user->first()->company_name . " has been featured in home page ",
+                    'user_id' => $user->first()->id,
+                ]);
+
+
+                \App\Notifications::create([
+                    'message' => "Your company has been featured in home page ",
+                    'user_id' => $user->first()->id,
+                ]);
+
+                \App\User::where('id', $data['u_id'])->update(['featured' => 1]);
+                $res = \App\User::where('id', $data['u_id'])->get('featured');
+                return response($res);
+            } else {
+
+                \App\AdminNotifications::create([
+                    'message' => "The company " . $user->first()->company_name . " has been unfeatured ",
+                    'user_id' => $user->first()->id,
+                ]);
+
+                \App\Notifications::create([
+                    'message' => "Your company has been unfeatured in home page ",
+                    'user_id' => $user->first()->id,
+                ]);
+
+                \App\User::where('id', $data['u_id'])->update(['featured' => 2]);
+                $res = \App\User::where('id', $data['u_id'])->get('featured');
+                return response($res);
+            }
+        }
+    }
 }

@@ -3,7 +3,7 @@
 			<h2 id="Trend" class="featured">Trending <b>Products</b></h2>
 					<div class="row">
               @foreach($featured_products as $slideOne)
-						<div class="col-md-3 col-xs-6 col-sm-4 product-item-container">
+						<div class="col-md-2 col-xs-6 col-sm-4 product-item-container">
 							<div class="thumb-wrapper">
 								<div class="img-box">
 			 							<?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>

@@ -132,42 +132,6 @@
 </div>
 
 
-<script>
-$(document).ready(function() {
-    $( "#postBuyRequestForm").validate({
-        rules: {
-            mainCategory: "required",
-            Category: "required",
-            subCategory: "required",
-            productName: "required",
-            message: "required",
-            detailedSpecification: "required",
-            orderQuantityUnit: "required",
-            orderQuantity: {
-                required: true,
-                number: true
-            }
-        },
-        messages: {
-            mainCategory: "This field is required",
-            Category: "This field is required",
-            subCategory: "This field is required",
-            productName: "This field is required",
-            message: "This field is required",
-            detailedSpecification: "This field is required",
-            orderQuantityUnit: "This field is required",
-            orderQuantity: {
-                required: "This field is required",
-                number: "This field must be numeric",
-            }
-        }
-    });
-
-
-});
-
-
-</script>
 
 
 @endsection

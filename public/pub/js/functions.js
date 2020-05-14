@@ -359,3 +359,237 @@ $(document).ready(function() {
         }
     });
 });
+
+/*=============buy-req==================*/
+$(document).ready(function() {
+    $("#postBuyRequestForm").validate({
+        rules: {
+            mainCategory: "required",
+            Category: "required",
+            subCategory: "required",
+            productName: "required",
+            detailedSpecification: "required",
+            orderQuantityUnit: "required",
+            orderQuantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            mainCategory: "This field is required",
+            Category: "This field is required",
+            subCategory: "This field is required",
+            productName: "This field is required",
+            detailedSpecification: "This field is required",
+            orderQuantityUnit: "This field is required",
+            orderQuantity: {
+                required: "This field is required",
+                number: "This field must be numeric"
+            }
+        }
+    });
+});
+
+/*===========send-buy-message===========*/
+$(document).ready(function() {
+    $("#send_selling_message").validate({
+        rules: {
+            subject: "required",
+            message: "required",
+            comment: "required",
+            price: {
+                required: true,
+                number: true
+            },
+            quantityUnit: {
+                required: true
+            },
+            quantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            subject: "This filed is required",
+            message: "This filed is required",
+            price: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantityUnit: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantity: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            comment: "This filed is required"
+        }
+    });
+});
+
+/*============selling-req==================*/
+$(document).ready(function() {
+    $("#postBuyRequestForm").validate({
+        rules: {
+            mainCategory: "required",
+            Category: "required",
+            subCategory: "required",
+            productName: "required",
+            message: "required",
+            detailedSpecification: "required",
+            orderQuantityUnit: "required",
+            orderQuantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            mainCategory: "This field is required",
+            Category: "This field is required",
+            subCategory: "This field is required",
+            productName: "This field is required",
+            message: "This field is required",
+            detailedSpecification: "This field is required",
+            orderQuantityUnit: "This field is required",
+            orderQuantity: {
+                required: "This field is required",
+                number: "This field must be numeric"
+            }
+        }
+    });
+});
+
+/*============send-selling-message================*/
+$(document).ready(function() {
+    $("#send_selling_message").validate({
+        rules: {
+            subject: "required",
+            message: "required",
+            comment: "required",
+            price: {
+                required: true,
+                number: true
+            },
+            quantityUnit: {
+                required: true
+            },
+            quantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            subject: "This filed is required",
+            message: "This filed is required",
+            price: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantityUnit: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantity: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            comment: "This filed is required"
+        }
+    });
+});
+
+/*==================contact-supplier=======================*/
+$(document).ready(function() {
+    $("#contactSupplierStore").validate({
+        rules: {
+            subject: "required",
+            message: "required",
+            price: {
+                required: true,
+                number: true
+            },
+            quantityUnit: {
+                required: true
+            },
+            quantity: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            subject: "This filed is required",
+            message: "This filed is required",
+            price: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantityUnit: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            },
+            quantity: {
+                required: "This filed is required",
+                number: "This filed is must be a numeric value"
+            }
+        }
+    });
+});
+/*============product-detail-send-rev=================*/
+
+function sendReview(id) {
+    //alert("sidd");
+    if ($("#u_id").val() != "") {
+        var product_id = id;
+        var name = $("#apr_name").val();
+        var comment = $("#comment").val();
+        var rating = $("input[name='rating']:checked").val();
+        $(".alert-danger").hide();
+        $(".alert-danger").html("");
+        if (name.trim() == "") {
+            alert("Your Name is Required !!!");
+            $("#apr_name").focus();
+            return false;
+        }
+
+        if (comment.trim() == "") {
+            alert("Your comment is required !!!");
+            $("#comment").focus();
+            return false;
+        }
+        if (!rating) {
+            alert("Please give your rating.....");
+            return false;
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/reviews",
+                data: {
+                    name: name,
+                    rating: rating,
+                    comment: comment,
+                    product_id: product_id
+                },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    alert("Your review has been posted successfully");
+                    window.location =
+                        "/product-details/{{ $product->first()->pd_id }} ";
+                },
+                error: function(request, status, error) {
+                    json = $.parseJSON(request.responseText);
+                    $.each(json.errors, function(key, value) {
+                        $(".alert-danger").show();
+                        $(".alert-danger").append("<p>" + value + "</p>");
+                    });
+                    $("#result").html("");
+                }
+            });
+        }
+    } else {
+        window.location = "/login";
+    }
+}

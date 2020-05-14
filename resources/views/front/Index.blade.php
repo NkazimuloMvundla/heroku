@@ -1,18 +1,10 @@
 @extends('layouts.main')
 @section('content')
-    <script>
-    $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-    });
-    </script>
-<div class="page-wrapper">
+
+ <div class="page-wrapper">
 <!--mainSlider start here-->
-  <div class="mainSlider">
+  <div class="mainSlider">  
     <div class="w3-margin-top">
-      <style>
-
-      </style>
-
      <div class="w3-container">
         <div class="slider-background">
           <div class="row main-content" style="display:flex;justify-content:center;">
@@ -26,7 +18,7 @@
 
 
     <!--Mobile menu start-->
-    <div class="mobile-menu w3-hide-large" align="center">
+    <div class="mobile-menu hidden-lg" align="center">
         <div class="row row-1" style="padding: 4px ;  overflow-x: scroll;" >
           <div class="row-2 col-xs-3" style="flex-basis: 23%;">
             <a href="/categories">
@@ -80,10 +72,10 @@
     </div>
 
     <div class="w3-container">
-        <div class="row find-by-cat-row" id="find-by-cat-row" >
+     <div class="row find-by-cat-row" id="find-by-cat-row">
         <h2 class="featured">Find by <b>Category</b></h2>
-            <div class="w3-center find-by-category" >
-                <div class="supplier-col col-md-12" >
+            <div class="w3-center find-by-category">
+                <div class="supplier-col col-md-12">
                   <div class="row">
                       @foreach($find_by_category as $category)
                       <div class="row-1 col-md-2 col-xs-4">
@@ -102,18 +94,56 @@
         </div>
     </div>
 
+            <div class="w3-container">
+                <div class="row post-req-row" id="post-a-req-row">
+                <h2 class="featured">Request for <b>Quotations</b></h2>
+                    <div class="post-a-req">
+                        <div class="post-a-req-col col-md-12">
+                        <div class="row" id="post_a_request">
+                        <div class="col-md-7 product-cant-be-found">
+                        <h4>Still can't find the product you looking for? </h4>
+                        <p class="hidden-sm hidden-xs hidden-md">Submit a buying request to get targeted qoutes from verified merchants.</p>
+                        </div>
+                    <div class="col-md-5 post-req-form" style="background: white;">
+                          <div class="form-group"> 
+                              <label>Get qoutes</label>
+                             <input type="text" class="form-control" name="product_name" placeholder="Product name">
+                          </div>
+                             <div class="form-group-row">
+                                 <div class="col-md-6">
+                                     <input type="text" class="form-control" name="quentity" placeholder="Quantity">
+                                 </div>
+                                 <div class="col-md-6">
+                                    <select class="form-control" name="orderQuantityUnit" id="quantityUnit">
+                                    <option selected disabled>Select Unit</option>
+                                    @foreach($measurementUnits as $units)
+                                    <option value="{{$units->mu_name}}" {{ old('orderQuantityUnit') }}>{{$units->mu_name}}</option>
+                                    @endforeach
+                                    </select>
+                                 </div>
+                             </div>
+                             <div class="form-group" style="text-align: center">
+                         <a href="{{ route('BuyingRequest') }}"><button class="btn btn-primary" style="margin-top: 15px;">Get qoutes</button></a>
+                             </div>
+                         </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     <div class="w3-container">
-        <div class="row" style="padding: 12px;">
+        <div class="row" style="padding: 12px; ">
                 <!--featured-suppliers-->
-                <h2 class="featured">Hot <b> Suppliers</b></h2>
-                  <div id="hot-suppliers" style="margin-left:10px;">
+                <h2 class="featured">Featured <b> Suppliers</b></h2>
+                  <div id="hot-suppliers">
                       @foreach($featured_suppliers as $supplier)
-                  <div class="col-md-3">
+                     <div class="col-md-2">
                       <div class="panel widget row-1" id="hot-supplier-panel">
                             <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
-                                   @if($supplier->status == 1)
+                              @if($supplier->status == 1)
                                         <img src="https://media.publit.io/file/ecomImages/profile/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
-                                         @endif
+                               @endif
                                 @if($supplier->membership == 'Gold Member')
                                  <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
                                 @endif
@@ -151,25 +181,23 @@
                                             <i>'{{ $supplier->company_slogan }}'</i>
                                           </p>
                                             @endif
-
                                         <ul class="list-unstyled text-center pad-top mar-no clearfix">
-
                                       </ul>
                                   </div>
                               </div>
                           </div>
                       @endforeach
                   </div>
-        </div>
-      </div>
+               </div>
+             </div>
 
                 <div class="w3-container">
-                    <div class="row" style="padding-left:5px;padding-right:5px;">
-                    <h2 class="featured">Trade <b> Shows</b></h2>
+                    <div class="row" style="padding:10px">
+                    <h2 class="featured">Online Trade <b> Shows</b></h2>
                       <div class="row row-1" id="TradeShowsImg">
                         <div class="col-xs-12 col-md-12" id="tradeShowBackground">
                           <div class="tradeShowContent">
-                          <small>South Africa's Trade shows are <span class="w3-tag w3-orange">Coming soon!</span> <a href=""><span style="text-decoration:underline">Learn more</span></a></small></h3>
+                          <small>South Africa's Online Trade shows are <span class="w3-tag w3-orange">Coming soon!</span> <a href=""><span style="text-decoration:underline">Learn more</span></a></small></h3>
                           </div>
                         </div>
                       </div>
@@ -179,8 +207,12 @@
 
 <!--Container one ends here-->
   </div>
-
-
 </div>
-
+</div>
+<script>
+     $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+     });
+            
+</script>
 @endsection

@@ -10,6 +10,21 @@ span[role="alert"]{
 .error{
     color: red;
 }
+.w3-center{
+    text-align: center;
+}
+.w3-container{
+    padding: 0.01em 16px;
+}
+.w3-margin-top{
+    margin-top: 16px !important;
+}
+.w3-padding {
+    padding: 8px 16px !important;
+}
+.w3-row-padding, .w3-row-padding > .w3-half, .w3-row-padding > .w3-third, .w3-row-padding > .w3-twothird, .w3-row-padding > .w3-threequarter, .w3-row-padding > .w3-quarter, .w3-row-padding > .w3-col {
+    padding: 0 8px;
+}
 
 body{
     color: #515151;
@@ -181,7 +196,8 @@ div.dropdown-content{
     height: 390px;
     background-position: center center;
     background-size: cover;
-    border-radius: 10px 10px 0 0;
+    /*border-radius: 10px 10px 0 0;*/
+     border-radius: 0;
 }
 @media screen and (max-width: 974px) {
 /* One or more CSS rules to apply when the query is satisfied */
@@ -228,14 +244,21 @@ h2.featured{
         margin: 17px 0 50px;
 
 }
+
 div.product-item-container{
-    margin: 0px 0px 5px 0px;
     padding: 15px;
-    border: 1px solid #dddddd;
     overflow: hidden;
+}
+@media screen and (min-width:992px){
+   div.product-item-container {
+    border: 1px dotted #c1bcbc;
+   /* margin: 5px;*/
+}
+
 }
 .product-item-container:hover {
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.2);
+    border-color: #ff6a00;
 }
 @media screen and (max-width: 974px) {
 /* One or more CSS rules to apply when the query is satisfied */
@@ -260,147 +283,6 @@ h2.featured::after {
     left: 0;
     right: 0;
     bottom: -20px;
-}
-.carousel {
-    margin: 12px auto 50px;
-
-
-
-}
-.carousel .item {
-    min-height: 330px;
-    text-align: center;
-    overflow: hidden;
-}
-.carousel .item .img-box {
-    height: 160px;
-    width: 100%;
-    position: relative;
-}
-.carousel .item img {
-    height:330px;
-
-    display: inline-block;
-    position: absolute;
-    bottom: 0;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-}
-.carousel .item h4 {
-    font-size: 18px;
-    margin: 10px 0;
-}
-.carousel .item .btn {
-    color: #333;
-    border-radius: 0;
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: bold;
-    background: none;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    margin-top: 5px;
-    line-height: 16px;
-}
-.carousel .item .btn:hover, .carousel .item .btn:focus {
-    color: #fff;
-    background: #000;
-    border-color: #000;
-    box-shadow: none;
-}
-.carousel .item .btn i {
-    font-size: 14px;
-    font-weight: bold;
-    margin-left: 5px;
-}
-.carousel .thumb-wrapper {
-    text-align: center;
-}
-.carousel .thumb-content {
-    padding: 14px;
-
-}
-.carousel div.thumb-content h4 {
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-div.thumb p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-}
-div.mainSlider .carousel .carousel-control {
-    height: 100px;
-    width: 40px;
-    background: none;
-    margin: auto 90px auto 90px;
-    background: rgba(0, 0, 0, 0.2);
-}
-@media screen and (max-width: 974px) {
-/* One or more CSS rules to apply when the query is satisfied */
- div.mainSlider .carousel .carousel-control {
-	 display:none;
-
-}
-}
-
-.carousel .carousel-control {
-    height: 100px;
-    width: 40px;
-    background: none;
-    margin: auto 0;
-    background: rgba(0, 0, 0, 0.2);
-}
-.carousel .carousel-control i {
-    font-size: 30px;
-    position: absolute;
-    top: 50%;
-    display: inline-block;
-    margin: -16px 0 0 0;
-    z-index: 5;
-    left: 0;
-    right: 0;
-    color: rgba(0, 0, 0, 0.8);
-    text-shadow: none;
-    font-weight: bold;
-}
-.carousel .item-price {
-    font-size: 13px;
-    padding: 2px 0;
-}
-.carousel .item-price strike {
-    color: #999;
-    margin-right: 5px;
-}
-.carousel .item-price span {
-    color: #86bd57;
-    font-size: 110%;
-}
-.carousel .carousel-control.left i {
-    margin-left: -3px;
-}
-.carousel .carousel-control.left i {
-    margin-right: -3px;
-}
-.carousel .carousel-indicators {
-    bottom: -60px;
-}
-.carousel-indicators li, .carousel-indicators li.active {
-    width: 10px;
-    height: 10px;
-    margin: 4px;
-    border-radius: 50%;
-    border-color: transparent;
-}
-.carousel-indicators li {
-    background: rgba(0, 0, 0, 0.2);
-}
-.carousel-indicators li.active {
-    background: rgba(0, 0, 0, 0.6);
 }
 .star-rating li {
     padding: 0;
@@ -534,15 +416,21 @@ div#hot-supplier-panel:not(#all-suppliers):not(#panel-wrap){
 
 }
 /*========HOT SUPPLIERS========*/
- .panel:not(#panel-wrap) {
-    box-shadow: 0 2px 0 rgba(0,0,0,0.075);
-    border-radius: 0;
-    border: 0;
-    margin-bottom: 24px;
+.panel:not(#panel-wrap) {
+  /*  box-shadow: 0 2px 0 rgba(0,0,0,0.075);
+    border-radius: 4px;*/
+    margin-bottom: 12px;
 }
+.panel:not(#panel-wrap):hover{
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.2);
+}
+/*div#hot-suppliers{
+    margin-left: -13px; 
+}*/
+
 div#hot-supplier-panel{
-    height: 320.3px;
-    width: 250px;
+    height: auto;
+    width: 185px;
 }
 .panel .panel-heading, .panel>:first-child {
     border-top-left-radius: 0;
@@ -574,7 +462,7 @@ div#hot-supplier-panel{
 .widget-body {
     padding: 50px 15px 15px;
     position: relative;
-  /* background: #f1f9ff; */
+  background: #f5f5f5;
 }
 .panel-body {
     padding: 25px 20px;
@@ -636,6 +524,52 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 75%;
 }
 
+/*===========Post buying request=========*/
+div#post_a_request{
+ background-image: url(https://media.publit.io/file/ecomImages/profile/icons/products/ClgMC1u9n2SAVTlgAA7uONkrRD4618.png);
+    background-repeat: no-repeat;
+    background-color:
+    #ccc;
+    border: 1px solid;
+    width: 100%;
+    height: 350px;
+    background-position: center center;
+    background-size: cover;
+}
+div.post-a-req {
+    margin-top: -20px;
+}
+div.post-a-req-col {
+    padding: 10px;
+}
+
+    div.product-cant-be-found>h4{
+        font-size:17px;
+        color:#fff;
+    }
+    div.product-cant-be-found>p{
+     font-size: 10px;
+        color:#fff;
+    }
+
+    div.post-req-form{
+        padding: 7px;background: white;
+    }
+
+@media screen and (min-width: 992px) {
+    div.product-cant-be-found>h4{
+        font-size: 4em;
+    }
+    div.product-cant-be-found>p{
+        font-size: 16px;
+    }
+
+    div.post-req-form{
+        padding: 20px;margin-top: 50px;background: white;margin-left: -32px;
+    }
+
+}
+
 /*==========All Suppliers==============*/
 div#all-suppliers p {
     text-align: center;
@@ -679,21 +613,22 @@ div.find-by-category img{
 }
 div.find-by-category div.row-1{
     padding: 5px;
-    margin-bottom: 5px;
+   
 
 }
 
 @media screen and (min-width: 699px) {
     /* One or more CSS rules to apply when the query is satisfied */
     div#find-by-cat-row{
-     margin-top: 12;
+     margin-top: 12px;
 
     }
 
 
 }
-div.find-by-category div.supplier-col{
+div.find-by-category div.supplier-col {
     margin-top: -20px;
+    padding: 10px;
 }
 div.find-by-category div.row-1:hover{
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);;

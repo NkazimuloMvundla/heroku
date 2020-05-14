@@ -55,7 +55,10 @@ class BlockGetRequest
             return redirect('/');
         } else if (request()->method() == "GET" && request()->getRequestUri() == '/u/product/addSpec') {
             return redirect('/');
+        } else if (request()->method() == "GET" && request()->getRequestUri() == '/filter-by-price') {
+            return redirect('/');
         }
+
 
         return $next($request);
     }
