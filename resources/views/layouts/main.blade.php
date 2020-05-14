@@ -23,8 +23,8 @@
 <!--lightSlider CSS-->
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.css') }}" />
 <!-- 1. Link to jQuery (1.8 or later), -->
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!--<script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>-->
 
 </head>
 <body id="bodyStyle">
