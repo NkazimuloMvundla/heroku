@@ -9,6 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
+<!--jQuery validate-->
+<link rel="stylesheet" type="text/css" href="pub/js/validate/demo/css/screen.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('pub/w3css.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/product-detail.css') }}" />
@@ -24,18 +27,18 @@
 <link rel="stylesheet" type="text/css" href="pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css">
 <!--lightSlider CSS-->
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.css') }}" />
-<!-- 1. Link to jQuery (1.8 or later), -->
+  <!-- 1. Link to jQuery (1.8 or later), -->
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
+ <script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>
 
 </head>
 <body id="bodyStyle">
-<header class="header" style="margin-bottom: -18px;"> 
+<header class="header" style="margin-bottom: -18px;">
     <div class="panel wrapper " id="panel-wrap">
-     <div class="tm_header_outer hidden-xs hidden-sm hidden-md">
+     <div class="tm_header_outer w3-hide-small w3-hide-medium">
       <div class="tm_header_top container-width">
           <div class="header-offerzone">
-              <ul class="hidden-xs hidden-sm hidden-md">
+              <ul class="hidden-sm hidden-md">
           @if (Auth::check())
                 <li class="text-primary">{{ __('Hello') }}
                 {{ Auth::user()->name }}
@@ -56,7 +59,7 @@
                 @endif
               <li><a href="{{url('sell')}}">{{ __('Sell')}}</a></li>
 
-              <li class="dropdown  hidden-xs hidden-sm hidden-md">
+              <li class="dropdown hidden-sm hidden-md">
               <span>Buyers<span class="caret"></span>
                </span>
               <div class="dropdown-content shadow">
@@ -66,7 +69,7 @@
 
               </li>
 
-              <li class="dropdown  hidden-xs hidden-sm hidden-md">
+              <li class="dropdown hidden-sm hidden-md">
                 <span>For Suppliers<span class="caret"></span></span>
                 <div class="dropdown-content shadow">
                 <a href="{{ route('admin.index') }}" class="dropdown-bar-item ">Display new products</a>
@@ -75,7 +78,7 @@
                 </div>
               </li>
 
-              <li class="dropdown hidden-xs hidden-sm hidden-md"><span>Service &amp; Membership</span>  <span class="caret"></span> </a>
+              <li class="dropdown hidden-sm hidden-md"><span>Service &amp; Membership</span>  <span class="caret"></span> </a>
               <div class="dropdown-content shadow">
               <a href="{{route('membership')}}" class="dropdown-bar-item ">Premium memberships</a>
               <a href="/services" class="dropdown-bar-item"> Services<span class="tag-blue">New</span></a>
@@ -213,14 +216,14 @@
       </div>
       <div class="header-center" id="header-center">
           <div class="header-logo">
-              <strong class=" hidden-xs hidden-sm hidden-md logo">
+              <strong class="w3-hide-small w3-hide-medium logo">
               <a href="{{url('/')}}">
               <span style="font-size: 32px;">South</span><span style="background-color: #2196F3 !important;color: #fff ;font-size: 32px;">Bulk</span>
               </a>
               </strong>
           </div>
       </div>
-      <div class="header-right hidden-xs hidden-sm hidden-md " id="header-right"><div class="block block-search">
+      <div class="header-right w3-hide-small w3-hide-medium " id="header-right"><div class="block block-search">
           <div class="block-search-inner">
               <div class="block block-title"><strong>Search</strong></div>
               <div class="block block-content">
@@ -287,7 +290,7 @@
   </div>
 
   <!--menu-head start-->
-  <div class="header-bottom  hidden-xs hidden-sm hidden-md">
+  <div class="header-bottom w3-hide-small w3-hide-medium">
       <div class="w3-container">
           <div class="row">
               <!-- Main menu -->
@@ -355,9 +358,9 @@
 <div class="yield-content">
   @yield('content')
 </div>
-<footer class="page-footer">
-    <div class="w3-container w3-padding" style="background-color:#445268; color: white;">
-        <div class="w3-row-paddingt inner-footer-content">
+<footer class="page-footer" >
+    <div class="w3-container w3-margin-top w3-padding" style="background-color:#445268; color: white;">
+        <div class="w3-row-padding">
             <div class="col-md-3">
                 <div id="footer">
                 <h3>About us</h3>
@@ -380,7 +383,7 @@
             </div>
             <div class="col-md-3">
                 <div id="footer">
-                    <h3>For supplier</h3>
+                    <h3><a href="">For supplier</a></h3>
                     <ul >
                     <li><a href="/membership"><span id="b" class="fa fa-arrow-right"></span> Premium memberships</a></li>
                     <li><a href="/services"><span id="b" class="fa fa-arrow-right"></span> Target marketing</a></li>
@@ -414,7 +417,7 @@
     </div>
 
     <div class="footer-bottom">
-        <div class="footer-bottom-inner container-width" style="text-align: center;">
+        <div class="footer-bottom-inner container-width" style="text-align: center;padding: 5px;">
             <span class="copyright">
             <span>Copyright © <?php echo htmlspecialchars(date('Y'))  ;?> Southbulk.com. All rights reserved.</span>
             </span>
@@ -440,11 +443,11 @@
                      $(this).toggleClass('active');
                  });
              });
-      
+
             $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
             });
-            
+
 </script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>

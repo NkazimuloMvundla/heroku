@@ -425,7 +425,7 @@ div#hot-supplier-panel:not(#all-suppliers):not(#panel-wrap){
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.2);
 }
 /*div#hot-suppliers{
-    margin-left: -13px; 
+    margin-left: -13px;
 }*/
 
 div#hot-supplier-panel{
@@ -613,7 +613,7 @@ div.find-by-category img{
 }
 div.find-by-category div.row-1{
     padding: 5px;
-   
+
 
 }
 
