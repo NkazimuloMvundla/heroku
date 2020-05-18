@@ -46,6 +46,47 @@
     .demo{
         width: 800px;
     }
+    	.drift-demo-trigger {
+
+			float: left;
+		}
+
+
+
+		@media (max-width: 900px) {
+			.wrapper {
+				text-align: center;
+				width: auto;
+			}
+
+			.detail,
+			.drift-demo-trigger {
+				float: none;
+			}
+
+			.drift-demo-trigger {
+				max-width: 100%;
+				width: auto;
+				margin: 0 auto;
+			}
+
+			.detail {
+				margin: 0;
+				width: auto;
+			}
+
+			p {
+				margin: 0 auto 1em;
+			}
+
+			.responsive-hint {
+				display: none;
+			}
+
+			.drift-bounding-box {
+				display: none;
+			}
+		}
 </style>
     <div class="container">
         <div class="hidden-xs hidden-sm hidden-meduim">
@@ -76,12 +117,11 @@
                 <div class="">
                   <ul id="image-gallery" class="gallery list-unstyled cS-hidden">
                   @foreach ($pd_images as $pd_image)
-                  @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                  <li data-thumb="/storage/{{ $pd_image->pd_filename }}" id="data-thumbs">
-                  <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive  img-large" style="display:inline-block;" alt="">
-
-                  </li>
-                  @endif
+                    @if($product->first()->pd_id == $pd_image->pd_photo_id)
+                    <li data-thumb="/storage/{{ $pd_image->pd_filename }}" id="data-thumbs">
+                    <img data-zoom="/storage/{{ $pd_image->pd_filename }}" src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-large  drift-demo-trigger" alt="product image">
+                    </li>
+                    @endif
                     @endforeach
                   </ul>
 
@@ -99,7 +139,7 @@
         }
         </style>
 
-            <div class="w3-padding col-md-6" id="product-description" style="
+            <div class="detail w3-padding col-md-6" id="product-description" style="
             background: #eaf4ea7a;
             ">
                 <div class="product-description">
@@ -593,5 +633,18 @@
    });
    </script>
 
+	<script>
+        $('.drift-demo-trigger').each(function(i, el) {
+	new Drift(el, {
+            paneContainer: document.querySelector('.detail'),
+            zoomFactor: 3,
+			inlinePane: 900,
+			inlineOffsetY: -85,
+			containInline: true,
+			hoverBoundingBox: true
+		});
+    })
+
+	</script>
 
 @endsection

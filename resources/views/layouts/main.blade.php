@@ -9,23 +9,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/product-detail.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.css') }}" />
-
-<link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.css') }}">
-
 <!--JqueryUi-->
 <link rel="stylesheet" type="text/css" href="pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css">
 <!--lightSlider CSS-->
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.min.css') }}" />
+
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/drift-master/dist/drift-basic.css') }}" />
 <!-- 1. Link to jQuery (1.8 or later), -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--<script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>-->
-
+        <!--jQuery zoom-->
+<script src="{{ asset('pub/drift-master/dist/Drift.min.js') }}"></script>
 </head>
 <body id="bodyStyle">
 <header class="header" style="margin-bottom: -18px;">
@@ -445,20 +445,19 @@
 </script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- responsive tags 3.3.7 -->
-    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.js') }}">
+    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
     </script>
     <!--lightSlider JS-->
-    <script src="{{ asset('pub/light/src/js/lightslider.js') }}"></script>
-    <!--jQuery ui-->
-    <script src="pub/js/jquery/dist/jquery.min.js"></script>
-    <script src="pub/js/jquery-ui/jquery-ui.min.js"></script>
+    <script src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
+
     <!--accordian menu-->
-    <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.js') }}"></script>
+    <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.min.js') }}"></script>
      <!--jQuery validate-->
-    <script src="{{ asset('pub/js/validate/dist/jquery.validate.js') }}"></script>
+    <script src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
     <!--js fun-->
-    <script src="{{ asset('pub/js/functions.js') }}"></script>
+    <script src="{{ asset('pub/js/functions.min.js') }}"></script>
 
 
 

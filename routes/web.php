@@ -62,6 +62,7 @@ Route::post('/lastcats', 'LastCategoryController@show')->name('lastcats');
 Route::get('/buying-request', 'BuyingRequestController@create')->name('BuyingRequest');
 Route::post('/buying-request', 'BuyingRequestController@store')->name('BuyingRequest'); // stores all buying request data
 //selling reuests
+
 Route::get('/selling-request', 'SellingRequestsController@create')->name('SellingRequest'); //returns a Selling requests view
 Route::post('/selling-request', 'SellingRequestsController@store')->name('SellingRequest'); // stores all Selling request data
 Route::get('/all-selling-requests', 'SellingRequestsController@allSellingView')->name('allSellingRequests');
