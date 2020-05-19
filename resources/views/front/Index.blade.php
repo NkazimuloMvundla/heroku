@@ -155,7 +155,7 @@
                                   @endif
                                   @if(!empty($supplier->company_background_img))
                               <div class="widget-header bg-purple">
-                                   <img class="widget-bg img-responsive" src="{{ $supplier->company_background_img }}" alt="Image">
+                                   <img class="widget-bg img-responsive" src="/storage/{{ $supplier->company_background_img }}" alt="Image">
                                   </div>
                                   @endif
                                    <div class="widget-body text-center">
@@ -165,7 +165,7 @@
                                               <img alt="Profile Picture" class="widget-img  img-border-light" src="/storage/icons/user.png">
                                               @endif
                                               @if(!empty($supplier->company_logo))
-                                              <img alt="Profile Picture" class="widget-img img-border-light" src="{{ $supplier->company_logo }}">
+                                              <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/{{ $supplier->company_logo }}">
                                               @endif
                                           </a>
                                         <h4 class="mar-no">

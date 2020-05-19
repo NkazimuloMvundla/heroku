@@ -7,8 +7,7 @@
 							<div class="thumb-wrapper">
 								<div class="img-box">
 			 							<?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
-										<input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
-                                    <!--	  <span id="add-to-favs" class="fa fa-heart" data-pd="{{ $slideOne->pd_id }}"></span>-->
+										<input type="hidden" name="u_id" id="u_id" value="{{ $auth }}">
                             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>
 										<a href="/product-details/{{ $encoded_product_id }}" class="view_product">
 										<img src="/storage/{{$slideOne->pd_photo  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" width="150" height="150">

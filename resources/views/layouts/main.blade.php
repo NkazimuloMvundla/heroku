@@ -8,26 +8,43 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
-<link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" />
-<link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.css') }}">
-<!--JqueryUi-->
-<link rel="stylesheet" type="text/css" href="pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css">
-<!--lightSlider CSS-->
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
+<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/drift-master/dist/drift-basic.css') }}" />
-<!-- 1. Link to jQuery (1.8 or later), -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!--<script src="{{ asset('pub/js/jquery-2.2.4.min.js') }}"></script>-->
-        <!--jQuery zoom-->
-<script src="{{ asset('pub/drift-master/dist/Drift.min.js') }}"></script>
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
+<style>
+    .fa-envelope:before {
+    content: "\f0e0"
+    }.fa-arrow-right:before {
+    content: "\f061"
+    }.fa-home:before {
+    content: "\f015"
+    }.fa-remove:before,.fa-close:before,.fa-times:before {
+    content: "\f00d"
+    }.fa-heart:before {
+    content: "\f004"
+    }.pull-right {
+    float: right
+    }
+    .pull-left {
+    float: left
+    }.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+    }
+</style>
+<link  rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
+
+<link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" />
+<script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
 </head>
 <body id="bodyStyle">
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
 <header class="header" style="margin-bottom: -18px;">
     <div class="panel wrapper " id="panel-wrap">
      <div class="tm_header_outer hidden-xs hidden-sm hidden-md">
@@ -442,24 +459,15 @@
             $('[data-toggle="tooltip"]').tooltip();
             });
 
-</script>
+ </script>
+
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
-    <!-- responsive tags 3.3.7 -->
-    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
-    </script>
-    <!--lightSlider JS-->
-    <script src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
-
-    <!--accordian menu-->
-    <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.min.js') }}"></script>
      <!--jQuery validate-->
     <script src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
     <!--js fun-->
     <script src="{{ asset('pub/js/functions.min.js') }}"></script>
-
-
 
 </body>
 </html>

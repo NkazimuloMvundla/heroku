@@ -138,6 +138,7 @@
           </div>
         </div>
     </div>
-
+   <!--jQuery validate-->
+    <script src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
 @endsection
 

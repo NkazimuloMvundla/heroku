@@ -848,6 +848,7 @@ function sendQuestions(id) {
             },
             success: function (data) {
                 window.location.reload();
+                alert(data);
             }
         });
 

@@ -66,8 +66,6 @@ body{
 
  }
 
-.cms-home .column.main{ margin-top: 0;}
-.cms-home #authenticationPopup ~div{display: none;}
 /*-------------------------------------------------------------------------Search bar CSS-----------------------------------------------------------*/
 #liveSearch{
     width: 100%;
@@ -100,15 +98,6 @@ body{
     }
   }
 
-.header/*,.header-menu-outer*/{position: relative;}
-@media only screen and (max-width: 768px) {
-  .header {
-  margin-bottom:0px;
-  }
-    nav.navigation{
-      display: none;
-    }
-}
 
 .megamenu{
     margin: 0;
@@ -117,9 +106,7 @@ body{
    position: absolute;
    z-index: 999;
 }
-ul.menu li{
-    cursor: pointer;
-}
+
 a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
@@ -132,12 +119,7 @@ a, a:hover, a:focus {
     border: none;
 }
 
-.line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
-}
+
 /*amazon backColor #232f3e*/
 /*dropdown*/
 .dropdown:hover div.dropdown-content{
@@ -803,104 +785,16 @@ display: none;
     clear: both; margin: 0px; padding: 0px;
 }
 .block-search .field.search{ float: left; width: 80.1%;}
-.block-search .minisearch input[type="text"]{
 
-    padding: 7px;
-    border:1px solid #e6e6e6; background: #fafafa;
-    width:100%;
-}
-/*.block-search .block-search-inner:hover .minisearch input[type="text"],.block-search .block-search-inner .minisearch input[type="text"]:focus{}*/
-.block-search .actions{ float: left; cursor: pointer; margin: 0 0 0 10px;}
-.block-search button.action.search[disabled] {opacity: 1;filter: Alpha(opacity=100);}
-.block-search .actions .action.search{
-    height: auto;
-    position: relative;
-    right: auto;
-    color: #fff;
-    background: #FF8E0A;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 9px 27px;
-    border: none; text-transform: uppercase;
-}
-.block-search .actions .action.search:hover{ background :#000; }
-.block-search button.action.search:before{display: none;}
-.block-search button.action.search > span{position: relative;}
-.block-search .label::before{display: block;}
 .block-search input{background-color: #ffffff; }
 
 
 
 /*-------------------------------Main menu----------------------------------*/
 
-.header-left{ float:left;  margin: 0px 0px 0px; }
+
 .tm_header.container-width{ position: relative; }
-.header-menu-outer{ float: left; margin: 0px; }
-.header-menu { width: 100%;  position: static;}
-.header-nav{ float: left;  width: 100%;}
-.header-nav-inner{float: left;}
 
-.header-nav .navigation.custommenu #mainmenu {
-    background: white none repeat scroll 0 0;
-    display: none;
-    position: absolute;
-    top: 72px;
-    width: auto; left: 0px; right: 0px; margin: 0 auto;
-    /*box-shadow: 0 0 3px #aaa; -moz-box-shadow: 0 0 3px #aaa;-webkit-box-shadow: 0 0 3px #aaa;*/
-    z-index: 5;
-    /*border-radius: 5px;  -webkit-border-radius: 5px; -moz-border-radius: 5px;-o-border-radius: 5px; -khtml-border-radius: 5px;*/
-    padding: 20px; border:1px solid #ededed; margin: 0 20px;
-}
-
-
-
-
-.header-nav .menu-title{
-    position: relative;
-    float: left;
-    background-color: transparent;
-    color: #000;
-    font-size: 12px;
-    padding: 7px 0 5px 30px;
-    text-transform: capitalize;
-    width: 97px;
-    cursor: pointer;
-}
-.header-nav .menu-title-inner{
-    position: relative;
-    display: block;
-    width: 100%;
-    font-weight: 500; line-height: 1.30;
-}
-.header-nav .menu-title:after{
-   content: "\f0c9";
-    color: #000;
-    font-family: "FontAwesome";
-    float: right;
-    position: relative;
-    padding: 0px;
-    height: 19px;
-    line-height: 20px;
-    position: absolute;
-    top: 15px;
-    width: 18px;
-    box-sizing: border-box;
-    left: 0px; font-size: 21px;
-    font-weight: 400;
-}
-.header-nav .menu-title:before{
-    color: #000;
-    font-family: "FontAwesome";
-    float: right;
-    position: relative;
-    line-height: 20px;
-    font-size: 17px;
-    top: 10px;
-    left:8px;
- content: "\f107";
-}
-
-.header-nav .menu-title.active:before { content: "\f106"; line-height: 18px;}
 
 
 

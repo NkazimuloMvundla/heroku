@@ -185,4 +185,6 @@
         </div>
 
 
+    <!--accordian menu-->
+    <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.min.js') }}"></script>
 @endsection

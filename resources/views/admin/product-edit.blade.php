@@ -442,21 +442,21 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <label>Question1</label>
-                    <input type="text" class="form-control" name="question1" id="question1" placeholder="eg, is this product wash & wear ?">
+                    <input type="text" class="form-control" name="question1" id="question1" placeholder="eg, is this product wash & wear ?"  maxlength="255">
                 </div>
                 <div class="col-md-6">
                     <label>Answer</label>
-                    <input type="text" id="answer1" class="form-control" name="answer1" placeholder="eg, Yes, this product is wash and wear">
+                    <input type="text" id="answer1" class="form-control" name="answer1" placeholder="eg, Yes, this product is wash and wear"  maxlength="255">
                 </div>
             </div>
               <div class="form-group row">
                 <div class="col-md-6">
                     <label>Question2</label>
-                    <input type="text" class="form-control" id="question2" name="question2" placeholder="eg, is this product wash & wear ?">
+                    <input type="text" class="form-control" id="question2" name="question2" placeholder="eg, is this product wash & wear ?"  maxlength="255">
                 </div>
                 <div class="col-md-6">
                     <label>Answer</label>
-                    <input type="text" class="form-control" id="answer2" name="answer2" placeholder="eg, Yes, this product is wash and wear ?">
+                    <input type="text" class="form-control" id="answer2" name="answer2" placeholder="eg, Yes, this product is wash and wear ?"  maxlength="255">
                 </div>
             </div>
               <div class="form-group row">

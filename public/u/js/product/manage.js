@@ -61,141 +61,130 @@ function checkedAll() {
 
 /*=============manage-b-req=============*/
 //  append values in input fields
-$(document).on('click','a[data-role=update]',function(){
-            var id  = $(this).data('id');
-            var br_pd_spec  = $('#'+id).children('td[data-target=br_pd_spec]').text();
+$(document).on("click", "a[data-role=update]", function() {
+    var id = $(this).data("id");
+    var br_pd_spec = $("#" + id)
+        .children("td[data-target=br_pd_spec]")
+        .text();
 
-            $('#br_pd_spec').val(br_pd_spec);
-             $('#userId').val(id);
+    $("#br_pd_spec").val(br_pd_spec);
+    $("#userId").val(id);
 
-            $('#modal-default').modal('toggle');
-      });
-
-      $('#save').click(function(){
-         var id  = $('#userId').val();
-         var br_pd_spec =  $('#br_pd_spec').val();
-         if(br_pd_spec == ""){
-             alert('This cannot be empty');
-         }else{
-
-          $.ajax({
-              url      : '/u/update-buying-request',
-              method   : 'POST',
-              data     : {br_pd_spec : br_pd_spec , id: id},
-              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                success  : function(data){
-
-                    // now update user record in table
-                    $('#'+id).children('td[data-target=br_pd_spec]').text(br_pd_spec);
-
-                    $('#modal-default').modal('toggle');
-
-                },
-                error: function (data) {
-                   console.log('Error:', data);
-                  }
-          });
-         }
-
-       });
-
-
-
-function deleteRequest(id) {
-        $(document).ready(function() {
-          var res = confirm(' Are you sure you want to delete ? ');
-            if(res){
-              $.ajax({
-              type: "POST",
-              url: "/u/delete-buying-request",
-              data:{id:id},
-              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-              success: function (data) {
-              $('.message').text('Deleting...');
-              window.location.reload();
-              },
-              error: function (data) {
-              console.log('Error:', data);
-              }
-              });
-            }
-
-
-
-        });
-
-
-
-
-}
-
-
-/*==================manage-selling-req=====================*/
-/  append values in input fields
-$(document).on('click', 'a[data-role=update]', function () {
-    var id = $(this).data('id');
-    var sr_pd_spec = $('#' + id).children('td[data-target=sr_pd_spec]').text();
-
-    $('#sr_pd_spec').val(sr_pd_spec);
-    $('#userId').val(id);
-
-    $('#modal-default').modal('toggle');
+    $("#modal-default").modal("toggle");
 });
 
-$('#save').click(function () {
-    var id = $('#userId').val();
-    var sr_pd_spec = $('#sr_pd_spec').val();
-    if (sr_pd_spec == "") {
-        alert('This cannot be empty');
+$("#save").click(function() {
+    var id = $("#userId").val();
+    var br_pd_spec = $("#br_pd_spec").val();
+    if (br_pd_spec == "") {
+        alert("This cannot be empty");
     } else {
-
         $.ajax({
-            url: '/u/update-selling-request',
-            method: 'POST',
-            data: { sr_pd_spec: sr_pd_spec, id: id },
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            success: function (data) {
-
-                // now update user record in table
-                $('#' + id).children('td[data-target=sr_pd_spec]').text(sr_pd_spec);
-
-                $('#modal-default').modal('toggle');
-
+            url: "/u/update-buying-request",
+            method: "POST",
+            data: { br_pd_spec: br_pd_spec, id: id },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
-            error: function (data) {
-                console.log('Error:', data);
+            success: function(data) {
+                // now update user record in table
+                $("#" + id)
+                    .children("td[data-target=br_pd_spec]")
+                    .text(br_pd_spec);
+
+                $("#modal-default").modal("toggle");
+            },
+            error: function(data) {
+                console.log("Error:", data);
             }
         });
     }
-
 });
 
-
-
 function deleteRequest(id) {
-    $(document).ready(function () {
-        var res = confirm(' Are you sure you want to delete ? ');
+    $(document).ready(function() {
+        var res = confirm(" Are you sure you want to delete ? ");
         if (res) {
             $.ajax({
                 type: "POST",
                 url: "/u/delete-buying-request",
                 data: { id: id },
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                success: function (data) {
-                    $('.message').text('Deleting...');
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    $(".message").text("Deleting...");
                     window.location.reload();
                 },
-                error: function (data) {
-                    console.log('Error:', data);
+                error: function(data) {
+                    console.log("Error:", data);
                 }
             });
         }
-
-
-
     });
+}
 
+/*==================manage-selling-req=====================*/
+//  append values in input fields
+$(document).on("click", "a[data-role=update]", function() {
+    var id = $(this).data("id");
+    var sr_pd_spec = $("#" + id)
+        .children("td[data-target=sr_pd_spec]")
+        .text();
 
+    $("#sr_pd_spec").val(sr_pd_spec);
+    $("#userId").val(id);
 
+    $("#modal-default").modal("toggle");
+});
 
+$("#save").click(function() {
+    var id = $("#userId").val();
+    var sr_pd_spec = $("#sr_pd_spec").val();
+    if (sr_pd_spec == "") {
+        alert("This cannot be empty");
+    } else {
+        $.ajax({
+            url: "/u/update-selling-request",
+            method: "POST",
+            data: { sr_pd_spec: sr_pd_spec, id: id },
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            },
+            success: function(data) {
+                // now update user record in table
+                $("#" + id)
+                    .children("td[data-target=sr_pd_spec]")
+                    .text(sr_pd_spec);
+
+                $("#modal-default").modal("toggle");
+            },
+            error: function(data) {
+                console.log("Error:", data);
+            }
+        });
+    }
+});
+
+function deleteRequest(id) {
+    $(document).ready(function() {
+        var res = confirm(" Are you sure you want to delete ? ");
+        if (res) {
+            $.ajax({
+                type: "POST",
+                url: "/u/delete-buying-request",
+                data: { id: id },
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(data) {
+                    $(".message").text("Deleting...");
+                    window.location.reload();
+                },
+                error: function(data) {
+                    console.log("Error:", data);
+                }
+            });
+        }
+    });
 }

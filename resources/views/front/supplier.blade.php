@@ -2,7 +2,7 @@
 @section('title' ,'Supplier')
 @section('content')
 
-
+<link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
  <style type="text/css">
 
     .profile-user-img {
@@ -286,5 +286,7 @@
 
 
     </script>
-
+  <!-- responsive tags 3.3.7 -->
+    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
+    </script>
 @endsection

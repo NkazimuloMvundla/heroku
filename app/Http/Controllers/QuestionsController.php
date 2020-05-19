@@ -19,7 +19,7 @@ class QuestionsController extends Controller
         $questions = explode(',', $data['questions']);
         $answers = explode(',', $data['answers']);
         //check if there's already 4 questins in the DB
-        $DBquestions = \App\Questions::all();
+        $DBquestions = \App\Questions::where('pd_id', $data['pd_id'])->get();
         //if 4 in db,nomre can come
         if (count($DBquestions) == 4) {
             echo htmlspecialchars("The limit is 4 questions per product.");
@@ -40,21 +40,20 @@ class QuestionsController extends Controller
         else if (count($questions) <= 4) {
             if (!empty($questions) && !empty($answers)) {
                 for ($i = 0; $i < count($questions); $i++) {
-                    for ($i = 0; $i < count($answers); $i++) {
 
-                        //insert questions and get last id
-                        $id = DB::table('questions')->insertGetId([
-                            'pd_id' => $data['pd_id'],
-                            'question' => $questions[$i],
-                        ]);
 
-                        //insert answers
-                        \App\Answers::create([
-                            'pd_id' => $data['pd_id'],
-                            'question_id' => $id,
-                            'answer' => $answers[$i],
-                        ]);
-                    }
+                    //insert questions and get last id
+                    $id = DB::table('questions')->insertGetId([
+                        'pd_id' => $data['pd_id'],
+                        'question' => $questions[$i],
+                    ]);
+
+                    //insert answers
+                    \App\Answers::create([
+                        'pd_id' => $data['pd_id'],
+                        'question_id' => $id,
+                        'answer' => $answers[$i],
+                    ]);
                 }
 
                 echo htmlspecialchars('success');

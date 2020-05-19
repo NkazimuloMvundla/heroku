@@ -19,8 +19,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{asset('u/dist/css/skins/_all-skins.min.css' ) }}">
-  <!-- Morris chart -->
-  <link rel="stylesheet" href="{{asset('u/bower_components/morris.js/morris.css' ) }}">
+
   <!-- jvectormap -->
   <link rel="stylesheet" href="{{asset('u/bower_components/jvectormap/jquery-jvectormap.css' ) }}">
   <!-- Date Picker -->
@@ -41,10 +40,8 @@
   <link rel="stylesheet" href="{{ asset('u/plugins/iCheck/flat/blue.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css') }}">
 
-    <!--screen -css-->
- <link rel="stylesheet" href="{{asset('u/validate/demo/css/screen.css' ) }}">
  <!--Jquery--->
- <script src="{{ asset('u/bower_components/jquery/dist/jquery.min.js') }}"></script>
+ <script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
  <script src="{{ asset('u/dropzone-master/dist/dropzone.js') }}"></script>
 
 
@@ -81,12 +78,10 @@
   </div>
 <!-- ./wrapper -->
 
-    <!-- Bootstrap 3.3.7 -->
-    <script src="{{ asset('u/bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{asset("pub/bootstrap-3.3.7/js/bootstrap.min.js")}}"></script>
+  
+     <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
 
-    <!--profile validate -->
-    <script src="{{ asset('u/validate/dist/jquery.validate.min.js') }}"></script>
     <!--js func -->
     <script src="{{ asset('u/js/uu/inbox.js') }}"></script>
      <!--js func -->

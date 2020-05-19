@@ -88,6 +88,10 @@
 			}
 		}
 </style>
+<link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
+<!--lightSlider CSS-->
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/drift-master/dist/drift-basic.css') }}" />
     <div class="container">
         <div class="hidden-xs hidden-sm hidden-meduim">
           <ul class="breadcrumb">
@@ -306,7 +310,7 @@
                           <div>
                           @foreach ($pd_images as $pd_image)
                           @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                          <img src="{{ $pd_image->pd_filename }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
+                          <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
                           @endif
                           @endforeach
                           </div>
@@ -578,7 +582,8 @@
 
       </div>
   </div>
-
+          <!--Drift-->
+ <script src="{{ asset('pub/drift-master/dist/Drift.min.js') }}"></script>
  <!--Plug-in Initialisation-->
  <script type="text/javascript">
     $(document).ready(function() {
@@ -643,8 +648,14 @@
 			containInline: true,
 			hoverBoundingBox: true
 		});
-    })
+    }) 
 
 	</script>
+  <!-- responsive tags 3.3.7 -->
+    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
+    </script>
 
+    <!--lightSlider JS-->
+    <script src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
+   
 @endsection
