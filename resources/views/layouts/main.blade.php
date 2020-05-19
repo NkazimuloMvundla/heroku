@@ -7,6 +7,8 @@
 <meta name="format-detection" content="telephone=no"/>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Security-Policy" content="default-src 
+    'self'">
 <title>@yield('title', 'Home Page')</title>
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
 <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
