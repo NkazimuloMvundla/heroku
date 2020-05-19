@@ -7,8 +7,6 @@
 <meta name="format-detection" content="telephone=no"/>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Security-Policy" content="default-src 
-    'self'">
 <title>@yield('title', 'Home Page')</title>
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
 <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
@@ -40,13 +38,12 @@
     }
 </style>
 <link  rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
-
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" />
 <script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
 </head>
 <body id="bodyStyle">
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
 <header class="header" style="margin-bottom: -18px;">
     <div class="panel wrapper " id="panel-wrap">
      <div class="tm_header_outer hidden-xs hidden-sm hidden-md">
