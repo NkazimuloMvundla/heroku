@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use DB;
+use Image;
 
 class BannerController extends Controller
 {
@@ -26,7 +27,8 @@ class BannerController extends Controller
         ]);
 
         $imgPath = request('banner_img')->store('banners', 'public');
-
+        $image = Image::make(public_path('storage/' . $imgPath  . ''))->fit(1300, 390);
+        $image->save();
         \App\Banner::create([
             'bn_link' => $data['banner_link'],
             'bn_img' => $imgPath,

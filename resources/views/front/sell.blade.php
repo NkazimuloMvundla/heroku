@@ -51,8 +51,7 @@ h2.sell::after {
     color: #fff;
 }
   .row-1 {
-   /* background-image: url(img/austin-distel-744oGeqpxPQ-unsplash.jpg);
-    background-repeat: no-repeat; */
+
     background-color: #ccc;
     border: 1px solid;
     width: inherit;

@@ -176,7 +176,7 @@ div.dropdown-content{
 
 /*slideer background */
 .slider-background {
-    background-image: url(https://media.publit.io/file/ecomImages/trade.jpg);
+    background-image: url(/storage/banners/homepage.jpeg);
     background-repeat: no-repeat;
     background-color: #ccc;
     border: 1px solid;
@@ -514,7 +514,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 /*===========Post buying request=========*/
 div#post_a_request{
- background-image: url(https://media.publit.io/file/ecomImages/profile/icons/products/ClgMC1u9n2SAVTlgAA7uONkrRD4618.png);
+   background-image: url(/storage/banners/expo.png);
     background-repeat: no-repeat;
     background-color:
     #ccc;
@@ -670,7 +670,7 @@ h3.shows a{
 }
 
 div#tradeShowBackground {
-    background-image: url(https://media.publit.io/file/ecomImages/profile/icons/products/ClgMC1u9n2SAVTlgAA7uONkrRD4618.png);
+  background-image: url(/storage/banners/expo.png);
     background-repeat: no-repeat;
     background-color:
     #ccc;
