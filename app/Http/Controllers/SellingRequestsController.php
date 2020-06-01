@@ -61,14 +61,14 @@ class SellingRequestsController extends Controller
         ]);
 
         \App\SellingRequests::create([
-            'sr_u_id' => $data['sr_u_id'],
-            'sr_pc_id' => $data['subCategory'],
-            'sr_pc_name' => $data['productName'],
-            'sr_pd_spec' => $data['detailedSpecification'],
-            'message' => $data['message'],
-            'sr_order_qty' => $data['orderQuantity'],
-            'sr_order_qnty_unit' => $data['orderQuantityUnit'],
-            'sr_expired_time' => $data['deliveryDate']
+            'sr_u_id' => trim($data['sr_u_id']),
+            'sr_pc_id' => trim($data['subCategory']),
+            'sr_pc_name' => trim($data['productName']),
+            'sr_pd_spec' => trim($data['detailedSpecification']),
+            'message' => trim($data['message']),
+            'sr_order_qty' => trim($data['orderQuantity']),
+            'sr_order_qnty_unit' => trim($data['orderQuantityUnit']),
+            'sr_expired_time' => trim($data['deliveryDate'])
         ]);
 
         \App\AdminNotifications::create([
@@ -107,28 +107,29 @@ class SellingRequestsController extends Controller
     public function sendAmessageView($request_id)
     {
         $decoded_id = base64_decode($request_id);
+        $sanitized_id = filter_var($decoded_id, FILTER_SANITIZE_NUMBER_INT);
+        if (filter_var($sanitized_id, FILTER_VALIDATE_INT)) {
+            $parent_category = \App\productCategory::all();
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $sendAmessage = \App\SellingRequests::where('id', trim($sanitized_id))->get();
+            $measurementUnits = \App\MeasurementUnit::all();
+            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+            $count = count($userMessages);
+            $users = \App\User::all();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
 
-        validator([
-            $decoded_id => ['required', 'numeric'],
-        ]);
-        $parent_category = \App\productCategory::all();
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $sendAmessage = \App\SellingRequests::where('id', $decoded_id)->get();
-        $measurementUnits = \App\MeasurementUnit::all();
-        $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-        $count = count($userMessages);
-        $users = \App\User::all();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
+            if (!empty($buyingRequests)) {
 
-        if (!empty($buyingRequests)) {
+                return view('front.send-selling-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest', 'sendAmessage'));
+            }
 
-            return view('front.send-selling-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest', 'sendAmessage'));
+            return view('front.send-selling-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
+        } else {
+            return redirect()->back();
         }
-
-        return view('front.send-selling-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
     }
 
     public function allSellingSingleView()
@@ -137,8 +138,7 @@ class SellingRequestsController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            // $result = \App\BuyingRequest::where('id', $data['id'])->get();
-            $result = \App\SellingRequests::where('id', $data['id'])->get(['sr_pc_name', 'sr_pd_spec', 'message']);
+            $result = \App\SellingRequests::where('id', trim($data['id']))->get(['sr_pc_name', 'sr_pd_spec', 'message']);
             return $result;
         }
     }

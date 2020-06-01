@@ -8,106 +8,94 @@ use Session;
 
 class ExportCapabilityController extends Controller
 {
-       
-        
-        public function save(Request $request){
-
-        if(request()->ajax() ){   
-
-        $exist = \App\ExportCapability::where('user_id', Auth::user()->id)->get();
-
-    
-
-        //if there's already data in db
-       if(count($exist) > 0){
-
-        //check to see if chekha is set
-
-        if(!empty(request()->chekha)){
-          //then update all three
-           $data = request()->validate([
-              'export_percentage' => [ 'numeric'],
-              //'market' => ['required' ],
-              'chekha' => ['string', 'max:255'],
-              'export_year' => [ 'numeric'],
 
 
-              ]);
+    public function save(Request $request)
+    {
 
-            //  $market = implode(',', $data['market']);
-        
-            \App\ExportCapability::where('user_id', Auth::user()->id)->update([
-              'user_id' => Auth::user()->id,
-              'export_percentage' => $data['export_percentage'],
-              'main_markets' => $data['chekha'],
-              'export_started' => $data['export_year'],
+        if (request()->ajax()) {
+
+            $exist = \App\ExportCapability::where('user_id', Auth::user()->id)->get();
 
 
 
-              ]);
-    
+            //if there's already data in db
+            if (count($exist) > 0) {
+
+                //check to see if chekha is set
+
+                if (!empty(request()->chekha)) {
+                    //then validate all three
+                    $data = request()->validate([
+                        'export_percentage' => ['numeric'],
+                        //'market' => ['required' ],
+                        'chekha' => ['string', 'max:255'],
+                        'export_year' => ['numeric'],
 
 
-        }else{
-          //update the two only
-           $data = request()->validate([
-              'export_percentage' => [ 'numeric'],
-              'export_year' => [ 'numeric'],
+                    ]);
 
+                    //  $market = implode(',', $data['market']);
 
-              ]);
-
-            //  $market = implode(',', $data['market']);
-        
-            \App\ExportCapability::where('user_id', Auth::user()->id)->update([
-              'user_id' => Auth::user()->id,
-              'export_percentage' => $data['export_percentage'],
-              'export_started' => $data['export_year'],
+                    \App\ExportCapability::where('user_id', Auth::user()->id)->update([
+                        'user_id' => Auth::user()->id,
+                        'export_percentage' => trim($data['export_percentage']),
+                        'main_markets' => trim($data['chekha']),
+                        'export_started' => trim($data['export_year']),
 
 
 
-              ]);
-        
-            }
-          
+                    ]);
+                } else {
+                    //update the two only
+                    $data = request()->validate([
+                        'export_percentage' => ['numeric'],
+                        'export_year' => ['numeric'],
 
-        }else{
+
+                    ]);
+
+                    //  $market = implode(',', $data['market']);
+
+                    \App\ExportCapability::where('user_id', Auth::user()->id)->update([
+                        'user_id' => Auth::user()->id,
+                        'export_percentage' => trim($data['export_percentage']),
+                        'export_started' => trim($data['export_year']),
+
+
+
+                    ]);
+                }
+            } else {
 
                 //then update all three
-           $data = request()->validate([
-              'export_percentage' => [ 'numeric'],
-              //'market' => ['required' ],
-              'chekha' => ['string', 'max:255'],
-              'export_year' => [ 'numeric'],
+                $data = request()->validate([
+                    'export_percentage' => ['numeric'],
+                    //'market' => ['required' ],
+                    'chekha' => ['string', 'max:255'],
+                    'export_year' => ['numeric'],
 
 
-              ]);
-
-              //$market = implode(',', $data['market']);
-        
-             \App\ExportCapability::create([
-             'user_id' => Auth::user()->id,
-              'export_percentage' => $data['export_percentage'],
-              'main_markets' => $data['chekha'],
-              'export_started' => $data['export_year'],
+                ]);
 
 
+                \App\ExportCapability::create([
+                    'user_id' => Auth::user()->id,
+                    'export_percentage' => trim($data['export_percentage']),
+                    'main_markets' => trim($data['chekha']),
+                    'export_started' => trim($data['export_year']),
 
-              ]);
 
 
+                ]);
+            }
         }
-
-      
-      }
-         
-
     }
-/*
+    /*
 ==========This is only PHP code incase there's no javascript
     public function save(Request $request){
 
-          
+
 
         $exist = \App\ExportCapability::where('user_id', Auth::user()->id)->get();
         if(count($exist) > 0){
@@ -121,7 +109,7 @@ class ExportCapabilityController extends Controller
            ]);
 
               $market = implode(',', $data['market']);
-        
+
             \App\ExportCapability::where('user_id', Auth::user()->id)->update([
               'user_id' => Auth::user()->id,
               'export_percentage' => $data['export_percentage'],
@@ -131,9 +119,9 @@ class ExportCapabilityController extends Controller
 
 
               ]);
-    
 
-         
+
+
             Session::flash('message', " Updated Successfully.");
               return redirect()->back();
 
@@ -152,7 +140,7 @@ class ExportCapabilityController extends Controller
            ]);
 
               $market = implode(',', $data['market']);
-        
+
              \App\ExportCapability::create([
               'user_id' => Auth::user()->id,
               'export_percentage' => $data['export_percentage'],
@@ -162,16 +150,16 @@ class ExportCapabilityController extends Controller
 
 
               ]);
-    
 
-         
+
+
             Session::flash('message', " Added Successfully.");
               return redirect()->back();
 
         }
 
-      
-         
+
+
 
     }
 

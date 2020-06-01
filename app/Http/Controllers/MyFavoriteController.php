@@ -35,13 +35,13 @@ class MyFavoriteController extends Controller
                 $data = request()->validate([
                     'id' => ['numeric'],
                 ]);
-                $count = \App\my_favorite::where('mf_pd_id', $data['id'])->get();
+                $count = \App\my_favorite::where('mf_pd_id', trim($data['id']))->get();
                 if (count($count) > 0) {
                     echo htmlspecialchars('You have already liked this product');
                 } else {
                     \App\my_favorite::create([
                         'mf_u_id' => Auth()->user()->id,
-                        'mf_pd_id' => $data['id'],
+                        'mf_pd_id' => trim($data['id']),
                     ]);
                     echo htmlspecialchars('Product was added to liked products');
                 }
@@ -57,7 +57,7 @@ class MyFavoriteController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            \App\my_favorite::where('mf_pd_id', $data['id'])->delete();
+            \App\my_favorite::where('mf_pd_id', trim($data['id']))->delete();
         }
     }
 }

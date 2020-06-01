@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Rules\PhotoMaxUpload;
 use Response;
+use Intervention\Image\Facades\Image;
+use validate;
 
 class ProductController extends Controller
 {
@@ -58,7 +60,7 @@ class ProductController extends Controller
             'Product_Name' => ['required', 'string', 'max:255'],
             'Product_Keyword' => ['required', 'string', 'max:255'],
             'file' => ['array'],
-            'file.*' => ['image', 'mimes:jpeg,png'],
+            'file.*' => ['image', 'mimes:jpeg,png', 'max:2048'],
             'listing_description' => ['required', 'string', 'max:255'],
             'Minimum_Order_Quantity' => ['required', 'numeric'],
             'Minimum_order_unit' => ['required', 'string', 'max:255'],
@@ -87,22 +89,22 @@ class ProductController extends Controller
 
         $id = DB::table('products')->insertGetId([
             'pd_u_id' => Auth::user()->id,
-            'pd_subCategory_id' => $data['subCategory'],
-            'pd_category_id' => $data['Category'],
-            'pd_name' => $data['Product_Name'],
-            'pd_keyword' => $data['Product_Keyword'],
-            'pd_listing_description' => $data['listing_description'],
-            'pd_min_order_qty' => $data['Minimum_Order_Quantity'],
-            'minOrderUnit' => $data['Minimum_order_unit'],
-            'min_price' => $data['Min_price'],
-            'max_price' => $data['Max_price'],
-            'fob_mu_id' => $data['Minimum_unit'],
-            'port' => $data['Port'],
-            'pd_payment_term' => $data['paymentMethod'],
-            'capacity' => $data['supplyQuantity'],
-            'pd_supply_ability' => $data['supplyUnit'],
-            'supplyPeriod' => $data['supplyPeriod'],
-            'pd_delivery_time' => $data['deliveryTime'],
+            'pd_subCategory_id' => trim($data['subCategory']),
+            'pd_category_id' => trim($data['Category']),
+            'pd_name' => trim($data['Product_Name']),
+            'pd_keyword' => trim($data['Product_Keyword']),
+            'pd_listing_description' => trim($data['listing_description']),
+            'pd_min_order_qty' => trim($data['Minimum_Order_Quantity']),
+            'minOrderUnit' => trim($data['Minimum_order_unit']),
+            'min_price' => trim($data['Min_price']),
+            'max_price' => trim($data['Max_price']),
+            'fob_mu_id' => trim($data['Minimum_unit']),
+            'port' => trim($data['Port']),
+            'pd_payment_term' => trim($data['paymentMethod']),
+            'capacity' => trim($data['supplyQuantity']),
+            'pd_supply_ability' => trim($data['supplyUnit']),
+            'supplyPeriod' => trim($data['supplyPeriod']),
+            'pd_delivery_time' => trim($data['deliveryTime']),
 
 
         ]);
@@ -118,8 +120,10 @@ class ProductController extends Controller
         $i = 1;
         foreach (request()->file('file') as $file) {
             $imgPath = $file->store('pd_images', 'public');
+            $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(250, 250);
+            $image->save();
             \App\Photo::create([
-                'pd_photo_id' => $id,
+                'pd_photo_id' => trim($id),
                 'pd_u_id' => Auth::user()->id,
                 'pd_filename' => $imgPath,
                 'pd_priority' => $i++,
@@ -142,17 +146,15 @@ class ProductController extends Controller
                 'stringName' => ['nullable', 'string', 'max:255'],
             ]);
 
-            $spec_option = explode(',', $valid['stringName']);
-            $spec_parentIds = explode(',', $valid['stringIds']);
+            $spec_option = explode(',', trim($valid['stringName']));
+            $spec_parentIds = explode(',', trim($valid['stringIds']));
 
             for ($i = 0; $i < count($spec_option); $i++) {
 
                 \App\SpecOption::create([
-                    'product_id' => $id,
-                    'spec_parent_id' => $spec_parentIds[$i],
-                    'spec_option_name' => $spec_option[$i],
-
-
+                    'product_id' => trim($id),
+                    'spec_parent_id' => trim($spec_parentIds[$i]),
+                    'spec_option_name' => trim($spec_option[$i]),
                 ]);
             }
         }
@@ -176,16 +178,16 @@ class ProductController extends Controller
                     for ($i = 0; $i < count($specCarr); $i++) {
                         //insert parent specification and get last id
                         $specParentId = DB::table('specifications')->insertGetId([
-                            'spec_subCatid' => $data['subCategory'],
-                            'spec_name' => $specParr[$i],
-                            'spec_parentCat_id' => $data['mainCategory'],
+                            'spec_subCatid' => trim($data['subCategory']),
+                            'spec_name' => trim($specParr[$i]),
+                            'spec_parentCat_id' => trim($data['mainCategory']),
                         ]);
 
                         //insert spec option
                         \App\SpecOption::create([
-                            'product_id' => $id,
-                            'spec_parent_id' => $specParentId,
-                            'spec_option_name' => $specCarr[$i],
+                            'product_id' => trim($id),
+                            'spec_parent_id' => trim($specParentId),
+                            'spec_option_name' => trim($specCarr[$i]),
                         ]);
                     }
                 }
@@ -204,40 +206,41 @@ class ProductController extends Controller
     public function edit($product_id)
     {
         $decoded_product_id = base64_decode($product_id);
-        $parent_category = \App\productCategory::all();
-        $measurementUnits = \App\MeasurementUnit::all();
-        $paymentTerms = \App\PaymentTerms::all();
+        $decoded_product_id = trim($decoded_product_id);
+        $sanitized_pd_id = filter_var($decoded_product_id, FILTER_SANITIZE_NUMBER_INT);
+        if (filter_var($sanitized_pd_id, FILTER_VALIDATE_INT)) {
+            $parent_category = \App\productCategory::all();
+            $measurementUnits = \App\MeasurementUnit::all();
+            $paymentTerms = \App\PaymentTerms::all();
+            $data = request()->validate([
+                'product_id' => ['numeric'],
+            ]);
+            $product = \App\Product::where('pd_id', $sanitized_pd_id)->get();
+            $pd_images = \App\Photo::where('pd_photo_id', $sanitized_pd_id)->get();
+            $questions = \App\Questions::where('pd_id', $sanitized_pd_id)->get();
+            $answers = \App\Answers::all();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
+            $specifications = \App\Specification::all();
+            $spec_option = \App\SpecOption::where('product_id', $sanitized_pd_id)->get();
+            $user_details = \App\User::where('id', Auth::user()->id)->get();
+            Session::put('account', $user_details->first()->account_type);
+            $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
+            $countNotifications = count($notifications);
+            Session::put('notifications', $notifications);
+            Session::put('count_notifications', $countNotifications);
+            if (Auth::check()) {
+                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+                $count = count($userMessages);
+                Session::put('user_messages', $userMessages);
+                Session::put('user_messages_count', $count);
+                return view('admin.product-edit', compact('parent_category', 'specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'count', 'countBuyingRequest', 'questions', 'answers'));
+            } else {
 
-        $data = request()->validate([
-            'product_id' => ['numeric'],
-
-        ]);
-        $product = \App\Product::where('pd_id', $decoded_product_id)->get();
-        $pd_images = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
-
-        $questions = \App\Questions::where('pd_id', $decoded_product_id)->get();
-        $answers = \App\Answers::all();
-
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
-        $specifications = \App\Specification::all();
-        $spec_option = \App\SpecOption::where('product_id', $decoded_product_id)->get();
-        $user_details = \App\User::where('id', Auth::user()->id)->get();
-        Session::put('account', $user_details->first()->account_type);
-        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->get();
-        $countNotifications = count($notifications);
-        Session::put('notifications', $notifications);
-        Session::put('count_notifications', $countNotifications);
-        if (Auth::check()) {
-            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-            $count = count($userMessages);
-            Session::put('user_messages', $userMessages);
-            Session::put('user_messages_count', $count);
-            return view('admin.product-edit', compact('parent_category', 'specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'count', 'countBuyingRequest', 'questions', 'answers'));
+                return view('admin.product-edit', compact('specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'questions', 'answers'));
+            }
         } else {
-
-
-            return view('admin.product-edit', compact('specifications', 'spec_option', 'measurementUnits', 'paymentTerms', 'product', 'pd_images', 'questions', 'answers'));
+            return redirect("/");
         }
     }
 
@@ -245,117 +248,126 @@ class ProductController extends Controller
     public function update($product_id)
     {
         $decoded_product_id = base64_decode($product_id);
-        $data = request()->validate([
-            'Product_Name' => ['required', 'string', 'max:255'],
-            'Product_Keyword' => ['required', 'string', 'max:255'],
-            'Product_photo' => ['array'],
-            'Product_photo.*' => ['image', 'mimes:jpeg,png'],
-            'listing_description' => ['required', 'string', 'max:255'],
-            'Minimum_Order_Quantity' => ['required', 'numeric'],
-            'Minimum_order_unit' => ['required', 'string', 'max:255'],
-            'Min_price' => ['required', 'numeric'],
-            'Max_price' => ['required ', 'gt:Min_price', 'numeric'],
-            'Minimum_unit' => ['required', 'string', 'max:255'],
-            'Port' => ['required', 'string', 'max:255'],
-            'paymentMethod' => ['required', 'array'],
-            'paymentMethod.*' => ['required', 'string'],
-            'supplyQuantity' => ['required', 'numeric'],
-            'supplyUnit' => ['required', 'string', 'max:255'],
-            'supplyPeriod' => ['required', 'string', 'max:255'],
-            'deliveryTime' => ['required', 'string', 'max:255'],
+        $decoded_product_id = trim($decoded_product_id);
+        $sanitized_pd_id = filter_var($decoded_product_id, FILTER_SANITIZE_NUMBER_INT);
+        if (filter_var($sanitized_pd_id, FILTER_VALIDATE_INT)) {
+            $data = request()->validate([
+                'Product_Name' => ['required', 'string', 'max:255'],
+                'Product_Keyword' => ['required', 'string', 'max:255'],
+                'Product_photo' => ['array'],
+                'Product_photo.*' => ['image', 'mimes:jpeg,png', 'max:2048'],
+                'listing_description' => ['required', 'string', 'max:255'],
+                'Minimum_Order_Quantity' => ['required', 'numeric'],
+                'Minimum_order_unit' => ['required', 'string', 'max:255'],
+                'Min_price' => ['required', 'numeric'],
+                'Max_price' => ['required ', 'gt:Min_price', 'numeric'],
+                'Minimum_unit' => ['required', 'string', 'max:255'],
+                'Port' => ['required', 'string', 'max:255'],
+                'paymentMethod' => ['required', 'array'],
+                'paymentMethod.*' => ['required', 'string'],
+                'supplyQuantity' => ['required', 'numeric'],
+                'supplyUnit' => ['required', 'string', 'max:255'],
+                'supplyPeriod' => ['required', 'string', 'max:255'],
+                'deliveryTime' => ['required', 'string', 'max:255'],
 
-        ]);
-
-
-
-        $payment = implode(',', $data['paymentMethod']);
-
-        $update = Product::where('pd_id', $decoded_product_id)->update([
-            'pd_name' => $data['Product_Name'],
-            'pd_keyword' => $data['Product_Keyword'],
-            'pd_listing_description' => $data['listing_description'],
-            'pd_min_order_qty' => $data['Minimum_Order_Quantity'],
-            'minOrderUnit' => $data['Minimum_order_unit'],
-            'min_price' => $data['Min_price'],
-            'max_price' => $data['Max_price'],
-            'fob_mu_id' => $data['Minimum_unit'],
-            'port' => $data['Port'],
-            'pd_payment_term' => $payment,
-            'capacity' => $data['supplyQuantity'],
-            'pd_supply_ability' => $data['supplyUnit'],
-            'supplyPeriod' => $data['supplyPeriod'],
-            'pd_delivery_time' => $data['deliveryTime'],
-            'pd_approval_status' => 0,
-
-        ]);
-
-        if ($update) {
-            \App\AdminNotifications::create([
-                'message' => Auth::user()->company_name . " has updated their product " .  $data['Product_Name'] . " ",
-                'user_id' => Auth::user()->id,
-                'product_id' => $decoded_product_id
             ]);
-        }
 
 
-        //check how many images already exist in the DB with the same ID
-        $images = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
-        $countImgs = count($images);
-        //IF THERE'S NO IMAGES IN THE DB
-        if ($countImgs < 1) {
-            request()->validate([
-                'Product_photo' => ['required', new PhotoMaxUpload],
-            ]);
-            //IF THERE'S 2 IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 1 SINCE LIMIT IS 3
-        } else if ($countImgs == 2) {
-            request()->validate([
-                'Product_photo' => [new PhotoMaxUpload, new PhotoEditMaxUpload],
-            ]);
-            //IF THERE'S 3 IMAGES IN THE DB, A USER CANT UPLOAD ANY PHOTO AT ALL SINCE LIMIT IS 3
-        } else if ($countImgs == 3) {
-            request()->validate([
-                'Product_photo' => [new PhotoEditEqualToThree],
-            ]);
-        }
-        //IF THERE'S 1 IMAGE IN THE DB, A USER CANT UPLOAD MORE THAN 2 SINCE LIMIT IS 3
-        else if ($countImgs == 1) {
-            request()->validate([
-                'Product_photo' =>  [new PhotoMaxUpload, new PhotoEditEqualToOne],
-            ]);
-        }
-        //IF THERE'S NO IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 3 SINCE LIMIT IS 3
-        else {
-            request()->validate([
-                'Product_photo' => [new PhotoMaxUpload],
-            ]);
-        }
-        if (request()->has('Product_photo') && !empty(request()->Product_photo)) {
-            foreach (request()->file('Product_photo') as $file) {
-                $imgPath = $file->store('pd_images', 'public');
 
-                \App\Photo::create([
-                    'pd_photo_id' => $decoded_product_id,
-                    'pd_u_id' => Auth::user()->id,
-                    'pd_filename' => $imgPath,
+            $payment = implode(',', $data['paymentMethod']);
 
+            $update = Product::where('pd_id', $sanitized_pd_id)->update([
+
+                'pd_name' => trim($data['Product_Name']),
+                'pd_keyword' => trim($data['Product_Keyword']),
+                'pd_listing_description' => trim($data['listing_description']),
+                'pd_min_order_qty' => trim($data['Minimum_Order_Quantity']),
+                'minOrderUnit' => trim($data['Minimum_order_unit']),
+                'min_price' => trim($data['Min_price']),
+                'max_price' => trim($data['Max_price']),
+                'fob_mu_id' => trim($data['Minimum_unit']),
+                'port' => trim($data['Port']),
+                'pd_payment_term' => $payment,
+                'capacity' => trim($data['supplyQuantity']),
+                'pd_supply_ability' => trim($data['supplyUnit']),
+                'supplyPeriod' => trim($data['supplyPeriod']),
+                'pd_delivery_time' => trim($data['deliveryTime']),
+                'pd_approval_status' => 0,
+
+
+            ]);
+
+            if ($update) {
+                \App\AdminNotifications::create([
+                    'message' => Auth::user()->company_name . " has updated their product " .  $data['Product_Name'] . " ",
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $sanitized_pd_id
                 ]);
             }
+
+
+            //check how many images already exist in the DB with the same ID
+            $images = \App\Photo::where('pd_photo_id', $sanitized_pd_id)->get();
+            $countImgs = count($images);
+            //IF THERE'S NO IMAGES IN THE DB
+            if ($countImgs < 1) {
+                request()->validate([
+                    'Product_photo' => ['required', new PhotoMaxUpload],
+                ]);
+                //IF THERE'S 2 IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 1 SINCE LIMIT IS 3
+            } else if ($countImgs == 2) {
+                request()->validate([
+                    'Product_photo' => [new PhotoMaxUpload, new PhotoEditMaxUpload],
+                ]);
+                //IF THERE'S 3 IMAGES IN THE DB, A USER CANT UPLOAD ANY PHOTO AT ALL SINCE LIMIT IS 3
+            } else if ($countImgs == 3) {
+                request()->validate([
+                    'Product_photo' => [new PhotoEditEqualToThree],
+                ]);
+            }
+            //IF THERE'S 1 IMAGE IN THE DB, A USER CANT UPLOAD MORE THAN 2 SINCE LIMIT IS 3
+            else if ($countImgs == 1) {
+                request()->validate([
+                    'Product_photo' =>  [new PhotoMaxUpload, new PhotoEditEqualToOne],
+                ]);
+            }
+            //IF THERE'S NO IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 3 SINCE LIMIT IS 3
+            else {
+                request()->validate([
+                    'Product_photo' => [new PhotoMaxUpload],
+                ]);
+            }
+            if (request()->has('Product_photo') && !empty(request()->Product_photo)) {
+                foreach (request()->file('Product_photo') as $file) {
+
+                    $imgPath = $file->store('pd_images', 'public');
+
+                    $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(250, 250);
+                    $image->save();
+                    \App\Photo::create([
+                        'pd_photo_id' => $sanitized_pd_id,
+                        'pd_u_id' => Auth::user()->id,
+                        'pd_filename' => $imgPath,
+
+                    ]);
+                }
+            }
+            //check if the main photo is empty then update it
+            $mainImage = \App\Product::where('pd_id', $sanitized_pd_id)->get();
+            if ($mainImage->first()->pd_photo == NULL) {
+                //get any image from photos and make it a main photo
+                $PhotoMainImage = \App\Photo::where('pd_photo_id', $sanitized_pd_id)->get();
+                //store the main Image
+                \App\Product::where('pd_id', $sanitized_pd_id)->update([
+                    'pd_photo' => $PhotoMainImage->first()->pd_filename,
+                ]);
+            }
+
+            Session::flash('message', "Product Updated Successfully.");
+            return redirect()->back();
+        } else {
+            return redirect("/");
         }
-        //check if the main photo is empty then update it
-        $mainImage = \App\Product::where('pd_id', $decoded_product_id)->get();
-        if ($mainImage->first()->pd_photo == NULL) {
-            //get any image from photos and make it a main photo
-            $PhotoMainImage = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
-            //store the main Image
-            \App\Product::where('pd_id', $decoded_product_id)->update([
-                'pd_photo' => $PhotoMainImage->first()->pd_filename,
-            ]);
-        }
-
-
-
-        Session::flash('message', "Product Updated Successfully.");
-        return redirect()->back();
     }
 
     public function updateSpecs()
@@ -536,58 +548,72 @@ class ProductController extends Controller
     {
 
         $decoded_product_id = base64_decode($product_id);
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $product = \App\Product::where('pd_id', $decoded_product_id)->get();
-        $count = count($product);
+        $decoded_product_id =  trim($decoded_product_id);
+        $sanitized_product_id = filter_var($decoded_product_id, FILTER_SANITIZE_NUMBER_INT);
+
+        if (filter_var($sanitized_product_id, FILTER_VALIDATE_INT)) {
+
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $product = \App\Product::where('pd_id', $sanitized_product_id)->get();
+            $count = count($product);
 
 
-        foreach ($product as $pro) {
+            foreach ($product as $pro) {
 
-            $pd_id = $pro['pd_id'];
-            $payment_tem = $pro['pd_payment_term'];
-            $pd_u_id = $pro['pd_u_id'];
-            $pd_category_id = $pro['pd_category_id'];
-        }
-        if ($count > 0 && $count < 2) {
-            $user = \App\User::where('id', $pd_u_id)->get();
+                $pd_id = $pro['pd_id'];
+                $payment_tem = $pro['pd_payment_term'];
+                $pd_u_id = $pro['pd_u_id'];
+                $pd_category_id = $pro['pd_category_id'];
+            }
+            if ($count > 0 && $count < 2) {
+                $user = \App\User::where('id', $pd_u_id)->get();
+            } else {
+                return redirect()->back();
+            }
+            $pd_images = \App\Photo::all();
+            $cats = \App\SubCategory::where('id', $pd_category_id)->get();
+
+            if (count($cats) > 0) {
+                $parent = \App\productCategory::where('pc_id', $cats->first()->pc_id)->get();
+            } else {
+                return redirect()->back();
+            }
+            //join subcats with current product id
+            $subcategory = DB::table('products')
+                ->join('sub_categories', 'sub_categories.id', '=', 'products.pd_category_id')->where('sub_categories.id', $product->first()->pd_category_id)->get()->first();
+            //join last_categories with current product id
+            $last_categories = DB::table('products')
+                ->join('last_categories', 'last_categories.id', '=', 'products.pd_subCategory_id')->where('last_categories.id', $product->first()->pd_subCategory_id)->get()->first();
+
+            $you_may_like = DB::table('products')->take(8)->inRandomOrder()->get();
+            $featured_images = \App\Photo::all();
+            $payments = \App\PaymentTerms::all();
+            $payment_t = explode(',', $payment_tem);
+            $reviews = \App\Review::where(['pd_id' => $pd_id, 'status' => 1])->take(2)->get();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
+            $specifications = \App\Specification::all();
+            $spec_option = \App\SpecOption::where('product_id', $sanitized_product_id)->get();
+            $export_capabilities = \App\ExportCapability::where('user_id', $product->first()->pd_u_id)->get();
+            $export = count($export_capabilities);
+            $company_images = \App\CompanyImages::where('user_id', $product->first()->pd_u_id)->get();
+            $count_comp_img = count($company_images);
+            $certificates = \App\CompanyCertificate::where('user_id', $product->first()->pd_u_id)->get();
+            $count_certificates = count($certificates);
+            $questions = \App\Questions::where('pd_id', $sanitized_product_id)->get();
+            $answers = \App\Answers::all();
+            if (Auth::check()) {
+                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+                $count = count($userMessages);
+
+                return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'subcategory', 'last_categories', 'count_comp_img', 'questions', 'answers'));
+            } else {
+                return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'subcategory', 'last_categories', 'count_comp_img', 'questions', 'answers'));
+            }
         } else {
-            return redirect()->back();
-        }
-        $pd_images = \App\Photo::all();
-        $cats = \App\SubCategory::where('id', $pd_category_id)->get();
-
-        if (count($cats) > 0) {
-            $parent = \App\productCategory::where('pc_id', $cats->first()->pc_id)->get();
-        } else {
-            return redirect()->back();
-        }
-
-        $you_may_like = DB::table('products')->take(8)->inRandomOrder()->get();
-        $featured_images = \App\Photo::all();
-        $payments = \App\PaymentTerms::all();
-        $payment_t = explode(',', $payment_tem);
-        $reviews = \App\Review::where(['pd_id' => $pd_id, 'status' => 1])->take(2)->get();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
-        $specifications = \App\Specification::all();
-        $spec_option = \App\SpecOption::where('product_id', $decoded_product_id)->get();
-        $export_capabilities = \App\ExportCapability::where('user_id', $product->first()->pd_u_id)->get();
-        $export = count($export_capabilities);
-        $company_images = \App\CompanyImages::where('user_id', $product->first()->pd_u_id)->get();
-        $count_comp_img = count($company_images);
-        $certificates = \App\CompanyCertificate::where('user_id', $product->first()->pd_u_id)->get();
-        $count_certificates = count($certificates);
-        $questions = \App\Questions::where('pd_id', $decoded_product_id)->get();
-        $answers = \App\Answers::all();
-        if (Auth::check()) {
-            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-            $count = count($userMessages);
-
-            return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img', 'questions', 'answers'));
-        } else {
-            return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'count_comp_img', 'questions', 'answers'));
+            return redirect("/");
         }
     }
 

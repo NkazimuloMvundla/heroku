@@ -11,6 +11,7 @@ use App\Rules\PhotoEditMaxUpload;
 use App\Rules\PhotoMaxUpload;
 use Validator;
 use DB;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -52,13 +53,13 @@ class ProfileController extends Controller
 
 
         Auth::user()->update([
-            'about_us' => $data['about_us'],
-            'company_address' => $data['company_address'],
-            'zip_code' => $data['zip_code'],
-            'company_name' => $data['company_name'],
+            'about_us' => trim($data['about_us']),
+            'company_address' => trim($data['company_address']),
+            'zip_code' => trim($data['zip_code']),
+            'company_name' => trim($data['company_name']),
             // 'account_type' =>$data['business_type'],
-            'registration_number' => $data['registration_number'],
-            'phone_number' => $data['phone_number'],
+            'registration_number' => trim($data['registration_number']),
+            'phone_number' => trim($data['phone_number']),
 
         ]);
         Session::flash('message', "Updated Successfully.");
@@ -89,8 +90,8 @@ class ProfileController extends Controller
 
         $data = request()->validate([
             'business_slogan' => ['nullable', 'string', 'max:255'],
-            'company_logo' => ['nullable', 'image'],
-            'business_card_background' => ['nullable', 'image'],
+            'company_logo' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+            'business_card_background' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048']
 
 
         ]);
@@ -100,12 +101,12 @@ class ProfileController extends Controller
             //check to see if this field is empty in the DB , if it is then create
             if (Auth::user()->company_slogan == "") {
                 Auth::user()->update([
-                    'company_slogan' => $data['business_slogan'],
+                    'company_slogan' => trim($data['business_slogan']),
 
                 ]);
             } else {
                 Auth::user()->update([
-                    'company_slogan' => $data['business_slogan'],
+                    'company_slogan' => trim($data['business_slogan']),
 
                 ]);
             }
@@ -114,6 +115,9 @@ class ProfileController extends Controller
 
             $company_logo = request('company_logo')->store('profile', 'public');
             //check to see if this field is empty in the DB , if it is then create
+            $image = Image::make(public_path('storage/' . $company_logo . ''))->fit(64, 64);
+            $image->save();
+
             if (Auth::user()->company_logo == "") {
                 Auth::user()->update([
                     'company_logo' => $company_logo,
@@ -128,7 +132,7 @@ class ProfileController extends Controller
 
                     if ($success) {
                         $data = request()->validate([
-                            'company_logo' => ['image'],
+                            'company_logo' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048']
                         ]);
 
 
@@ -143,6 +147,9 @@ class ProfileController extends Controller
         if (!empty(request()->business_card_background) || request()->business_card_background != NULL) {
 
             $business_card_background = request('business_card_background')->store('profile', 'public');
+
+            $image = Image::make(public_path('storage/' . $business_card_background . ''))->fit(200, 130);
+            $image->save();
             //check to see if this field is empty in the DB , if it is then create
             if (Auth::user()->company_background_img == "") {
                 Auth::user()->update([
@@ -158,7 +165,7 @@ class ProfileController extends Controller
                     if ($success) {
 
                         $data = request()->validate([
-                            'company_background_img' => ['image'],
+                            'company_background_img' => ['image', 'mimes:jpeg,png', 'max:2048'],
                         ]);
 
                         Auth::user()->update([
@@ -178,32 +185,32 @@ class ProfileController extends Controller
             if ($countImgs < 1) {
                 request()->validate([
                     'company_images' => ['nullable', 'array', new PhotoMaxUpload],
-                    'company_images.*' => ['nullable', 'image'],
+                    'company_images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048']
                 ]);
                 //IF THERE'S 2 IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 1 SINCE LIMIT IS 3
             } else if ($countImgs == 2) {
                 request()->validate([
-                    'company_images' => ['nullable',  new PhotoMaxUpload, new PhotoEditMaxUpload],
+                    'company_images' => [new PhotoMaxUpload, new PhotoEditMaxUpload],
 
                 ]);
                 //IF THERE'S 3 IMAGES IN THE DB, A USER CANT UPLOAD ANY PHOTO AT ALL SINCE LIMIT IS 3
             } else if ($countImgs == 3) {
                 request()->validate([
-                    'company_images' => ['nullable',  new PhotoEditEqualToThree],
+                    'company_images' => [new PhotoEditEqualToThree],
 
                 ]);
             }
             //IF THERE'S 1 IMAGE IN THE DB, A USER CANT UPLOAD MORE THAN 2 SINCE LIMIT IS 3
             else if ($countImgs == 1) {
                 request()->validate([
-                    'company_images' =>  ['nullable',  new PhotoMaxUpload, new PhotoEditEqualToOne],
+                    'company_images' =>  [new PhotoMaxUpload, new PhotoEditEqualToOne],
 
                 ]);
             }
             //IF THERE'S NO IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 3 SINCE LIMIT IS 3
             else {
                 request()->validate([
-                    'company_images' => ['nullable', new PhotoMaxUpload],
+                    'company_images' => [new PhotoMaxUpload],
 
                 ]);
             }
@@ -212,7 +219,8 @@ class ProfileController extends Controller
 
                 $imgPath = $file->store('company_images', 'public');
                 //check to see if this field is empty in the DB , if it is then create
-
+                $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(200, 130);
+                $image->save();
                 //this means ther'es nothing returned, so it empty
 
                 \App\CompanyImages::create([
@@ -284,7 +292,7 @@ class ProfileController extends Controller
                 'id' => ['numeric']
             ]);
 
-            $path = \App\CompanyCertificate::where('id', $data['id'])->get();
+            $path = \App\CompanyCertificate::where('id', trim($data['id']))->get();
             $paths = $path->first()->filename; //pd_images\image.png
 
             $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
@@ -292,7 +300,7 @@ class ProfileController extends Controller
                 $success = unlink($absolute);
 
                 if ($success) {
-                    \App\CompanyCertificate::where('id', $data['id'])->delete();
+                    \App\CompanyCertificate::where('id', trim($data['id']))->delete();
                 }
             }
         }

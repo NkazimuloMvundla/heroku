@@ -15,7 +15,8 @@ class AnswersController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\Answers::where('id', $data['id'])->get(['id', 'answer']);
+            $id = trim($data['id']);
+            $result = \App\Answers::where('id', $id)->get(['id', 'answer']);
             return response::json($result);
         }
     }
@@ -28,10 +29,10 @@ class AnswersController extends Controller
                 'answer' =>  ['nullable', 'string', 'max:255'],
             ]);
 
-            \App\Answers::where('id', $data['id'])->update([
-                'answer' => $data['answer'],
-                //    'priority' => 2,
-
+            $id = trim($data['id']);
+            $answer = trim($data['answer']);
+            \App\Answers::where('id', $id)->update([
+                'answer' => $answer,
             ]);
         }
     }

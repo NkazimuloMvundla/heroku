@@ -18,7 +18,7 @@ class AdminIndexController extends Controller
         $product_listed = \App\Product::where('pd_u_id', Auth::user()->id)->get();
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         // Session::flush();
-        Session::regenerate();
+        //Session::regenerate();
         Session::put('account', $user_details->first()->account_type);
         //dd(Session::get('account'));
         Session::put('date_created', $user_details->first()->created_at);

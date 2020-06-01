@@ -27,7 +27,7 @@ class NotificationsController extends Controller
                 'id' => ['numeric'],
 
             ]);
-            \App\Notifications::where('id', $data['id'])->delete();
+            \App\Notifications::where('id', trim($data['id']))->delete();
         }
     }
 

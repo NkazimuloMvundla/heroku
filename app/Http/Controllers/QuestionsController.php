@@ -15,7 +15,7 @@ class QuestionsController extends Controller
             'questions' => ['nullable', 'string'],
             'answers' => ['nullable', 'string'],
         ]);
-
+        $data['pd_id'] = trim($data['pd_id']);
         $questions = explode(',', $data['questions']);
         $answers = explode(',', $data['answers']);
         //check if there's already 4 questins in the DB
@@ -70,7 +70,7 @@ class QuestionsController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\Questions::where('id', $data['id'])->get(['id', 'question']);
+            $result = \App\Questions::where('id', trim($data['id']))->get(['id', 'question']);
             return response::json($result);
         }
     }
@@ -83,9 +83,8 @@ class QuestionsController extends Controller
                 'question' =>  ['nullable', 'string', 'max:255'],
             ]);
 
-            \App\Questions::where('id', $data['id'])->update([
-                'question' => $data['question'],
-                //    'priority' => 2,
+            \App\Questions::where('id', trim($data['id']))->update([
+                'question' => trim($data['question']),
 
             ]);
         }
@@ -95,17 +94,17 @@ class QuestionsController extends Controller
     {
         if (request()->ajax()) {
 
-            //delete a question 
+            //delete a question
             if (!empty(request()->question_id)) {
                 $valid = request()->validate([
                     'question_id' => ['nullable', 'numeric'],
 
                 ]);
 
-                $questions = \App\Questions::where('id', $valid['question_id'])->get();
+                $questions = \App\Questions::where('id', trim($valid['question_id']))->get();
                 $question_id = $questions->first()->id;
                 \App\Answers::where('question_id', $question_id)->delete();
-                \App\Questions::where('id', $valid['question_id'])->delete();
+                \App\Questions::where('id', trim($valid['question_id']))->delete();
             }
         }
     }

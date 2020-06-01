@@ -8,12 +8,22 @@ div#search-result{
 }
 
 </style>
+
+@if(count($errors) > 0)
+    <div id="valid" class="alert alert-danger">
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }} </li>
+        @endforeach
+    </ul>
+    </div>
+    @endif
 <div class="container">
     <div style="margin-top: -24px;">
         @if($Productcount > 0)
          <h4 style="background: #f2f3f7; padding:12px;">
                 About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for "{{ Session::get('pd_name') }}"
-         </h4> 
+         </h4>
          @endif
 
          @if($Productcount == 0)
@@ -23,13 +33,10 @@ div#search-result{
          @endif
     </div>
     <div class="row" id="search-result">
-       
+
         <div class="col-md-2 hidden-xs hidden-sm hidden-md" id="category" style="border-right: 1px solid lightgreen;">
             <p id="related-categories">Related categories</p>
-   
-
-    
-     <ul> 
+       <ul>
           @if($count_related_cats > 0)
             <?php $array  = []  ;?>
             <?php $ids = [] ;?>
@@ -41,8 +48,8 @@ div#search-result{
             <?php $uniqueIds = array_unique($ids);?>
             @endforeach
 
-           <?php foreach($unique as $u => $key):?> 
-               
+           <?php foreach($unique as $u => $key):?>
+
             <li class="list-item" style="border-bottom: 1px solid #f5f5f5;padding: 7px;">
               @foreach ($uniqueIds as $id => $val)
                @if($u == $id)
@@ -51,31 +58,31 @@ div#search-result{
               @endif
                 @endforeach
             </li>
-           
-           <?php endforeach ;?>    
+
+           <?php endforeach ;?>
             @endif
         </ul>
 
-        <div class="">
+        <div>
         <span>filter by price:</span>
         <form name="filter_price" method="POST" id="filter_price" action="{{ route('filterByPrice') }}">
             @csrf
             <div class="form-group">
-            <input type="number" size="4"  class="form-control" name="min_price" placeholder="min-price">
+            <input type="number" size="4" min="1" required class="form-control" name="min_price" placeholder="min-price">
         </div>
           <div class="form-group">
-            <input type="number" size="4"  class="form-control" name="max_price" placeholder="max-price">
+            <input type="number" min="1" required size="4"  class="form-control" name="max_price" placeholder="max-price">
         </div>
          <div class="form-group">
           <button class="btn btn-primary">Go!</button>
-        </div> 
+        </div>
         </form>
         </div>
             </div>
             <div class="col-md-10">
-                 
+
                 @if($Productcount > 0)
-            
+
                        <span class="hidden-lg">filter by price:</span>
                     <form name="filter_price" class="hidden-lg" method="POST" id="filter_price" action="{{ route('filterByPrice') }}">
                     @csrf
@@ -88,10 +95,10 @@ div#search-result{
                         </div>
                       <div class="form-group w3-center" style="margin-top:5px;">
                         <button class="btn btn-primary">Go!</button>
-                        </div> 
+                        </div>
                     </div>
                     </form>
-                 
+
                 <div class="row products-by-category">
                     @foreach ($products as $product)
                         <div class="col-md-3 col-xs-6 " style="border: 1px dotted #e2e2e2">

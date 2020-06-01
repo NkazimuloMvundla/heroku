@@ -28,9 +28,9 @@ class SpecificationController extends Controller
             ]);
 
             \App\Specification::create([
-                'spec_subCatid' => $data['subcategory'],
-                'spec_name' => $data['specification'],
-                'spec_parentCat_id' => $data['mainCategory'],
+                'spec_subCatid' => trim($data['subcategory']),
+                'spec_name' => trim($data['specification']),
+                'spec_parentCat_id' => trim($data['mainCategory']),
 
 
             ]);
@@ -56,8 +56,8 @@ class SpecificationController extends Controller
 
             ]);
 
-            \App\Specification::where('spec_id', $data['id'])->update([
-                'spec_name' => $data['spec_name'],
+            \App\Specification::where('spec_id', trim($data['id']))->update([
+                'spec_name' => trim($data['spec_name']),
 
             ]);
         }
@@ -68,10 +68,8 @@ class SpecificationController extends Controller
         if (request()->ajax()) {
             $id = request()->validate([
                 'id' => ['numeric'],
-
-
             ]);
-            \App\Specification::where('spec_id', $id)->where('')->delete();
+            \App\Specification::where('spec_id', trim($id))->delete();
         }
     }
 
@@ -79,20 +77,14 @@ class SpecificationController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
-        $data = request()->validate([
-            'checked' => ['numeric'],
+            $data = request()->validate([
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
+            ]);
 
-
-         ]);
-
-         */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    \App\Specification::where('spec_id', $id)->delete();
-                }
+            foreach ($data['checked'] as $id) {
+                $id = trim($id);
+                \App\Specification::where('spec_id', $id)->delete();
             }
         }
     }
@@ -104,7 +96,7 @@ class SpecificationController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\Specification::where('spec_id', $data['id'])->get();
+            $result = \App\Specification::where('spec_id', trim($data['id']))->get();
             return response::json($result);
         }
     }
@@ -117,7 +109,7 @@ class SpecificationController extends Controller
             $data = request()->validate([
                 'subcateid' => ['numeric'],
             ]);
-            $result = \App\Specification::where('spec_subCatid', $data['subcateid'])->get(['spec_id', 'spec_name']);
+            $result = \App\Specification::where('spec_subCatid', trim($data['subcateid']))->get(['spec_id', 'spec_name']);
             return response::json($result);
         }
     }

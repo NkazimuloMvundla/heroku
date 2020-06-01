@@ -15,9 +15,9 @@ class CreateProductViewsTable extends Migration
     {
         Schema::create('product_views', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigIncrements('user_id');
-            $table->bigIncrements('product_id');
-            $table->bigIncrements('views');
+            $table->integer('user_id');
+            $table->integer('product_id');
+            $table->integer('views');
             $table->timestamps();
         });
     }

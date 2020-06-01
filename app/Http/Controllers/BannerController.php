@@ -31,9 +31,7 @@ class BannerController extends Controller
             'bn_link' => $data['banner_link'],
             'bn_img' => $imgPath,
 
-
         ]);
-
 
         Session::flash('banner', "Banner Added Successfully.");
         return redirect()->back();
@@ -53,6 +51,7 @@ class BannerController extends Controller
             $id = request()->validate([
                 'id' => ['numeric'],
             ]);
+            $id = trim($id);
             $imgPath = \App\Banner::where('bn_id', $id)->get();
             $paths = $imgPath->first()->bn_img; //pd_images\image.png
             $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
@@ -69,27 +68,21 @@ class BannerController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
-        $data = request()->validate([
-            'checked' => ['numeric'],
+            $data = request()->validate([
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
+            ]);
 
-
-         ]);
-
-         */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    $path = \App\Banner::where('bn_id', $id)->get();
-                    foreach ($path as $imgPath) {
-                        $paths = $imgPath->bn_img; //pd_images\image.png
-                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                        if (file_exists($absolute)) {
-                            $success = unlink($absolute);
-                            if ($success) {
-                                \App\Banner::where('bn_id', $id)->delete();
-                            }
+            foreach ($data['checked'] as $id) {
+                $id = trim($id);
+                $path = \App\Banner::where('bn_id', $id)->get();
+                foreach ($path as $imgPath) {
+                    $paths = $imgPath->bn_img; //pd_images\image.png
+                    $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                    if (file_exists($absolute)) {
+                        $success = unlink($absolute);
+                        if ($success) {
+                            \App\Banner::where('bn_id', $id)->delete();
                         }
                     }
                 }

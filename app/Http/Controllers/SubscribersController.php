@@ -13,12 +13,12 @@ class SubscribersController extends Controller
             $data = request()->validate([
                 'email' => ['required', 'email', 'max:255'],
             ]);
-            $email = \App\Subscribers::where('email', $data['email'])->get();
+            $email = \App\Subscribers::where('email', trim($data['email']))->get();
             if (count($email) > 0) {
                 echo htmlentities("You have already subscribed!");
             } else {
                 \App\Subscribers::create([
-                    'email' => $data['email'],
+                    'email' => trim($data['email']),
                 ]);
                 echo htmlentities("Thanks for subscribing to our newsletter!");
             }

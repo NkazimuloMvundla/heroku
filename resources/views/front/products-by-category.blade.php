@@ -6,13 +6,13 @@
             <div class="col-md-2  hidden-xs hidden-sm hidden-md" id="category" style="padding:7px;margin-top:7px;border-right: 1px solid lightgreen;background: #fff;z-index: 10;height: max-content;">
                 <p id="related-categories">Category</p>
                 <ul >
-                @forelse($lasts as $lastCat )
+          @forelse($lasts as $lastCat )
             <li class="list-item" style="border-bottom: 1px solid #f5f5f5;padding: 7px;">
             <?php  $lastCat_id = base64_encode( $lastCat->id ) ;?>
                 <a href="/products-by-last-category/{{ $lastCat->pc_name }}/{{ $lastCat_id }}">{{ $lastCat->pc_name }}</a></li>
             @empty
             <li class="list-item" style="border-bottom: 1px solid #f5f5f5;padding: 7px;">No data</li>
-            @endforelse
+            @endforelse 
                 </ul>
             </div>
                 <div class="col-md-10">
@@ -28,7 +28,6 @@
                                                 <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
 
                                     <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="product-image">
-
                                         </a>
                                         </div>
                                         <div class="thumb-content">

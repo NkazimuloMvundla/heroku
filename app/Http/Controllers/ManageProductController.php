@@ -223,28 +223,24 @@ class ManageProductController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
+
             $data = request()->validate([
-                'checked' => ['numeric'],
-
-
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
             ]);
 
-             */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    $path = \App\Photo::where('pd_photo_id', $id)->get();
-                    foreach ($path as $imgPath) {
-                        $paths = $imgPath->pd_filename; //pd_images\image.png
-                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                        if (file_exists($absolute)) {
-                            $success = unlink($absolute);
-                        }
-                        \App\Photo::where('pd_photo_id', $id)->delete();
-                        \App\Product::where('pd_id', $id)->delete();
+
+            foreach ($data['checked'] as $id) {
+                $id = trim($id);
+                $path = \App\Photo::where('pd_photo_id', $id)->get();
+                foreach ($path as $imgPath) {
+                    $paths = $imgPath->pd_filename; //pd_images\image.png
+                    $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                    if (file_exists($absolute)) {
+                        $success = unlink($absolute);
                     }
+                    \App\Photo::where('pd_photo_id', $id)->delete();
+                    \App\Product::where('pd_id', $id)->delete();
                 }
             }
         }
@@ -259,7 +255,7 @@ class ManageProductController extends Controller
                 'id' => ['numeric'],
             ]);
             $result = DB::table('products')
-                ->join('photos', 'photos.pd_photo_id', '=', 'products.pd_id')->where('photos.pd_photo_id', $data['id'])->get();
+                ->join('photos', 'photos.pd_photo_id', '=', 'products.pd_id')->where('photos.pd_photo_id', trim($data['id']))->get();
 
             return response::json($result);
         }

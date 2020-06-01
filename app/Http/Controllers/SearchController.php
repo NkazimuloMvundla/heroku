@@ -14,11 +14,13 @@ class SearchController extends Controller
     public function livesearch(Request $request)
     {
         $term = $request->get('query');
-        request()->validate([
-
+        $term = trim($term);
+        $validator = \Validator::make(request()->all(), [
             'query' => ['nullable', 'string', 'max:255'],
-
         ]);
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator->errors());
+        }
         $count = DB::table('products')->where("pd_name", "LIKE", "%$term%")->orderBy('pd_name')->get();
         $res = count($count);
         if (!empty($term) && $res > 0) {
@@ -39,16 +41,6 @@ class SearchController extends Controller
 
             return response($output);
         }
-
-
-        /*	foreach($data as $row)
-		{
-		   $results[] = ['value'=> $row->pd_nameli];
-		}
-
-		return response()->json($results);
-
-		*/
     }
 
 
@@ -56,11 +48,12 @@ class SearchController extends Controller
     {
         if (request()->pd_name != "") {
             Session::put("pd_name", $pd_name);
-            request()->validate([
-
-                'pd_name' => ['nullable', 'string', 'max:255'],
-
+            $validator = \Validator::make(request()->all(), [
+                'search' => ['nullable', 'string', 'max:255'],
             ]);
+            if ($validator->fails()) {
+                return back()->withInput()->withErrors($validator->errors());
+            }
         }
         $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->get();
         $products = DB::table('products')->where("pd_name", "LIKE", "%$pd_name%")->where('pd_approval_status', 1)->paginate(50);
@@ -91,15 +84,15 @@ class SearchController extends Controller
         if (request()->search != "") {
             Session::put("pd_name", request()->search);
             $pd_name = request()->search;
-            request()->validate([
-
-                'pd_name' => ['nullable', 'string', 'max:255'],
-
+            $validator = \Validator::make(request()->all(), [
+                'search' => ['nullable', 'string', 'max:255'],
             ]);
+            if ($validator->fails()) {
+                return back()->withInput()->withErrors($validator->errors());
+            }
 
             $Countproducts = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->get();
             $products = DB::table('products')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->where('pd_approval_status', 1)->paginate(50);
-            // dd($Countproducts);
 
             $Productcount = count($Countproducts);
             $pCats = \App\productCategory::all();
@@ -112,7 +105,6 @@ class SearchController extends Controller
             $related_cats = DB::table('products')
                 ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->get();
             $count_related_cats  =  count($related_cats);
-            //  dd($count_related_cats);
 
             if (Auth::check()) {
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
@@ -159,10 +151,15 @@ class SearchController extends Controller
         //cehck if it empty
 
         if (request('max_price') != null && request('min_price') != null) {
-            request()->validate([
-                'min_price' => ['numeric'],
-                'max_price' => ['numeric'],
+
+
+            $validator = \Validator::make(request()->all(), [
+                'min_price' => ['numeric','max:255'],
+                'max_price' => ['numeric','max:255'],
             ]);
+            if ($validator->fails()) {
+                return back()->withInput()->withErrors($validator->errors());
+            }
 
             Session::put("min_price", request()->min_price);
             Session::put("max_price", request()->max_price);

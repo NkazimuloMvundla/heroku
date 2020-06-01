@@ -24,13 +24,15 @@
   <!-- DataTables -->
   <link rel="stylesheet" type="text/css" href="{{ asset('u/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
 
+  <link rel="stylesheet" href="{{asset('u/dropzone-master/dist/dropzone.css') }}">
+
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{ asset('u/plugins/iCheck/flat/blue.css') }}">
   <link rel="stylesheet" href="{{ asset('u/plugins/iCheck/flat/blue.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css') }}">
-  <script src="{{ asset('pub/js/jquery/dist/jquery.min.js') }}"></script>
-  <script src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
-  <script src="{{ asset('u/dropzone-master/dist/dropzone.js') }}"></script>
+  <!--Jquery--->
+ <script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
+ <script src="{{ asset('u/dropzone-master/dist/dropzone.js') }}"></script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>

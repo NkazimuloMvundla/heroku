@@ -58,13 +58,13 @@ class BuyingRequestController extends Controller
         ]);
 
         \App\BuyingRequest::create([
-            'br_u_id' => $data['br_u_id'],
-            'br_pc_id' => $data['subCategory'],
-            'br_pc_name' => $data['productName'],
-            'br_pd_spec' => $data['detailedSpecification'],
-            'br_order_qty' => $data['orderQuantity'],
-            'br_order_qnty_unit' => $data['orderQuantityUnit'],
-            'br_expired_time' => $data['deliveryDate']
+            'br_u_id' => trim($data['br_u_id']),
+            'br_pc_id' => trim($data['subCategory']),
+            'br_pc_name' => trim($data['productName']),
+            'br_pd_spec' => trim($data['detailedSpecification']),
+            'br_order_qty' => trim($data['orderQuantity']),
+            'br_order_qnty_unit' => trim($data['orderQuantityUnit']),
+            'br_expired_time' => trim($data['deliveryDate'])
         ]);
 
         \App\AdminNotifications::create([
@@ -100,28 +100,29 @@ class BuyingRequestController extends Controller
     public function sendAmessageView($request_id)
     {
         $decoded_id = base64_decode($request_id);
+        $decoded_id = trim($decoded_id);
 
-        validator([
-            $decoded_id => ['required', 'numeric'],
-        ]);
-        $parent_category = \App\productCategory::all();
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $sendAmessage = \App\BuyingRequest::where('id', $decoded_id)->get();
-        $measurementUnits = \App\MeasurementUnit::all();
-        $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-        $count = count($userMessages);
-        $users = \App\User::all();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
+        $sanitized_product_id = filter_var($decoded_id, FILTER_SANITIZE_NUMBER_INT);
+        if (filter_var($sanitized_product_id, FILTER_VALIDATE_INT)) {
+            $parent_category = \App\productCategory::all();
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $sendAmessage = \App\BuyingRequest::where('id', $sanitized_product_id)->get();
+            $measurementUnits = \App\MeasurementUnit::all();
+            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+            $count = count($userMessages);
+            $users = \App\User::all();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
 
-        if (!empty($buyingRequests)) {
+            if (!empty($buyingRequests)) {
 
-            return view('front.send-buying-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest', 'sendAmessage'));
+                return view('front.send-buying-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'buyingRequests', 'measurementUnits', 'users', 'count', 'countBuyingRequest', 'sendAmessage'));
+            }
+
+            return view('front.send-buying-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
         }
-
-        return view('front.send-buying-request-message', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'count', 'countBuyingRequest', 'users'));
     }
     public function allBuyingSingleView()
     {
@@ -129,8 +130,8 @@ class BuyingRequestController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            // $result = \App\BuyingRequest::where('id', $data['id'])->get();
-            $result = \App\BuyingRequest::where('id', $data['id'])->get(['br_pc_name', 'br_pd_spec']);
+
+            $result = \App\BuyingRequest::where('id', trim($data['id']))->get(['br_pc_name', 'br_pd_spec']);
             return $result;
         }
     }

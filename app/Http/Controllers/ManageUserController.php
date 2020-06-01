@@ -45,8 +45,9 @@ class ManageUserController extends Controller
                 'u_id' => ['numeric'],
 
             ]);
+            $data['u_id'] = trim($data['u_id']);
             $user = \App\User::where('id', $data['u_id'])->get();
-            if ($data['id'] == 1) {
+            if (trim($data['id']) == 1) {
 
                 \App\AdminNotifications::create([
                     'message' => "The company " . $user->first()->company_name . " has been Approved ",
@@ -90,89 +91,85 @@ class ManageUserController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
             $data = request()->validate([
-                'checked' => ['numeric'],
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
+            ]);
 
 
-             ]);
 
-             */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                //if you are deleting a user, remove photos images, company_images, and certificates
-                foreach ($ids as $id) {
-                    $user = \App\User::where('id', $id)->get();
-                    //delete company_background_img
-                    $paths = $user->first()->company_background_img;
-                    if ($paths != "") {
-                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                        if (file_exists($absolute)) {
-                            $success = unlink($absolute);
-                        }
+            //if you are deleting a user, remove photos images, company_images, and certificates
+            foreach ($data['checked'] as $id) {
+                $id = trim($id);
+                $user = \App\User::where('id', $id)->get();
+                //delete company_background_img
+                $paths = $user->first()->company_background_img;
+                if ($paths != "") {
+                    $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                    if (file_exists($absolute)) {
+                        $success = unlink($absolute);
                     }
-
-
-                    //delete company_logo -img
-                    $paths = $user->first()->company_logo;
-                    if ($paths != "") {
-                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                        if (file_exists($absolute)) {
-                            $success = unlink($absolute);
-                        }
-                    }
-
-
-                    //delete product photos and remove images
-                    $path = \App\Photo::where('pd_u_id', $id)->get();
-                    foreach ($path as $imgPath) {
-                        $paths = $imgPath->pd_filename; //pd_images\image.png
-                        if ($paths != "") {
-                            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                            if (file_exists($absolute)) {
-                                $success = unlink($absolute);
-
-                                if ($success) {
-                                    \App\Photo::where('pd_u_id', $id)->delete();
-                                    \App\Product::where('pd_u_id', $id)->delete();
-                                }
-                            }
-                        }
-                    }
-                    //delete certificates photos and remove images
-                    $CompanyCertificate = \App\CompanyCertificate::where('user_id', $id)->get();
-                    foreach ($CompanyCertificate as $imgPath) {
-                        if ($paths != "") {
-                            $paths = $imgPath->pd_filename; //pd_images\image.png
-                            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                            if (file_exists($absolute)) {
-                                $success = unlink($absolute);
-
-                                if ($success) {
-                                    \App\CompanyCertificate::where('user_id', $id)->delete();
-                                }
-                            }
-                        }
-                    }
-
-                    //delete CompanyImages photos and remove images
-                    $CompanyImages = \App\CompanyImages::where('user_id', $id)->get();
-                    foreach ($CompanyImages as $imgPath) {
-                        $paths = $imgPath->pd_filename; //pd_images\image.png
-                        if ($paths != "") {
-                            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-                            if (file_exists($absolute)) {
-                                $success = unlink($absolute);
-
-                                if ($success) {
-                                    \App\CompanyImages::where('user_id', $id)->delete();
-                                }
-                            }
-                        }
-                    }
-                    \App\User::where('id', $id)->delete();
                 }
+
+
+                //delete company_logo -img
+                $paths = $user->first()->company_logo;
+                if ($paths != "") {
+                    $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                    if (file_exists($absolute)) {
+                        $success = unlink($absolute);
+                    }
+                }
+
+
+                //delete product photos and remove images
+                $path = \App\Photo::where('pd_u_id', $id)->get();
+                foreach ($path as $imgPath) {
+                    $paths = $imgPath->pd_filename; //pd_images\image.png
+                    if ($paths != "") {
+                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                        if (file_exists($absolute)) {
+                            $success = unlink($absolute);
+
+                            if ($success) {
+                                \App\Photo::where('pd_u_id', $id)->delete();
+                                \App\Product::where('pd_u_id', $id)->delete();
+                            }
+                        }
+                    }
+                }
+                //delete certificates photos and remove images
+                $CompanyCertificate = \App\CompanyCertificate::where('user_id', $id)->get();
+                foreach ($CompanyCertificate as $imgPath) {
+                    if ($paths != "") {
+                        $paths = $imgPath->pd_filename; //pd_images\image.png
+                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                        if (file_exists($absolute)) {
+                            $success = unlink($absolute);
+
+                            if ($success) {
+                                \App\CompanyCertificate::where('user_id', $id)->delete();
+                            }
+                        }
+                    }
+                }
+
+                //delete CompanyImages photos and remove images
+                $CompanyImages = \App\CompanyImages::where('user_id', $id)->get();
+                foreach ($CompanyImages as $imgPath) {
+                    $paths = $imgPath->pd_filename; //pd_images\image.png
+                    if ($paths != "") {
+                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                        if (file_exists($absolute)) {
+                            $success = unlink($absolute);
+
+                            if ($success) {
+                                \App\CompanyImages::where('user_id', $id)->delete();
+                            }
+                        }
+                    }
+                }
+                \App\User::where('id', $id)->delete();
             }
         }
     }
@@ -185,7 +182,7 @@ class ManageUserController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\User::where('id', $data['id'])->get();
+            $result = \App\User::where('id', trim($data['id']))->get();
             return response::json($result);
         }
     }
@@ -198,7 +195,7 @@ class ManageUserController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\User::where('id', $data['id'])->get(['company_name', 'lastname', 'name', 'about_us', 'country']);
+            $result = \App\User::where('id', trim($data['id']))->get(['company_name', 'lastname', 'name', 'about_us', 'country']);
             return response::json($result);
         }
     }
@@ -225,8 +222,9 @@ class ManageUserController extends Controller
                 'u_id' => ['numeric'],
 
             ]);
+            $data['u_id'] = trim($data['u_id']);
             $user = \App\User::where('id', $data['u_id'])->get();
-            if ($data['id'] == 1) {
+            if (trim($data['id']) == 1) {
 
                 \App\AdminNotifications::create([
                     'message' => "The company " . $user->first()->company_name . " has been featured in home page ",

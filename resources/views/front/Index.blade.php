@@ -3,7 +3,7 @@
 
  <div class="page-wrapper">
 <!--mainSlider start here-->
-  <div class="mainSlider">  
+  <div class="mainSlider">
     <div class="w3-margin-top">
      <div class="w3-container">
         <div class="slider-background">
@@ -82,7 +82,7 @@
                       <li>
                         <?php  $category_id = base64_encode(  $category->id  ) ;?>
                     <a href="/products-by-category/{{ $category->pc_name }}/{{ $category_id }}">
-                      <img src="{{ $category->pc_image }}" alt="category image">
+                      <img src="/storage/{{ $category->pc_image }}" alt="category image">
                       <p>{{ $category->pc_name }}</p>
                       </a>
                       </li>
@@ -105,7 +105,7 @@
                         <p class="hidden-sm hidden-xs hidden-md">Submit a buying request to get targeted qoutes from verified merchants.</p>
                         </div>
                     <div class="col-md-5 post-req-form" style="background: white;">
-                          <div class="form-group"> 
+                          <div class="form-group">
                               <label>Get qoutes</label>
                              <input type="text" class="form-control" name="product_name" placeholder="Product name">
                           </div>
@@ -213,6 +213,6 @@
      $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
      });
-            
+
 </script>
 @endsection

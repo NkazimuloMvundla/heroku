@@ -50,7 +50,7 @@ class ManageRequestsController extends Controller
 
             ]);
 
-            \App\BuyingRequest::where('id', $data['id'])->update(['br_pd_spec' =>  $data['br_pd_spec'], 'br_approval_status' => 0]);
+            \App\BuyingRequest::where('id', trim($data['id']))->update(['br_pd_spec' =>  trim($data['br_pd_spec']), 'br_approval_status' => 0]);
         }
     }
 
@@ -61,7 +61,7 @@ class ManageRequestsController extends Controller
                 'id' => ['numeric'],
             ]);
 
-            \App\BuyingRequest::where('id', $data['id'])->delete();
+            \App\BuyingRequest::where('id', trim($data['id']))->delete();
         }
     }
 
@@ -76,7 +76,7 @@ class ManageRequestsController extends Controller
 
             ]);
 
-            \App\SellingRequests::where('id', $data['id'])->update(['sr_pd_spec' =>  $data['sr_pd_spec'], 'sr_approval_status' => 0]);
+            \App\SellingRequests::where('id', trim($data['id']))->update(['sr_pd_spec' =>  trim($data['sr_pd_spec']), 'sr_approval_status' => 0]);
         }
     }
 
@@ -87,7 +87,7 @@ class ManageRequestsController extends Controller
                 'id' => ['numeric'],
             ]);
 
-            \App\SellingRequests::where('id', $data['id'])->delete();
+            \App\SellingRequests::where('id', trim($data['id']))->delete();
         }
     }
     /*-------------------------------------------*/
@@ -127,12 +127,12 @@ class ManageRequestsController extends Controller
 
             ]);
             if ($data['id'] == 1) {
-                \App\BuyingRequest::where('id', $data['br_id'])->update(['br_approval_status' => 1]);
-                $res = \App\BuyingRequest::where('id', $data['br_id'])->get('br_approval_status');
+                \App\BuyingRequest::where('id', trim($data['br_id']))->update(trim(['br_approval_status' => 1]));
+                $res = \App\BuyingRequest::where('id', trim($data['br_id']))->get('br_approval_status');
                 return response($res);
             } else {
-                \App\BuyingRequest::where('id', $data['br_id'])->update(['br_approval_status' => 2]);
-                $res = \App\BuyingRequest::where('id', $data['br_id'])->get('br_approval_status');
+                \App\BuyingRequest::where('id', trim($data['br_id']))->update(trim(['br_approval_status' => 2]));
+                $res = \App\BuyingRequest::where('id', trim($data['br_id']))->get('br_approval_status');
                 return response($res);
             }
         }
@@ -147,7 +147,7 @@ class ManageRequestsController extends Controller
             $id = request()->validate([
                 'id' => ['numeric'],
             ]);
-            \App\BuyingRequest::where('id', $id)->delete();
+            \App\BuyingRequest::where('id', trim($id))->delete();
         }
     }
 
@@ -162,7 +162,7 @@ class ManageRequestsController extends Controller
 
             ]);
             foreach ($data['checked'] as $id) {
-                \App\BuyingRequest::where('id', $id)->delete();
+                \App\BuyingRequest::where('id', trim($id))->delete();
             }
         }
     }
@@ -175,7 +175,7 @@ class ManageRequestsController extends Controller
                 'id' => ['numeric'],
             ]);
 
-            $result = \App\BuyingRequest::where('id', $data['id'])->get();
+            $result = \App\BuyingRequest::where('id', trim($data['id']))->get();
             // $photos = \App\Photo::where('pd_photo_id' , $data['id'])->get();
             /*
                   foreach ($photos as $value) {
@@ -193,7 +193,7 @@ class ManageRequestsController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\User::where('id', $data['id'])->get();
+            $result = \App\User::where('id', trim($data['id']))->get();
             return response::json($result);
         }
     }
@@ -211,12 +211,12 @@ class ManageRequestsController extends Controller
 
             ]);
             if ($data['id'] == 1) {
-                \App\SellingRequests::where('id', $data['sr_id'])->update(['sr_approval_status' => 1]);
-                $res = \App\SellingRequests::where('id', $data['sr_id'])->get('sr_approval_status');
+                \App\SellingRequests::where('id', trim($data['sr_id']))->update(['sr_approval_status' => 1]);
+                $res = \App\SellingRequests::where('id', trim($data['sr_id']))->get('sr_approval_status');
                 return response($res);
             } else {
-                \App\SellingRequests::where('id', $data['sr_id'])->update(['sr_approval_status' => 2]);
-                $res = \App\SellingRequests::where('id', $data['sr_id'])->get('sr_approval_status');
+                \App\SellingRequests::where('id', trim($data['sr_id']))->update(['sr_approval_status' => 2]);
+                $res = \App\SellingRequests::where('id', trim($data['sr_id']))->get('sr_approval_status');
                 return response($res);
             }
         }
@@ -228,7 +228,7 @@ class ManageRequestsController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\User::where('id', $data['id'])->get();
+            $result = \App\User::where('id', trim($data['id']))->get();
             return response::json($result);
         }
     }
@@ -240,7 +240,7 @@ class ManageRequestsController extends Controller
                 'id' => ['numeric'],
             ]);
 
-            $result = \App\SellingRequests::where('id', $data['id'])->get();
+            $result = \App\SellingRequests::where('id', trim($data['id']))->get();
             // $photos = \App\Photo::where('pd_photo_id' , $data['id'])->get();
             /*
                   foreach ($photos as $value) {
@@ -258,7 +258,7 @@ class ManageRequestsController extends Controller
             $id = request()->validate([
                 'id' => ['numeric'],
             ]);
-            \App\SellingRequests::where('id', $id)->delete();
+            \App\SellingRequests::where('id', trim($id))->delete();
         }
     }
 
@@ -275,7 +275,7 @@ class ManageRequestsController extends Controller
 
 
             foreach ($data['checked'] as $id) {
-                \App\SellingRequests::where('id', $id)->delete();
+                \App\SellingRequests::where('id', trim($id))->delete();
             }
         }
     }

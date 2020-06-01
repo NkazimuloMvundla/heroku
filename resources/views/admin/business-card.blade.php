@@ -111,6 +111,16 @@
       </section>
 
         <section class="content">
+            @if(count($errors) > 0)
+            <div id="valid" class="alert alert-danger" >
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }} </li>
+
+                @endforeach
+            </ul>
+            </div>
+            @endif
         <div class="container">
 
           @if(Session::has('message'))
@@ -164,7 +174,7 @@
                             @csrf
                             <div class="form-group">
                             <label>Business card background image</label>
-                            <input type="file" id="business_card_background" name="business_card_background"  class="form-control" >
+                            <input type="file" id="business_card_background" name="business_card_background"  class="form-control" accept=".jpg, .jpeg, .png" >
                             @error('business_card_background')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -173,7 +183,7 @@
                         </div>
                         <div class="form-group">
                                 <label>Company Logo</label>
-                                <input type="file" name="company_logo" class="form-control">
+                                <input type="file" name="company_logo" class="form-control" accept=".jpg, .jpeg, .png">
                                 @error('company_logo')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -182,7 +192,7 @@
                             </div>
                                 <div class="form-group">
                                 <label>Company images like factory or buildings</label>
-                                <input type="file" name="company_images[]" class="form-control" multiple>
+                                <input type="file" name="company_images[]" class="form-control" multiple accept=".jpg, .jpeg, .png">
                                 @error('company_images')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -192,7 +202,7 @@
                             </div>
                             <div class="form-group">
                                     <label> Business Slogan</label>
-                                    <input type="text" class="form-control" id="business_slogan" name="business_slogan" >
+                                    <input type="text" class="form-control" id="business_slogan" name="business_slogan" accept=".jpg, .jpeg, .png">
                                     @error('business_slogan')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -212,7 +222,6 @@
                 @foreach($company_images as $company_img)
                 <div class="">
                     <span class="btn btn-danger btn-sm" style="margin:5px;position: absolute;" onclick="deleteCompanyImg({{ $company_img->id }})">delete image</span>
-
                         <img class="img-responsive" src="/storage/{{ $company_img->company_image }}" alt="company image" width="100%" style="margin:10px;">
                  </div>
                 @endforeach

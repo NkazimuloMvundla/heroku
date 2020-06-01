@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use Response;
 use DB;
+use Intervention\Image\Facades\Image;
 
 class SubCategoryController extends Controller
 {
@@ -14,28 +15,22 @@ class SubCategoryController extends Controller
     {
 
         if (request()->ajax()) {
-            $pc_id = request()->id;
-            $result = \App\SubCategory::where('pc_id', $pc_id)->get(['id', 'pc_name']);
+            $data = request()->validate([
+                'id' => ['numeric'],
+            ]);
+            $result = \App\SubCategory::where('pc_id', $data['id'])->get(['id', 'pc_name']);
             return response::json($result);
         }
     }
 
     public function create()
     {
-
-
-
-        $mainCategories = DB::table('product_categories')->paginate(20);
-
-
-
+        $mainCategories = DB::table('product_categories')->get();
         return view('super.category-add', compact('mainCategories'));
     }
 
     public function store(Request $request)
     {
-
-
 
         $data = request()->validate([
             'main_category' => ['required', 'string', 'max:255'],
@@ -45,12 +40,13 @@ class SubCategoryController extends Controller
         ]);
 
         $imgPath = request('category_image')->store('category_images', 'public');
-
+        $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(80, 80);
+        $image->save();
 
         \App\SubCategory::create([
             'pc_image' => $imgPath,
-            'pc_name' => $data['category'],
-            'pc_id' => $data['main_category'],
+            'pc_name' => trim($data['category']),
+            'pc_id' => trim($data['main_category']),
 
 
 
@@ -63,11 +59,87 @@ class SubCategoryController extends Controller
     public function viewCat()
     {
 
-        $Categories = DB::table('sub_categories')->paginate(20);
+        $Categories = DB::table('sub_categories')->get();
+
         $mainCategories = DB::table('product_categories')->get();
 
         return view('super.category-view', compact('Categories', 'mainCategories'));
     }
+
+    public function editView($category_id)
+    {
+
+        $category = DB::table('sub_categories')->where("id", $category_id)->get();
+
+        $mainCategories = DB::table('product_categories')->get();
+
+        return view('super.category-edit', compact('category', 'mainCategories'));
+    }
+
+    public function categorySave($category_id)
+    {
+
+
+
+        //if you want to change a main menu for a sub category,like change agriculture for fruits and veg
+        if (!empty(request()->main_category)) {
+            $data = request()->validate([
+                'main_category' => ['required', 'numeric', 'max:255'],
+                'category' => ['required', 'string', 'max:255'],
+                'category_image' => ['nullable', 'image'],
+
+            ]);
+
+            \App\SubCategory::where('id', $category_id)->update([
+                'pc_name' => trim($data['category']),
+                'pc_id' => trim($data['main_category']),
+            ]);
+        } else {
+            $data = request()->validate([
+                'category' => ['required', 'string', 'max:255'],
+                'category_image' => ['nullable', 'image'],
+
+            ]);
+
+            \App\SubCategory::where('id', $category_id)->update([
+                'pc_name' => trim($data['category']),
+            ]);
+        }
+        if (!empty(request()->category_image)) {
+
+            $category = DB::table('sub_categories')->where("id", $category_id);
+
+            $imgPath = request('category_image')->store('category_images', 'public');
+            $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(120, 120);
+            $image->save();
+
+            if ($category->first()->pc_image == "") {
+                \App\SubCategory::create([
+                    'pc_image' => $imgPath,
+                ]);
+            } else {
+
+                $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $category->first()->pc_image;
+                if (file_exists($absolute)) {
+                    $success = unlink($absolute);
+                    if ($success) {
+                        $data = request()->validate([
+                            'pc_image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048']
+                        ]);
+                        \App\SubCategory::where('id', $category_id)->update([
+                            'pc_image' => $imgPath,
+                        ]);
+                    }
+                }
+            }
+        }
+
+
+
+        Session::flash('category_add', "Category updated Successfully..");
+        return redirect()->back();
+    }
+
 
     public function showCat()
     {
@@ -76,7 +148,7 @@ class SubCategoryController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\SubCategory::where('id', $data['id'])->get();
+            $result = \App\SubCategory::where('id', trim($data['id']))->get();
             return response::json($result);
         }
     }
@@ -85,18 +157,18 @@ class SubCategoryController extends Controller
 
         if (request()->ajax()) {
 
-            $data = request()->validate([
+            /*   $data = request()->validate([
                 'id' => ['numeric'],
                 'category' => ['required', 'string', 'max:255'],
 
-            ]);
+            ]); */
+            /*
+            \App\SubCategory::where('id', trim($data['id']))->update([
+                'pc_name' => trim($data['category']),
 
-            \App\SubCategory::where('id', $data['id'])->update([
-                'pc_name' => $data['category'],
+            ]);*/
 
-
-
-            ]);
+            return request();
         }
     }
 
@@ -109,7 +181,7 @@ class SubCategoryController extends Controller
 
 
             ]);
-            \App\SubCategory::where('id', $id)->delete();
+            \App\SubCategory::where('id', trim($id))->delete();
         }
     }
 
@@ -117,20 +189,13 @@ class SubCategoryController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
             $data = request()->validate([
-                'checked' => ['numeric'],
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
+            ]);
 
-
-             ]);
-
-             */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    \App\SubCategory::where('id', $id)->delete();
-                }
+            foreach ($data['checked'] as $id) {
+                \App\SubCategory::where('id', trim($id))->delete();
             }
         }
     }

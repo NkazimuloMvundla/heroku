@@ -277,7 +277,7 @@ function showParent(id){
       </section>
       <!-- /.content -->
       <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-        {{$SubCategories->links()}}
+
        </div>
        </div>
     </div>

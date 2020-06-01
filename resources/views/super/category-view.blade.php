@@ -53,34 +53,7 @@ function deleteCat(id){
 
     }
 
-        function updateCat(){
-        var category = $("#category").val();
-        var id = $("#catId").val();
-        var main_category = $("#main_category").val();
-        if(category == ""){
-        $("#categoryErr").text("Please enter a Main Category");
-        } else {
 
-        $.ajax({
-        type: "POST",
-        url: "/super/catUpdate",
-        data:{id:id,category:category , main_category:main_category},
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        success: function (data) {
-        alert('Updated');
-        window.location="/super/category-view";
-        },
-        error: function (data) {
-        console.log('Error', data);
-        }
-        });
-
-
-        }
-
-
-
-        }
 
 function checkedAll () {
     var check = $('input[name="id[]"]:checked').length;
@@ -178,43 +151,7 @@ function showId(limit){
                     <tr>
                       <td><input type="checkbox" id="{{ $category->id }}" name="id[]" value="{{ $category->id }}"></td>
                       <td style="cursor:pointer;" id="category" onclick="showParent({{ $category->pc_id }});">{{ $category->pc_name }}</td>
-                            <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="modal-title"></h4>
-                            </div>
-                            <div class="modal-body" id="modal-body">
-                            <div class="form-group">
-                                    <label>Select a Main Category</label>
-                                    <select name="main_category" id="main_category" class="form-control">
-                                        <option >Select</option>
-                                        @foreach($mainCategories as $mainCat)
 
-                                        <option value="{{ $mainCat->pc_id }}"   >{{  $mainCat->pc_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger" id="main_categoryErr"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label>Edit a Category</label>
-                                    <input type="text" id="category" name="category" value="{{ old('category') }}" class="form-control" >
-                                    ID:<input type="number" id="catId" name="catId" value="" disabled >
-                                    <span class="text-danger" id="categoryErr"></span>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="updateCat();" class="btn btn-success">Save changes</button>
-
-                        </div>
-                            </div>
-                            <!-- /.modal-content -->
-                            </div>
                             <!-- /.modal-dialog -->
                             </div>
                               <td>
@@ -225,9 +162,11 @@ function showId(limit){
                                 @endforeach
                             </td>
                      <td >
-                     <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editCat({{ $category->id  }});">
-                        edit
+                     <a href="/super/category-edit/{{  $category->id  }}">
+                     <button name="edit" class="btn btn-default btn-sm">
+                             Edit
                      </button>
+                     </a>
                          or
                      <button id="delete" class="btn btn-default btn-sm" onclick="deleteCat({{ $category->id }})";>
                         delete
@@ -261,7 +200,7 @@ function showId(limit){
       </section>
       <!-- /.content -->
       <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-        {{$Categories->links()}}
+
        </div>
        </div>
     </div>
@@ -269,5 +208,127 @@ function showId(limit){
 
   </div>
   <!-- ./wrapper -->
+<script>
+/*
+ function updateCat(){
+        var category = $("#category").val();
+        var id = $("#catId").val();
+        var main_category = $("#main_category").val();
+        if(category == ""){
+        $("#categoryErr").text("Please enter a Main Category");
+        } else {
 
+        $.ajax({
+        type: "POST",
+        url: "/super/catUpdate",
+        data:{id:id,category:category , main_category:main_category},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        success: function (data) {
+        alert('Updated');
+        window.location="/super/category-view";
+        },
+        error: function (data) {
+        console.log('Error', data);
+        }
+        });
+
+
+        }
+
+
+
+        }
+
+
+*/
+
+Dropzone.options.myDropzone = {
+    // Dropzone.autoDiscover = false;
+    url: "/super/catUpdate",
+    method:"POST",
+    headers: { "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content") },
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 3,
+    maxFiles: 3,
+    maxFilesize: 1,
+    acceptedFiles: "image/*",
+    addRemoveLinks: true,
+
+    success: function(responseText, data) {
+        alert(data);
+    },
+    error: function(data){
+        console.log("Err", data);
+    },
+
+    error: function(file, response) {
+        if ($.type(response) === "string") var message = response;
+        //dropzone sends it's own error messages in string
+        else var message = response.message;
+        file.previewElement.classList.add("dz-error");
+        _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            node = _ref[_i];
+            _results.push((node.textContent = message));
+        }
+        return (document.getElementById(
+            "dz-error-message"
+        ).textContent = _results);
+    },
+
+    init: function() {
+        dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+        // for Dropzone to process the queue (instead of default form behavior):
+        document
+            .getElementById("submitFormBtnA")
+            .addEventListener("click", function(e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                dzClosure.processQueue();
+
+        var category = $("#category").val();
+        var id = $("#catId").val();
+        var main_category = $("#main_category").val();
+        if(category == ""){
+        $("#categoryErr").text("Please enter a Main Category");
+        }
+
+        });
+
+        this.on("success", function(file, responseText) {
+             console.log(responseText);
+         if (responseText == "success") {
+                alert("Product added");
+                window.location = "/u/add-new-product";
+            }
+        });
+
+        this.on("complete", function(file) {
+            if (file == "") {
+                alert("Please god");
+            }
+        });
+
+        this.on("error", function(file, data, xhr, responseText) {
+            console.log("Err,", responseText)
+            if (xhr.status != 200) {
+                this.removeFile(file);
+            }
+        });
+
+        //send all the form data along with the files:
+        this.on("sendingmultiple", function(data, xhr, formData) {
+            formData.append("mainCategory",  $("#main_category").val());
+            formData.append("category",  $("#category").val());
+            formData.append("catId", $("#catId").val());
+        });
+    }
+};
+
+
+</script>
 @endsection

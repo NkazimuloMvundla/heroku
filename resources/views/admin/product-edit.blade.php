@@ -33,6 +33,15 @@
   </section>
 
   <section class="content">
+   @if(count($errors) > 0)
+    <div id="valid" class="alert alert-danger">
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }} </li>
+        @endforeach
+    </ul>
+    </div>
+    @endif
      <ul class="nav nav-tabs">
       <li class="active">
        <a data-toggle="tab" href="#product_detail">Product details</a></li>
@@ -210,7 +219,7 @@
                 <span id="add_spec_child_error"></span>
                 </div>
                 <div id="data-add" class="data-add">
-                <button id="add_field_button" onclick="display()" style="display:none;" type="button">Add</button>
+                <button id="add_field_button" onclick="display()" style="display:none;" type="button" class="btn btn-default">Add</button>
                 <span><p class="text-center reachedLimitToAppend" style="color: red;"></p></span>
                 </div>
                 <div class="form-group row">
@@ -225,7 +234,7 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" name="save" class="save" value="save" onclick="updateSpec({{$product->first()->pd_id}});" class="btn btn-success">Save changes</button>
+                <button type="button" name="save" class="btn btn-save" value="save" onclick="updateSpec({{$product->first()->pd_id}});" >Save changes</button>
 
                 </div>
                 </div>

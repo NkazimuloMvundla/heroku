@@ -13,8 +13,10 @@ class LastCategoryController extends Controller
     {
 
         if (request()->ajax()) {
-            $id = request()->id;
-            $result = \App\lastCategory::where('pc_id', $id)->get(['id', 'pc_name']);
+            $data = request()->validate([
+                'id' => ['numeric'],
+            ]);
+            $result = \App\lastCategory::where('pc_id', trim($data['id']))->get(['id', 'pc_name']);
 
             $count = count($result);
 
@@ -41,15 +43,15 @@ class LastCategoryController extends Controller
             ]);
 
             \App\lastCategory::create([
-                'pc_name' => $data['subcategory'],
-                'pc_id' => $data['category'],
+                'pc_name' => trim($data['subcategory']),
+                'pc_id' => trim($data['category']),
 
             ]);
         }
     }
     public function viewSub()
     {
-        $SubCategories = DB::table('last_categories')->paginate(20);
+        $SubCategories = DB::table('last_categories')->get();
         $mainCategories = DB::table('product_categories')->get();
         $Categories = DB::table('sub_categories')->get();
 
@@ -63,7 +65,7 @@ class LastCategoryController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\lastCategory::where('id', $data['id'])->get();
+            $result = \App\lastCategory::where('id', trim($data['id']))->get();
             return response::json($result);
         }
     }
@@ -76,8 +78,8 @@ class LastCategoryController extends Controller
                 'id' => ['numeric'],
                 'category' => ['required', 'string', 'max:255'],
             ]);
-            \App\lastCategory::where('id', $data['id'])->update([
-                'pc_name' => $data['category'],
+            \App\lastCategory::where('id', trim($data['id']))->update([
+                'pc_name' => trim($data['category']),
             ]);
         }
     }
@@ -89,7 +91,7 @@ class LastCategoryController extends Controller
             $id = request()->validate([
                 'id' => ['numeric'],
             ]);
-            \App\lastCategory::where('id', $id)->delete();
+            \App\lastCategory::where('id', trim($id))->delete();
         }
     }
 
@@ -97,20 +99,15 @@ class LastCategoryController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
-        $data = request()->validate([
-            'checked' => ['numeric'],
 
+            $data = request()->validate([
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
+            ]);
 
-         ]);
-
-         */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    \App\lastCategory::where('id', $id)->delete();
-                }
+            foreach ($data['checked'] as $id) {
+                $id = trim($id);
+                \App\lastCategory::where('id', $id)->delete();
             }
         }
     }

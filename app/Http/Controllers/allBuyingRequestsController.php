@@ -46,7 +46,8 @@ class allBuyingRequestsController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\BuyingRequest::where('id', $data['id'])->get();
+            $id = trim($data['id']);
+            $result = \App\BuyingRequest::where('id', $id)->get();
             return response::json($result);
         }
     }

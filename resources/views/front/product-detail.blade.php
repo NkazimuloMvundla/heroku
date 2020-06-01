@@ -26,6 +26,7 @@
    });
 </script>
  <style>
+
     ul{
         list-style: none outside none;
         padding-left: 0;
@@ -46,12 +47,10 @@
     .demo{
         width: 800px;
     }
-    	.drift-demo-trigger {
+    .drift-demo-trigger {
 
-			float: left;
-		}
-
-
+        float: left;
+    }
 
 		@media (max-width: 900px) {
 			.wrapper {
@@ -87,6 +86,13 @@
 				display: none;
 			}
 		}
+
+  @media (min-width: 992px){
+      img[data-zoom]{
+          margin-left:15%;
+      }
+  }
+
 </style>
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
 <!--lightSlider CSS-->
@@ -98,32 +104,24 @@
               <li><a href="/">Home</a></li>
 
               <li>{{ $parent->first()->pc_name  }}</li>
+                <?php  $cat_id = base64_encode( $subcategory->id  ) ;?>
+                <li><a style="text-decoration: underline;color: orange;" href="/products-by-category/{{ $subcategory->pc_name  }}/{{  $cat_id  }}">{{ $subcategory->pc_name  }}</a>
+                </li>
 
-              @foreach ($subCats as $cat)
-              @if($cat->id == $product->first()->pd_category_id  )
-                <?php  $cat_id = base64_encode( $cat->id  ) ;?>
-              <li><a href="/products-by-category/{{ $cat->pc_name  }}/{{  $cat_id  }}">{{ $cat->pc_name  }}</a></li>
-              @endif
-              @endforeach
-
-              @foreach ($lastCats as $subCategory)
-              @if($subCategory->id == $product->first()->pd_subCategory_id  )
-                  <?php  $subCategoryId = base64_encode( $subCategory->id  ) ;?>
-              <li><a href="/products-by-last-category/{{ $subCategory->pc_name  }}/{{ $subCategoryId  }}">{{ $subCategory->pc_name  }}</a></li>
-              @endif
-              @endforeach
+             <?php  $subCategoryId = base64_encode( $last_categories->id  ) ;?>
+              <li><a style="text-decoration: underline;color: orange;" href="/products-by-last-category/{{ $last_categories->pc_name  }}/{{ $subCategoryId  }}">{{ $last_categories->pc_name  }}</a></li>
               <li>{{ $product->first()->pd_name }}</li>
           </ul>
         </div>
         <!--first row big-->
         <div class="row">
             <div class="w3-center w3-padding col-md-4" id="product-img">
-                <div class="">
-                  <ul id="image-gallery" class="gallery list-unstyled cS-hidden">
+                <div>
+                  <ul id="image-gallery" class="gallery list-unstyled cS-hidden text-center">
                   @foreach ($pd_images as $pd_image)
                     @if($product->first()->pd_id == $pd_image->pd_photo_id)
                     <li data-thumb="/storage/{{ $pd_image->pd_filename }}" id="data-thumbs">
-                    <img data-zoom="/storage/{{ $pd_image->pd_filename }}" src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive img-large  drift-demo-trigger" alt="product image">
+                    <img data-zoom="/storage/{{ $pd_image->pd_filename }}"   src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive  drift-demo-trigger" alt="product image">
                     </li>
                     @endif
                     @endforeach
@@ -393,7 +391,7 @@
                 <div>
                    <div>
                       <div id="review">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered review-table">
                                 <tbody>
                                 @forelse($reviews as $review)
                                     <tr>
@@ -474,7 +472,7 @@
                           @endforeach
                           </ul>
                       </div>
-                      <div class="contacts-form">
+                      <div class="contacts-form" id="review-form">
                           <div class="form-group"> <span class="icon icon-user"></span>
                             <input type="text" name="apr_name" id="apr_name" class="form-control" value="" placeholder="Your Name">
                           </div>
@@ -501,6 +499,7 @@
           <!--reviews tab end-->
 
           <!--product FAQ's tab start-->
+           @if(count($questions) > 0)
           <div>
            <table class="table table-striped table-bordered">
                 <thead>
@@ -528,6 +527,7 @@
                   </table>
                   <!-- /.table -->
            </div>
+           @endif
           <!--product FAQ's tab end-->
           </div>
         </div>
@@ -544,6 +544,7 @@
                     <div class="img-box">
                         <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}">
+
                        <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
                         <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
                         <img src="/storage/{{ $collection->pd_photo  }}" class="img-responsive" alt="product image" width="150" height="150">
@@ -640,15 +641,16 @@
 
 	<script>
         $('.drift-demo-trigger').each(function(i, el) {
-	new Drift(el, {
+	        new Drift(el, {
             paneContainer: document.querySelector('.detail'),
-            zoomFactor: 3,
+            zoomFactor: 2,
 			inlinePane: 900,
 			inlineOffsetY: -85,
 			containInline: true,
-			hoverBoundingBox: true
+            hoverBoundingBox: true,
+            handleTouch:false
 		});
-    }) 
+    })
 
 	</script>
   <!-- responsive tags 3.3.7 -->
@@ -657,5 +659,5 @@
 
     <!--lightSlider JS-->
     <script src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
-   
+
 @endsection

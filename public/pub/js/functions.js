@@ -276,7 +276,6 @@ function showSubCat(id) {
 /*=============Product Detail================*/
 
 function sendReview(id) {
-    //alert("sidd");
     if ($("#u_id").val() != "") {
         var product_id = id;
         var name = $("#apr_name").val();
@@ -313,8 +312,9 @@ function sendReview(id) {
                 },
                 success: function(data) {
                     alert("Your review has been posted successfully");
-                    window.location =
-                        "/product-details/{{ $product->first()->pd_id }} ";
+                    $("#review-form").load(
+                        window.location.href + " #review-form"
+                    );
                 },
                 error: function(request, status, error) {
                     json = $.parseJSON(request.responseText);
@@ -536,60 +536,3 @@ $(document).ready(function() {
         }
     });
 });
-/*============product-detail-send-rev=================*/
-
-function sendReview(id) {
-    //alert("sidd");
-    if ($("#u_id").val() != "") {
-        var product_id = id;
-        var name = $("#apr_name").val();
-        var comment = $("#comment").val();
-        var rating = $("input[name='rating']:checked").val();
-        $(".alert-danger").hide();
-        $(".alert-danger").html("");
-        if (name.trim() == "") {
-            alert("Your Name is Required !!!");
-            $("#apr_name").focus();
-            return false;
-        }
-
-        if (comment.trim() == "") {
-            alert("Your comment is required !!!");
-            $("#comment").focus();
-            return false;
-        }
-        if (!rating) {
-            alert("Please give your rating.....");
-            return false;
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "/reviews",
-                data: {
-                    name: name,
-                    rating: rating,
-                    comment: comment,
-                    product_id: product_id
-                },
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                },
-                success: function(data) {
-                    alert("Your review has been posted successfully");
-                    window.location =
-                        "/product-details/{{ $product->first()->pd_id }} ";
-                },
-                error: function(request, status, error) {
-                    json = $.parseJSON(request.responseText);
-                    $.each(json.errors, function(key, value) {
-                        $(".alert-danger").show();
-                        $(".alert-danger").append("<p>" + value + "</p>");
-                    });
-                    $("#result").html("");
-                }
-            });
-        }
-    } else {
-        window.location = "/login";
-    }
-}

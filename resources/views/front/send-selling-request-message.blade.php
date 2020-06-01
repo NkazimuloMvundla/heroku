@@ -54,17 +54,21 @@
                 </ul>
                </div>
          @endif
-          <div class="modal-dialog">
+          <div class="modal-dialog"> 
             <div class="modal-content">
               <div class="modal-header">
                 <div id="valid" class="alert alert-danger" style="display:none;">
-                  <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }} </li>
-                    @endforeach
-                  </ul>
+                        @if(count($errors) > 0)
+                            <div id="valid" class="alert alert-danger">
+                            <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }} </li>
+                            @endforeach
+                            </ul> 
+                            </div>
+                         @endif
                 </div>
-                <h4 class="modal-title" id="">Make your best offer for this item</h4>
+                <h4 class="modal-title">Make your best offer for this item</h4>
               </div>
               <div class="modal-body" id="modal-body">
             <?php  $encoded_sr_u_id = base64_encode( $sendAmessage->first()->sr_u_id) ;?>
@@ -73,7 +77,7 @@
                   <input type="hidden" name="msg_from_id" id="msg_from_id" value="{{Auth::user()->id}}" >
                   <label>Subject</label>
                   <div class="form-group">
-                  <input type="text"  class="form-control" id="subject" name="subject" placeholder="Please enter a subject" value="">
+                  <input type="text"  class="form-control" id="subject" name="subject" placeholder="Please enter a subject">
                   <span class="error" id="subjectErr"></span>
                   @error('subject')
                       <span class="invalid-feedback" role="alert">
@@ -94,7 +98,6 @@
                   <div class="form-group">
                     <label>Quantity Unit:</label>
                     <div class="quantityUnit">
-
                       <select name="quantityUnit" id="quantityUnit">
                         <option disabled selected>Select</option>
                         @foreach($measurementUnits as $unit)
@@ -112,7 +115,7 @@
                   <div class="form-group">
                     <label>Quantity :</label>
                     <div class="quantity">
-                      <input type="text" id="quantity" name="quantity" placeholder="Please enter quantity eg 1000" class="form-control" >
+                      <input type="text" id="quantity" name="quantity" placeholder="Please enter quantity eg 1000" class="form-control">
                       <span class="error" id="quantityErr"></span>
                       @error('quantity')
                           <span class="invalid-feedback" role="alert">

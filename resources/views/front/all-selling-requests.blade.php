@@ -46,10 +46,10 @@
     @if($data->sr_u_id != Auth::user()->id)
     <button class="btn btn-primary">
     <?php $encoded_request_id = base64_encode( $data->id) ;?>
-    <a href="/{{ route('sendSellingRequestOfferMessage') }}/{{  $encoded_request_id }}">+ Make an offer</a></button>
+    <a href="/send-a-sell-message/{{  $encoded_request_id }}">+ Make an offer</a></button>
     @endif
 
-    <button class="btn btn-default " data-toggle="modal" data-target="#modal-default"  onclick="showSellingRequest({{$data->id}});"> + View request </button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#modal-default"  onclick="showSellingRequest({{$data->id}});"> + View request </button>
 
          <!--Moda-->
        <div class="modal fade" id="modal-default" style="display: none;">

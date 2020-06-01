@@ -12,6 +12,7 @@
 */
 
 use App\Http\Middleware\BlockGetRequest;
+use Intervention\Image\Facades\Image;
 
 Auth::routes(['verify' => true]);
 Route::get('/', 'IndexController@create')->name('home');
@@ -91,6 +92,19 @@ Route::get('/services', 'ServicesController@create')->name('services');
 Route::get('/filter-by-price', 'SearchController@filterByPrice')->name('filterByPrice');
 Route::post('/filter-by-price', 'SearchController@filterByPrice')->name('filterByPrice');
 
+Route::get('/image', function () {
+    return view('front.test');
+});
+// usage inside a laravel route
+Route::post('/image', function () {
+    $img = Image::make(request()->file)->resize(300, 200);
+
+    // and insert a watermark for example
+    $img->insert('C:\Users\Judge\freeCodeGram\public\storage\icons\correct.png');
+    // finally we save the image as a new file
+    $img->save('C:\Users\Judge\freeCodeGram\public\storage\icons\correct.png');
+    return $img->response();
+});
 
 Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::get('/u', 'AdminIndexController@create')->name('admin.index');
@@ -187,6 +201,9 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::get('/maincategory-view', 'ProductCategoryController@viewMain');
     Route::get('/category', 'SubCategoryController@create')->name('category-add'); //
     Route::post('/category-add', 'SubCategoryController@store')->name('category-store'); //
+    Route::post('/category-add', 'SubCategoryController@store')->name('category-store'); //
+    Route::get('/category-edit/{category_id}', 'SubCategoryController@editView')->name('category-edit'); //
+    Route::post('/category-save/{category_id}', 'SubCategoryController@categorySave')->name('categorySave'); //
     Route::get('/category-view', 'SubCategoryController@viewCat');
     Route::get('/subcategory', 'lastCategoryController@create')->name('subcategory-add'); //
     Route::post('/subcategory-add', 'lastCategoryController@store')->name('subcategory-store'); //

@@ -36,11 +36,9 @@ class ReviewController extends Controller
 
             \App\Review::create([
                 'pd_id' => $data['product_id'],
-                'rating' => $data['rating'],
-                'review' => $data['comment'],
-                'rated_by' => $data['name'],
-
-
+                'rating' => trim($data['rating']),
+                'review' => trim($data['comment']),
+                'rated_by' => trim($data['name']),
             ]);
         }
     }
@@ -63,22 +61,30 @@ class ReviewController extends Controller
     public function showReviews($pd_id)
     {
         $decoded_pd_id = base64_decode($pd_id);
-        $result = \App\Review::where(['pd_id' => $decoded_pd_id, 'status' => 1])->get();
-        $pCats = \App\productCategory::all();
-        $subCats = \App\SubCategory::all();
-        $lastCats = \App\lastCategory::all();
-        $pd_images = \App\Photo::where('pd_photo_id', $decoded_pd_id)->get();
-        $product = \App\Product::where('pd_id', $decoded_pd_id)->get();
-        $buyingRequests = \App\BuyingRequest::all();
-        $countBuyingRequest = count($buyingRequests);
-        if (Auth::check()) {
-            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
-            $count = count($userMessages);
 
-            return view('front.product-reviews', compact('pCats', 'subCats', 'lastCats', 'pd_images', 'result', 'product', 'count', 'countBuyingRequest'));
+        $decoded_product_id =  trim($decoded_pd_id);
+        $sanitized_product_id = filter_var($decoded_product_id, FILTER_SANITIZE_NUMBER_INT);
+
+        if (filter_var($sanitized_product_id, FILTER_VALIDATE_INT)) {
+            $result = \App\Review::where(['pd_id' => $sanitized_product_id, 'status' => 1])->get();
+            $pCats = \App\productCategory::all();
+            $subCats = \App\SubCategory::all();
+            $lastCats = \App\lastCategory::all();
+            $pd_images = \App\Photo::where('pd_photo_id', $sanitized_product_id)->get();
+            $product = \App\Product::where('pd_id', $sanitized_product_id)->get();
+            $buyingRequests = \App\BuyingRequest::all();
+            $countBuyingRequest = count($buyingRequests);
+            if (Auth::check()) {
+                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+                $count = count($userMessages);
+
+                return view('front.product-reviews', compact('pCats', 'subCats', 'lastCats', 'pd_images', 'result', 'product', 'count', 'countBuyingRequest'));
+            } else {
+
+                return view('front.product-reviews', compact('pCats', 'subCats', 'lastCats', 'pd_images', 'result', 'product'));
+            }
         } else {
-
-            return view('front.product-reviews', compact('pCats', 'subCats', 'lastCats', 'pd_images', 'result', 'product'));
+            return redirect("/");
         }
     }
 
@@ -113,20 +119,14 @@ class ReviewController extends Controller
     {
 
         if (request()->ajax()) {
-            /*
-        $data = request()->validate([
-            'checked' => ['numeric'],
+            $data = request()->validate([
+                'checked' => ['array'],
+                'checked.*' => ['numeric'],
 
+            ]);
 
-         ]);
-
-         */
-            $ids = request()->checked;
-            //  $count = count($ids);
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    \App\Review::where('id', $id)->delete();
-                }
+            foreach ($data['checked'] as $id) {
+                \App\Review::where('id', trim($id))->delete();
             }
         }
     }

@@ -182,7 +182,8 @@
                                          <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $product->min_price }}-{{ $product->max_price }}</span></p>
                                         <p class="item-price"><span>MOQ:{{ $product->pd_min_order_qty  }}  {{ $product->minOrderUnit }}</span></p>
                          <?php   $encoded_product_id = base64_encode( $product->pd_id) ;?>
-                                        <a href="/contact-supplier/product/{{ $encoded_product_id }}/supplier/{{ $encoded_product_id }}" class="btn btn-default item">Contact now!</a>
+                        <?php   $encoded_supplier_id = base64_encode( $product->pd_u_id) ;?>
+                                        <a href="/contact-supplier/product/{{ $encoded_product_id }}/supplier/{{ $encoded_supplier_id }}" class="btn btn-default item">Contact now!</a>
                                          <a  onclick="myFavorite({{ $product->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md"></a>
                                     </div>
                                 </div>

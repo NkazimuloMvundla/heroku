@@ -29,7 +29,7 @@ class SuperIndexController extends Controller
                 'id' => ['numeric'],
 
             ]);
-            \App\AdminNotifications::where('id', $data['id'])->delete();
+            \App\AdminNotifications::where('id', trim($data['id']))->delete();
         }
     }
 

@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
-<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
+<link rel="stylesheet" type="text/css"  type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
 <style>
@@ -37,15 +37,16 @@
     -moz-osx-font-smoothing: grayscale
     }
 </style>
-<link  rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
+<link rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" />
 <script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
 </head>
 <body id="bodyStyle">
+
 <header class="header" style="margin-bottom: -18px;">
-    <div class="panel wrapper " id="panel-wrap">
+    <div class="panel" id="panel-wrap">
      <div class="tm_header_outer hidden-xs hidden-sm hidden-md">
       <div class="tm_header_top container-width">
           <div class="header-offerzone">
@@ -234,6 +235,7 @@
               </strong>
           </div>
       </div>
+
       <div class="header-right hidden-xs hidden-sm hidden-md " id="header-right"><div class="block block-search">
           <div class="block-search-inner">
               <div class="block block-title"><strong>Search</strong></div>
