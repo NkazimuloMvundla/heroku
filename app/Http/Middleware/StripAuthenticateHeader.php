@@ -33,7 +33,7 @@ class StripAuthenticateHeader
         $response->headers->set('X-Frame-Options', 'DENY');
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         $response->headers->set('Cache-Control','no-cache:max-age=31536000' ,'private');
-        $response->headers->set(' Content-Encoding' ,'gzip');
+       // $response->headers->set(' Content-Encoding' ,'gzip');
       /*  $response->headers->set(' Content-Security-Policy', "default-src;self");*/
         /* $response->headers->set('Content-Security-Policy', "style-src 'self'"); // Clearly, you will be more elaborate here.*/
         return $response;
