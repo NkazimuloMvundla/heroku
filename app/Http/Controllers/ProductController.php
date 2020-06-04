@@ -502,14 +502,25 @@ class ProductController extends Controller
             $paths = $path->first()->pd_filename; //pd_images\image.png
 
             //$absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-            //$absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
-            if (file_exists($paths)) {
-                $success = unlink($paths);
+            /* $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
+            if (file_exists($absolute)) {
+                $success = unlink($absolute);
+
+                if ($success) {
+                    \App\Photo::where('id', $data['id'])->delete();
+                }
+            }*/
+
+            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
+            if (file_exists(url($paths))) {
+                $success = unlink(url($paths));
 
                 if ($success) {
                     \App\Photo::where('id', $data['id'])->delete();
                 }
             }
+
+
 
             //check if the main photo is empty then update it
             $mainImage = \App\Product::where('pd_id', $path->first()->pd_photo_id)->get();
