@@ -502,9 +502,9 @@ class ProductController extends Controller
             $paths = $path->first()->pd_filename; //pd_images\image.png
 
             //$absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
-            if (file_exists($absolute)) {
-                $success = unlink($absolute);
+            //$absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
+            if (file_exists($paths)) {
+                $success = unlink($paths);
 
                 if ($success) {
                     \App\Photo::where('id', $data['id'])->delete();
