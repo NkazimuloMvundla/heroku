@@ -511,9 +511,9 @@ class ProductController extends Controller
                 }
             }*/
 
-            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
-            if (file_exists(url($paths))) {
-                $success = unlink(url($paths));
+            $absolute = '\public' . "\\" . $paths;
+            if (file_exists($absolute)) {
+                $success = unlink($absolute);
 
                 if ($success) {
                     \App\Photo::where('id', $data['id'])->delete();
