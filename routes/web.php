@@ -98,19 +98,6 @@ Route::get('/services', 'ServicesController@create')->name('services');
 Route::get('/filter-by-price', 'SearchController@filterByPrice')->name('filterByPrice');
 Route::post('/filter-by-price', 'SearchController@filterByPrice')->name('filterByPrice');
 
-Route::get('/image', function () {
-    return view('front.test');
-});
-// usage inside a laravel route
-Route::post('/image', function () {
-    $img = Image::make(request()->file)->resize(300, 200);
-
-    // and insert a watermark for example
-    $img->insert('C:\Users\Judge\freeCodeGram\public\storage\icons\correct.png');
-    // finally we save the image as a new file
-    $img->save('C:\Users\Judge\freeCodeGram\public\storage\icons\correct.png');
-    return $img->response();
-});
 
 Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::get('/u', 'AdminIndexController@create')->name('admin.index');
