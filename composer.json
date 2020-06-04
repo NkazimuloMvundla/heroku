@@ -13,7 +13,8 @@
         "intervention/image": "^2.5",
         "jrm2k6/cloudder": "0.4.*",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "ext-gd": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
@@ -41,7 +42,7 @@
             "database/seeds",
             "database/factories"
         ],
-        "files" : [
+        "files": [
             "app/Http/Helpers/helper.php"
         ]
     },
