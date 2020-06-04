@@ -30,7 +30,7 @@
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                          <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                  <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                              <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="">
+                              <img src="{{ url($product->pd_photo) }}" class="img-responsive img-fluid" alt="">
                                         </a>
                                         </div>
                                         <div class="thumb-content">

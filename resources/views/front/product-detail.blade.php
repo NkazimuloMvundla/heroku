@@ -120,8 +120,8 @@
                   <ul id="image-gallery" class="gallery list-unstyled cS-hidden text-center">
                   @foreach ($pd_images as $pd_image)
                     @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                    <li data-thumb="/storage/{{ $pd_image->pd_filename }}" id="data-thumbs">
-                    <img data-zoom="/storage/{{ $pd_image->pd_filename }}"   src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive  drift-demo-trigger" alt="product image">
+                    <li data-thumb="{{ url($pd_image->pd_filename) }}" id="data-thumbs">
+                    <img data-zoom="{{ url($pd_image->pd_filename) }}"   src="{{ url($pd_image->pd_filename) }}" class="img-responsive  drift-demo-trigger" alt="product image">
                     </li>
                     @endif
                     @endforeach
@@ -212,10 +212,10 @@
                 <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
                 <a href="/supplier/{{ $encoded_user_id}}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
                 @if($user->first()->status == 1)
-                     <img src="/storage/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                     <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                 @endif
                 @if($user->first()->membership == 'Gold Member')
-                 <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                 <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
                 @endif
             </div>
                  <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
@@ -308,7 +308,7 @@
                           <div>
                           @foreach ($pd_images as $pd_image)
                           @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                          <img src="/storage/{{ $pd_image->pd_filename }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
+                          <img src="{{ url($pd_image->pd_filename) }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
                           @endif
                           @endforeach
                           </div>
@@ -328,10 +328,10 @@
             <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
             <a href="/supplier/{{ $encoded_user_id }}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
             @if( $user->first()->status == 1)
-                 <img src="/storage/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+            <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
             @endif
             @if( $user->first()->membership == 'Gold Member')
-             <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+             <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
             @endif
               <p><i class="fa fa-building"></i><strong> Business type </strong>: 	{{ $user->first()->account_type }} </p>
               <p><i class="fa fa-map"></i> <strong> Location </strong>: South Africa </p>
@@ -362,7 +362,7 @@
             <div class="row">
          <div class="col-md-8">
             @foreach($company_images as $img)
-            <img src="/storage/{{ $img->company_image }}" class="img-responsive" alt="company image">
+            <img src="{{ url($img->company_image) }}" class="img-responsive" alt="company image">
             @endforeach
          </div>
             </div>
@@ -377,7 +377,7 @@
             <div class="row">
          <div class="col-md-8">
             @foreach($certificates as $img)
-            <img src="/storage/{{ $img->filename }}" class="img-responsive" alt="company certificate">
+            <img src="{{ url($img->filename) }}" class="img-responsive" alt="company certificate">
             @endforeach
          </div>
             </div>
@@ -547,7 +547,7 @@
 
                        <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
                         <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                        <img src="/storage/{{ $collection->pd_photo  }}" class="img-responsive" alt="product image" width="150" height="150">
+                        <img src="{{ url($collection->pd_photo)  }}" class="img-responsive" alt="product image" width="150" height="150">
 
                         </a>
                     </div>

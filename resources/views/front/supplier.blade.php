@@ -42,10 +42,10 @@
                     <div class="panel widget row-1">
                       <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
                                            @if($supplier->status == 1)
-                                                <img src="/storage/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                                                <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                                                  @endif
                                         @if($supplier->membership == 'Gold Member')
-                                         <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                                         <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
                                     @endif
 
                                         </span>
@@ -55,17 +55,17 @@
                         @endif
                         @if(!empty($supplier->company_background_img))
                     <div class="widget-header bg-purple">
-                         <img class="widget-bg img-responsive" src="/storage/{{ $supplier->company_background_img }}" alt="Image">
+                         <img class="widget-bg img-responsive" src="{{url( $supplier->company_background_img) }}" alt="Image">
                         </div>
                         @endif
                         <div class="widget-body text-center">
                              <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
                                 <a href="/supplier/{{ $encoded_supplier_id }}">
                                     @if(empty($supplier->company_logo))
-                                    <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/icons/user.png">
+                                    <img alt="Profile Picture" class="widget-img img-border-light" src="icons/user.png">
                                     @endif
                                     @if(!empty($supplier->company_logo))
-                                    <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/{{ $supplier->company_logo }}">
+                                    <img alt="Profile Picture" class="widget-img img-border-light" src="{{ url($supplier->company_logo) }}">
                                     @endif
                                 </a>
                                  <?php $encoded_supplier_id = base64_encode( $supplier->id) ;?>
@@ -169,7 +169,7 @@
                                     <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                         <?php   $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                     <a href="/product-details/{{ $encoded_product_id}}">
-                                      <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="product image">
+                                      <img src="{{ url($product->pd_photo) }}" class="img-responsive img-fluid" alt="product image">
                                       </a>
                                     </div>
                                     <div class="thumb-content">
@@ -208,7 +208,7 @@
               <h4 class="bg-info text-center"><b>Company images</b></h4>
               @endif
               @foreach($company_images as $img)
-              <img src="/storage/{{ $img->company_image }}" class="img-responsive img-fluid" alt="company image">
+              <img src="{{ url($img->company_image) }}" class="img-responsive img-fluid" alt="company image">
               @endforeach
 
               <!--certificates-->
@@ -220,7 +220,7 @@
                 <div class="row">
                 <div class="col-md-8">
                 @foreach($certificates as $img)
-                <img src="/storage/{{ $img->filename }}" class="img-responsive" alt="company certificate">
+                <img src="{{ url($img->filename) }}" class="img-responsive" alt="company certificate">
                 @endforeach
                 </div>
 

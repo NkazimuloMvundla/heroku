@@ -142,17 +142,17 @@
                 @endif
                 @if(!empty($user_details->first()->company_background_img))
                 <div class="widget-header bg-purple">
-                        <img class="widget-bg img-responsive" src="/storage/{{ $user_details->first()->company_background_img }}" alt="company background image">
+                        <img class="widget-bg img-responsive" src="{{ url($user_details->first()->company_background_img) }}" alt="company background image">
                     </div>
                 @endif
                     <div class="widget-body text-center">
                     <?php $encoded_supplier_id = base64_encode( $user_details->first()->id) ;?>
                         <a href="/supplier/{{ $encoded_supplier_id }}">
                         @if(empty($user_details->first()->company_logo))
-                        <img alt="Company Logo" class="widget-img img-border-light" src="/storage/icons/user.png" >
+                        <img alt="Company Logo" class="widget-img img-border-light" src="icons/user.png" >
                         @endif
                         @if(!empty($user_details->first()->company_logo))
-                        <img alt="Company Logo" class="widget-img img-border-light" src="/storage/{{ $user_details->first()->company_logo }}" >
+                        <img alt="Company Logo" class="widget-img img-border-light" src="{{ url($user_details->first()->company_logo) }}" >
                         @endif</a>
                         <h4 class="mar-no">
                       <?php $encoded_supplier_id = base64_encode( $user_details->first()->id) ;?>
@@ -222,7 +222,7 @@
                 @foreach($company_images as $company_img)
                 <div class="">
                     <span class="btn btn-danger btn-sm" style="margin:5px;position: absolute;" onclick="deleteCompanyImg({{ $company_img->id }})">delete image</span>
-                        <img class="img-responsive" src="/storage/{{ $company_img->company_image }}" alt="company image" width="100%" style="margin:10px;">
+                        <img class="img-responsive" src="{{ url($company_img->company_image) }}" alt="company image" width="100%" style="margin:10px;">
                  </div>
                 @endforeach
                     </div>

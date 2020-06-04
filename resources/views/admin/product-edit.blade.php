@@ -254,7 +254,7 @@
                     <span style="border:1px solid #e2e2e2;">
                     @if($product->first()->pd_photo == $pd_image->pd_filename)
                     <div class="" style="margin:6px;padding:6px;">
-                    <img src="public/{{ $pd_image->pd_filename }}" width="100" height="100">
+                    <img src="{{url($pd_image->pd_filename)}}" width="100" height="100">
                     <span class="bg bg-warning">main photo</span>
                     </div>
                     @else

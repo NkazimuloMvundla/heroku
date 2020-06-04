@@ -24,10 +24,10 @@
                                     <div class="panel widget row-1" id="all-suppliers">
                                      <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
                                            @if($supplier->status == 1)
-                                                <img src="/storage/icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                                                <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                                                  @endif
                                         @if($supplier->membership == 'Gold Member')
-                                         <img src="/storage/icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                                         <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
                                         @endif
                                         </span>
                                             @if(empty($supplier->company_background_img))
@@ -36,7 +36,7 @@
                                             @endif
                                             @if(!empty($supplier->company_background_img))
                                         <div class="widget-header bg-purple">
-                                             <img class="widget-bg img-responsive" src="/storage/{{ $supplier->company_background_img }}" alt="Image">
+                                             <img class="widget-bg img-responsive" src="{{ url($supplier->company_background_img) }}" alt="Image">
                                             </div>
                                             @endif
 
@@ -44,10 +44,10 @@
                     <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
                                                 <a href="/supplier/{{ $encoded_supplier_id}}">
                                                         @if(empty($supplier->company_background_img))
-                                                        <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/icons/user.png">
+                                                        <img alt="Profile Picture" class="widget-img img-border-light" src="icons/user.png">
                                                         @endif
                                                         @if(!empty($supplier->company_background_img))
-                                                        <img alt="Profile Picture" class="widget-img img-border-light" src="/storage/{{ $supplier->company_logo }}">
+                                                        <img alt="Profile Picture" class="widget-img img-border-light" src="{{ url($supplier->company_logo) }}">
                                                         @endif
                                                     </a>
                                                   <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>

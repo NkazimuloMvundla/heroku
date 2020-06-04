@@ -50,7 +50,7 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-    {
+
 
 
         $data = request()->validate([
@@ -119,8 +119,8 @@ class ProductController extends Controller
 
         $i = 1;
         foreach (request()->file('file') as $file) {
-            $imgPath = $file->store('pd_images', 'public');
-            $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(250, 250);
+            $pathToFile = Storage::disk('public')->put('pd_images', $file);
+            $image = Image::make(public_path($pathToFile))->fit(250, 250);
             $image->save();
             \App\Photo::create([
                 'pd_photo_id' => trim($id),
@@ -536,7 +536,7 @@ class ProductController extends Controller
             $path = \App\CompanyImages::where('id', $data['id'])->get();
             $paths = $path->first()->company_image; //pd_images\image.png
 
-            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
             if (file_exists($absolute)) {
                 $success = unlink($absolute);
 

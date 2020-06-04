@@ -12,8 +12,8 @@ div#search-result{
     <div style="margin-top: -24px;">
         @if($Productcount > 0)
          <h4 style="background: #f2f3f7; padding:12px;">
-                About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for price range at {{ Session::get("min_price") }} - {{ Session::get("max_price") }} 
-         </h4> 
+                About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for price range at {{ Session::get("min_price") }} - {{ Session::get("max_price") }}
+         </h4>
          @endif
 
          @if($Productcount == 0)
@@ -79,7 +79,7 @@ div#search-result{
                         </div>
                       <div class="form-group w3-center" style="margin-top:5px;">
                         <button class="btn btn-primary">Go!</button>
-                        </div> 
+                        </div>
                     </div>
                     </form>
                 <div class="row products-by-category">
@@ -90,7 +90,7 @@ div#search-result{
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                     <a href="/product-details/{{ $encoded_product_id}}" class="view_product">
 
-                                <img src="/storage/{{ $product->pd_photo }}" class="img-responsive img-fluid" alt="product-image">
+                                <img src="{{ url($product->pd_photo) }}" class="img-responsive img-fluid" alt="product-image">
                                     </a>
                                     </div>
                                     <div class="thumb-content">

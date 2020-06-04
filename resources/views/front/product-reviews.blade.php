@@ -4,7 +4,7 @@
 
 <div class="container">
         <div class="row" style="display: flex;justify-content: center;padding: 12px;">
-            <img src="/storage/{{ $pd_images->first()->pd_filename }}" class="img-responsive img-thumbnail" alt="{{ $pd_images->first()->pd_filename }}" style="height:200px;width:200px;">
+            <img src="{{ url($pd_images->first()->pd_filenam) }}" class="img-responsive img-thumbnail" alt="product-name" style="height:200px;width:200px;">
     </div>
     <div class="row">
         <div class="col-md-12">

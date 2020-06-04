@@ -10,8 +10,7 @@
 										<input type="hidden" name="u_id" id="u_id" value="{{ $auth }}">
                             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>
 										<a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-										<img src="/storage/{{$slideOne->pd_photo  }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" >
-
+                                        <img src="{{ $slideOne->pd_photo }}" class="img-responsive" alt="{{ $slideOne->pd_name }}" >
 										</a>
 								</div>
 								<div class="thumb-content">

@@ -147,7 +147,7 @@ function showProduct(id){
             var html ="";
              for(var x = 0; x<imagesArray.length;x++){
                // console.log(imagesArray[x]);
-                html +='<img src="/storage/'+imagesArray[x]+'" width="250px" height="400px">'
+                html +='<img src="'+imagesArray[x]+'" width="250px" height="400px">'
              }
             $("#modal-title").text(id);
             $("#pd_name").text(pd_name);

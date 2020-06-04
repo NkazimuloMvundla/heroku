@@ -285,7 +285,7 @@ function showId(limit){
 
                                         <td>
                                         @if($setting->st_pic !="")
-                                        <img src="/storage/{{ $setting->st_pic }} " height="100" width="100" >
+                                        <img src="{{ $setting->st_pic }} " height="100" width="100" >
                                         @endif
                                     </td>
 

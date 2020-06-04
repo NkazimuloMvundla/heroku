@@ -150,7 +150,7 @@ span[role="alert"]{
                 @foreach($CompanyCertificate as $company_img)
                 <div class="">
                 <span class="btn btn-danger btn-sm" style="margin:5px;position: absolute;" onclick="deleteCompanyCertificate({{ $company_img->id }})">delete</span>
-                <img class="img-responsive" src="/storage/{{ $company_img->filename }}" alt="company image" width="100%" style="margin:10px;">
+                <img class="img-responsive" src="{{ url($company_img->filename) }}" alt="company image" width="100%" style="margin:10px;">
                  </div>
                 @endforeach
                     </div>
