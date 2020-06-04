@@ -176,7 +176,7 @@ div.dropdown-content{
 
 /*slideer background */
 .slider-background {
-    background-image: url(/storage/banners/homepage.jpeg);
+    background-image: url(/banners/homepage.jpeg);
     background-repeat: no-repeat;
     background-color: #ccc;
     border: 1px solid;
@@ -514,7 +514,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 /*===========Post buying request=========*/
 div#post_a_request{
-   background-image: url(/storage/banners/expo.png);
+   background-image: url(/banners/expo.png);
     background-repeat: no-repeat;
     background-color:
     #ccc;
@@ -670,7 +670,7 @@ h3.shows a{
 }
 
 div#tradeShowBackground {
-  background-image: url(/storage/banners/expo.png);
+  background-image: url(/banners/expo.png);
     background-repeat: no-repeat;
     background-color:
     #ccc;
