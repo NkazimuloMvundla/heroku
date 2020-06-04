@@ -50,9 +50,7 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-
-
-
+    {
         $data = request()->validate([
             'mainCategory' => ['required', 'numeric'],
             'Category' => ['required', 'numeric'],
@@ -125,7 +123,7 @@ class ProductController extends Controller
             \App\Photo::create([
                 'pd_photo_id' => trim($id),
                 'pd_u_id' => Auth::user()->id,
-                'pd_filename' => $imgPath,
+                'pd_filename' => $pathToFile,
                 'pd_priority' => $i++,
 
             ]);
