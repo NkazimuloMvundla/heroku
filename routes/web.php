@@ -11,8 +11,6 @@
 |
 */
 
-use App\Http\Middleware\BlockGetRequest;
-use Intervention\Image\Facades\Image;
 
 Auth::routes(['verify' => true]);
 Route::get('/', 'IndexController@create')->name('home');
@@ -42,7 +40,15 @@ Route::get('/register', 'auth\RegisterController@showRegistrationForm')->name('r
 Route::post('/register', 'auth\RegisterController@register');
 Route::post('/account-registration', 'auth\RegisterController@save_account_type')->name('account_type');
 
+//super user
+/*
+Route::get('/super-login', 'auth\LoginController@showAdminLoginForm')->name('super_user_login')->middleware('guest');
+Route::post('/super-login', 'auth\LoginController@checklogin')->name('super_user_login')->middleware('guest');
 
+Route::get('/super-register', 'auth\RegisterController@Adminregister')->name('super_user_register')->middleware('guest');
+Route::post('/super-register', 'auth\RegisterController@registerAdmin')->name('super_user_register')->middleware('guest');
+
+*/
 //verify email route
 //Route::post('/verify', 'Auth\RegisterController@save_account_type')->name('account_type');
 
@@ -171,11 +177,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' => 'AccessSuperUser'], function () {
 
-    Route::get('/', 'SuperIndexController@view')->name('super.index');
-    // Route::get('/login', 'Admin\SuperUserLoginController@showLoginForm')->name('super_user_login');
-    //  Route::post('/login', 'Admin\SuperUserLoginController@checklogin')->name('super_user_login');
-    //  Route::get('/registration', 'Admin\SuperUserRegistrationController@Adminregister');
-    // Route::post('/registration', 'Admin\SuperUserRegistrationController@register')->name('super_user_register');
+    Route::get('/super', 'SuperIndexController@view')->name('super.index');
     Route::post('/deleteAdminNotification', 'SuperIndexController@destroy')->name('deleteAdminNotification');
     Route::post('/deleteAllAdminNotification', 'SuperIndexController@destroyAll')->name('deleteAllAdminNotification');
     Route::get('/manage-users', 'ManageUserController@create')->name('manage-users');

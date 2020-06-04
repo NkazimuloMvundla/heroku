@@ -51,6 +51,7 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('guest:admin');
     }
 
     public function showRegistrationForm()
@@ -141,4 +142,29 @@ class RegisterController extends Controller
 
         return $user;
     }
+
+
+    /*
+    //Super Admin
+    public function Adminregister()
+    {
+        return view('super.access.registration');
+    }
+
+    public function registerAdmin()
+    {
+        $data = request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:super_users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        \App\superUser::create([
+            'admin_name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        return redirect('/super/login');
+    }*/
 }

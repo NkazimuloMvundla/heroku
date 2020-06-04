@@ -37,6 +37,13 @@ class LoginController extends Controller
     protected $redirectTo = '/';
 
 
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:admin')->except('logout');
+    }
+
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -70,4 +77,31 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+    /*
+    //login for Super User
+    public function showAdminLoginForm()
+    {
+        return view('super.access.login');
+    }
+
+
+
+    public function checklogin()
+    {
+        $this->validate(request(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if (Auth::guard('admin')->attempt([
+            'email' => request()->email,
+            'password' => request()->password
+        ])) {
+            // return redirect('/super');
+            Session::put('super', request()->email);
+            return redirect()->route('super.index');
+        }
+        return redirect('/super/login')->with('error', 'Invalid Email address or Password');
+    }
+    */
 }

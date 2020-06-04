@@ -340,14 +340,15 @@ class ProductController extends Controller
             if (request()->has('Product_photo') && !empty(request()->Product_photo)) {
                 foreach (request()->file('Product_photo') as $file) {
 
-                    $imgPath = $file->store('pd_images', 'public');
+                    // $imgPath = $file->store('pd_images', 'public');
+                    $pathToFile = Storage::disk('public')->put('pd_images', $file);
 
-                    $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(250, 250);
+                    $image = Image::make(public_path($pathToFile))->fit(250, 250);
                     $image->save();
                     \App\Photo::create([
                         'pd_photo_id' => $sanitized_pd_id,
                         'pd_u_id' => Auth::user()->id,
-                        'pd_filename' => $imgPath,
+                        'pd_filename' => $pathToFile,
 
                     ]);
                 }
@@ -502,7 +503,8 @@ class ProductController extends Controller
             $path = \App\Photo::where('id', $data['id'])->get();
             $paths = $path->first()->pd_filename; //pd_images\image.png
 
-            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+            //$absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
             if (file_exists($absolute)) {
                 $success = unlink($absolute);
 
