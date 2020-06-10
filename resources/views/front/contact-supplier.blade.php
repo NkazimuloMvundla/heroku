@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('title', 'Contact Supplier')
-
+@section('meta_keywords', 'contact supplier')
+@section('meta_description', 'contact a merchant')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
 

@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title' ,'Product Reviews')
+@section('meta_keywords', 'product reviews')
+@section('meta_description', 'product reviews')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
 <div class="container">

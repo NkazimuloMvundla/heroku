@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('title' , 'Suppliers')
-
+@section('meta_keywords' ,'Suppliers','legitimate suppliers')
+@section('meta_description' ,'find all legitimate and verified suppliers')
 @section('content')
 <div class="container">
     <h3 class="text-primary " style="background: #f8f8f8; padding:4px;">Selected Suppliers</h3>

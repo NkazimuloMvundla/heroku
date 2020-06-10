@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('title', 'Send Buying Request Offer')
+@section('meta_keywords', "send a buying message request", "contact supplier")
+@section('meta_description', "send buying request message")
 @section('content')
 
 <style>

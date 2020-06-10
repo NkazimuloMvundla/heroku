@@ -15,7 +15,7 @@ class IndexController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $featured_products = \App\Product::take(8)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
+        $featured_products = \App\Product::take(12)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
         $featured_images = \App\Photo::all();
         $pd_images = \App\Photo::all();
         $buyingRequests = \App\BuyingRequest::all();

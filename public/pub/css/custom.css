@@ -237,13 +237,7 @@ div.product-item-container{
     padding: 15px;
     overflow: hidden;
 }
-@media screen and (min-width:992px){
-   div.product-item-container {
-    border: 1px dotted #c1bcbc;
-   /* margin: 5px;*/
-}
 
-}
 .product-item-container:hover {
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.2);
     border-color: #ff6a00;

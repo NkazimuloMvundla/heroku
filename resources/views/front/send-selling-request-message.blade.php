@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('title', 'Send Selling Request Offer')
+@section('meta_keywords', "contact a seller")
+@section('meta_description', "contact a seller")
 @section('content')
 
 <style>
@@ -54,7 +56,7 @@
                 </ul>
                </div>
          @endif
-          <div class="modal-dialog"> 
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <div id="valid" class="alert alert-danger" style="display:none;">
@@ -64,7 +66,7 @@
                             @foreach($errors->all() as $error)
                             <li>{{ $error }} </li>
                             @endforeach
-                            </ul> 
+                            </ul>
                             </div>
                          @endif
                 </div>

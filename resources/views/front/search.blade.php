@@ -1,12 +1,16 @@
 @extends('layouts.main')
 @section('title' ,'Search Product')
+@if(Session::get('pd_name') !== "")
+<?php  $searched_term = htmlspecialchars( Session::get('pd_name')) ;?>
+@section('meta_keywords', $searched_term)
+@section('meta_description',$searched_term  )
+@endif
 @section('content')
 <style>
 div#search-result{
     display: flex;
     justify-content: center;
 }
-
 </style>
 
 @if(count($errors) > 0)
@@ -80,17 +84,15 @@ div#search-result{
         </div>
             </div>
             <div class="col-md-10">
-
                 @if($Productcount > 0)
-
-                       <span class="hidden-lg">filter by price:</span>
+                  <span class="hidden-lg">filter by price:</span>
                     <form name="filter_price" class="hidden-lg" method="POST" id="filter_price" action="{{ route('filterByPrice') }}">
                     @csrf
                     <div class="form-group-row">
                         <div class="col-xs-6">
                             <input type="number" size="4"  class="form-control" name="min_price" placeholder="min-price">
                         </div>
-                    <div class="col-xs-6">
+                     <div class="col-xs-6">
                         <input type="number" size="4"  class="form-control" name="max_price" placeholder="max-price">
                         </div>
                       <div class="form-group w3-center" style="margin-top:5px;">

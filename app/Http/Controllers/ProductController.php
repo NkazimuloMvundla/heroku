@@ -502,16 +502,7 @@ class ProductController extends Controller
             $paths = $path->first()->pd_filename; //pd_images\image.png
 
             //$absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-            /* $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
-            if (file_exists($absolute)) {
-                $success = unlink($absolute);
-
-                if ($success) {
-                    \App\Photo::where('id', $data['id'])->delete();
-                }
-            }*/
-
-            $absolute = '\public' . "\\" . $paths;
+            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
             if (file_exists($absolute)) {
                 $success = unlink($absolute);
 
@@ -519,6 +510,15 @@ class ProductController extends Controller
                     \App\Photo::where('id', $data['id'])->delete();
                 }
             }
+
+            /* $absolute = '\public' . "\\" . $paths;
+            if (file_exists($absolute)) {
+                $success = unlink($absolute);
+
+                if ($success) {
+                    \App\Photo::where('id', $data['id'])->delete();
+                }
+            }*/
 
 
 

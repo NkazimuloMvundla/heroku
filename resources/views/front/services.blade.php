@@ -1,5 +1,8 @@
 
 @extends('layouts.main')
+@section('title' ,'Services')
+@section('meta_keywords', "our services")
+@section('meta_description', "find out how can we help you")
 @section('content')
 <div class="w3-container">
         <div class="row w3-margin-top w3-center" id="services" >

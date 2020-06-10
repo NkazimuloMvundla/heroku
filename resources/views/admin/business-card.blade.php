@@ -149,7 +149,7 @@
                     <?php $encoded_supplier_id = base64_encode( $user_details->first()->id) ;?>
                         <a href="/supplier/{{ $encoded_supplier_id }}">
                         @if(empty($user_details->first()->company_logo))
-                        <img alt="Company Logo" class="widget-img img-border-light" src="icons/user.png" >
+                        <img alt="Company Logo" class="widget-img img-border-light" src="{{ url("icons/user.png") }}" >
                         @endif
                         @if(!empty($user_details->first()->company_logo))
                         <img alt="Company Logo" class="widget-img img-border-light" src="{{ url($user_details->first()->company_logo) }}" >

@@ -1,5 +1,7 @@
 @extends('layouts.main')
 @section('title' ,'Sell')
+@section('meta_keywords', "selling on our plartform")
+@section('meta_description', "start delling on our plartform")
 @section('content')
 <style type="text/css">
  	h2.sell{

@@ -1,6 +1,9 @@
 @extends('layouts.main')
 
 @section('title', 'Selling Requests')
+@section('meta_keywords', 'selling requests')
+@section('meta_description', 'posted selling requests')
+<link rel="canonical" href="{{url()->current()}}"/>
 
 @section('content')
 <div class="container">

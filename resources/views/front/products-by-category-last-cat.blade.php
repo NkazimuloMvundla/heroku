@@ -1,5 +1,8 @@
 @extends('layouts.main')
-@section('title' ,'Products By Category')
+@section('title' ,'Products By Last Category')
+@section('meta_keywords', 'products by category')
+@section('meta_description', 'find more products from ' .  htmlspecialchars($lasts->first()->pc_name) .' category')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 <div class="container">
    <div class="row">
@@ -30,7 +33,7 @@
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
                          <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                  <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                              <img src="{{ url($product->pd_photo) }}" class="img-responsive img-fluid" alt="">
+                              <img src="{{ url($product->pd_photo) }}" class="img-responsive img-fluid" alt="product">
                                         </a>
                                         </div>
                                         <div class="thumb-content">

@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title' ,'Account Type')
+@section('meta_keywords', 'account type')
+@section('meta_description', 'choose an account type')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
 <div class="container">

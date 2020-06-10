@@ -1,5 +1,9 @@
 @extends('layouts.main')
 @section('title' ,'Supplier')
+@section('meta_keywords' ,'Supplier')
+<?php  $name = htmlspecialchars($supplier->company_name) ;?>
+@section('meta_description',"all products from supplier " . $name)
+
 @section('content')
 
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
@@ -42,10 +46,10 @@
                     <div class="panel widget row-1">
                       <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
                                            @if($supplier->status == 1)
-                                                <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                                                <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                                                  @endif
                                         @if($supplier->membership == 'Gold Member')
-                                         <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                                         <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
                                     @endif
 
                                         </span>
@@ -62,7 +66,7 @@
                              <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
                                 <a href="/supplier/{{ $encoded_supplier_id }}">
                                     @if(empty($supplier->company_logo))
-                                    <img alt="Profile Picture" class="widget-img img-border-light" src="icons/user.png">
+                                    <img alt="Profile Picture" class="widget-img img-border-light" src="{{ url("icons/user.png") }}">
                                     @endif
                                     @if(!empty($supplier->company_logo))
                                     <img alt="Profile Picture" class="widget-img img-border-light" src="{{ url($supplier->company_logo) }}">

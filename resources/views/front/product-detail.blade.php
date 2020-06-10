@@ -1,5 +1,10 @@
 @extends('layouts.main')
 @section('title' ,'Product Details')
+<?php  $pd_name = htmlspecialchars( $product->first()->pd_name) ;?>
+@section('meta_keywords', $pd_name)
+<?php  $pd_listing_description = htmlspecialchars( $product->first()->pd_listing_description) ;?>
+@section('meta_description', $pd_listing_description)
+
 @section('content')
 <style>
 .breadcrumb{background: #FFF;}
@@ -148,6 +153,13 @@
                   <div class="w3-margin-top">
                   <span class="product-description"><span  style="font-size:14px;">{{ $product->first()->pd_name }}</span></span>
                   </div>
+                  <div class="w3-margin-top">
+                  <span class="product-description">
+                  <span style="font-size: 16px">Product discription :</span>
+                  <span style="color:#e64545; font-size:14px;">{{ $product->first()->pd_listing_description }}
+                  </span>
+                  </span>
+                </div>
                 <div class="w3-margin-top">
                   <span class="product-description">
                   <span style="font-size: 16px">Unit price :</span>
@@ -212,10 +224,10 @@
                 <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
                 <a href="/supplier/{{ $encoded_user_id}}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
                 @if($user->first()->status == 1)
-                     <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                     <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                 @endif
                 @if($user->first()->membership == 'Gold Member')
-                 <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                 <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
                 @endif
             </div>
                  <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
@@ -328,10 +340,10 @@
             <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
             <a href="/supplier/{{ $encoded_user_id }}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
             @if( $user->first()->status == 1)
-            <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+            <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
             @endif
             @if( $user->first()->membership == 'Gold Member')
-             <img src="icons/gold-medal.png" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+             <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
             @endif
               <p><i class="fa fa-building"></i><strong> Business type </strong>: 	{{ $user->first()->account_type }} </p>
               <p><i class="fa fa-map"></i> <strong> Location </strong>: South Africa </p>

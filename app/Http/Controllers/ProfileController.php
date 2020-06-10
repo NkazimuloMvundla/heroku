@@ -11,6 +11,7 @@ use App\Rules\PhotoEditMaxUpload;
 use App\Rules\PhotoMaxUpload;
 use Validator;
 use DB;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
@@ -113,20 +114,22 @@ class ProfileController extends Controller
         }
         if (!empty(request()->company_logo) || request()->company_logo != NULL) {
 
-            $company_logo = request('company_logo')->store('profile', 'public');
+            // $company_logo = request('company_logo')->store('profile', 'public');
             //check to see if this field is empty in the DB , if it is then create
-            $image = Image::make(public_path('storage/' . $company_logo . ''))->fit(64, 64);
+            // $imgPath = $file->store('pd_images', 'public');
+            $pathToFile = Storage::disk('public')->put('profile', request()->company_logo);
+            $image = Image::make(public_path($pathToFile))->fit(64, 64);
             $image->save();
 
             if (Auth::user()->company_logo == "") {
                 Auth::user()->update([
-                    'company_logo' => $company_logo,
+                    'company_logo' => $pathToFile,
 
                 ]);
             } else {
 
 
-                $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . Auth::user()->company_logo;
+                $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . Auth::user()->company_logo;
                 if (file_exists($absolute)) {
                     $success = unlink($absolute);
 
@@ -137,7 +140,7 @@ class ProfileController extends Controller
 
 
                         Auth::user()->update([
-                            'company_logo' => $company_logo,
+                            'company_logo' => $pathToFile,
 
                         ]);
                     }
@@ -146,19 +149,21 @@ class ProfileController extends Controller
         }
         if (!empty(request()->business_card_background) || request()->business_card_background != NULL) {
 
-            $business_card_background = request('business_card_background')->store('profile', 'public');
+            // $business_card_background = request('business_card_background')->store('profile', 'public');
 
-            $image = Image::make(public_path('storage/' . $business_card_background . ''))->fit(200, 130);
+            $pathToFile = Storage::disk('public')->put('profile', request()->business_card_background);
+
+            $image = Image::make(public_path($pathToFile))->fit(200, 130);
             $image->save();
             //check to see if this field is empty in the DB , if it is then create
             if (Auth::user()->company_background_img == "") {
                 Auth::user()->update([
-                    'company_background_img' =>   $business_card_background,
+                    'company_background_img' =>   $pathToFile,
 
                 ]);
             } else {
 
-                $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . Auth::user()->company_background_img;
+                $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . Auth::user()->company_background_img;
                 if (file_exists($absolute)) {
                     $success = unlink($absolute);
 
@@ -169,7 +174,7 @@ class ProfileController extends Controller
                         ]);
 
                         Auth::user()->update([
-                            'company_background_img' => $business_card_background,
+                            'company_background_img' => $pathToFile,
 
                         ]);
                     }
@@ -218,8 +223,11 @@ class ProfileController extends Controller
             foreach (request()->file('company_images') as $file) {
 
                 $imgPath = $file->store('company_images', 'public');
+
+                // $pathToFile = Storage::disk('public')->put('company_images', request()->company_images);
+
                 //check to see if this field is empty in the DB , if it is then create
-                $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(200, 130);
+                $image = Image::make(public_path($imgPath))->fit(1200, 660);
                 $image->save();
                 //this means ther'es nothing returned, so it empty
 
@@ -295,7 +303,7 @@ class ProfileController extends Controller
             $path = \App\CompanyCertificate::where('id', trim($data['id']))->get();
             $paths = $path->first()->filename; //pd_images\image.png
 
-            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
             if (file_exists($absolute)) {
                 $success = unlink($absolute);
 

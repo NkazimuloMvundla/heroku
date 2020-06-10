@@ -1,5 +1,10 @@
 @extends('layouts.main')
 @section('title' ,'Filtered by price')
+<?php  $min = htmlspecialchars( Session::get("min_price")) ;?>
+<?php  $max = htmlspecialchars( Session::get("max_price")) ;?>
+@section('meta_keywords', 'filter by price')
+@section('meta_description', 'filtered price range at ' . $min . '-'. $max )
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 <style>
 div#search-result{

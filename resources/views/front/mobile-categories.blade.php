@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title' ,'Categories')
+@section('meta_keywords', 'products categories')
+@section('meta_description', 'products categories')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
 <script>

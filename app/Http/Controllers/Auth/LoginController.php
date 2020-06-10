@@ -34,15 +34,15 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
-
+    /*
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('guest:admin')->except('logout');
+        //$this->middleware('guest:admin')->except('logout');
     }
-
+*/
 
     public function showLoginForm()
     {
@@ -61,7 +61,7 @@ class LoginController extends Controller
                 Session::flash('message', "You need to confirm your email in order to activate your account ");
                 return redirect()->to('/login');
             }
-            return redirect()->intended('/');
+            return redirect()->intended('/home');
         } else {
             Session::flash('message', "Invalid Credentials , Please try again.");
             return redirect()->back();

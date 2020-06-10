@@ -1,9 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Premuim-membership')
-
-
-
-
+@section('meta_keywords', 'premium membership,gold-supplier')
+@section('meta_description', 'become a premium member and scale your businesses')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 <style type="text/css">
  	h2.sell{
@@ -220,9 +219,9 @@ background-size: cover;
 <h2 class="sell">	We are dedicated to help <b>South African Based small businesses and independent retailers</b> go big and global.</h2>
 </div>
 <div class="row">
-<!--source more confidently from SouthAfrica	
+<!--source more confidently from SouthAfrica
 
-	
+
 
 -->
 <div class="col-md-12 text-center w3-padding" >
@@ -231,9 +230,9 @@ background-size: cover;
 
 </div>
 <div class="row text-center more-pre">
-<div class="col-md-4"><i class="fa fa-check"></i> Latest Global Business Opportunities</div>	
+<div class="col-md-4"><i class="fa fa-check"></i> Latest Global Business Opportunities</div>
 <div class="col-md-4"><i class="fa fa-check"></i> Comprehensive Marketing & Promotion</div>
-<div class="col-md-4"><i class="fa fa-check"></i> More Quotations from Potential Partners</div>	
+<div class="col-md-4"><i class="fa fa-check"></i> More Quotations from Potential Partners</div>
 </div>
 
 <section class="section-padding">

@@ -164,7 +164,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' => 'AccessSuperUser'], function () {
 
-    Route::get('/super', 'SuperIndexController@view')->name('super.index');
+    Route::get('/index', 'SuperIndexController@view')->name('super.index');
     Route::post('/deleteAdminNotification', 'SuperIndexController@destroy')->name('deleteAdminNotification');
     Route::post('/deleteAllAdminNotification', 'SuperIndexController@destroyAll')->name('deleteAllAdminNotification');
     Route::get('/manage-users', 'ManageUserController@create')->name('manage-users');
@@ -178,7 +178,6 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/takeaction-user', 'ManageUserController@takeAction')->name('takeactionUser');
     Route::post('/feature-user', 'ManageUserController@FeatureUser')->name('FeatureUser');
     Route::get('/showUser', 'ManageUserController@showUser')->name('showUser'); //returns a single buying requests before making an offer
-
     Route::get('/cms-add', 'CMSController@create')->name('cmsAdd'); //
     Route::post('/cms-add', 'CMSController@store')->name('cmsAdd'); //
     Route::get('/showCms', 'CMSController@getCms')->name('getCms');
@@ -189,7 +188,6 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/maincategory-add', 'ProductCategoryController@store')->name('maincategory-store'); //
     Route::get('/maincategory-view', 'ProductCategoryController@viewMain');
     Route::get('/category', 'SubCategoryController@create')->name('category-add'); //
-    Route::post('/category-add', 'SubCategoryController@store')->name('category-store'); //
     Route::post('/category-add', 'SubCategoryController@store')->name('category-store'); //
     Route::get('/category-edit/{category_id}', 'SubCategoryController@editView')->name('category-edit'); //
     Route::post('/category-save/{category_id}', 'SubCategoryController@categorySave')->name('categorySave'); //

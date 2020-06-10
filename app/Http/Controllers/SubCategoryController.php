@@ -35,23 +35,26 @@ class SubCategoryController extends Controller
         $data = request()->validate([
             'main_category' => ['required', 'string', 'max:255'],
             'category' => ['required', 'string', 'max:255'],
-            'category_image' => ['required', 'image'],
+            'category_image' => ['nullable', 'image'],
 
         ]);
 
-        $imgPath = request('category_image')->store('category_images', 'public');
-        $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(80, 80);
-        $image->save();
+        if (!empty(request()->category_image)) {
+            $imgPath = request('category_image')->store('category_images', 'public');
+            $image = Image::make(public_path('storage/' . $imgPath . ''))->fit(80, 80);
+            $image->save();
 
-        \App\SubCategory::create([
-            'pc_image' => $imgPath,
-            'pc_name' => trim($data['category']),
-            'pc_id' => trim($data['main_category']),
-
-
-
-        ]);
-
+            \App\SubCategory::create([
+                'pc_image' => $imgPath,
+                'pc_name' => trim($data['category']),
+                'pc_id' => trim($data['main_category']),
+            ]);
+        } else {
+            \App\SubCategory::create([
+                'pc_name' => trim($data['category']),
+                'pc_id' => trim($data['main_category']),
+            ]);
+        }
         Session::flash('category_add', "Category Added Successfully..");
         return redirect()->back();
     }

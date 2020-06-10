@@ -1,7 +1,9 @@
 @extends('layouts.main')
 
 @section('title', 'About us')
-
+@section('meta_keywords', 'About our company')
+@section('meta_description', 'we help buyers connect with south african merchants')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
 <div class="container">

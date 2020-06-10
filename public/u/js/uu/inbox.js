@@ -48,7 +48,7 @@ function checkedAl() {
 function showBuyerDetails(id) {
     $.ajax({
         type: "GET",
-        url: "{{ route('showBuyerDetails') }}",
+        url: "/u/showBuyerDetails",
         data: { id: id },
         success: function(data) {
             for (var i = 0; i < data.length; i++) {
@@ -71,9 +71,6 @@ function showBuyerDetails(id) {
             } else {
                 $("#about_us").text(about_us);
             }
-        },
-        error: function(data) {
-            console.log("Error", data);
         }
     });
 }

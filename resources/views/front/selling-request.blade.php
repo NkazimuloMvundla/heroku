@@ -1,7 +1,8 @@
 @extends('layouts.main')
 
 @section('title', 'Selling Requests')
-
+@section('meta_keywords', "selling requests")
+@section('meta_description', "post selling requests")
 @section('content')
 
 

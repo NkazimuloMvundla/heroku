@@ -50,7 +50,7 @@ class ManageProductController extends Controller
             $path = \App\Photo::where('pd_photo_id', $data['id'])->get();
             foreach ($path as $imgPath) {
                 $paths = $imgPath->pd_filename; //pd_images\image.png
-                $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
                 if (file_exists($absolute)) {
                     $success = unlink($absolute);
 
@@ -79,7 +79,7 @@ class ManageProductController extends Controller
                     $path = \App\Photo::where('pd_photo_id', $id)->get();
                     foreach ($path as $imgPath) {
                         $paths = $imgPath->pd_filename; //pd_images\image.png
-                        $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+                        $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
                         if (file_exists($absolute)) {
                             $success = unlink($absolute);
 

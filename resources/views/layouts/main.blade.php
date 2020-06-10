@@ -8,9 +8,11 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>@yield('title', 'Home Page')</title>
+<meta name="keywords" content="@yield('meta_keywords','south african suppliers, south african businesses')">
+<meta name="description" content="@yield('meta_description','find south african suppliers')">
+<link rel="canonical" href="{{url()->current()}}"/>
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
-<link rel="stylesheet" type="text/css"  type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
-
+<link rel="stylesheet" type="text/css"  href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
 <style>
     .fa-envelope:before {
@@ -51,7 +53,7 @@
       <div class="tm_header_top container-width">
           <div class="header-offerzone">
               <ul class="hidden-xs hidden-sm hidden-md">
-          @if (Auth::check())
+                @if (Auth::check())
                 <li class="text-primary">{{ __('Hello') }}
                 {{ Auth::user()->name }}
                 </li>

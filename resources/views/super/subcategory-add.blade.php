@@ -27,7 +27,7 @@ function addSubCategory(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             success: function (data) {
              alert('Sub Category added');
-             window.location="/super/subcategory";
+             //window.location="/super/subcategory";
 
             },
             error: function (data) {

@@ -1,22 +1,25 @@
 @extends('layouts.main')
 @section('title' ,'Products By Category')
+@section('meta_keywords', 'products by category')
+@section('meta_description', 'find more products from ' .  htmlspecialchars($category->pc_name) .' category')
+<link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 <div class="container">
         <div class="row">
             <div class="col-md-2  hidden-xs hidden-sm hidden-md" id="category" style="padding:7px;margin-top:7px;border-right: 1px solid lightgreen;background: #fff;z-index: 10;height: max-content;">
                 <p id="related-categories">Category</p>
-                <ul >
+                <ul>
           @forelse($lasts as $lastCat )
             <li class="list-item" style="border-bottom: 1px solid #f5f5f5;padding: 7px;">
             <?php  $lastCat_id = base64_encode( $lastCat->id ) ;?>
                 <a href="/products-by-last-category/{{ $lastCat->pc_name }}/{{ $lastCat_id }}">{{ $lastCat->pc_name }}</a></li>
             @empty
             <li class="list-item" style="border-bottom: 1px solid #f5f5f5;padding: 7px;">No data</li>
-            @endforelse 
+            @endforelse
                 </ul>
             </div>
                 <div class="col-md-10">
-                    <h3 class="text-primary">{{ $category->pc_name }}</h3>
+                    <h3 class="text-primary">{{ $category->pc_name}}</h3>
                     <div class="row products-by-category">
                         @foreach ($products as $product)
                             <div class="col-md-3 col-xs-6 " style="border: 1px dotted #e2e2e2">
