@@ -2,7 +2,10 @@
 @section('title' , 'Manage buying request')
 
 @section('content')
-
+<style nonce="{{ csp_nonce() }}">
+#modal-default{display: none;}
+button.update{margin-top:8px;}
+</style>
 <div class="content-wrapper">
 
 
@@ -37,7 +40,8 @@
 
                     <tr id="{{ $buyingRequest->id }}">
                       <td>{{ $buyingRequest->id }}</td>
-                      <td class="message"><button class="btn btn-default btn-sm" onclick="deleteRequest({{ $buyingRequest->id }})">Delete</button> </br><a href="#" data-role="update" data-id="{{ $buyingRequest->id }}"><button style="margin-top:8px;" class="btn btn-info btn-sm">Update</button></a> </td>
+                      <td class="message">
+                    <button data-id="{{ $buyingRequest->id }}" class="btn btn-default btn-sm delete-req">Delete</button> </br><a href="#" data-role="update" data-id="{{ $buyingRequest->id }}"><button class="btn btn-info btn-sm update">Update</button></a> </td>
                       <td>{{ $buyingRequest->created_at }}</td>
 
                       <td >
@@ -60,7 +64,7 @@
                 </table>
 
           <!--Moda-->
-  <div class="modal fade" id="modal-default" style="display: none;">
+  <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -97,5 +101,12 @@
 
 </div>
 
-
+<script nonce="{{ csp_nonce() }}">
+ $(document).ready(function() {
+    $(".delete-req").on("click", function() {
+        var id = $(this).data("id");
+        deleteRequest(id);
+    });
+});
+</script>
 @endsection

@@ -15,6 +15,7 @@ class CreateFaqContentsTable extends Migration
     {
         Schema::create('faq_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('faq_parent_id');
             $table->string('faq_name');
             $table->string('faq_heading');
             $table->text('faq_content');

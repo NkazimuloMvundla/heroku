@@ -2,9 +2,17 @@
 @section('title' , 'Edit Faq Content')
 
 @section('content')
-<script>
-
-
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showUser{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.product_name{border: 2px dotted #f3f3f3; padding:3px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function FaqContentUpdate(){
 
   var faq_name = $("#faq_name").val();
@@ -60,16 +68,16 @@ function FaqContentUpdate(){
             @if(Session::has('addFaqcontent'))
             <div class="">
              <ul>
-                 <li class="label label-success"  style="font-size:15px;">{{ Session::get('addFaqcontent') }}</li>
+                 <li class="label label-success">{{ Session::get('addFaqcontent') }}</li>
 
              </ul>
 
             </div>
             @endif
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div  class="alert alert-danger valid">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -77,17 +85,17 @@ function FaqContentUpdate(){
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
                 <label for="text">Select a Faq </label>
-                <select class="form-control " id="faq_name"  name="faq_name"  >
+                <select class="form-control " id="faq_name"  name="faq_name">
                         <option >Select</option>
                 @forelse($faqs as $fa)
                 <?php $action = $fa->faq_name == $faq->first()->faq_name  ?  'selected' : ''  ?>
                 <option value="{{ $fa->faq_name }}" {{old('faq_name') ?? $action}} >{{$fa->faq_name}}</option>
-                <?php $id = $fa->id ;?>
+                <?php $id = $fa->id ;?> 
                 @empty
-                <option value="">No categories</option>
+                <option >No categories</option>
                 @endforelse
                 </select>
                 @error('faq_name')
@@ -95,12 +103,12 @@ function FaqContentUpdate(){
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-                <span class="help-block " style="color:red;" id="faq_nameErr"></span>
+                <span class="help-block" id="faq_nameErr"></span>
             </div>
             <div class="form-group">
                     <label for="">Enter Faq Heading</label>
-                   <input type="text" name="faq_heading" id="faq_heading" class="form-control" value="{{ $faq->first()->faq_heading  }}" >
-                <span class="help-block" style="color:red;" id="faq_headingErr"></span>
+                   <input type="text" name="faq_heading" id="faq_heading" class="form-control" value="{{ $faq->first()->faq_heading  }}">
+                <span class="help-block" id="faq_headingErr"></span>
             </div>
             <div class="form-group">
                 <label>Add Faq Content</label>
@@ -109,13 +117,20 @@ function FaqContentUpdate(){
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success" onclick="FaqContentUpdate();">Add</button>
+                <button class="btn btn-success FaqContentUpdate">Add</button>
             </div>
 
-        </div>
+           </div>
 
         </div>
-        </section>
+    </section>
+     <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".FaqContentUpdate").on("click", function() {
+                FaqContentUpdate();
+            });
 
+
+    </script>
 
 @endsection

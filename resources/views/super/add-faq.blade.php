@@ -2,7 +2,14 @@
 @section('title' , 'Add a faq')
 
 @section('content')
-<script>
+
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
+
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 
 function addfaq(){
@@ -55,10 +62,10 @@ function addfaq(){
     </section>
 
     <section class="content">
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="valid" class="alert alert-danger">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -66,7 +73,7 @@ function addfaq(){
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
                 <label>Add an FAQ</label>
                 <input type="text" id="faq" name="faq" value="{{ old('faq') }}" class="form-control" >
@@ -74,7 +81,7 @@ function addfaq(){
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success" onclick="addfaq();">Add</button>
+                <button class="btn btn-success addfaq">Add</button>
             </div>
 
         </div>
@@ -82,5 +89,11 @@ function addfaq(){
         </div>
         </section>
 
+        <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".addfaq").on("click", function() {
+                 addfaq();
+            });
+        </script>
 
 @endsection

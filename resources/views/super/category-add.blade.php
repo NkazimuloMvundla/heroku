@@ -2,7 +2,10 @@
 @section('title' , 'Add a Category')
 
 @section('content')
-
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -20,11 +23,11 @@
         <form action="/super/category-add" method="POST" enctype="multipart/form-data">
             @csrf
 
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                 @if(Session::has('category_add'))
                 <div class="">
                  <ul>
-                     <li class="label label-success"  style="font-size:15px;">{{ Session::get('category_add') }}</li>
+                     <li class="label label-success">{{ Session::get('category_add') }}</li>
 
                  </ul>
 
@@ -32,7 +35,7 @@
                 @endif
                <!-- /.col -->
                <div id="result"></div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
                 <label>Select a Main Category</label>
                 <select name="main_category" id="main_category" class="form-control">

@@ -2,7 +2,14 @@
 @section('title' , 'Manage countries')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.country{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+#modal-default{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deletecity(id){
             $(document).ready(function() {
@@ -226,11 +233,11 @@ function showId(limit){
                   @foreach ($cities as $city)
                     <tr>
                       <td><input type="checkbox" id="{{ $country->id }}" name="id[]" value="{{ $country->id }}"></td>
-                      <td style="cursor:pointer;" id="country"  data-toggle="modal" data-target="#modal-default"  onclick="editcountry({{ $country->id  }});">
+                        <td class="country" data-id="{{ $country->id }}">
                         {{ $country->id == $city->ct_cn_id ? $country->cn_name : $country->cn_name }}
-                    </td>
+                      </td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                             <div class="modal fade" id="modal-default" style="display: none;">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -249,7 +256,7 @@ function showId(limit){
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="updatecountry();" class="btn btn-success">Save changes</button>
+                             <button type="submit" name="save" value="save" class="btn btn-success save">Save changes</button>
 
                         </div>
                             </div>
@@ -259,10 +266,10 @@ function showId(limit){
                             </div>
 
 
-                    <td style="cursor:pointer;" id="country"  data-toggle="modal" data-target="#modal-city"  onclick="editcity({{ $city->id  }});"> {{  $country->id == $city->ct_cn_id ? $city->ct_name : '' }}
+                    <td style="cursor:pointer;" class="edit_city"  data-toggle="modal" data-target="#modal-city"  data-id="{{ $city->id  }}"> {{  $country->id == $city->ct_cn_id ? $city->ct_name : '' }}
                     </td>
                        <!--Modal-->
-                       <div class="modal fade" id="modal-city" style="display: none;">
+                        <div class="modal fade" id="modal-city" style="display: none;">
                         <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -275,13 +282,13 @@ function showId(limit){
                             <div class="form-group">
                                 <label>Edit a City</label>
                                 <input type="text" id="city" name="city" value="{{ old('city') }}" class="form-control" >
-                              <input type="hidden" id="cityId" name="cityId" value="" disabled >
+                              <input type="hidden" id="cityId" name="cityId" disabled >
                                 <span class="text-danger" id="cityErr"></span>
                             </div>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <button type="submit" name="save" id="save" value="save" onclick="updatecity();" class="btn btn-success">Save changes</button>
+                        <button type="submit" name="save" value="save" class="btn btn-success save">Save changes</button>
 
                     </div>
                         </div>
@@ -291,14 +298,10 @@ function showId(limit){
                         </div>
                     <td>
 
-                         <button id="delete" class="btn btn-default btn-sm" onclick="deletecity({{ $city->id }})";>
+                         <button  class="btn btn-default btn-sm delete" data-id="{{ $city->id  }}">
                                 delete
                             </button>
                     </td>
-
-
-
-
                      </tr>
                      @endforeach
                  @endforeach
@@ -317,8 +320,8 @@ function showId(limit){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll">
+                    <i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -333,6 +336,32 @@ function showId(limit){
     </div>
     <!-- /.content-wrapper -->
 
+  <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".showCms").on("click", function() {
+                var id = $(this).data("id");
+                showCms(id);
+            });
+
+
+             $(".delete").on("click", function() {
+                var id = $(this).data("id");
+                deletecity(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+            $(".save").on("click", function() {
+               updatecity();
+            });
+
+             $(".edit_city").on("click", function() {
+               var id = $(this).data("id");
+                editcity(id);
+            });
+    </script>
   </div>
   <!-- ./wrapper -->
 

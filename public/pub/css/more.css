@@ -131,7 +131,13 @@ input#search-mobile {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #ffa38ec4;
+    background: -webkit-linear-gradient(left, #e54545 0, #f48158 100%);
+    background: -o-linear-gradient(left, #e54545 0, #f48158 100%);
+    background: -ms-linear-gradient(left, #e54545 0, #f48158 100%);
+    background: linear-gradient(to right, #e54545, #f48158);
+}
+div.sidebar-header > p {
+    color: #fff;
 }
 
 #sidebar ul.components {
@@ -429,4 +435,3 @@ span.copyright {
         padding: 12px;
     }
 }
-

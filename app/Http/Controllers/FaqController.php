@@ -66,7 +66,11 @@ class FaqController extends Controller
             ]);
 
             \App\Faq::where('id', trim($data['id']))->update([
-                'faq_name' => trim($data['faq_name']),
+                'faq_name' => $data['faq_name'],
+            ]);
+
+            \App\FaqContent::where('faq_parent_id', $data['id'])->update([
+                'faq_name' => $data['faq_name'],
             ]);
         }
     }
@@ -113,7 +117,7 @@ class FaqController extends Controller
 
 
         $data = request()->validate([
-            'faq_name' => ['required', 'string', 'max:255'],
+            'faq_parent_id' => ['required', 'numeric', 'max:255'],
             'faq_heading' => ['required', 'string', 'max:255'],
             'faq_content' => ['required', 'string'],
 
@@ -121,7 +125,7 @@ class FaqController extends Controller
 
 
         \App\FaqContent::create([
-            'faq_name' => trim($data['faq_name']),
+            'faq_parent_id' => trim($data['faq_parent_id']),
             'faq_heading' => trim($data['faq_heading']),
             'faq_content' => trim($data['faq_content']),
 
@@ -135,13 +139,12 @@ class FaqController extends Controller
     public function edit($faq_name)
     {
 
-        $data = request()->validate([
-            'faq_name' => ['string'],
-
-        ]);
 
         $faqs = DB::table('faqs')->get();
-        $faq = \App\FaqContent::where('faq_name', trim($data['faq_name']));
+
+        $faq = DB::table('faq_contents')->where('faq_name', $faq_name)->get();
+
+
         return view('super.edit-faq-content', compact('faq', 'faqs'));
     }
     public function faqContentUpdate(Request $request)
@@ -158,9 +161,9 @@ class FaqController extends Controller
 
 
             \App\FaqContent::where('faq_name', $data['faq_name'])->update([
-                'faq_name' => trim($data['faq_name']),
-                'faq_heading' => trim($data['faq_heading']),
-                'faq_content' => trim($data['faq_content']),
+                'faq_name' => $data['faq_name'],
+                'faq_heading' => $data['faq_heading'],
+                'faq_content' => $data['faq_content'],
 
             ]);
         }

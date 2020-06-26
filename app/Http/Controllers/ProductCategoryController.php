@@ -53,7 +53,7 @@ class ProductCategoryController extends Controller
 
 
             ]);
-            \App\productCategory::where('pc_id', trim($id))->delete();
+            \App\productCategory::where('pc_id', $id)->delete();
         }
     }
     public function destroyMultipleMainCategories()

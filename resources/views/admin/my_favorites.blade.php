@@ -1,7 +1,7 @@
 @extends('admin.layout.admin')
 @section('title' , 'My Favorites')
 @section('content')
-<style>
+<style nonce="{{ csp_nonce() }}">
 .star-rating li {
     padding: 0;
 }
@@ -93,8 +93,9 @@ text-overflow: ellipsis;
     color: #86bd57;
     font-size: 110%;
 }
+div.content-wrapper{background:#fff;}
 </style>
-<div class="content-wrapper" style="background:#fff;">
+<div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header" >
                <h1>
@@ -112,14 +113,14 @@ text-overflow: ellipsis;
                      @forelse ($favorites as $fav)
                         @foreach ($products as $product)
                         @if($fav->mf_pd_id == $product->pd_id)
-                            <div class="col-md-3 col-xs-6 " style="border: 1px solid #e2e2e2">
+                            <div class="col-md-3 col-xs-6">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
                                              <?php  $product_id = base64_encode ($product->pd_id) ;?>
                                                 <a href="/product-details/{{ $product_id }}">
                                         @foreach ($pd_images as $pd_image)
                                         @if($product->pd_id == $pd_image->pd_photo_id)
-                                    <img src="{{ $pd_image->pd_filename }}" class="img-responsive img-fluid" alt="">
+                                    <img src="{{ url($pd_image->pd_filename) }}" class="img-responsive img-fluid" alt="">
                                     <?php break;?>
                                     @endif
                                     @endforeach
@@ -137,7 +138,7 @@ text-overflow: ellipsis;
                         <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
                         <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                     <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                    <button class="btn btn-danger" onclick="removeProduct({{ $product->pd_id }})">remove</button>
+                    <button class="btn btn-danger delete-pd" data-id="{{ $product->pd_id }}">remove</button>
                                         </div>
                                     </div>
                                 </div>
@@ -154,5 +155,12 @@ text-overflow: ellipsis;
                </section>
 
 </div>
-
+<script nonce="{{ csp_nonce() }}">
+$(document).ready(function() {
+    $(".delete-pd").on("click", function() {
+        var id = $(this).data("id");
+        removeProduct(id);
+    });
+});
+</script>
 @endsection

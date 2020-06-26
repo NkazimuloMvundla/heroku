@@ -2,9 +2,11 @@
 @section('title' , 'Sent emails')
 
 @section('content')
-<script>
-
-</script>
+<style  nonce="{{ csp_nonce() }}">
+    .scs-msg{
+    font-size:17px;
+    }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -29,7 +31,7 @@
                  <h3 class="text-center bg bg-warning">Sent emails</h3>
                   <!-- /.box-header -->
                   <div class="box-body no-padding">
-                        <span class="message label label-success" style="font-size:17px;"></span>
+                        <span class="message label label-success scs-msg"></span>
                     <div class="table-responsive mailbox-messages">
                              <div class="box-body">
                                        @if($count_sent_emails > 0)
@@ -55,7 +57,7 @@
                                   @endforeach
                                     <td class="mailbox-subject">
                                  <?php  $encoded_mail_Id = base64_encode($message->id ) ;?>
-                                    <a href="/u/mailbox/inbox/read/{{ $encoded_mail_Id}}" onclick="sendMessage({{ $message->id}});"> <b>{{ $message->msg_subject }}
+                                    <a href="/u/mailbox/inbox/read/{{ $encoded_mail_Id}}" data-id="{{ $message->id}}"> <b>{{ $message->msg_subject }}
                                     </a>
                                     </td>
                                     <td class="mailbox-date">{{ facebook_time_ago($message->created_at)}}</td>
@@ -79,7 +81,7 @@
                       <button type="button" name ="submit" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
                       </button>
                       <div class="btn-group">
-                        <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAl();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
+                        <button  class="btn btn-default btn-sm delete_all" name="DeleteAll" ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
                       </div>
                       <!-- /.btn-group -->
@@ -98,7 +100,16 @@
             <!-- /.row -->
 
           </section>
+ <script  nonce="{{ csp_nonce() }}">
+          $(".sendMessage").on("click", function() {
+                var id = $(this).data("id");
+                sendMessage(id);
+            });
 
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+    </script>
 </div>
 
 

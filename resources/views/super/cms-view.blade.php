@@ -2,30 +2,37 @@
 @section('title' , 'CMS-view')
 
 @section('content')
-
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showCms{cursor:pointer;}
+#logout-form{display: none;}
+.clearfix{padding-right:8px; margin-top:52px;}
+#modal-default{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function editCms(id){
-  $.ajax({
+  $.ajax({ 
           type: "GET",
           url: "/super/showCms",
           data:{id:id},
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
           success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].id;
-             $cms_title = data[i].cms_title;
-             $cms_page = data[i].cms_page;
-             $cms_content = data[i].cms_content;
-             $cms_banner = data[i].cms_banner ;
+             var id = data[i].id;
+             var cms_title = data[i].cms_title;
+             var cms_page = data[i].cms_page;
+             var cms_content = data[i].cms_content;
+             var cms_banner = data[i].cms_banner ;
 
             }
 
-            $("#modal-title").text($id);
-            $("#cms_id").val($id);
-            $("#cms_title").val($cms_title);
-            $("#cms_page").val($cms_page);
-            $("#cms_content").text($cms_content);
-            $("#cms_banner").text($cms_banner);
+            $("#modal-title").text(id);
+            $("#cms_id").val(id);
+            $(".cms_title").val(cms_title);
+            $(".cms_page").val(cms_page);
+            $("#cms_content").text(cms_content);
+            $("#cms_banner").text(cms_banner);
 
 
 
@@ -69,8 +76,8 @@ function showCms(id){
 function updateCms(){
 
 var id = $("#cms_id").val();
-var cms_title = $("#cms_title").val();
-var cms_page = $("#cms_page").val();
+var cms_title = $(".cms_title").val();
+var cms_page = $(".cms_page").val();
 var cms_content = $("#cms_content").val();
 if(cms_title == ""){
   $(".cms_title_err").text("Please enter a Title");
@@ -182,12 +189,10 @@ function checkedAll () {
                         <tr>
                           <td><input type="checkbox" class="cms_id" id="{{ $cms->id }}" name="cms_id[]" value="{{ $cms->id }}"></td>
 
-                          <td style="cursor:pointer;" data-toggle="modal" data-target="#modal-default"  onclick="showCms({{ $cms->id }});">{{ $cms->cms_title }}</td>
-
-
+                          <td data-id="{{ $cms->id }}">{{ $cms->cms_title }}</td>
                           <td >{{ $cms->cms_page }} </td>
                           <!--Moda-->
-                                <div class="modal fade" id="modal-default" style="display: none;">
+                                <div class="modal fade" id="modal-default">
                                 <div class="modal-dialog">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -199,10 +204,10 @@ function checkedAll () {
                                         <div class="form-group">
                                                 <label>Edit a CMS title :</label>
                                                 <input type="hidden" id="cms_id" name="cms_id" value="" class="form-control" size="40">
-                                                <input type="text" id="cms_title" name="cms_title" value="{{ old('cms_title') }}" class="form-control" size="40">
+                                                <input type="text" name="cms_title" value="{{ old('cms_title') }}" class="form-control cms_title" size="40">
 
                                                 @error('cms_title')
-                                                <span class="invalid-feedback " role="alert">
+                                                <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                                 </span>
                                                 @enderror
@@ -210,7 +215,7 @@ function checkedAll () {
                                             </div>
                                             <div class="form-group">
                                                 <label>Edit a CMS page:</label>
-                                                <input type="text" id="cms_page" name="cms_page" value="{{ old('cms_page') }}"  class="form-control" >
+                                                <input type="text" name="cms_page" value="{{ old('cms_page') }}"  class="form-control cms_page" >
                                                 @error('cms_page')
                                                 <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -237,7 +242,7 @@ function checkedAll () {
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                <button type="submit" name="save" id="save" value="save" onclick="updateCms()" class="btn btn-success">Save changes</button>
+                                <button type="submit" name="save" value="save" class="btn btn-success save">Save changes</button>
 
                                 </div>
                                 </div>
@@ -252,7 +257,7 @@ function checkedAll () {
                         </div>
                          <td >
 
-                         <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editCms({{ $cms->id }});">
+                         <button name="edit" data-id="{{ $cms->id }}" class="btn btn-default btn-sm edit_cms"  data-toggle="modal" data-target="#modal-default">
                                 edit
                          </button>
 
@@ -277,7 +282,7 @@ function checkedAll () {
                       <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                       </button>
                        <div class="btn-group">
-                       <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
+                       <button  class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
                       </div>
                   </div>
@@ -286,12 +291,35 @@ function checkedAll () {
             </div>
           </section>
           <!-- /.content -->
-          <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+          <div class="clearfix pull-right">
 
            </div>
         </div>
         <!-- /.content-wrapper -->
 
-      </div>
+      </div> 
+
+
+  <script nonce="{{ csp_nonce() }}">
+          
+            
+            $(".showCms").on("click", function() {
+                var id = $(this).data("id");
+                showCms(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+            $(".save").on("click", function() {
+               updateCms();
+            });
+
+             $(".edit_cms").on("click", function() {
+               var id = $(this).data("id");
+                editCms(id);
+            });
+    </script>
       <!-- ./wrapper -->
       @endsection

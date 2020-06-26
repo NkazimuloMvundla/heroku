@@ -2,7 +2,17 @@
 @section('title' , 'Manage FAQS')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showParent{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.product_name{border: 2px dotted #f3f3f3; padding:3px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deleteFaq(id){
             $(document).ready(function() {
@@ -39,11 +49,11 @@ function deleteFaq(id){
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
            success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].id;
-             $faq = data[i].faq_name;
+             var id = data[i].id;
+             var faq = data[i].faq_name;
             }
-            $("#faq").val($faq);
-            $("#faqId").val($id);
+            $(".faq").val(faq);
+            $("#faqId").val(id);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -54,10 +64,10 @@ function deleteFaq(id){
     }
 
         function updateFaq(){
-        var faq_name = $("#faq").val();
+        var faq_name = $(".faq").val();
         var id = $("#faqId").val();
 
-        if(faq == ""){
+        if(faq_name == ""){
         $("#faqErr").text("Please enter a Main faq");
         } else {
 
@@ -179,10 +189,10 @@ function showParent(id){
                   @foreach( $faqs as $faq )
                     <tr>
                       <td><input type="checkbox" id="{{ $faq->id }}" name="id[]" value="{{ $faq->id }}"></td>
-                      <td style="cursor:pointer;" id="faq" onclick="showParent({{ $faq->id }});">{{ $faq->faq_name }}</td>
+                      <td  class="showParent" data-id="{{ $faq->id }}">{{ $faq->faq_name }}</td>
 
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -194,16 +204,16 @@ function showParent(id){
 
                                 <div class="form-group">
                                     <label>Edit a faq</label>
-                                    <input type="text" id="faq" name="faq" value="{{ old('faq') }}" class="form-control" >
+                                    <input type="text" name="faq" value="{{ old('faq') }}" class="form-control faq" >
                                   <input type="hidden" id="faqId" name="faqId" value="" disabled >
                                     <span class="text-danger" id="faqErr"></span>
                                 </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="updateFaq();" class="btn btn-success">Save changes</button>
+                            <button type="submit" name="save"  class="btn btn-success updateFaq">Save changes</button>
 
-                        </div>
+                            </div>
                             </div>
                             <!-- /.modal-content -->
                             </div>
@@ -217,11 +227,11 @@ function showParent(id){
                         </a>
                     </td>
                      <td >
-                     <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editFaq({{ $faq->id  }});">
+                     <button name="edit" class="btn btn-default btn-sm editFaq"  data-toggle="modal" data-target="#modal-default" data-id="{{ $faq->id  }}">
                         edit
                      </button>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteFaq({{ $faq->id }})";>
+                     <button id="delete" class="btn btn-default btn-sm deleteFaq" data-id="{{ $faq->id }}">
                         delete
                     </button>
                      </td>
@@ -243,8 +253,7 @@ function showParent(id){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -252,8 +261,8 @@ function showParent(id){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-        {{$faqs->links()}}
+      <div class=" clearfix pull-right">
+      
        </div>
        </div>
     </div>
@@ -261,5 +270,30 @@ function showParent(id){
 
   </div>
   <!-- ./wrapper -->
+   <!-- /.content-wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".showParent").on("click", function() {
+                var id = $(this).data("id");
+                showParent(id);
+            });
 
+             $(".updateFaq").on("click", function() {
+                updateFaq();
+            });
+
+             $(".editFaq").on("click", function() {
+                var id = $(this).data("id");
+                editFaq(id);
+            });
+
+            $(".deleteFaq").on("click", function() {
+                var id = $(this).data("id");
+                deleteFaq(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+    </script>
 @endsection

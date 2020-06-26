@@ -2,10 +2,13 @@
 @section('title' , 'Manage selling request')
 
 @section('content')
+<style nonce="{{ csp_nonce() }}">
 
+#modal-selling{display: none;}
+button.update{margin-top:8px;}
+
+</style>
 <div class="content-wrapper">
-
-
     <section class="content">
          <!-- /.row -->
       <div class="row">
@@ -37,10 +40,12 @@
 
                     <tr id="{{ $sellingRequest->id }}">
                       <td>{{ $sellingRequest->id }}</td>
-                      <td class="message"><button class="btn btn-default btn-sm" onclick="deleteRequest({{ $sellingRequest->id }})">Delete</button> </br><a href="#" data-role="update" data-id="{{ $sellingRequest->id }}"><button style="margin-top:8px;" class="btn btn-info btn-sm">Update</button></a> </td>
+                      <td class="message">
+                   <button data-id="{{ $sellingRequest->id }}" class="btn btn-default btn-sm delete-req">Delete</button> </br>
+                    <a href="#" data-role="update" data-id="{{ $sellingRequest->id }}">
+                    <button class="btn btn-info btn-sm update">Update</button></a> </td>
                       <td>{{ $sellingRequest->created_at }}</td>
-
-                      <td >
+                      <td>
                          @if($status == 'Pending')
                           <span class="label label-warning">{{ $status }}</span>
                           @endif
@@ -60,7 +65,7 @@
                 </table>
 
           <!--Moda-->
-  <div class="modal fade" id="modal-default" style="display: none;">
+  <div class="modal fade" id="modal-selling">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -78,7 +83,7 @@
                 <input type="hidden" id="userId" class="form-control">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
 
-                <button type="submit" name="save" id="save" value="save" class="btn btn-success">Save changes</button>
+                <button type="submit" name="save" id="save-sellingUpdate" value="save" class="btn btn-success">Save changes</button>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -96,6 +101,13 @@
         </section>
 
 </div>
-
+<script nonce="{{ csp_nonce() }}">
+ $(document).ready(function() {
+    $(".delete-req").on("click", function() {
+        var id = $(this).data("id");
+        deleteSellingRequest(id);
+    });
+});
+</script>
 
 @endsection

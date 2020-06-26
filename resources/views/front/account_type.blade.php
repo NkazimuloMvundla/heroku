@@ -4,12 +4,19 @@
 @section('meta_description', 'choose an account type')
 <link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
+<style nonce="{{ csp_nonce() }}">
+div.container > div.row{display:flex;
+justify-content:center;
+padding: 5em;}
 
+div#beforeForm{height:150px;}
+button#bstype{cursor:pointer}
+</style>
 <div class="container">
- <div class="row" style="display:flex;justify-content:center;padding: 5em;">
+ <div class="row">
   <div class="col-md-10">
         <div class="row">
-        <div style="height:150px;">
+        <div  id="beforeForm">
         <form name="business-type" action="/account-registration" method="POST">
             @csrf
             <div class="form-group">
@@ -32,7 +39,7 @@
                                 @enderror
                 </div>
             <div class="form-group" >
-            <button value="submit" name="submit" id="bstype" style="cursor:pointer;" class="btn btn-primary ">Submit</button>
+            <button value="submit" name="submit" id="bstype"  class="btn btn-primary ">Submit</button>
             </div>
             </form>
         </div>

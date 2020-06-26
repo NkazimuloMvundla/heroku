@@ -2,6 +2,10 @@
 @section('title' , 'Read email')
 
 @section('content')
+<style nonce="{{ csp_nonce() }}">
+.mailbox-read-message{background: #f4f4f4;margin: 7px;padding: 7px;}
+
+</style>
 <div class="content-wrapper">
 
     <section class="content">
@@ -43,7 +47,7 @@
                             <!-- /.btn-group -->
                           </div>
                           <!-- /.mailbox-controls -->
-                          <div class="mailbox-read-message" style="background: #f4f4f4;margin: 7px;padding: 7px;">
+                          <div class="mailbox-read-message">
                             <p>{{ $userMessages->first()->msg_body }}</p>
                             @if($userMessages->first()->quantity != 0 ||  $userMessages->first()->quantity_unit != '0' || $userMessages->first()->price != 0)
                             <p>Quantity needed: {{ $userMessages->first()->quantity }} / {{ $userMessages->first()->quantity_unit }} </p>
@@ -98,7 +102,7 @@
         </section>
 
 </div>
-<script>
+<script  nonce="{{ csp_nonce() }}">
         $(function () {
           //Add text editor
           $("#compose-textarea").wysihtml5();

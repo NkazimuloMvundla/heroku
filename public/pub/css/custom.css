@@ -508,15 +508,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 /*===========Post buying request=========*/
 div#post_a_request{
-   background-image: url(/banners/expo.png);
     background-repeat: no-repeat;
     background-color:
-    #ccc;
+    #9DA6B8;
     border: 1px solid;
-    width: 100%;
-    height: 350px;
-    background-position: center center;
-    background-size: cover;
+    height: 350px; 
 }
 div.post-a-req {
     margin-top: -20px;
@@ -738,10 +734,11 @@ display: none;
 
 
 
+@media only screen and (max-width: 767px) {
+#panel-wrap{margin-bottom: 10%;}
+}
 
-
-
-.header .header.content{ padding: 19px 0px 23px; width: 100%; max-width: 100%; background: #fff;}
+.header .header.content{ padding: 19px 0px 35px; width: 100%; max-width: 100%; background: #fff;}
 
 
 

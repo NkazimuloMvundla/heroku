@@ -2,6 +2,12 @@
 @section('title' , 'Add a Banner')
 
 @section('content')
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
+
+</style>
 <script>
 
 
@@ -58,7 +64,7 @@
     @if(Session::has('message'))
     <div class="">
      <ul>
-         <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
+         <li class="label label-success">{{ Session::get('message') }}</li>
 
      </ul>
 
@@ -68,19 +74,19 @@
             <form method="post" id="insert_banner" action="/super/banner/{{ $banner->first()->bn_id }}"  enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
                @if(Session::has('banner-edit'))
                <div class="">
                 <ul>
-                    <li class="label label-success"  style="font-size:15px;">{{ Session::get('banner-edit') }}</li>
+                    <li class="label label-success">{{ Session::get('banner-edit') }}</li>
 
                 </ul>
 
                </div>
                @endif
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="valid" class="alert alert-danger">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -89,7 +95,7 @@
                 </ul>
               </div>
 
-                <div class="col-md-8" style="background: white;padding: 12px;">
+                <div class="col-md-8">
                     <div class="form-group">
                             <label>Current Banner </label>
                             <img src="/storage/{{ $banner->first()->bn_img }}" width="200" height="200">

@@ -3,9 +3,20 @@
 @section('meta_keywords' ,'Suppliers','legitimate suppliers')
 @section('meta_description' ,'find all legitimate and verified suppliers')
 @section('content')
+<style nonce="{{ csp_nonce() }}">
+    div.container > h3.text-primary{background: #f8f8f8; padding:4px;}
+    h3.text-primary > div.row{padding: 12px;}
+    div.widget > span {position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;}
+    div.bg-purple{background:azure;}
+    span.industry{font-size: 11px;}
+    div.featured-products{margin-bottom: 7px;}
+    div.prod-link{margin-top:7px;}
+    p.comp-back-img{margin-top:7px;}
+    p.comp-slogan{margin-top:12px;margin-bottom:12px;}
+</style>
 <div class="container">
-    <h3 class="text-primary " style="background: #f8f8f8; padding:4px;">Selected Suppliers</h3>
-        <div class="row" style="padding: 12px;">
+    <h3 class="text-primary">Selected Suppliers</h3>
+        <div class="row">
                 <!--featured-suppliers-->
 <!--
                 <div class="col-md-2">
@@ -23,7 +34,7 @@
                                 @foreach($suppliers as $supplier)
                             <div class="col-md-3 col-xs-12">
                                     <div class="panel widget row-1" id="all-suppliers">
-                                     <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
+                                     <span>
                                            @if($supplier->status == 1)
                                                 <img src="icons/correct.png" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                                                  @endif
@@ -32,7 +43,7 @@
                                         @endif
                                         </span>
                                             @if(empty($supplier->company_background_img))
-                                            <div class="widget-header bg-purple" style="background:azure;">
+                                            <div class="widget-header bg-purple" >
                                                 </div>
                                             @endif
                                             @if(!empty($supplier->company_background_img))
@@ -54,12 +65,12 @@
                                                   <?php   $encoded_supplier_id = base64_encode( $supplier->id) ;?>
                                                   <h4 class="mar-no"><a href="/supplier/{{ $encoded_supplier_id }}">{{ $supplier->company_name }}</a></h4>
                                                   @if(empty($supplier->company_background_img))
-                                                  <p class="text-muted" style="margin-top:7px;">
+                                                  <p class="text-muted comp-back-img">
                                                       <i></i>
                                                     </p>
                                                     @endif
                                                       @if(!empty($supplier->company_slogan))
-                                                      <p class="text-muted " style="margin-top:12px;margin-bottom:12px;">
+                                                      <p class="text-muted comp-slogan">
                                                       <i>'{{ $supplier->company_slogan }}'</i>
                                                     </p>
                                                       @endif
@@ -71,7 +82,7 @@
                                                             ?>
                                                         @foreach ($industries as $ind )
 
-                                                        <span  style="font-size: 11px;">{{ $ind }}, </span>
+                                                        <span class="industry">{{ $ind }}, </span>
                                                         @endforeach
 
                                                 @endif

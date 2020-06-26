@@ -6,29 +6,36 @@
 @section('meta_description', 'filtered price range at ' . $min . '-'. $max )
 <link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
-<style>
-div#search-result{
-    display: flex;
-    justify-content: center;
-}
-
+<style nonce="{{ csp_nonce() }}">
+div#search-result{ display: flex; justify-content: center;margin-top: 12px;}
+div.container > div {margin-top: -24px}
+.result{background: #f2f3f7; padding:12px;}
+div>h5#totalFound > span{color: orange}
+h5#notFound > span{ color:orange;weight:bold}
+h5#notFound >  a{ color:orange}
+div#search-result > div {border-right: 1px solid lightgreen;}
+li.list-item{border-bottom: 1px solid #f5f5f5;padding: 7px;}
+div.btn-go{margin-top: 5px}
+div.products-by-category > div {border: 1px dotted #e2e2e2}
+div.star-rating{display: none;}
+div.clearfix{padding-right:8px; margin-top:16px;}
 </style>
 <div class="container">
-    <div style="margin-top: -24px;">
+    <div>
         @if($Productcount > 0)
-         <h4 style="background: #f2f3f7; padding:12px;">
-                About <span style="color:orange">{{ $Productcount }}</span>  product(s) found for price range at {{ Session::get("min_price") }} - {{ Session::get("max_price") }}
-         </h4>
+         <h5 id="totalFound" class="result">
+                About <span>{{ $Productcount }}</span>  product(s) found for price range at {{ Session::get("min_price") }} - {{ Session::get("max_price") }}
+         </h5>
          @endif
 
          @if($Productcount == 0)
-         <h5 style="background: #f2f3f7; padding:12px;" class="text-primary">We couldn't find the product you searched for, why dont you post a buying request here ? <span style="color:orange;weight:bold"></span>
-             <a href="{{route('BuyingRequest')}}" style="color:orange"> Post here </a>
+         <h5 id="notFound" class="text-primary result">We couldn't find the product you searched for, why dont you post a buying request here ?
+             <a href="{{route('BuyingRequest')}}"> Post here </a>
          </h5>
          @endif
     </div>
     <div class="row" id="search-result">
-        <div class="col-md-2 hidden-xs hidden-sm hidden-md" id="category" style="border-right: 1px solid lightgreen;">
+        <div class="col-md-2 hidden-xs hidden-sm hidden-md" id="category">
             <p id="related-categories">Related categories</p>
         <ul>
             @if($count_related_cats > 0)
@@ -43,18 +50,16 @@ div#search-result{
             @endforeach
 
             @for ($i = 0; $i <count($unique); $i++)
-            <li class="list-item" style="border-bottom: 1px solid #f5f5f5;padding: 7px;">
+            <li class="list-item">
             <?php  $lastCat_id = base64_encode( $uniqueIds[$i] ) ;?>
-
             <?php $pc_name = $unique[$i];?>
             <a href="/products-by-last-category/{{ $pc_name }}/{{ $lastCat_id }}">{{ $pc_name }}</a>
-
             </li>
             @endfor
             @endif
         </ul>
 
-        <div class="">
+        <div>
         <span>filter by price:</span>
        <form name="filter_price" method="POST" id="filter_price" action="{{ route('filterByPrice') }}">
             @csrf
@@ -82,14 +87,14 @@ div#search-result{
                     <div class="col-xs-6">
                         <input type="number" size="4"  class="form-control" name="max_price" placeholder="max-price">
                         </div>
-                      <div class="form-group w3-center" style="margin-top:5px;">
+                      <div class="form-group w3-center btn-go">
                         <button class="btn btn-primary">Go!</button>
                         </div>
                     </div>
                     </form>
                 <div class="row products-by-category">
                     @foreach ($products as $product)
-                        <div class="col-md-3 col-xs-6 " style="border: 1px dotted #e2e2e2">
+                        <div class="col-md-3 col-xs-6">
                              <div class="thumb-wrapper">
                                 <div class="img-box">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
@@ -107,7 +112,7 @@ div#search-result{
                                         </p>
                                     <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $product->min_price }}-{{ $product->max_price }}</span></p>
                                         <p class="item-price"><span>MOQ:{{ $product->pd_min_order_qty  }}  {{ $product->minOrderUnit }}</span></p>
-                                        <div class="star-rating" style="display:none;">
+                                        <div class="star-rating">
                                             <ul class="list-inline">
                                                 <li class="list-inline-item"><i class="fa fa-star"></i></li>
                                                 <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -135,7 +140,7 @@ div#search-result{
 
 
     </div>
-   <div class="row clearfix" style="padding-right:8px; margin-top:16px;">
+   <div class="row clearfix">
        <div class="col-md-12 hidden-xs hidden-sm text-center">
               {{$products->links('pager.custom')}}
        </div>

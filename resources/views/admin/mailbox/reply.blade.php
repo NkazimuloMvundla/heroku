@@ -2,6 +2,11 @@
 @section('title' , 'Reply')
 
 @section('content')
+<style  nonce="{{ csp_nonce() }}">
+    .scs-msg{
+    font-size:17px;
+    }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
 
@@ -22,7 +27,7 @@
                 <div >
 				    	 @if(Session::has('sent-success-message'))
 				<ul>
-				 <li class="label label-success"  style="font-size:15px;">{{ Session::get('sent-success-message') }}</li>
+				 <li class="label label-success scs-msg">{{ Session::get('sent-success-message') }}</li>
 				</ul>
 				@endif
                 	@if(count($errors) > 0)
@@ -77,7 +82,7 @@
 
 </div>
 
-		<script>
+		<script  nonce="{{ csp_nonce() }}">
         $(function () {
           //Add text editor
           $("#compose-textarea").wysihtml5();

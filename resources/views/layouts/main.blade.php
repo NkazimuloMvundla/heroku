@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head >
+<head>
 <meta charset="utf-8"/>
 <meta name="robots" content="INDEX,FOLLOW"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
@@ -14,7 +14,7 @@
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
 <link rel="stylesheet" type="text/css"  href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
-<style>
+<style nonce="{{ csp_nonce() }}">
     .fa-envelope:before {
     content: "\f0e0"
     }.fa-arrow-right:before {
@@ -40,14 +40,53 @@
     }
 </style>
 <link rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
+<link   rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" />
-<script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
+<link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" /> 
+<script nonce="{{ csp_nonce() }}" src="/pub/js/jquery-3.5.1.min.js"></script>
+
 </head>
 <body id="bodyStyle">
+<style nonce="{{ csp_nonce() }}">
+.header{margin-bottom: -18px;}
+.header-offerzone > #logout-form{display: none;}
+div.navbar-header{margin-left:2px;}
+button.sidebarCollapse  {border-radius:0;border: 0;}
+div.bewlo{position:relative;}
+button.submit{background: #ffa50091;}
+button.submit:hover{background: #ffa50091;}
 
-<header class="header" style="margin-bottom: -18px;">
+/*******sidebar*********/
+p.made-by > i{color: red}
+nav.sidebar > div {font-size: 21px;margin: 4px 14px 4px 4px;}
+nav.sidebar > div > button{font-size: 20px;}
+
+/*****header-center******/
+div.header-center > div.header-logo > strong > a > span.south{font-size: 32px;}
+div.header-center > div.header-logo > strong > a > span.bulk{background-color: #2196F3 !important;color: #fff ;font-size: 32px;}
+
+
+
+/******field search*******/
+div.field{position:relative;}
+div.dropdown-content{margin-left: -20%;width:224px; z-index:10;}
+div.dropdown-bar-item > a > span{font-size: 9pt;}
+ul.countryList{min-width: 100%;border-radius: 0%}
+
+div.widget > span {
+    position: absolute;
+    z-index: 10;
+    margin-top: 8em;
+    margin-left: 5px;
+}
+ul#liveSearch{display:none;position:absolute}
+
+/*****footer******/
+footer.page-footer > div  {background-color:#445268; color: white;}
+div.footer-bottom-inner{text-align: center}
+span.copyright{color: black}
+</style>
+<header class="header">
     <div class="panel" id="panel-wrap">
      <div class="tm_header_outer hidden-xs hidden-sm hidden-md">
       <div class="tm_header_top container-width">
@@ -58,11 +97,10 @@
                 {{ Auth::user()->name }}
                 </li>
                 <li>
-                <a  href="{{ route('logout') }}" onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
+                <a data-logout href="{{ route('logout') }}">
                 {{ __('Logout') }}
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
                 </form>
                 </li>
@@ -119,9 +157,9 @@
           <div class="hidden-lg hidden-md">
         <nav class="navbar navbar-default" id="mobile_navbar">
             <div class="container">
-                <div class="navbar-header" style="margin-left:2px;">
+                <div class="navbar-header">
                 <div class="pull-left">
-                    <button type="button" class="navbar-toggle sidebarCollapse" style="border-radius:0;border: 0;">
+                    <button type="button" class="navbar-toggle sidebarCollapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -131,19 +169,22 @@
                 </div>
             </div>
           </nav>
-              <div class="bewlo" style="position:relative;">
-                    <form action="/search" method="POST" onsubmit="return validSearchM();" name="searchForm">
+              <div class="bewlo">
+                    <form action="/search" method="POST" class="searchFormM" name="searchForm">
                     @csrf
                      <div class="input-group">
                         <div class="control">
-                          <div class="search-box" >
+                          <div class="search-box">
                           <input type="text" class="form-control" autocomplete="off" placeholder="Search" id="search-mobile" name="search">
-                          <div id="search_mobile" class="search_mobile">
-                          </div>
+
+                                <ul class="dropdown-menu countryList" id="search_mobile">
+
+                                </ul>
+
                         </div>
                       </div>
                         <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit" style="color: ;background: #ffa50091;">
+                        <button class="btn btn-primary submit" type="submit">
                         <i class="glyphicon glyphicon-search"></i>
                         </button>
                         </div>
@@ -156,14 +197,14 @@
 
             <!-- Sidebar -->
   <nav id="sidebar">
-    <div class="pull-right" style="font-size: 21px;margin: 4px 14px 4px 4px;">
-   <button type="button" id="sidebarCollapse" class="navbar-btn sidebarCollapse" style="font-size: 20px;">
+    <div class="pull-right">
+   <button type="button" id="sidebarCollapse" class="navbar-btn sidebarCollapse">
                  <span class="fa fa-times"></span>
         </button>
     </div>
     <div class="sidebar-header">
           @if (Auth::check())
-          <p class="text-primary">{{ __('Hello!') }} {{ Auth::user()->name}}
+          <p>{{ __('Hello!') }} {{ Auth::user()->name}}
           </p>
           @else
            <p><a href="/login">Sign in </a>  |  <a href="/register">Join Free</a></p>
@@ -172,8 +213,7 @@
                 <ul class="list-unstyled components">
                     @if(Auth::check())
                         <li>
-                        <a  href="{{ route('logout') }}" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
+                        <a  href="{{ route('logout') }}">
 
                         {{ __('Logout') }}
                         </a>
@@ -186,9 +226,9 @@
                     </li>
                     <li>
                         <a href="/u/mailbox/inbox">
-                         <i class="fa fa-envelope" style="color:orange"></i> <span>Messages</span>
+                         <i class="fa fa-envelope"></i> <span>Messages</span>
                        @if(Auth::check())
-                       <span class="label label-primary pull-right" style="margin-top: 2px;font-size: 12px;">
+                       <span class="label label-primary pull-right messages">
                             {{ $count }}
                         </span>
                       @endif
@@ -202,28 +242,28 @@
 
                     <li>
                         <a href="{{ route('my_favorite') }}">
-                        <i class="fa fa-heart" style="color:red;"></i> <span>Favourites</span>
+                        <i class="fa fa-heart"></i> <span>Favourites</span>
                         </a>
                     </li>
                     <li>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="collapsed">
                         <i class="fa fa-service"></i> <span>Services</span>
                         </a>
-                        <ul class="list-unstyled collapse" id="pageSubmenu" aria-expanded="false" style="height: 0px;">
+                        <ul class="list-unstyled collapse" id="pageSubmenu" aria-expanded="false">
                             <li><a href="/sell">Sell</a></li>
                             <li><a href="/membership">Premium membership</a></li>
                             <li><a href="/services">Advertising</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="https://tawk.to/chat/59edc8ddc28eca75e4627939/default">
                         <i class="fa fa-chat"></i> <span>Chat with us</span>
                         </a>
                     </li>
-                </ul>
+                </ul> 
                 <ul class="list-unstyled CTAs">
                     <li><p> <span>Copyright © <?php echo htmlspecialchars(date('Y'))  ;?> Southbulk.com.</span></p> </li>
-                    <p>Made with <i style="color:red;" class="fa fa-heart"></i> by Judge</p>
+                    <p class="made-by">Made with <i class="fa fa-heart"></i> by Judge</p>
                 </ul>
             </nav>
             <!--end of sidebar-->
@@ -232,7 +272,8 @@
           <div class="header-logo">
               <strong class=" hidden-xs hidden-sm hidden-md logo">
               <a href="{{url('/')}}">
-              <span style="font-size: 32px;">South</span><span style="background-color: #2196F3 !important;color: #fff ;font-size: 32px;">Bulk</span>
+              <span class="south">South</span>
+              <span class="bulk">Bulk</span>
               </a>
               </strong>
           </div>
@@ -242,9 +283,9 @@
           <div class="block-search-inner">
               <div class="block block-title"><strong>Search</strong></div>
               <div class="block block-content">
-                <form action="/search" method="POST" onsubmit="return validSearch();" name="searchForm">
+                <form  action="{{ route('formsearch') }}" method="POST"  name="searchForm" class="searchForm">
                     @csrf
-                  <div class="field search" style="position:relative;">
+                  <div class="field search">
                       <label class="label" for="search" data-role="minisearch-label">
                       <span>Search</span>
                       </label>
@@ -254,12 +295,15 @@
                             <div class="control">
                                 <div class="search-box" >
                                 <input type="text" class="form-control" autocomplete="off" placeholder="Search" id="search" name="search">
-                                <div id="countryList" class="search-res">
+                                <div  class="search-res">
+                                   <ul class="dropdown-menu countryList" id="liveSearch">
+
+                                   </ul>
                                 </div>
                                 </div>
                             </div>
                             <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit" style="color: ;background: #ffa50091;">
+                                <button class="btn btn-primary submit" type="submit">
                                 <i class="glyphicon glyphicon-search"></i>
                                 </button>
                             </div>
@@ -277,8 +321,8 @@
                   <div class="my-account-cms">
                       <div class="dropdown pull-right">
                           <span class="btn">Trade center</span>
-                          <div class="dropdown-content shadow" style="right:0; width:224px; z-index:10;">
-                              <a href="{{ route('admin.index') }}" class="dropdown-bar-item w3-padding"><span style="font-size: 9pt">Massages</span> <span class="label label-danger pull-right">
+                          <div class="dropdown-content shadow">
+                              <a href="{{ route('admin.index') }}" class="dropdown-bar-item w3-padding"><span>Massages</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                   {{ $count }}
                                   @else
@@ -286,14 +330,15 @@
                                   @endif
 
                               </span></a>
-                              <a href="/all-buying-requests" class="dropdown-bar-item "><span style="font-size: 9pt">Buy Leads</span> <span class="label label-danger pull-right">
+                              <a href="/all-buying-requests" class="dropdown-bar-item">
+                                <span>Buy Leads</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                       {{ $countBuyingRequest }}
                                       @else
                                       {{ 0 }}
                                       @endif
                                   </span></a>
-                              <a href="{{route('admin.index')}}" class="dropdown-bar-item "><span style="font-size: 9pt">My account</span> <span class="label label-danger pull-right"></span></a>
+                              <a href="{{route('admin.index')}}" class="dropdown-bar-item "><span>My account</span> <span class="label label-danger pull-right"></span></a>
                           </div>
                       </div>
                   </div>
@@ -373,7 +418,7 @@
   @yield('content')
 </div>
 <footer class="page-footer">
-    <div class="w3-container w3-padding" style="background-color:#445268; color: white;">
+    <div class="w3-container w3-padding">
         <div class="w3-row-paddingt inner-footer-content">
             <div class="col-md-3">
                 <div id="footer">
@@ -381,7 +426,7 @@
                     <ul >
                     <li><a href="/about-us"><span id="b" class="fa fa-arrow-right"></span> About southbulk.com</a></li>
                     <li><a href="/services"><span id="b" class="fa fa-arrow-right"></span> Our services</a></li>
-                    <li><a href="#"><span id="b" class="fa fa-arrow-right"></span> Contact Us </a></li>
+                    <li><a href="https://tawk.to/chat/59edc8ddc28eca75e4627939/default"><span id="b" class="fa fa-arrow-right"></span> Contact Us </a></li>
                     </ul>
                 </div>
             </div>
@@ -431,7 +476,7 @@
     </div>
 
     <div class="footer-bottom">
-        <div class="footer-bottom-inner container-width" style="text-align: center;">
+        <div class="footer-bottom-inner container-width">
             <span class="copyright">
             <span>Copyright © <?php echo htmlspecialchars(date('Y'))  ;?> Southbulk.com. All rights reserved.</span>
             </span>
@@ -449,7 +494,29 @@
     </div>
     </div>
     </noscript>
-<script>
+<script nonce="{{ csp_nonce() }}">
+ 
+        $(document).ready(function(){
+            $("a[data-logout]").on('click', function(event){
+            event.preventDefault();
+            document.getElementById('logout-form').submit();
+
+            })
+        })
+        $(document).ready(function(){
+            $(".searchForm").on('submit', function(event){
+             return validSearch();
+
+            })
+        })
+
+        $(document).ready(function(){
+            $(".searchFormM").on('submit', function(event){
+             return validSearchM();
+
+            })
+        })
+
              $(document).ready(function () {
                  $('.sidebarCollapse').on('click', function () {
                      $('#sidebar').toggleClass('active');
@@ -465,12 +532,12 @@
  </script>
 
     <!-- Bootstrap 3.3.7 -->
-    <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
      <!--jQuery validate-->
-    <script src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
     <!--js fun-->
-    <script src="{{ asset('pub/js/functions.min.js') }}"></script>
+    <script  nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/functions.js') }}"></script>
 
 </body>
 </html>

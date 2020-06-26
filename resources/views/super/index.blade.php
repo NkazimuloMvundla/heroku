@@ -3,7 +3,18 @@
 
 @section('content')
 <div class="wrapper">
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showUser{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+.created_at{width: 20%;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.notify{background-color:#e8eae6ad;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function deleteAdminNotification(id){
             $(document).ready(function() {
                 $.ajax({
@@ -51,9 +62,13 @@ function deleteAdminNotification(id){
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-         Todays date is <script>
+           Time <script nonce="{{ csp_nonce() }}">
             var now = new Date();
-            document.write(now.toUTCString());
+            document.write(now.toLocaleTimeString());
+             </script>
+            Date <script nonce="{{ csp_nonce() }}">
+            var now = new Date();
+            document.write(now.getUTCDate());
              </script>
               / <span class="bg bg-danger">You have {{ $adminCountNotifications }} notifications</span>
         </h1>
@@ -79,10 +94,10 @@ function deleteAdminNotification(id){
 
                    @foreach( $adminNotifications as $notification )
                    <tr id="{{ "notify" . $notification->id  }}">
-                     <td style="width:20%">{{ $notification->created_at }}</td>
-                     <td id="notify" style="background-color:#e8eae6ad;">{!! $notification->message !!}</td>
-                    <td style="width:20%">
-                    <button id="deleteNotification" class="btn btn-default btn-sm" onclick="deleteAdminNotification({{ $notification->id }})";><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
+                     <td class="created_at">{{ $notification->created_at }}</td>
+                     <td id="notify">{!! $notification->message !!}</td>
+                    <td class="created_at">
+                    <button id="deleteNotification" class="btn btn-default btn-sm deleteAdminNotification" data-id="{{ $notification->id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                     </td>
                     </tr>
                     @endforeach
@@ -91,14 +106,26 @@ function deleteAdminNotification(id){
 
                 </table>
                 @if($adminCountNotifications > 0)
-                    <button class="btn btn-danger" onclick="deleteAllAdminNotification();">delete all</button>
+                    <button class="btn btn-danger deleteAllAdminNotification">delete all</button>
                 @endif
-    </section>
+      </section>
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
 
   </div>
   <!-- ./wrapper -->
+
+   <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".deleteAdminNotification").on("click", function() {
+                var id = $(this).data("id");
+                deleteAdminNotification(id);
+            });
+            $(".deleteAllAdminNotification").on("click", function() {
+               return deleteAllAdminNotification();
+            });
+
+    </script>
 
 @endsection

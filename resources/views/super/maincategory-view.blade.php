@@ -1,8 +1,18 @@
 @extends('super.layouts.super')
-@section('title' , 'Manage users')
+@section('title' , 'Manage main-cat')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showUser{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.product_name{border: 2px dotted #f3f3f3; padding:3px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deleteMain(id){
             $(document).ready(function() {
@@ -39,10 +49,10 @@ function deleteMain(id){
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
            success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].pc_id;
-             $main_category = data[i].pc_name;
+             var id = data[i].pc_id;
+             var main_category = data[i].pc_name;
             }
-            $("#main_category").val($main_category);
+            $(".main_category").val(main_category);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -54,7 +64,7 @@ function deleteMain(id){
 
     function updateMain(id){
 
-    var main_category = $("#main_category").val();
+    var main_category = $(".main_category").val();
 
 if(main_category == ""){
   $("#main_categoryErr").text("Please enter a Main Category");
@@ -175,7 +185,7 @@ function showId(limit){
                       <td><input type="checkbox" id="{{ $category->pc_id }}" name="pc_id[]" value="{{ $category->pc_id }}"></td>
                       <td >{{ $category->pc_name }}</td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -186,13 +196,13 @@ function showId(limit){
                             <div class="modal-body" id="modal-body">
                                 <div class="form-group">
                                     <label>Add Main Category</label>
-                                    <input type="text" id="main_category" name="main_category" value="{{ old('main_category') }}" class="form-control" >
+                                    <input type="text"  name="main_category" value="{{ old('main_category') }}" class="form-control main_category">
                                     <span class="text-danger" id="main_categoryErr"></span>
                                 </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="updateMain({{  $category->pc_id  }})" class="btn btn-success">Save changes</button>
+                            <button type="submit" name="save" value="save" data-id="{{  $category->pc_id  }}" class="btn btn-success updateMain">Save changes</button>
 
                         </div>
                             </div>
@@ -201,11 +211,11 @@ function showId(limit){
                             <!-- /.modal-dialog -->
                             </div>
                      <td >
-                     <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editMain({{ $category->pc_id  }});">
+                     <button name="edit" class="btn btn-default btn-sm editMain"  data-toggle="modal" data-target="#modal-default"  data-id="{{ $category->pc_id  }}">
                         edit
                      </button>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteMain({{ $category->pc_id }})";>
+                     <button  class="btn btn-default btn-sm deleteMain" data-id="{{ $category->pc_id }}">
                         delete
                     </button>
                      </tr>
@@ -226,7 +236,7 @@ function showId(limit){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
                   </div>
               </div>
@@ -235,13 +245,34 @@ function showId(limit){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class=" clearfix pull-right">
         {{$mainCategories->links()}}
        </div>
        </div>
     </div>
     <!-- /.content-wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".updateMain").on("click", function() {
+                var id = $(this).data("id");
+                updateMain(id);
+            });
+            $(".editMain").on("click", function() {
+                var id = $(this).data("id");
+                editMain(id);
+            });
 
+             $(".deleteMain").on("click", function() {
+                var id = $(this).data("id");
+                deleteMain(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return deleteAll();
+            });
+
+
+    </script>
   </div>
   <!-- ./wrapper -->
 

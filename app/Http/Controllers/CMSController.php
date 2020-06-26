@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Response;
+use DB;
 
 class CMSController extends Controller
 {
@@ -15,7 +16,7 @@ class CMSController extends Controller
 
     public function show()
     {
-        $cms_s = \App\CMS::all();
+        $cms_s = DB::table('c_m_s_s')->get();
 
         return view('super.cms-view', compact('cms_s'));
     }
@@ -31,7 +32,7 @@ class CMSController extends Controller
                 'cms_content' => ['required', 'string', 'max:255'],
             ]);
 
-            \App\CMS::create([
+            DB::table('c_m_s_s')->insert([
                 'cms_title' => $data['cms_title'],
                 'cms_page' => $data['cms_page'],
                 'cms_content' => $data['cms_content'],
@@ -52,7 +53,7 @@ class CMSController extends Controller
                 'cms_content' => ['required', 'string', 'max:255'],
             ]);
 
-            \App\CMS::where('id', $data['id'])->update([
+            $result = DB::table('c_m_s_s')->where('id', trim($data['id']))->update([
                 'cms_title' => trim($data['cms_title']),
                 'cms_page' => trim($data['cms_page']),
                 'cms_content' => trim($data['cms_content']),
@@ -71,7 +72,7 @@ class CMSController extends Controller
             ]);
 
             foreach ($data['checked'] as $id) {
-                \App\CMS::where('id', trim($id))->delete();
+                DB::table('c_m_s_s')->where('id', trim($id))->delete();
             }
         }
     }
@@ -83,7 +84,7 @@ class CMSController extends Controller
             $data = request()->validate([
                 'id' => ['numeric'],
             ]);
-            $result = \App\CMS::where('id', trim($data['id']))->get();
+            $result = DB::table('c_m_s_s')->where('id', trim($data['id']))->get();
             return response::json($result);
         }
     }

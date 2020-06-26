@@ -2,8 +2,13 @@
 @section('title' , 'Manage categories')
 
 @section('content')
-<script>
-
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.category{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function deleteCat(id){
             $(document).ready(function() {
 
@@ -150,8 +155,7 @@ function showId(limit){
                   @foreach( $Categories as $category )
                     <tr>
                       <td><input type="checkbox" id="{{ $category->id }}" name="id[]" value="{{ $category->id }}"></td>
-                      <td style="cursor:pointer;" id="category" onclick="showParent({{ $category->pc_id }});">{{ $category->pc_name }}</td>
-
+                      <td class="category" data-id="{{ $category->pc_id }}">{{ $category->pc_name }}</td>
                             <!-- /.modal-dialog -->
                             </div>
                               <td>
@@ -161,14 +165,14 @@ function showId(limit){
                                 @endif
                                 @endforeach
                             </td>
-                     <td >
+                     <td>
                      <a href="/super/category-edit/{{  $category->id  }}">
                      <button name="edit" class="btn btn-default btn-sm">
                              Edit
                      </button>
                      </a>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteCat({{ $category->id }})";>
+                     <button data-id="{{ $category->id }}" class="btn btn-default btn-sm delete">
                         delete
                     </button>
                      </td>
@@ -199,7 +203,7 @@ function showId(limit){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class="clearfix pull-right">
 
        </div>
        </div>
@@ -208,7 +212,7 @@ function showId(limit){
 
   </div>
   <!-- ./wrapper -->
-<script>
+<script nonce="{{ csp_nonce() }}">
 /*
  function updateCat(){
         var category = $("#category").val();
@@ -331,4 +335,17 @@ Dropzone.options.myDropzone = {
 
 
 </script>
+
+  <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".category").on("click", function() {
+                var id = $(this).data("id");
+                showParent(id);
+            });
+
+             $(".delete").on("click", function() {
+                var id = $(this).data("id");
+                deleteCat(id);
+            });
+        </script>
 @endsection

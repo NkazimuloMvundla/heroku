@@ -2,7 +2,7 @@
 @section('title' , 'Add-new-product')
 
 @section('content')
-<script>
+<script nonce="{{ csp_nonce() }}">
         $( function() {
         $( "#date" ).datepicker({
         numberOfMonths: 1,
@@ -13,7 +13,7 @@
   </script>
 
 
-<style>
+<style nonce="{{ csp_nonce() }}">
 [role="alert"]{
   color: red;
 }
@@ -21,8 +21,13 @@
 .help-block{
   font-style:italic;
 }
-
-
+ul.message > li {font-size:15px;}
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+span.add-spec{display: none;}
+button#add_field_button{display: none;}
+p.reachedLimitToAppend{color: red;}
+div.dz-error-message{color: red;}
 </style>
 
     <div class="content-wrapper">
@@ -40,14 +45,14 @@
     <section class="content">
     @if(Session::has('message'))
         <div >
-        <ul>
-        <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
+        <ul class="message">
+        <li class="label label-success">{{ Session::get('message') }}</li>
         </ul>
         </div>
     @endif
-            <div class="row" style="display:flex; justify-content:center;">
+            <div class="row main-row">
                 <!-- /.col -->
-                <div class="col-md-8" style="background: white;padding: 12px;">
+                <div class="col-md-8">
                 <!--form start here-->
                 <form method="post" id="addProduct"  action="/u/add-new-product" enctype="multipart/form-data">
 
@@ -62,7 +67,7 @@
                     <div class="form-group row">
                         <div class="col-md-4">
                         <label for="Main category">Select a Main category</label>
-                        <select class="form-control" id="mc_id"  name="mainCategory"   onChange="showCat(this.value);">
+                        <select class="form-control" id="mc_id"  name="mainCategory">
                         <option selected>Main category</option>
                         @forelse($parent_category as $category)
                         <option value="{{ $category->pc_id }}">{{$category->pc_name}}</option>
@@ -78,32 +83,29 @@
                         @enderror
                         <span class="help-block main-cats"></span>
                         </div>
-                    <div class="col-md-4">
+                      <div class="col-md-4">
                         <label for="Category">Select a Category</label>
-                        <div  id="coin">
-                        <select class="form-control"  name="Category"  id="c_id">
-                        <option selected>Category</option>
+                        <select class="form-control coin"  name="Category"  id="c_id">
+                        <option selected>Select</option>
                         </select>
                         @error('Category')
                         <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                         </span>
                         @enderror
-                        </div>
+
                         <span class="help-block cat"></span>
                     </div>
                     <div class="col-md-4">
                         <label for="Sub Category">Select a Sub Category </label>
-                        <div id="last">
-                        <select class="form-control"  name="subCategory"  id="subCategory">
-                        <option selected>Sub Category</option>
+                        <select class="form-control last"  name="subCategory"  id="subCategory">
+                        <option selected>Select</option>
                         </select>
                         @error('subCategory')
                         <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                         </span>
                         @enderror
-                        </div>
                         <span class="help-block sub"></span>
                     </div>
                     </div>
@@ -134,15 +136,15 @@
                     <span class="help-block product_keyword"></span>
                 </div>
                 <div class="form-group">
-                    <span id="add-spec" style="display:none;">Add Product Specification</span>
+                    <span id="add-spec">Add Product Specification</span>
                     <div id="data">
                     </div>
                     <span id="add_spec_error"></span>
                     <span id="add_spec_child_error"></span>
                 </div>
                 <div id="data-add" class="data-add">
-                    <button id="add_field_button" onclick="display();" style="display:none;" type="button">Add</button>
-                    <span><p class="text-center reachedLimitToAppend" style="color: red;"><i></i></p></span>
+                    <button id="add_field_button"  type="button">Add</button>
+                    <span><p class="text-center reachedLimitToAppend"><i></i></p></span>
                 </div>
 
                 <div class="form-group row">
@@ -161,9 +163,9 @@
                     </div>
 
                     <p><strong>Note:</strong>
-                    <div style="color:red;" class="dz-error-message" id="dz-error-message"></div>
-                    <i style="">You must upload at least 1 product image</i> ,
-                    <i style="">a max of 3 images for each product, <br> Only .jpg, .jpeg, .gif, .png formats allowed to a max size of 5 MB.</i>
+                    <div class="dz-error-message" id="dz-error-message"></div>
+                    <i>You must upload at least 1 product image</i> ,
+                    <i>a max of 3 images for each product, <br> Only .jpg, .jpeg, .gif, .png formats allowed to a max size of 5 MB.</i>
                     </p>
 
                     @error('file')
@@ -351,5 +353,26 @@
 
 
     </div>
+   <script nonce="{{ csp_nonce() }}">
+
+    $(document).ready(function() {
+
+    $("#mc_id").on("change", function() {
+            showCat(this.value);
+    });
+
+     $("#c_id").on("change", function() {
+             showSubCat(this.value);
+     });
+
+        $("#subCategory").on("change", function() {
+             show_list()
+             showBtn()
+             getId(this.value);
+        });
+    });
+
+</script>
+
 
 @endsection

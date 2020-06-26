@@ -2,7 +2,17 @@
 @section('title' , 'Manage products')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showProduct{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.product_name{border: 2px dotted #f3f3f3; padding:3px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
  "use scrict"
 function showId(id){
     $.ajax({
@@ -122,7 +132,7 @@ function deleteProduct(id){
 function showProduct(id){
     console.log(id);
         var imagesArray = [];
-  $.ajax({
+    $.ajax({
           type: "GET",
           url: "/super/showProduct",
           data:{id:id},
@@ -157,9 +167,7 @@ function showProduct(id){
             $("#minOrderUnit").text(minOrderUnit);
             $("#min_price").text(min_price);
             $("#max_price").text(max_price);
-             $("#pd_photo").html(html);
-
-
+            $("#pd_photo").html(html);
 
           },
           error: function (data) {
@@ -263,7 +271,7 @@ function checkedAll () {
                             @endforeach
                       </td>
 
-                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showProduct({{ $product->pd_id }});"> click</td>
+                      <td class="showProduct"  data-toggle="modal" data-target="#modal-default"  data-id="{{ $product->pd_id }}"> click</td>
                     <td id="{{ "status" .$product->pd_id  }}">
                         @if($product->pd_approval_status == 1 )
                         <span class="label label-success">Approved</span>
@@ -275,13 +283,13 @@ function checkedAll () {
                     </td>
                      <td >
 
-                    <select id="productAction" onchange="takeAction(this.value, {{ $product->pd_id }})">
+                    <select class="productAction" data-id="{{ $product->pd_id }}">
                         <option selected disabled>Select</option>
                         <option value="1">Approve</option>
                         <option value="2">Suspend</option>
                     </select>
                     or
-                    <button id="delete" class="btn btn-default btn-sm" onclick="deleteProduct({{ $product->pd_id }})";>
+                    <button class="btn btn-default btn-sm deleteProduct" data-id="{{ $product->pd_id }}">
                         delete
                    </button>
                      </td>
@@ -309,7 +317,7 @@ function checkedAll () {
 
               <!--modal-->
                     <!--Moda-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -317,37 +325,36 @@ function checkedAll () {
                             <span aria-hidden="true">×</span></button>
                             <h4 class="modal-title" id="modal-title"></h4>
                             </div>
-
                             <div class="modal-body" id="modal-body">
                                 <div class="col-md-12">
-                                        <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                        <div class="form-group product_name">
                                             <label>Product Name:</label>
                                                 <p name="pd_name" id="pd_name"></p>
                                             </div>
-                                            <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                            <div class="form-group product_name">
                                                     <label>Product Keyword:</label>
                                                 <p name="pd_keyword" id="pd_keyword"></p>
                                             </div>
 
-                                            <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                            <div class="form-group product_name">
                                                     <label>Product Listing description:</label>
                                                 <p name="pd_listing_description" id="pd_listing_description"></p>
                                             </div>
-                                            <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                            <div class="form-group product_name">
                                                     <label>Product Minimum Order Quantity:</label>
                                                     <span name="pd_min_order_qty" id="pd_min_order_qty"></span> ::  <span name="minOrderUnit" id="minOrderUnit"></span>
                                             </div>
 
-                                            <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                            <div class="form-group product_name">
                                                     <label>Product minimum price:</label>
                                                     <p name="min_price" id="min_price"></p>
                                             </div>
-                                            <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                            <div class="form-group product_name">
                                                     <label>Product max price:</label>
                                                     <p name="max_price" id="max_price"></p>
                                             </div>
 
-                                            <div class="form-group" style="border: 2px dotted #f3f3f3; padding:3px;">
+                                            <div class="form-group product_name">
                                                 <label>Product Images</label>
                                                     <p name="pd_photo" id="pd_photo"></p>
                                             </div>
@@ -370,7 +377,7 @@ function checkedAll () {
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
+                   <button class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -382,7 +389,7 @@ function checkedAll () {
       <div class="container">
           <div class="row">
               <div class="col-md-4">
-                    <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+                    <div class=" clearfix pull-right" >
                             {{$products->links()}}
                     </div>
               </div>
@@ -391,7 +398,30 @@ function checkedAll () {
 
     </div>
     <!-- /.content-wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+           //delete spec
+            $(".deleteProduct").on("click", function() {
+                var id = $(this).data("id");
+                deleteProduct(id);
+            });
 
+            $(".showProduct").on("click", function() {
+                var id = $(this).data("id");
+                showProduct(id);
+            });
+
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+              $(".productAction").on("change", function() {
+                var id = $(this).data("id"); 
+                takeAction(this.value, id);
+            });
+
+
+    </script>
   </div>
   <!-- ./wrapper -->
 

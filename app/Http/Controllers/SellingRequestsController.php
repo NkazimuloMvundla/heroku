@@ -43,12 +43,12 @@ class SellingRequestsController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request) 
     {
 
         $data = request()->validate([
             'mainCategory' => ['required', 'numeric'],
-            'Category' => ['required', 'numeric'],
+            'c_id' => ['required', 'numeric'],
             'subCategory' => ['required', 'numeric'],
             'productName' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:255'],

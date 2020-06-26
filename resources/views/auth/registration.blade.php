@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    <div class="row" id="register" style="">
+    <div class="row" id="register">
         <div class="col-md-8">
             <div class="row">
                     <div class="col-xs-6 col-md-4">
@@ -93,7 +93,7 @@
                             ?>
                         @foreach ($industries as $industry )
                         <div>
-                            <input id="industry" type="checkbox"   name="industry[]" value="{{  $industry }}"  />  {{  $industry }}
+                            <input class="industry" type="checkbox"   name="industry[]" value="{{  $industry }}"  />  {{  $industry }}
                         </div>
                         @endforeach
                         @error('industry')

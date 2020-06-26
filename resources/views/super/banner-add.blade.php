@@ -2,6 +2,12 @@
 @section('title' , 'Add a Banner')
 
 @section('content')
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
+
+</style>
 <script>
 
 
@@ -59,19 +65,19 @@
     <section class="content">
             <form method="post" id="insert_banner" action="/super/add-banner"  enctype="multipart/form-data">
                 @csrf
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
                @if(Session::has('banner'))
                <div class="">
                 <ul>
-                    <li class="label label-success"  style="font-size:15px;">{{ Session::get('banner') }}</li>
+                    <li class="label label-success">{{ Session::get('banner') }}</li>
 
                 </ul>
 
                </div>
                @endif
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="valid" class="alert alert-danger">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -80,7 +86,7 @@
                 </ul>
               </div>
 
-                <div class="col-md-8" style="background: white;padding: 12px;">
+                <div class="col-md-8">
             <div class="form-group">
                 <label>Add a banner Link </label>
                 <input type="text" id="banner_link" name="banner_link" value="{{ old('banner_link') }}" class="form-control" >

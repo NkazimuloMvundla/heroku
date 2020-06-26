@@ -6,11 +6,8 @@
 @section('meta_description', $pd_listing_description)
 
 @section('content')
-<style>
-.breadcrumb{background: #FFF;}
-</style>
+ <script nonce="{{ csp_nonce() }}">
 
- <script>
     $(document).ready(function() {
        $("#content-slider").lightSlider({
            loop:true,
@@ -30,8 +27,11 @@
        });
    });
 </script>
- <style>
-
+ <style nonce="{{ csp_nonce() }}">
+ div.lSSlideWrapper {transition-duration: 500ms; transition-timing-function: ease;}
+ ul.lSGallery{margin-top: 5px; transition-duration: 500ms; width: 121.5px; transform: translate3d(0px, 0px, 0px);}
+   ul.lSGallery > li {width:100%;width:35.333333333333336px;margin-right:5px;}
+ .breadcrumb{background: #FFF;}
     ul{
         list-style: none outside none;
         padding-left: 0;
@@ -92,17 +92,37 @@
 			}
 		}
 
-  @media (min-width: 992px){
+ /* @media (min-width: 992px){
       img[data-zoom]{
           margin-left:15%;
       }
-  }
-
+  }*/
+a#product_cats{text-decoration: underline;color: orange;}
+.title {font-size: 18px;color: #212121;white-space: normal;overflow: hidden;text-overflow: ellipsis;
+max-height: auto;}
+div.detail{background: #eaf4ea7a}
+span.product-description  > span {font-size:16px;}
+span#product_discription{color:#e64545; font-size:14px;}
+span#product_discription > span {color:#e64545; font-size:14px;}
+span#make_offer{font-size: 10pt;width:30%}
+p.social{margin-top:25px;}
+p.social > span{font-size:10pt;}
+a.#supplier_link{color:#052d7a; font-size:14px;}
+div#more_details{decoration:underline; display:none;}
+div#modal-default{display: none;}
+img[data-images]{width: 400px;height: 100%;}
+span#industries{font-size:11px;}
+td[data-rated]{width: 50%;}
+div#valid{display: none;}
+td#questionUpdates{width: 50%;}
+ul.social-conn{display: flex;}
+.fa-facebook-official , .fa-twitter-square , .fa-linkedin-square{font-size:22px; cursor: pointer; margin:10px;}
+p.share-social{margin-top:7px;}
 </style>
-<link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
+<link rel="stylesheet" nonce="{{ csp_nonce() }}" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
 <!--lightSlider CSS-->
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/drift-master/dist/drift-basic.css') }}" />
+<link  rel="stylesheet" nonce="{{ csp_nonce() }}" type="text/css"  media="all" href="{{ asset('pub/light/src/css/lightslider.min.css') }}" />
+<link  rel="stylesheet" nonce="{{ csp_nonce() }}" type="text/css"  media="all" href="{{ asset('pub/drift-master/dist/drift-basic.css') }}" />
     <div class="container">
         <div class="hidden-xs hidden-sm hidden-meduim">
           <ul class="breadcrumb">
@@ -110,11 +130,11 @@
 
               <li>{{ $parent->first()->pc_name  }}</li>
                 <?php  $cat_id = base64_encode( $subcategory->id  ) ;?>
-                <li><a style="text-decoration: underline;color: orange;" href="/products-by-category/{{ $subcategory->pc_name  }}/{{  $cat_id  }}">{{ $subcategory->pc_name  }}</a>
+                <li><a id="product_cats" href="/products-by-category/{{ $subcategory->pc_name  }}/{{  $cat_id  }}">{{ $subcategory->pc_name  }}</a>
                 </li>
 
              <?php  $subCategoryId = base64_encode( $last_categories->id  ) ;?>
-              <li><a style="text-decoration: underline;color: orange;" href="/products-by-last-category/{{ $last_categories->pc_name  }}/{{ $subCategoryId  }}">{{ $last_categories->pc_name  }}</a></li>
+              <li><a id="product_cats" href="/products-by-last-category/{{ $last_categories->pc_name  }}/{{ $subCategoryId  }}">{{ $last_categories->pc_name  }}</a></li>
               <li>{{ $product->first()->pd_name }}</li>
           </ul>
         </div>
@@ -126,7 +146,7 @@
                   @foreach ($pd_images as $pd_image)
                     @if($product->first()->pd_id == $pd_image->pd_photo_id)
                     <li data-thumb="{{ url($pd_image->pd_filename) }}" id="data-thumbs">
-                    <img data-zoom="{{ url($pd_image->pd_filename) }}"   src="{{ url($pd_image->pd_filename) }}" class="img-responsive  drift-demo-trigger" alt="product image">
+                    <img data-zoom="{{ url($pd_image->pd_filename) }}"   src="{{ url($pd_image->pd_filename) }}" class="img-responsives" alt="product image">
                     </li>
                     @endif
                     @endforeach
@@ -134,53 +154,41 @@
 
                 </div>
             </div>
-        <style type="text/css">
-
-        .title {
-        font-size: 18px;
-        color: #212121;
-        white-space: normal;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-height: auto;
-        }
-        </style>
-
-            <div class="detail w3-padding col-md-6" id="product-description" style="
-            background: #eaf4ea7a;
-            ">
+            <div class="detail w3-padding col-md-6" id="product-description">
                 <div class="product-description">
                   <div class="w3-margin-top">
-                  <span class="product-description"><span  style="font-size:14px;">{{ $product->first()->pd_name }}</span></span>
+                  <span class="product-description">
+                   <span>{{ $product->first()->pd_name }}</span>
+                  </span>
                   </div>
                   <div class="w3-margin-top">
                   <span class="product-description">
-                  <span style="font-size: 16px">Product discription :</span>
-                  <span style="color:#e64545; font-size:14px;">{{ $product->first()->pd_listing_description }}
+                  <span>Product discription : </span>
+                  <span>{{ $product->first()->pd_listing_description }}
                   </span>
                   </span>
                 </div>
                 <div class="w3-margin-top">
                   <span class="product-description">
-                  <span style="font-size: 16px">Unit price :</span>
-                  <span style="color:#e64545; font-size:14px;"><b>ZAR {{ $product->first()->min_price }}-{{ $product->first()->max_price }}</b>
+                  <span>Unit price :</span>
+                  <span id="product_discription"><b>ZAR {{ $product->first()->min_price }}-{{ $product->first()->max_price }}</b>
                   </span>
                   </span>
                 </div>
                 <div class="w3-margin-top">
                     <span class="product-description">
-                    <span style="font-size: 16px">Min. Order</span> : {{ $product->first()->pd_min_order_qty  }}  {{ $product->first()->minOrderUnit }}
-                    <span style="font-size: 14px"><b></b></span>
+                    <span>Min. Order</span> : {{ $product->first()->pd_min_order_qty  }}  {{ $product->first()->minOrderUnit }}
+                    <span><b></b></span>
                     </span>
                 </div>
                 <div class="w3-margin-top hidden-xs hidden-sm hidden-md">
                   <span class="product-description">
-                  <span style="font-size: 16px">Supplier Ability</span>: {{ $product->first()->capacity  }}  {{ $product->first()->pd_supply_ability }} <b>:</b> <b>PER</b> {{ $product->first()->supplyPeriod }}<b>
-                  <span style="font-size: 14px"></span></b></span>
+                  <span>Supplier Ability</span>: {{ $product->first()->capacity  }}  {{ $product->first()->pd_supply_ability }} <b>:</b> <b>PER</b> {{ $product->first()->supplyPeriod }}<b>
+                  <span></span></b></span>
                 </div>
                 <div class="w3-margin-top hidden-xs hidden-sm hidden-md">
                     <span class="product-description">
-                    <span style="font-size: 16px">Payment Terms:</span>
+                    <span>Payment Terms:</span>
                     </span>
                      <?php  $i = 1; ?>
                     @foreach ($payments as $payMethod)
@@ -199,30 +207,27 @@
             <div class="w3-margin-top">
             <?php  $encoded_user_id = base64_encode($product->first()->pd_u_id ) ;?>
             <?php  $encoded_product_id = base64_encode( $product->first()->pd_id) ;?>
-              <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}"><span class=" btn btn-primary btn-md" ><span style="font-size: 10pt;width:30%"> Make an Offer <i class="fa fa-envelope"> </i></span></span></a> </a>
+              <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}"><span class=" btn btn-primary btn-md">
+            <span id="make_offer"> Make an Offer <i class="fa fa-envelope"> </i></span>
+            </span></a> </a>
             </div>
-            <div class="row">
-                    <span id="social-conn">
-                    <p class="social social-colour  w3-margin-left hidden-xs hidden-sm hidden-md" style="margin-top:25px;">
-                    <span style="font-size: 10pt">Share  </span>
-                    <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fb2c.itechscripts.com%2Fproduct.php%3Fp%3D3c59dc048e8850243be8079a5c74d079" class="facebook">
-                    <i class="socicon-facebook"></i><span class="sr-only">Share on Facebook</span>
-                    </a>
-                    <a href="https://twitter.com/intent/tweet?text=Share%20Icons%20Tutorial%20by%20Bootstrapious.com&amp;url=https%3A%2F%2Fbootstrapious.com%2Fp%2Fshare-icons&amp;via=bootstrapious" class="twitter">
-                    <i class="socicon-twitter"></i><span class="sr-only">Share on Twitter</span>
-                    </a>
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fbootstrapious.com%2Fp%2Fshare-icons&amp;summary=Check%20out%20this%20nice%20tutorial&amp;source=https%3A%2F%2Fbootstrapious.com%2F" class="linkedin">
-                    <i class="socicon-linkedin"></i><span class="sr-only">Share on LinkedIn</span>
-                    </a>
-                    </p>
-                </span>
-            </div>
+     
+       
+                <div id="social-conn">
+                    <p class="text-success share-social">Share via social media</p>
+                    <ul class="social-conn">
+                    <li class="social-share facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></li>
+                    <li class="social-share twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></li>
+                    <li class="social-share linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></li>
+                    </ul>
+                </div>
+           
         </div>
 
         <div class="hidden-xs hidden-sm hidden-md row-1 w3-padding col-md-2">
             <div class="w3-margin-top">
                 <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
-                <a href="/supplier/{{ $encoded_user_id}}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
+                <a id="supplier_link" href="/supplier/{{ $encoded_user_id}}"><b>{{ $user->first()->company_name }}</b> </a>
                 @if($user->first()->status == 1)
                      <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
                 @endif
@@ -238,7 +243,7 @@
     </div>
     <!--end of first row-->
   </div>
-        <div class="w3-bottom hidden-lg" style="display:none;">
+        <div class="w3-bottom hidden-lg hidden">
             <div class="w3-bar w3-center w3-white w3-card-4 w3-padding">
             <span class="btn btn-primary"><span> Contacts Now <i class="fa fa-envelope"> </i></span></span>
             </div>
@@ -287,10 +292,10 @@
                             </div>
                       </div>
 
-                      <div class="text-primary w3-center hidden-lg" style="decoration:underline; display:none;">
+                      <div id="more_details" class="text-primary w3-center hidden-lg">
                             <span data-toggle="modal" data-target="#modal-default"  class="w3-margin-top btn btn-success btn-sm" >More details</span>
                             <!--Moda-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -320,7 +325,7 @@
                           <div>
                           @foreach ($pd_images as $pd_image)
                           @if($product->first()->pd_id == $pd_image->pd_photo_id)
-                          <img src="{{ url($pd_image->pd_filename) }}" class="img-responsive" alt="product-image" style="width: 400px;height: 100%;">
+                          <img data-images src="{{ url($pd_image->pd_filename) }}" class="img-responsive" alt="product-image">
                           @endif
                           @endforeach
                           </div>
@@ -338,7 +343,7 @@
             </div>
           <div>
             <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
-            <a href="/supplier/{{ $encoded_user_id }}" style="color:#052d7a; font-size:14px;"><b>{{ $user->first()->company_name }}</b> </a>
+            <a id="supplier_link" href="/supplier/{{ $encoded_user_id }}" ><b>{{ $user->first()->company_name }}</b> </a>
             @if( $user->first()->status == 1)
             <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
             @endif
@@ -361,7 +366,7 @@
                     <?php $ind.= ', ';?>
                     <?php $i++;?>
                     @endif
-                    <span  style="font-size: 11px;">{{ $ind }} </span>
+                    <span id="industries">{{ $ind }} </span>
                     @endforeach
                     </p>
                     <p> <i class="fa fa-calendar"></i> <strong>Year started exporting  </strong>: <b>{{$export_capabilities->first()->export_started}}</b> </p>
@@ -407,7 +412,7 @@
                                 <tbody>
                                 @forelse($reviews as $review)
                                     <tr>
-                                    <td style="width: 50%;"><strong>{{$review->rated_by}}</strong></td>
+                                    <td data-rated><strong>{{$review->rated_by}}</strong></td>
                                     <?php $date = date('Y-m-d', strtotime( $review->created_at )); ?>
                                     <td class="text-right">{{ $date}}</td>
                                     </tr>
@@ -477,7 +482,7 @@
                         </div>
                       <h2 id="review-title">Write a review</h2>
                       <div id="result"></div>
-                      <div id="valid" class="alert alert-danger" style="display:none;">
+                      <div id="valid" class="alert alert-danger">
                           <ul>
                           @foreach($errors->all() as $error)
                           <li>{{ $error }} </li>
@@ -501,8 +506,9 @@
                           </div>
                           <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
                           <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}" >
-                          <div class="buttons clearfix"><a id="button-review" class="btn buttonGray" onclick="sendReview({{$product->first()->pd_id}});">Continue</a></div>
+                          <div class="buttons clearfix"><a id="button-review" class="btn sendReview" data-id="{{$product->first()->pd_id}}">Continue</a></div>
                       </div>
+
 
                   </div>
                 </div>
@@ -523,7 +529,7 @@
                     <tbody>
                         @foreach( $questions as $question )
                             <tr>
-                                <td id="questionUpdates" style="width:50%;">
+                                <td id="questionUpdates">
                                 {{ $question->question }}
                                 </td>
                                 <td>
@@ -546,12 +552,12 @@
 
       <!--you may like-->
       <div class="you-may-like">
-        <div class="row w3-margin-top">
+        <div class="row">
         <h6 class="block-title">You May Aslo Like</h6>
 
         @foreach ($you_may_like as $collection)
             @if($collection->pd_photo != null)
-            <div class="col-md-3 col-xs-6 row-1">
+            <div class="col-md-3 col-xs-6  product-item-container">
                 <div class="thumb-wrapper">
                     <div class="img-box">
                         <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
@@ -584,7 +590,7 @@
                         <?php  $encoded_user_id = base64_encode($collection->pd_u_id ) ;?>
                         <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
                     <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                    <a  onclick="myFavorite({{ $collection->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md"></a>
+                    <a  data-id="{{ $collection->pd_id }}" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md add-to-favs"></a>
                 </div>
               </div>
             </div>
@@ -596,9 +602,21 @@
       </div>
   </div>
           <!--Drift-->
- <script src="{{ asset('pub/drift-master/dist/Drift.min.js') }}"></script>
+ <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/drift-master/dist/Drift.min.js') }}"></script>
  <!--Plug-in Initialisation-->
- <script type="text/javascript">
+ <script type="text/javascript" nonce="{{ csp_nonce() }}">
+     $('.drift-demo-trigger').each(function(i, el) {
+	        new Drift(el, {
+            paneContainer: document.querySelector('.detail'),
+            zoomFactor: 2,
+            inlinePane: 900,
+            inlineOffsetY: -85,
+            containInline: true,
+            hoverBoundingBox: true,
+            handleTouch:false
+		});
+    })
+
     $(document).ready(function() {
         //Horizontal Tab
         $('#product_detail').easyResponsiveTabs({
@@ -643,33 +661,54 @@
             }
         });
     });
+
+
+    $(".sendReview").on("click", function() {
+    var id = $(this).data("id");
+    sendReview(id);
+    });
+
+
+setShareLinks();
+
+function socialWindow(url) {
+  var left = (screen.width - 570) / 2;
+  var top = (screen.height - 570) / 2;
+  var params = "menubar=no,toolbar=no,status=no,width=570,height=570,top=" + top + ",left=" + left;
+  // Setting 'params' to an empty string will launch
+  // content in a new tab or window rather than a pop-up.
+  // params = "";
+  window.open(url,"NewWindow",params);
+}
+
+function setShareLinks() {
+  var pageUrl = encodeURIComponent(document.URL);
+  var tweet = encodeURIComponent($("meta[name='description']").attr("content"));
+
+  $(".social-share.facebook").on("click", function() {
+    url = "https://www.facebook.com/sharer.php?u=" + pageUrl;
+    socialWindow(url);
+  });
+
+  $(".social-share.twitter").on("click", function() {
+    url = "https://twitter.com/intent/tweet?url=" + pageUrl + "&text=" + tweet;
+    socialWindow(url);
+  });
+
+  $(".social-share.linkedin").on("click", function() {
+    url = "https://www.linkedin.com/shareArticle?mini=true&url=" + pageUrl;
+    socialWindow(url);
+  })
+}
+
 </script>
 
-<script>
-    $(document).ready(function(){
-     $('[data-toggle="tooltip"]').tooltip();
-   });
-   </script>
-
-	<script>
-        $('.drift-demo-trigger').each(function(i, el) {
-	        new Drift(el, {
-            paneContainer: document.querySelector('.detail'),
-            zoomFactor: 2,
-			inlinePane: 900,
-			inlineOffsetY: -85,
-			containInline: true,
-            hoverBoundingBox: true,
-            handleTouch:false
-		});
-    })
-
-	</script>
   <!-- responsive tags 3.3.7 -->
-    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
     </script>
 
     <!--lightSlider JS-->
-    <script src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
 
+    
 @endsection

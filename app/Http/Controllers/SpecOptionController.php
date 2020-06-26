@@ -27,7 +27,7 @@ class SpecOptionController extends Controller
             ]);
 
             \App\SpecOption::create([
-                'spec_id' => trim($data['spec_id']),
+                'spec_parent_id' => $data['spec_id'],
                 'spec_option_name' => trim($data['spec_option']),
 
             ]);
@@ -37,7 +37,7 @@ class SpecOptionController extends Controller
     {
 
         $specifications = DB::table('specifications')->get();
-        $spec_options = DB::table('spec_options')->paginate(10);
+        $spec_options = DB::table('spec_options')->get();
         $sub_categories = DB::table('last_categories')->get();
 
         return view('super.spec-option-view', compact('specifications', 'spec_options', 'sub_categories'));

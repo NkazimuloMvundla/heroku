@@ -7,6 +7,7 @@
   <title>@yield('title','Super Panel')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="robots" content="noindex, nofollow" />
 
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
@@ -31,8 +32,8 @@
   <link rel="stylesheet" href="{{ asset('u/plugins/iCheck/flat/blue.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css') }}">
   <!--Jquery--->
- <script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
- <script src="{{ asset('u/dropzone-master/dist/dropzone.js') }}"></script>
+ <script nonce="{{ csp_nonce() }}"  src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
+ <script nonce="{{ csp_nonce() }}"  src="{{ asset('u/dropzone-master/dist/dropzone.js') }}"></script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -69,7 +70,7 @@
 </div>
 <!-- ./wrapper -->
 
-<script>
+<script nonce="{{ csp_nonce() }}">
 
 
 
@@ -121,52 +122,40 @@
 
 
 <!-- jQuery 3 -->
-<script src="{{asset("u/bower_components/jquery/dist/jquery.min.js")}}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{asset("u/bower_components/jquery/dist/jquery.min.js")}}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="{{asset("u/bower_components/jquery-ui/jquery-ui.min.js")}}"></script>
+<script nonce="{{ csp_nonce() }}"  src="{{asset("u/bower_components/jquery-ui/jquery-ui.min.js")}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
+<script nonce="{{ csp_nonce() }}">
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
 
-<script src="{{asset("pub/bootstrap-3.3.7/js/bootstrap.min.js")}}"></script>
-<!-- Morris.js charts -->
-<script src="{{asset("u/bower_components/raphael/raphael.min.js")}}"></script>
-<script src="{{asset("u/bower_components/morris.js/morris.min.js")}}"></script>
-<!-- Sparkline -->
-<script src="{{asset("u/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js")}}"></script>
+<script nonce="{{ csp_nonce() }}"  src="{{asset("pub/bootstrap-3.3.7/js/bootstrap.min.js")}}"></script>
+
+
  <!-- DataTables -->
-    <script src="/u/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="/u/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script nonce="{{ csp_nonce() }}"  src="/u/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script nonce="{{ csp_nonce() }}"  src="/u/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
        <!-- page script -->
-  <script>
+ <script nonce="{{ csp_nonce() }}">
    $(function () {
     $('#example1').DataTable()
 
   })
   </script>
-<!-- jvectormap -->
-<script src="{{asset("u/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js")}}"></script>
-<script src="{{asset("u/plugins/jvectormap/jquery-jvectormap-world-mill-en.js")}}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{asset("u/bower_components/jquery-knob/dist/jquery.knob.min.js")}}"></script>
+
 
 <!-- FastClick -->
-<script src="{{ asset('u/bower_components/fastclick/lib/fastclick.js') }}"></script>
-<script src="{{ asset('u/plugins/iCheck/icheck.min.js') }}"></script>
+<script nonce="{{ csp_nonce() }}"  src="{{ asset('u/bower_components/fastclick/lib/fastclick.js') }}"></script>
+<script  nonce="{{ csp_nonce() }}" src="{{ asset('u/plugins/iCheck/icheck.min.js') }}"></script>
 
-<!-- Bootstrap WYSIHTML5 -->
-<script src="{{asset("u/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" )}}"></script>
 <!-- Slimscroll -->
-<script src="{{asset("u/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" )}}"></script>
+<script nonce="{{ csp_nonce() }}"  src="{{asset("u/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" )}}"></script>
 <!-- FastClick -->
-<script src="{{asset("u/bower_components/fastclick/lib/fastclick.js" )}}"></script>
+<script nonce="{{ csp_nonce() }}"  src="{{asset("u/bower_components/fastclick/lib/fastclick.js" )}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset("u/dist/js/adminlte.min.js" )}}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset("u/dist/js/pages/dashboard.js" )}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset("u/dist/js/demo.js" )}}"></script>
+<script nonce="{{ csp_nonce() }}"  src="{{asset("u/dist/js/adminlte.min.js" )}}"></script>
+
 </body>
 </html>

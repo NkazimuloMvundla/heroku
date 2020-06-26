@@ -2,7 +2,17 @@
 @section('title' , 'Feature a supplier')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showProduct{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.product_name{border: 2px dotted #f3f3f3; padding:3px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function showId(id){
     $.ajax({
@@ -13,7 +23,7 @@ function showId(id){
           success: function (data) {
           console.log(data);
 
- 
+
         //      console.log(data);
           },
           error: function (data) {
@@ -70,6 +80,7 @@ function takeAction(id, u_id){
 
 }
 
+
 function showUser(id){
   $.ajax({
           type: "GET",
@@ -105,7 +116,6 @@ function showUser(id){
 
 
 }
-
 
 /*
 function changeRole(id){
@@ -184,7 +194,7 @@ function checkedAll () {
 
       </section>
 
-      <!-- Main content --> 
+      <!-- Main content -->
       <section class="content container-fluid">
         <div class="col-md-12">
 
@@ -210,9 +220,9 @@ function checkedAll () {
                   @foreach( $users as $user )
                     <tr>
                       <td><input type="checkbox" id="{{ $user->id }}" name="u_id[]" value="{{ $user->id }}"></td>
-                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showUser({{ $user->id }});">{{ $user->company_name }}</td>
+                  <td class="showUser"  data-toggle="modal" data-target="#modal-default"  data-id="{{ $user->id }}">{{ $user->company_name }}</td>
                             <!--Moda-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -274,9 +284,9 @@ function checkedAll () {
                         @else
                         <span class="label label-warning">Pending</span>
                         @endif
-                    </td> 
+                    </td>
                      <td>
-                    <select id="productAction" onchange="takeAction(this.value, {{ $user->id }})">
+                    <select class="feature_a_supplier"  data-id="{{ $user->id }}">
                         <option selected disabled>Select</option>
                         <option value="1">feature</option>
                         <option value="2">Unfeature</option>
@@ -302,8 +312,7 @@ function checkedAll () {
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -311,7 +320,7 @@ function checkedAll () {
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class=" clearfix pull-right">
         {{ $users->links() }}
        </div>
     </div>
@@ -319,5 +328,23 @@ function checkedAll () {
 
   </div>
   <!-- ./wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+           $(".showUser").on("click", function() {
+                var id = $(this).data("id");
+                showUser(id);
+            });
 
+            $(".feature_a_supplier").on("change", function() {
+                var id = $(this).data("id");
+                takeAction(this.value, id);
+            });
+
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+
+    </script>
 @endsection

@@ -3,7 +3,7 @@
 @section('meta_keywords', "selling on our plartform")
 @section('meta_description', "start delling on our plartform")
 @section('content')
-<style type="text/css">
+<style type="text/css" nonce="{{ csp_nonce() }}">
  	h2.sell{
 color: #000;
 font-size: 26px;
@@ -79,6 +79,7 @@ div.flex{
     text-align: center;
     font-size: 19px;
 }
+div.b4-fees{background: #f0f0f0;}
 div.data{
     background: #f5f5f5;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
@@ -133,7 +134,7 @@ div.fees{
 <div class="row" >
 <h2 class="sell">Frequently Asked Questions</h2>
 </div>
-<div class="flex" style="background: #f0f0f0;">
+<div class="flex b4-fees">
  <div class="fees">
  <h2>What fees do I get charged?</h2>
  <p>

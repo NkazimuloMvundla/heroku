@@ -2,8 +2,15 @@
 @section('title' , 'Manage users')
 
 @section('content')
-<script>
-
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.category{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function deleteMain(id){
             $(document).ready(function() {
 
@@ -39,11 +46,11 @@ function deleteMain(id){
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
            success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].spec_id;
-             $spec_name = data[i].spec_name;
+             var id = data[i].spec_id;
+             var spec_name = data[i].spec_name;
             }
-            $("#spec_Id").val($id);
-            $("#spec_name").val($spec_name);
+            $("#spec_Id").val(id);
+            $(".spec_name").val(spec_name);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -55,7 +62,7 @@ function deleteMain(id){
 
 
     function updateSpec(){
-        var spec_name = $("#spec_name").val();
+        var spec_name = $(".spec_name").val();
         var id = $("#spec_Id").val();
 
         if(spec_name == ""){
@@ -107,8 +114,8 @@ function deleteMain(id){
 
         }
         function checkedAll () {
-    var check = $('input[name="spec_id[]"]:checked').length;
-    if(check > 0 ){
+         var check = $('input[name="spec_id[]"]:checked').length;
+        if(check > 0 ){
         $(document).ready(function() {
             var res = confirm(' Are you sure you want to delete ? ');
             if(res){
@@ -245,7 +252,7 @@ function showId(limit){
                       <td><input type="checkbox" id="{{ $specification->spec_id }}" name="spec_id[]" value="{{ $specification->spec_id }}"></td>
                       <td >{{ $specification->spec_name }}</td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -256,7 +263,7 @@ function showId(limit){
                             <div class="modal-body" id="modal-body">
                                 <div class="form-group">
                                     <label>Edit specification</label>
-                                    <input type="text" id="spec_name" name="spec_name" value="{{ old('spec_name') }}" class="form-control" >
+                                    <input type="text" name="spec_name" value="{{ old('spec_name') }}" class="form-control spec_name">
                                     <input type="hidden" id="spec_Id" name="spec_Id" value="" disabled >
 
                                     <span class="text-danger" id="spec_nameErr"></span>
@@ -264,7 +271,7 @@ function showId(limit){
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="updateSpec({{  $specification->spec_id  }})" class="btn btn-success">Save changes</button>
+                            <button type="submit" name="save" value="save" data-id="{{  $specification->spec_id  }}" class="btn btn-success save">Save changes</button>
 
                         </div>
                             </div>
@@ -282,11 +289,11 @@ function showId(limit){
                             </td>
 
                      <td >
-                     <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editSpec({{ $specification->spec_id  }});">
+                     <button name="edit" class="btn btn-default btn-sm editSpec"  data-toggle="modal" data-target="#modal-default"  data-id="{{ $specification->spec_id  }}">
                         edit
                      </button>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteSpec({{ $specification->spec_id }})";>
+                     <button id="delete" class="btn btn-default btn-sm deleteSpec" data-id="{{ $specification->spec_id }}">
                         delete
                     </button>
                 </td>
@@ -309,7 +316,7 @@ function showId(limit){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll" ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
                   </div>
               </div>
@@ -318,14 +325,39 @@ function showId(limit){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-        {{$specifications->links()}}
-       </div>
+      
        </div>
     </div>
     <!-- /.content-wrapper -->
 
   </div>
+
+   <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".category").on("click", function() {
+                var id = $(this).data("id");
+                showParent(id);
+            });
+
+             $(".deleteSpec").on("click", function() {
+                var id = $(this).data("id");
+                deleteSpec(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+            $(".save").on("click", function() {
+                var id = $(this).data("id");
+                updateSpec(id);
+            });
+
+             $(".editSpec").on("click", function() {
+               var id = $(this).data("id");
+                editSpec(id);
+            });
+    </script>
   <!-- ./wrapper -->
 
 @endsection

@@ -2,6 +2,13 @@
 @section('title' , 'Add a setting')
 
 @section('content')
+
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
+
+</style>
 <script>
 
 /*
@@ -62,17 +69,17 @@ function addSetting(){
             @if(Session::has('setting_add'))
 
              <ul>
-                 <li class="label label-success"  style="font-size:15px;">{{ Session::get('setting_add') }}</li>
+                 <li class="label label-success">{{ Session::get('setting_add') }}</li>
 
              </ul>
              @endif
 
         <form action="#" name="add-setting" enctype="multipart/form-data" method="POST">
             @csrf
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="valid" class="alert alert-danger">
                 <ul>
                 @if($errors->any())
                   @foreach($errors->all() as $error)
@@ -82,7 +89,7 @@ function addSetting(){
                   @endif
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
                 <div class="form-group">
                     <label>Add a Setting Field</label>
                     <input type="text" id="setting_field" name="setting_field" value="{{ old('setting_field') }}" class="form-control" >

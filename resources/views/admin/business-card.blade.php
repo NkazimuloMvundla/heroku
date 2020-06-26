@@ -3,7 +3,7 @@
 
 @section('content')
 
-<style>
+<style nonce="{{ csp_nonce() }}">
         [role="alert"]
          {
              color:red;
@@ -98,7 +98,12 @@
         .text-lg {
             font-size: 75%;
         }
-
+        li.msg{font-size:15px;}
+        div.widget{box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);}
+        div.bg-purple{background:azure;}
+        p.comp-back-img > i{word-wrap: break-word;}
+        span.delete-img{margin:5px;position: absolute;}
+        img.comp-img{margin:10px;}
         </style>
 <div class="content-wrapper">
  <!-- Content Header (Page header) -->
@@ -126,7 +131,7 @@
           @if(Session::has('message'))
           <div>
            <ul>
-               <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
+               <li class="label label-success msg">{{ Session::get('message') }}</li>
            </ul>
           </div>
           @endif
@@ -135,9 +140,9 @@
             <div class="col-md-3">
             <p class="text-primary"></p>
             <div class="form-group">
-            <div class=" widget row-1" style="box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);">
+            <div class="widget row-1">
                 @if(empty($user_details->first()->company_background_img))
-                <div class="widget-header bg-purple" style="background:azure;">
+                <div class="widget-header bg-purple">
                     </div>
                 @endif
                 @if(!empty($user_details->first()->company_background_img))
@@ -162,7 +167,8 @@
                         <p class="text-muted mar-btm w3-margin-top">You company slogan</p><ul class="list-unstyled text-center pad-top mar-no clearfix">
                         @endif
                         @if(!empty($user_details->first()->company_slogan))
-                        <p class="text-muted mar-btm w3-margin-top"><i style="word-wrap: break-word;">'{{ $user_details->first()->company_slogan }}'</i></p><ul class="list-unstyled text-center pad-top mar-no clearfix">
+                        <p class="text-muted mar-btm w3-margin-top comp-back-img">
+                        <i>'{{ $user_details->first()->company_slogan }}'</i></p><ul class="list-unstyled text-center pad-top mar-no clearfix">
                         @endif
 
                         </ul>
@@ -218,11 +224,11 @@
             <div class="col-md-6">
                 <p>Upload Company Images Like Factory or Buidlings</p>
                 @if(!empty($company_images))
-                <div class="">
+                <div>
                 @foreach($company_images as $company_img)
-                <div class="">
-                    <span class="btn btn-danger btn-sm" style="margin:5px;position: absolute;" onclick="deleteCompanyImg({{ $company_img->id }})">delete image</span>
-                        <img class="img-responsive" src="{{ url($company_img->company_image) }}" alt="company image" width="100%" style="margin:10px;">
+                <div>
+                    <span data-id="{{ $company_img->id }}" class="btn btn-danger btn-sm delete-img" >delete image</span>
+                        <img class="img-responsive comp-img" src="{{ url($company_img->company_image) }}" alt="company image" width="100%">
                  </div>
                 @endforeach
                     </div>
@@ -233,6 +239,13 @@
 
         </section>
 </div>
-
+<script nonce="{{ csp_nonce() }}">
+$(document).ready(function() {
+    $(".delete-img").on("click", function() {
+        var id = $(this).data("id");
+        deleteCompanyImg(id);
+    });
+});
+</script>
 
 @endsection

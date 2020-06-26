@@ -5,23 +5,26 @@
 @section('meta_description', "send buying request message")
 @section('content')
 
-<style>
+<style nonce="{{ csp_nonce() }}">
     header.card-header{
     color: #000;
     background-color: #f1f1f1;
     padding-left: 5px;
 
     }
+    div.close-header{margin-top:7px;}
+    span.title-request{font-size:10px;}
+    li.msg-sent{font-size:15px;}
 </style>
 <div class="container">
     <div class="row">
    @foreach($sendAmessage as $data)
-    <div class="col-md-3" style="margin-top:7px;">
+    <div class="col-md-3 close-header">
      <header class="card-header">
         @foreach($lastCats as $cat)
         @if($data->br_pc_id == $cat->id)
         {{$cat->pc_name}}
-        <span class="label label-warning pull-right" style="font-size:10px;">buying request</span>
+        <span class="label label-warning pull-right title-request">buying request</span>
         @endif
         @endforeach
         <h3 class="text-center">{{$data->br_pc_name}}</h3>
@@ -52,7 +55,7 @@
         @if(Session::has('Message_sent'))
                <div>
                 <ul>
-                    <li class="label label-success"  style="font-size:15px;">{{ Session::get('Message_sent') }}</li>
+                    <li class="label label-success msg-sent">{{ Session::get('Message_sent') }}</li>
                 </ul>
                </div>
          @endif
@@ -141,6 +144,6 @@
         </div>
     </div>
    <!--jQuery validate-->
-    <script src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
 @endsection
 

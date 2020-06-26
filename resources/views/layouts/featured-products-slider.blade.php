@@ -23,7 +23,7 @@
             <?php  $encoded_user_id = base64_encode($slideOne->pd_u_id ) ;?>
             <?php  $encoded_product_id = base64_encode( $slideOne->pd_id) ;?>
               <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-success hidden-sm hidden-xs hidden-md">Contact now!</a>
-										<a  onclick="myFavorite({{ $slideOne->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md"></a>
+					<a  data-id="{{ $slideOne->pd_id }}" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md add-to-favs"></a>
 								</div>
 							</div>
             </div>

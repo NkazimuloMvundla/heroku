@@ -1,34 +1,3 @@
-// validate signup form on keyup and submit
-
-$(document).ready(function() {
-    $("#updateProfile").validate({
-        rules: {
-            about_us: "required",
-            company_name: "required",
-            company_address: "required",
-            zip_code: {
-                required: true,
-                number: true
-            },
-            phone_number: {
-                required: true,
-                number: true
-            }
-        },
-        messages: {
-            about_us: "This field is required",
-            company_name: "This field is required",
-            company_address: "This field is required",
-            zip_code: {
-                number: "This must be a number"
-            },
-            phone_number: {
-                number: "This must be a number"
-            }
-        }
-    });
-});
-
 $(document).ready(function() {
     var chekha;
     $(".market").on("click", function() {

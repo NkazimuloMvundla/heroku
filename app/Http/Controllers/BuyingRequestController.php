@@ -46,7 +46,7 @@ class BuyingRequestController extends Controller
 
         $data = request()->validate([
             'mainCategory' => ['required', 'numeric'],
-            'Category' => ['required', 'numeric'],
+            'c_id' => ['required', 'numeric'],
             'subCategory' => ['required', 'numeric'],
             'productName' => ['required', 'string', 'max:255'],
             'detailedSpecification' => ['required', 'string', 'max:255'],

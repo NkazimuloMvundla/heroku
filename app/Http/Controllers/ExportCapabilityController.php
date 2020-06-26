@@ -39,9 +39,9 @@ class ExportCapabilityController extends Controller
 
                     \App\ExportCapability::where('user_id', Auth::user()->id)->update([
                         'user_id' => Auth::user()->id,
-                        'export_percentage' => trim($data['export_percentage']),
-                        'main_markets' => trim($data['chekha']),
-                        'export_started' => trim($data['export_year']),
+                        'export_percentage' => $data['export_percentage'],
+                        'main_markets' => $data['chekha'],
+                        'export_started' => $data['export_year'],
 
 
 

@@ -6,16 +6,20 @@
 <link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
-
+<style nonce="{{ csp_nonce() }}">
+div.container > div.row{display:flex;justify-content:center;padding: 12px; background: #eaf4ea7a; margin:8px;}
+ul.success > li { font-size:15px;}
+.successMsg{ font-size:18px;}
+</style>
 
 <div class="container">
 
-<div class="row" style="display:flex;justify-content:center;padding: 12px; background: #eaf4ea7a; margin:8px;">
+<div class="row">
 
 <div class="col-md-6">
         @if(Session::has('Contact_Supplier'))
-         <ul>
-             <li class="label label-success"  style="font-size:15px;">{{ Session::get('Contact_Supplier') }}</li>
+         <ul id="success">
+             <li class="label label-success successMsg">{{ Session::get('Contact_Supplier') }}</li>
          </ul>
         @endif
         <div id="result"></div>
@@ -32,9 +36,9 @@
                   <input type="hidden" name="msg_from_id" id="msg_from_id" value="{{Auth::user()->id}}" >
                   <input type="hidden" name="msg_to_id" id="msg_to_id" value="{{ $product->first()->pd_u_id }}" >
                   <div class="form-group">
-                    <span class="bg-success" id="successMsg" style="font-size:18px;"></span>
-                 </div>
-                 <div class="form-group ">
+                    <span class="bg-success" id="successMsg"></span>
+                  </div>
+                 <div class="form-group">
                   <img src="{{ url($product->first()->pd_photo) }}" class="img-responsive img-fluid" alt="prodoct-image" width="60" height="60">
                  </div>
                   <div class="form-group">
@@ -112,7 +116,6 @@
 </div>
 
 </div>
-   <!--jQuery validate-->
-    <script src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
+
 
 @endsection

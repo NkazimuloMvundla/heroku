@@ -2,9 +2,16 @@
 @section('title' , 'Add Main Category')
 
 @section('content')
-<script>
-
-
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showUser{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function addMainCategory(){
 
   $('.alert-danger').hide();
@@ -53,10 +60,10 @@ function addMainCategory(){
     </section>
 
     <section class="content">
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="alert alert-danger valid">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -64,7 +71,7 @@ function addMainCategory(){
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
                 <label>Add Main Category</label>
                 <input type="text" id="main_category" name="main_category" value="{{ old('main_category') }}" class="form-control" >
@@ -72,13 +79,21 @@ function addMainCategory(){
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success" onclick="addMainCategory();">Add</button>
+                <button class="btn btn-success addMainCategory">Add</button>
             </div>
 
         </div>
 
         </div>
-        </section>
+         <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".addMainCategory").on("click", function() {
+               addMainCategory();
+            });
+
+
+    </script>
+ </section>
 
 
 @endsection

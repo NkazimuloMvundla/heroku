@@ -5,12 +5,12 @@
 <link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
 
-<script>
+<script nonce="{{ csp_nonce() }}">
 		jQuery(function() {
 			jQuery("#acdnmenu").accordionMenu();
 		});
 </script>
- <style>
+ <style nonce="{{ csp_nonce() }}">
         #menu{
             padding: 7px;
         }
@@ -149,6 +149,7 @@
         padding:2px;
         background-color: #f3f3f3;
         }
+        ul#sub{border: 1px dotted gainsboro;}
         </style>
 
         <div class="container hidden-lg">
@@ -164,7 +165,7 @@
                                         @foreach ($subCats as $sub )
                                         @if($cats->pc_id == $sub->pc_id )
                                 <li>{{ $sub->pc_name }}
-                                <ul style="border: 1px dotted gainsboro;">
+                                <ul id="sub">
                                         @foreach ($lastCats as $last )
                                         @if($sub->id == $last->pc_id )
                                 <?php  $lastId = base64_encode(  $last->id ) ;?>
@@ -189,5 +190,5 @@
 
 
     <!--accordian menu-->
-    <script src="{{ asset('pub/accordionMenu/jquery.accordionMenu.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/accordionMenu/jquery.accordionMenu.min.js') }}"></script>
 @endsection

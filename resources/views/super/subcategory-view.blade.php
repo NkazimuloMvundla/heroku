@@ -2,7 +2,14 @@
 @section('title' , 'Manage sub categories')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.category{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+#modal-default{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deleteCat(id){
             $(document).ready(function() {
@@ -180,10 +187,9 @@ function showParent(id){
                   @foreach( $SubCategories as $category )
                     <tr>
                       <td><input type="checkbox" id="{{ $category->id }}" name="id[]" value="{{ $category->id }}"></td>
-                      <td style="cursor:pointer;" id="category" onclick="showParent({{ $category->pc_id }});">{{ $category->pc_name }}</td>
-
+                      <td class="category" data-id="{{ $category->pc_id }}">{{ $category->pc_name }}</td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -206,13 +212,13 @@ function showParent(id){
                                 <div class="form-group">
                                     <label>Edit a Sub Category</label>
                                     <input type="text" id="category" name="category" value="{{ old('category') }}" class="form-control" >
-                                    ID:<input type="number" id="catId" name="catId" value="" disabled >
+                                    ID:<input type="number" id="catId" name="catId" disabled >
                                     <span class="text-danger" id="categoryErr"></span>
                                 </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="updateSub();" class="btn btn-success">Save changes</button>
+                            <button type="submit" name="save" value="save" class="btn btn-success save">Save changes</button>
 
                         </div>
                             </div>
@@ -241,11 +247,11 @@ function showParent(id){
 
                                     </td>
                      <td >
-                     <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editCat({{ $category->id  }});">
+                     <button name="edit" class="btn btn-default btn-sm editCat"  data-toggle="modal" data-target="#modal-default" data-id="{{ $category->id   }}">
                         edit
                      </button>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteCat({{ $category->id }})";>
+                     <button  class="btn btn-default btn-sm delete" data-id="{{ $category->id }}">
                         delete
                     </button>
                      </td>
@@ -267,8 +273,7 @@ function showParent(id){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -276,7 +281,7 @@ function showParent(id){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class=" clearfix pull-right" >
 
        </div>
        </div>
@@ -285,5 +290,29 @@ function showParent(id){
 
   </div>
   <!-- ./wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".category").on("click", function() {
+                var id = $(this).data("id");
+                showParent(id);
+            });
 
+             $(".delete").on("click", function() {
+                var id = $(this).data("id");
+                deleteCat(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+            $(".save").on("click", function() {
+               updateSub();
+            });
+
+             $(".editCat").on("click", function() {
+               var id = $(this).data("id");
+                editCat(id);
+            });
+    </script>
 @endsection

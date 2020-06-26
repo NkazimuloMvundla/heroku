@@ -2,13 +2,21 @@
 @section('title' , 'Add a Sub Category')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.category{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 
 function addSubCategory(){
 
   var mainCategory = $("#mc_id").val();
-  var category = $("#Category").val();
+  var category = $("#c_id").val();
   var subcategory = $("#subcategory").val();
   if (mainCategory == "Select") {
     $("#mainCategoryErr").text("Please select a Main Category");
@@ -40,41 +48,36 @@ function addSubCategory(){
 
 
 }
-
-function showCat(id)
-{
-
+  
+function showCat(id) {
     $.ajax({
-            type: "POST",
-            url: "/subcats",
-            data:{id:id},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            success: function (data) {
-            //console.log(data);
-            var select = '<select class="form-control" name="Category" id="Category">';
-            select +='<option>' + "Select"+ '</option>' + "<br>";
+        type: "POST",
+        url: "/subcats",
+        data: { _token: $('[name="token"]').val(), id: id },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        success: function(data) {
+            var select = "";
+            select +=
+                "<option  selected>" +
+                "Select" +
+                "</option>" +
+                "<br>";
             for (var i = 0; i < data.length; i++) {
-            //  console.log(data[i].pc_)
-
-              select +='<option value="'+ data[i].id +'" >' + data[i].pc_name + '</option>' + "<br>";
-              //$("#coin").html("Judge"
-
+                select +=
+                    '<option value="' +
+                    data[i].id +
+                    '" >' +
+                    data[i].pc_name +
+                    "</option>" +
+                    "<br>";
             }
-            select +='</select';
-            $("#coin").html(select)
 
-
-          //      console.log(data);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-
-
+            $(".coin").html(select);
+        }
+    });
 }
-
-
 </script>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -90,10 +93,10 @@ function showCat(id)
     </section>
 
     <section class="content">
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="valid" class="alert alert-danger">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -101,14 +104,14 @@ function showCat(id)
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
 
                 <label for="text">Select a Main category</label>
-                <select class="form-control " id="mc_id"  name="mainCategory"   onChange="showCat(this.value);">
+                <select class="form-control " id="mc_id"  name="mainCategory">
                         <option >Select</option>
                 @forelse($parent_category as $category)
-                <option value="{{ $category->pc_id }} "   >{{$category->pc_name}}</option>
+                <option value="{{ $category->pc_id }} ">{{$category->pc_name}}</option>
                 <?php $pc_id = $category->pc_id ;?>
                 @empty
                 <option value="">No categories</option>
@@ -119,23 +122,22 @@ function showCat(id)
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-                <span class="help-block " style="color:red;" id="mainCategoryErr"></span>
+                <span class="help-block" id="mainCategoryErr"></span>
 
             </div>
 
             <div class="form-group">
                     <label for="">Select a Category</label>
-                    <div class="" id="coin">
-                        <select class="form-control "  name="Category"  id="c_id">
-                        <option selected disabled> Category</option>
+                        <select class="form-control coin"  name="c_id"  id="c_id">
+                        <option selected disabled>Select</option>
                         </select>
                         @error('Category')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
-                    <span class="help-block" style="color:red;" id="categoryErr"></span>
+           
+                    <span class="help-block" id="categoryErr"></span>
 
             </div>
             <div class="form-group">
@@ -145,13 +147,28 @@ function showCat(id)
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success" onclick="addSubCategory();">Add</button>
+                <button class="btn btn-success addSubCategory">Add</button>
             </div>
 
         </div>
 
         </div>
         </section>
+ <script nonce="{{ csp_nonce() }}">
 
+            $(".addSubCategory").on("click", function() {
+               addSubCategory();
+            });
+
+
+
+ $(document).ready(function() {
+        $("#mc_id").on("change", function() {
+             showCat(this.value);
+        });
+    });
+
+
+    </script>
 
 @endsection

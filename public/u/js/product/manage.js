@@ -101,13 +101,13 @@ $("#save").click(function() {
     }
 });
 
-function deleteRequest(id) {
+function deleteSellingRequest(id) {
     $(document).ready(function() {
         var res = confirm(" Are you sure you want to delete ? ");
         if (res) {
             $.ajax({
                 type: "POST",
-                url: "/u/delete-buying-request",
+                url: "/u/delete-selling-request",
                 data: { id: id },
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -135,10 +135,10 @@ $(document).on("click", "a[data-role=update]", function() {
     $("#sr_pd_spec").val(sr_pd_spec);
     $("#userId").val(id);
 
-    $("#modal-default").modal("toggle");
+    $("#modal-selling").modal("toggle");
 });
 
-$("#save").click(function() {
+$("#save-sellingUpdate").click(function() {
     var id = $("#userId").val();
     var sr_pd_spec = $("#sr_pd_spec").val();
     if (sr_pd_spec == "") {
@@ -157,7 +157,7 @@ $("#save").click(function() {
                     .children("td[data-target=sr_pd_spec]")
                     .text(sr_pd_spec);
 
-                $("#modal-default").modal("toggle");
+                $("#modal-selling").modal("toggle");
             },
             error: function(data) {
                 console.log("Error:", data);

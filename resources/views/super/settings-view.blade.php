@@ -2,7 +2,16 @@
 @section('title' , 'Manage settings')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.editvalue{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-value{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deleteMain(id){
             $(document).ready(function() {
@@ -39,11 +48,11 @@ function deleteMain(id){
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
            success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].id;
-             $st_field = data[i].st_field;
+             var id = data[i].id;
+             var st_field = data[i].st_field;
             }
-            $("#st_fieldId").val($id);
-            $("#st_field").val($st_field);
+            $("#st_fieldId").val(id);
+            $(".st_field").val(st_field);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -60,11 +69,11 @@ function deleteMain(id){
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
            success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].id;
-             $st_value = data[i].st_value;
+             var id = data[i].id;
+             var st_value = data[i].st_value;
             }
-            $("#st_valueId").val($id);
-            $("#st_value").val($st_value);
+            $("#st_valueId").val(id);
+            $(".st_value").val(st_value);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -76,7 +85,7 @@ function deleteMain(id){
 
         function fieldUpdate(id){
 
-        var st_field = $("#st_field").val();
+        var st_field = $(".st_field").val();
         var id = $("#st_fieldId").val();
 
         if(st_field == ""){
@@ -103,7 +112,7 @@ function deleteMain(id){
 
         function ValueUpdate(id){
 
-        var st_value = $("#st_value").val();
+        var st_value = $(".st_value").val();
         var id = $("#st_valueId").val();
 
         if(st_value == ""){
@@ -224,9 +233,9 @@ function showId(limit){
                   @foreach( $settings as $setting )
                     <tr>
                       <td><input type="checkbox" id="{{ $setting->id }}" name="id[]" value="{{ $setting->id }}"></td>
-                      <td style="cursor:pointer;" id="st_field"  data-toggle="modal" data-target="#modal-default"  onclick="editfield({{$setting->id  }});">{{ $setting->st_field }}</td>
+                      <td  id="st_field" class="editfield"  data-toggle="modal" data-target="#modal-default"  data-id="{{$setting->id  }}">{{ $setting->st_field }}</td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -238,14 +247,14 @@ function showId(limit){
 
                                     <div class="form-group">
                                             <label>Edit a Setting Field</label>
-                                            <input type="text" id="st_field" name="st_field" value="{{ old('st_field') }}" class="form-control" >
+                                            <input type="text"name="st_field" value="{{ old('st_field') }}" class="form-control st_field" >
                                           <input type="hidden" id="st_fieldId" name="st_fieldId" value="" disabled >
                                             <span class="text-danger" id="st_fieldErr"></span>
                                         </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="fieldUpdate({{  $setting->id  }})" class="btn btn-success">Save changes</button>
+                            <button type="submit" name="save"  value="save" data-id="{{  $setting->id  }}" class="btn btn-success fieldUpdate">Save changes</button>
 
                         </div>
                             </div>
@@ -253,9 +262,9 @@ function showId(limit){
                             </div>
                             <!-- /.modal-dialog -->
                             </div>
-                            <td style="cursor:pointer;" id="st_value"  data-toggle="modal" data-target="#modal-value"  onclick="editvalue({{$setting->id  }});">{{ $setting->st_value }}</td>
+                            <td class="editvalue"  data-toggle="modal" data-target="#modal-value"  data-id="{{$setting->id  }}">{{ $setting->st_value }}</td>
                                  <!--Modal-->
-                                 <div class="modal fade" id="modal-value" style="display: none;">
+                                 <div class="modal fade" id="modal-value" >
                                         <div class="modal-dialog">
                                         <div class="modal-content">
                                         <div class="modal-header">
@@ -267,14 +276,14 @@ function showId(limit){
 
                                                 <div class="form-group">
                                                         <label>Edit a Setting Value</label>
-                                                        <input type="text" id="st_value" name="st_value" value="{{ old('st_value') }}" class="form-control" >
+                                                        <input type="text"  name="st_value" value="{{ old('st_value') }}" class="form-control st_value">
                                                       <input type="hidden" id="st_valueId" name="st_valueId" value="" disabled >
                                                         <span class="text-danger" id="st_valueErr"></span>
                                                     </div>
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                        <button type="submit" name="save" id="save" value="save" onclick="ValueUpdate({{  $setting->id  }})" class="btn btn-success">Save changes</button>
+                                        <button type="submit" name="save" value="save" data-id="{{  $setting->id  }}" class="btn btn-success ValueUpdate">Save changes</button>
 
                                     </div>
                                         </div>
@@ -307,8 +316,7 @@ function showId(limit){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete_all" name="DeleteAll" ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -316,13 +324,50 @@ function showId(limit){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class=" clearfix pull-right">
         {{$settings->links()}}
        </div>
        </div>
     </div>
     <!-- /.content-wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".category").on("click", function() {
+                var id = $(this).data("id");
+                showParent(id);
+            });
 
+             $(".deleteSpecOption").on("click", function() {
+                var id = $(this).data("id");
+                deleteSpecOption(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+            $(".fieldUpdate").on("click", function() {
+                var id = $(this).data("id");
+                fieldUpdate(id);
+            });
+
+
+            $(".ValueUpdate").on("click", function() {
+                var id = $(this).data("id");
+                ValueUpdate(id);
+            });
+
+            $(".editvalue").on("click", function() {
+                var id = $(this).data("id");
+                editvalue(id);
+            });
+
+
+             $(".editfield").on("click", function() {
+               var id = $(this).data("id");
+                editfield(id);
+            });
+    </script>
   </div>
   <!-- ./wrapper -->
 

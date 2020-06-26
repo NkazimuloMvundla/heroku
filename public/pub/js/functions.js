@@ -1,10 +1,7 @@
-//product views
-
-//auto complete
 $(document).ready(function() {
     $("#search").keyup(function() {
         var query = $(this).val();
-        if (query != "") {
+        if (query !== "") {
             $.ajax({
                 type: "POST",
                 url: "/autocomplete/fetch",
@@ -13,18 +10,18 @@ $(document).ready(function() {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    $("#countryList").fadeIn();
-                    $("#countryList").html(data);
+                    $(".countryList").fadeIn();
+                    $(".countryList").html(data);
                 }
             });
-        } else if ($("#search").val() == "") {
-            $("#countryList").hide();
+        } else if ($("#search").val() === "") {
+            $(".countryList").hide();
         }
     });
 
     $(document).on("click", "li#pd_search", function() {
         $("#search").val($(this).text());
-        $("#countryList").fadeOut();
+        $(".countryList").fadeOut();
     });
 });
 
@@ -37,10 +34,10 @@ $(document).ready(function(e) {
         e.preventDefault();
         var email = $("#newsletter").val();
         var valid = false;
-        if (email == "") {
+        if (email === "") {
             alert("Please enter an email address");
             valid = false;
-        } else if (emailIsValid(email) == false) {
+        } else if (emailIsValid(email) === false) {
             alert("Please enter valid email");
             valid = false;
         } else {
@@ -62,7 +59,7 @@ $(document).ready(function(e) {
 $(document).ready(function() {
     $("#search-mobile").keyup(function() {
         var query = $(this).val();
-        if (query != "") {
+        if (query !== "") {
             $.ajax({
                 type: "POST",
                 url: "/autocomplete/fetch",
@@ -75,7 +72,7 @@ $(document).ready(function() {
                     $("#search_mobile").html(data);
                 }
             });
-        } else if ($("#search-mobile").val() == "") {
+        } else if ($("#search-mobile").val() === "") {
             $("#search_mobile").hide();
         }
     });
@@ -89,8 +86,7 @@ $(document).ready(function() {
 //search
 function validSearch() {
     var searchtext = document.getElementById("search");
-    //alert(search_value);
-    if (searchtext.value == "") {
+    if (searchtext.value === "") {
         alert("Please input a keyword");
         searchtext.focus();
         return false;
@@ -101,8 +97,7 @@ function validSearch() {
 
 function validSearchM() {
     var searchtext = document.getElementById("search-mobile");
-    //alert(search_value);
-    if (searchtext.value == "") {
+    if (searchtext.value === "") {
         alert("Please input a keyword");
         searchtext.focus();
         return false;
@@ -113,7 +108,7 @@ function validSearchM() {
 
 //add to fourites
 function myFavorite(id) {
-    if ($("#u_id").val() != "") {
+    if ($("#u_id").val() !== "") {
         $.ajax({
             type: "POST",
             url: "/u/favorites",
@@ -126,11 +121,15 @@ function myFavorite(id) {
             }
         });
     } else {
-        window.location = "/login";
+        alert("You must be logged in before adding to your favourites");
     }
 }
-
-//document.getElementById("add-to-span").addEventListener("click", myFavorite);
+$(document).ready(function() {
+    $(".add-to-favs").on("click", function() {
+        var id = $(this).data("id");
+        myFavorite(id);
+    });
+});
 
 /*end of add to favourites function */
 
@@ -182,9 +181,9 @@ function showSellingRequest(id) {
 
 /*end of all buying req function */
 
-//=======================PODUCT DETAIL=======================//
+//==================================PODUCT DETAIL==================================//
 
-//====================Buying Requests====================//
+//==============================Buying Requests==============================//
 
 $(document).ready(function() {
     var characters = 50;
@@ -217,16 +216,13 @@ function showCat(id) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
         },
         success: function(data) {
-            var select =
-                '<select class="form-control" name="Category" id="Category" onChange="showSubCat(this.value);">';
+            var select = "";
             select +=
-                '<option value="" selected disabled>' +
+                "<option  selected disabled>" +
                 "Select Category" +
                 "</option>" +
                 "<br>";
             for (var i = 0; i < data.length; i++) {
-                //  console.log(data[i].pc_)
-
                 select +=
                     '<option value="' +
                     data[i].id +
@@ -234,10 +230,9 @@ function showCat(id) {
                     data[i].pc_name +
                     "</option>" +
                     "<br>";
-                //$("#coin").html("Judge"
             }
-            select += "</select";
-            $("#coin").html(select);
+
+            $(".coin").html(select);
         }
     });
 }
@@ -273,23 +268,23 @@ function showSubCat(id) {
     });
 }
 
-/*=============Product Detail================*/
+/*===================Product Detail========================*/
 
 function sendReview(id) {
-    if ($("#u_id").val() != "") {
+    if ($("#u_id").val() !== "") {
         var product_id = id;
         var name = $("#apr_name").val();
         var comment = $("#comment").val();
         var rating = $("input[name='rating']:checked").val();
         $(".alert-danger").hide();
         $(".alert-danger").html("");
-        if (name.trim() == "") {
+        if (name.trim() === "") {
             alert("Your Name is Required !!!");
             $("#apr_name").focus();
             return false;
         }
 
-        if (comment.trim() == "") {
+        if (comment.trim() === "") {
             alert("Your comment is required !!!");
             $("#comment").focus();
             return false;
@@ -327,7 +322,7 @@ function sendReview(id) {
             });
         }
     } else {
-        window.location = "/login";
+        alert("You must be logged in before you can leave any review");
     }
 }
 
@@ -360,12 +355,12 @@ $(document).ready(function() {
     });
 });
 
-/*=============buy-req==================*/
+/*===================buy-req===========================*/
 $(document).ready(function() {
     $("#postBuyRequestForm").validate({
         rules: {
             mainCategory: "required",
-            Category: "required",
+            c_id: "required",
             subCategory: "required",
             productName: "required",
             detailedSpecification: "required",
@@ -377,7 +372,7 @@ $(document).ready(function() {
         },
         messages: {
             mainCategory: "This field is required",
-            Category: "This field is required",
+            c_id: "This field is required",
             subCategory: "This field is required",
             productName: "This field is required",
             detailedSpecification: "This field is required",
@@ -390,7 +385,7 @@ $(document).ready(function() {
     });
 });
 
-/*===========send-buy-message===========*/
+/*================send-buy-message================*/
 $(document).ready(function() {
     $("#send_selling_message").validate({
         rules: {
@@ -429,12 +424,12 @@ $(document).ready(function() {
     });
 });
 
-/*============selling-req==================*/
+/*==================selling-req===========================*/
 $(document).ready(function() {
     $("#postBuyRequestForm").validate({
         rules: {
             mainCategory: "required",
-            Category: "required",
+            c_id: "required",
             subCategory: "required",
             productName: "required",
             message: "required",
@@ -447,7 +442,7 @@ $(document).ready(function() {
         },
         messages: {
             mainCategory: "This field is required",
-            Category: "This field is required",
+            c_id: "This field is required",
             subCategory: "This field is required",
             productName: "This field is required",
             message: "This field is required",
@@ -461,7 +456,7 @@ $(document).ready(function() {
     });
 });
 
-/*============send-selling-message================*/
+/*==================send-selling-message========================*/
 $(document).ready(function() {
     $("#send_selling_message").validate({
         rules: {
@@ -500,7 +495,7 @@ $(document).ready(function() {
     });
 });
 
-/*==================contact-supplier=======================*/
+/*===========================contact-supplier==================================*/
 $(document).ready(function() {
     $("#contactSupplierStore").validate({
         rules: {

@@ -3,12 +3,16 @@
 @section('title', 'Buying Requests')
 @section('meta_keywords', 'post a buying request')
 @section('meta_description', 'post a buying request and get qoutes')
-<link rel="canonical" href="{{url()->current()}}"/>
 
 @section('content')
-
-
- <script>
+<link rel="canonical" href="{{url()->current()}}"/>
+<link rel="stylesheet" type="text/css" href="pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.min.css">
+<style nonce="{{ csp_nonce() }}">
+div.container > div.row{  padding: 12px; background: #eaf4ea7a; margin:8px;}
+div.row > ul > li { font-size:15px;}
+div.beforeForm{padding: 12px;}
+</style>
+ <script nonce="{{ csp_nonce() }}">
        $( function() {
        $( "#date" ).datepicker({
        numberOfMonths: 1,
@@ -17,24 +21,19 @@
        });
        } );
  </script>
-
-
-
-
-
     <div class="container">
-        <div class="row" style="padding: 12px; background: #eaf4ea7a; margin:8px;">
+        <div class="row">
         @if(Session::has('buyingRequestPosted'))
         <div>
             <ul>
-            <li class="label label-success"  style="font-size:15px;">{{ Session::get('buyingRequestPosted') }}</li>
+            <li class="label label-success" >{{ Session::get('buyingRequestPosted') }}</li>
             </ul>
         </div>
         @endif
         <div class="col-md-2"></div>
 
-        <div class="col-md-8 w3-margin-top" style=" padding: 12px;">
-            <form  name="postBuyRequestForm" id="postBuyRequestForm" method="post" action="/buying-request" >
+        <div class="col-md-8 w3-margin-top beforeForm">
+            <form  name="postBuyRequestForm" id="postBuyRequestForm" method="post" action="/buying-request">
             @include('layouts.cats')
 
                 <div class="ui-form-item form-group ">
@@ -128,7 +127,15 @@
     </div>
 
 
+<script nonce="{{ csp_nonce() }}">
 
+ $(document).ready(function() {
+        $("#c_id").on("change", function() {
+             showSubCat(this.value);
+        });
+    });
+
+</script>
 
 
 @endsection

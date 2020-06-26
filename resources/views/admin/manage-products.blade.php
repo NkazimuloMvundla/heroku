@@ -2,7 +2,12 @@
 @section('title' , 'Manage-Products')
 
 @section('content')
-
+<style nonce="{{ csp_nonce() }}">
+span.message{font-size:16px;}
+div.box-tools{display: none;}
+div.mailbox-messages{padding: 20px;}
+td.checkbox{width:10%;}
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -23,11 +28,11 @@
              <!-- /.col -->
 
         <div class="col-md-12">
-            <span class="message text-center label label-success" style="font-size:16px;"></span>
+            <span class="message text-center label label-success"></span>
 
            <div class="box box-primary">
 
-               <div class="box-tools pull-right" style="display: none;">
+               <div class="box-tools pull-right">
                  <div class="has-feedback">
                    <input type="text" class="form-control input-sm" placeholder="Search Mail">
                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
@@ -37,7 +42,7 @@
 
              <!-- /.box-header -->
              <div class="">
-               <div class="table-responsive mailbox-messages" style="padding: 20px;">
+               <div class="table-responsive mailbox-messages">
                      <div class="">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -63,7 +68,7 @@
 
                  ?>
                    <tr>
-                     <td style="width:10%">
+                     <td class="checkbox">
                         <input type="checkbox" id="{{ $product->pd_id }}" name="pd_id[]">
                     </td>
                      <td>{{ $product->pd_name }}</td>
@@ -90,7 +95,7 @@
                     </a>
                     or
 
-                    <button id="sendID" class="btn btn-default btn-sm" onclick="sendId({{ $product->pd_id }})";><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
+                    <button id="sendID" data-id="{{  $product->pd_id }}" class="btn btn-default btn-sm sendID"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                     @empty
                     <td>You haven't added any product as yet</td>
                     </tr>
@@ -111,8 +116,8 @@
                  <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                  </button>
                   <div class="btn-group">
-                  <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                  <button id="DeleteAll" class="btn btn-default btn-sm deleteAll" name="DeleteAll">
+                 <i class="fa fa-trash-o delete-all" data-toggle="tooltip" title="Delete all"></i> Delete all</button>
                  </div>
              </div>
            </div>
@@ -129,4 +134,20 @@
         </section>
 
 </div>
+
+<script nonce="{{ csp_nonce() }}">
+ $(document).ready(function() {
+    $(".sendID").on("click", function() {
+        var id = $(this).data("id");
+         sendId(id);
+    });
+
+     $(".deleteAll").on("click", function() {
+        checkedAll();
+    });
+    $(".delete-all").on("click", function() {
+       return deleteAll();
+    });
+});
+</script>
 @endsection

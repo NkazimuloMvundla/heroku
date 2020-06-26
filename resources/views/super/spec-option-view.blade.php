@@ -2,7 +2,15 @@
 @section('title' , 'Manage Spec Options')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.category{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deleteSpecOption(id){
             $(document).ready(function() {
@@ -39,11 +47,11 @@ function deleteSpecOption(id){
            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
            success: function (data) {
             for (var i = 0; i < data.length; i++) {
-             $id = data[i].id;
-             $spec_option_name = data[i].spec_option_name;
+             var id = data[i].id;
+             var spec_option_name = data[i].spec_option_name;
             }
-            $("#id").val($id);
-            $("#spec_option_name").val($spec_option_name);
+            $("#id").val(id);
+            $(".spec_option_name").val(spec_option_name);
           },
           error: function (data) {
               console.log('Error:', data);
@@ -55,7 +63,7 @@ function deleteSpecOption(id){
 
 
     function specOptionUpdate(){
-        var spec_option_name = $("#spec_option_name").val();
+        var spec_option_name = $(".spec_option_name").val();
         var id = $("#id").val();
 
         if(spec_option_name == ""){
@@ -205,7 +213,7 @@ function showId(limit){
                       <td><input type="checkbox" id="{{ $spec_option->id }}" name="id[]" value="{{ $spec_option->id }}"></td>
                       <td >{{ $spec_option->spec_option_name }}</td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -216,26 +224,26 @@ function showId(limit){
                             <div class="modal-body" id="modal-body">
                                 <div class="form-group">
                                     <label>Edit spec_option</label>
-                                    <input type="text" id="spec_option_name" name="spec_option_name" value="{{ old('spec_option_name') }}" class="form-control" >
-                                    <input type="hidden" id="id" name="id" value="" disabled >
+                                    <input type="text" name="spec_option_name" value="{{ old('spec_option_name') }}" class="form-control spec_option_name">
+                                    <input type="hidden" id="id" name="id"  disabled >
 
                                     <span class="text-danger" id="spec_option_nameErr"></span>
                                 </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="submit" name="save" id="save" value="save" onclick="specOptionUpdate({{  $spec_option->id  }})" class="btn btn-success">Save changes</button>
+                            <button type="submit" name="save" value="save" data-id="{{  $spec_option->id  }}" class="btn btn-success save">Save changes</button>
 
                         </div>
                             </div>
                             <!-- /.modal-content -->
-                            </div>
+                            </div> 
                             <!-- /.modal-dialog -->
                             </div>
 
                             <td>
                                 @foreach ($specifications as $specification)
-                                @if($spec_option->spec_id== $specification->spec_id)
+                                @if($spec_option->spec_parent_id == $specification->spec_id)
                                 {{ $specification->spec_name }}
                                 @endif
                                 @endforeach
@@ -243,7 +251,7 @@ function showId(limit){
                               <td>
                                 @foreach ($sub_categories as $sub_category)
                                 @foreach ($specifications as $specification)
-                                @if($spec_option->spec_id== $specification->spec_id)
+                                @if($spec_option->spec_parent_id== $specification->spec_id)
                                 @if($specification->spec_subCatid == $sub_category->id)
                                 {{ $sub_category->pc_name }}
                                 @endif
@@ -253,11 +261,11 @@ function showId(limit){
                             </td>
 
                      <td >
-                     <button name="edit" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default"  onclick="editSpecOption({{ $spec_option->id  }});">
+                     <button name="edit" class="btn btn-default btn-sm editSpecOption"  data-toggle="modal"  data-target="#modal-default"  data-id="{{ $spec_option->id  }}">
                         edit
                      </button>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteSpecOption({{ $spec_option->id }})";>
+                     <button id="delete" class="btn btn-default btn-sm deleteSpecOption" data-id="{{ $spec_option->id }}";>
                         delete
                     </button>
                 </td>
@@ -280,7 +288,7 @@ function showId(limit){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
+                   <button class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
                   </div>
               </div>
@@ -289,14 +297,38 @@ function showId(limit){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
-        {{$spec_options->links()}}
-       </div>
+   
        </div>
     </div>
     <!-- /.content-wrapper -->
 
   </div>
+    <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".category").on("click", function() {
+                var id = $(this).data("id");
+                showParent(id);
+            });
+
+             $(".deleteSpecOption").on("click", function() {
+                var id = $(this).data("id");
+                deleteSpecOption(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+            $(".save").on("click", function() {
+                var id = $(this).data("id");
+                specOptionUpdate(id);
+            });
+
+             $(".editSpecOption").on("click", function() {
+               var id = $(this).data("id");
+                editSpecOption(id);
+            });
+    </script>
   <!-- ./wrapper -->
 
 @endsection

@@ -12,7 +12,7 @@ class NotificationsController extends Controller
     public function create()
     {
 
-        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->orderBy("created_at", "DESC")->get();
+        $notifications =  DB::table('notifications')->where('user_id', Auth::user()->id)->latest()->get();
         // dd($notifications);
         $countNotifications = count($notifications);
         Session::put('notifications', $notifications);

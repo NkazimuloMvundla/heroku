@@ -6,7 +6,7 @@ use App\superUser;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
-
+use DB;
 
 class SuperIndexController extends Controller
 {
@@ -39,7 +39,8 @@ class SuperIndexController extends Controller
 
         if (request()->ajax()) {
 
-            \App\AdminNotifications::where('user_id', Auth::user()->id)->delete();
+            // \App\AdminNotifications::where('user_id', Auth::user()->id)->delete();
+            DB::table('admin_notifications')->delete();
         }
     }
 }

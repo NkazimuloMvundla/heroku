@@ -4,10 +4,15 @@
 @section('meta_description', 'product reviews')
 <link rel="canonical" href="{{url()->current()}}"/>
 @section('content')
-
+<style nonce="{{ csp_nonce() }}">
+div.container > div.row {display: flex;justify-content: center;padding: 12px;}
+img{height:200px;width:200px;}
+tr > td#revied_by{width: 50%;}
+h2.title > a{color:orange;}
+</style>
 <div class="container">
-        <div class="row" style="display: flex;justify-content: center;padding: 12px;">
-            <img src="{{ url($pd_images->first()->pd_filenam) }}" class="img-responsive img-thumbnail" alt="product-name" style="height:200px;width:200px;">
+        <div class="row">
+            <img src="{{ url($pd_images->first()->pd_filename) }}" class="img-responsive img-thumbnail" alt="product-name">
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -16,9 +21,8 @@
                 <table class="table table-striped table-bordered">
                         <tbody>
                         @forelse($result as $review)
-
                         <tr>
-                        <td style="width: 50%;"><strong>{{$review->rated_by}}</strong></td>
+                        <td id="revied_by"><strong>{{$review->rated_by}}</strong></td>
                         <?php $date = date('Y-m-d', strtotime( $review->created_at )); ?>
                         <td class="text-right">{{ $date}}</td>
                         </tr>

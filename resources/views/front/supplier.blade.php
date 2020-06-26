@@ -7,7 +7,7 @@
 @section('content')
 
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
- <style type="text/css">
+ <style type="text/css" nonce="{{ csp_nonce() }}">
 
     .profile-user-img {
         margin: 0 auto;
@@ -18,7 +18,11 @@
         border-radius: 0;
         box-shadow: none;
         border-color: #d2d6de;}
-
+div.widget > span {position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;}
+div.bg-purple{background:azure;}
+span.industry{font-size: 11px;}
+div.featured-products{margin-bottom: 7px;}
+div.prod-link{margin-top:7px;}
     </style>
 
     <div class="container w3-margin-top">
@@ -44,17 +48,17 @@
               <div class="box box-primary ">
                 <div class="box-body box-profile">
                     <div class="panel widget row-1">
-                      <span style="position: absolute;z-index: 10;margin-top: 8em;margin-left: 5px;">
+                      <span>
                                            @if($supplier->status == 1)
-                                                <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                                                <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier">
                                                  @endif
                                         @if($supplier->membership == 'Gold Member')
-                                         <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                                         <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier">
                                     @endif
 
                                         </span>
                         @if(empty($supplier->company_background_img))
-                        <div class="widget-header bg-purple" style="background:azure;">
+                        <div class="widget-header bg-purple">
                             </div>
                         @endif
                         @if(!empty($supplier->company_background_img))
@@ -114,7 +118,7 @@
                     @if($i<count($industries))
                     <?php $ind.= ', ';?>
                     @endif
-                     <span  style="font-size: 11px;">{{ $ind }} </span>
+                     <span  class="industry">{{ $ind }} </span>
                     <?php  $i++; ?>
                     @endforeach
 
@@ -138,7 +142,7 @@
                     <?php $ind.= ', ';?>
                     <?php $i++;?>
                     @endif
-                    <span  style="font-size: 11px;">{{ $ind }} </span>
+                    <span class="industry" >{{ $ind }} </span>
                     @endforeach
                   </p>
 
@@ -163,10 +167,10 @@
                 <div class="resp-tabs-container hor_1">
                     <div>
                     <!--featured-products-->
-                    <div id="featured-products" style="margin-bottom: 7px;">
+                    <div id="featured-products">
                         <div class="row">
                         @forelse ($products as $product)
-                            <div class="col-md-3 col-xs-6">
+                            <div class="col-md-3 col-xs-6 product-item-container">
                                 <div class="thumb-wrapper">
                                     <div class="img-box">
                                     <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
@@ -188,7 +192,7 @@
                          <?php   $encoded_product_id = base64_encode( $product->pd_id) ;?>
                         <?php   $encoded_supplier_id = base64_encode( $product->pd_u_id) ;?>
                                         <a href="/contact-supplier/product/{{ $encoded_product_id }}/supplier/{{ $encoded_supplier_id }}" class="btn btn-default item">Contact now!</a>
-                                         <a  onclick="myFavorite({{ $product->pd_id }});" data-pd="" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md"></a>
+                                      <a data-id="{{ $product->pd_id  }}" id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md add-to-favs"></a>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +202,7 @@
 
                         </div>
                     <div class="row">
-                        <div class="col-md-12 pull-right" style="margin-top:7px;">
+                        <div class="col-md-12 pull-right prod-link">
                         {{ $products->links() }}
                         </div>
 
@@ -243,7 +247,7 @@
 
     </div>
     <!--Plug-in Initialisation-->
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="{{ csp_nonce() }}">
         $(document).ready(function() {
             //Horizontal Tab
             $('#company_details').easyResponsiveTabs({
@@ -292,6 +296,6 @@
 
     </script>
   <!-- responsive tags 3.3.7 -->
-    <script src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/Responsive-Tabs/js/easyResponsiveTabs.min.js') }}">
     </script>
 @endsection

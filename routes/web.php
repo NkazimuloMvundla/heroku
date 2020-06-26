@@ -157,9 +157,9 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::get('/favorites', 'MyFavoriteController@create')->name('my_favorite');
     Route::post('/favorites', 'MyFavoriteController@addFavorite')->name('my_favorite');
     Route::post('/remove-favorite', 'MyFavoriteController@removeFav')->name('removeFav');
-    Route::post('/search', 'SearchController@AdminEmailSearch')->name('liveSearchAdminEmail');
+    /* Route::post('/search', 'SearchController@AdminEmailSearch')->name('liveSearchAdminEmail');
     Route::post('/All-email-search', 'SearchController@AdminAllEmailSearch')->name('AdminAllEmailSearch');
-    Route::get('/sent-emails-search', 'SearchController@AdminSentEmailSearch')->name('liveSearchAdminSentEmail');
+    Route::get('/sent-emails-search', 'SearchController@AdminSentEmailSearch')->name('liveSearchAdminSentEmail');*/
 });
 
 Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' => 'AccessSuperUser'], function () {
@@ -179,7 +179,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/feature-user', 'ManageUserController@FeatureUser')->name('FeatureUser');
     Route::get('/showUser', 'ManageUserController@showUser')->name('showUser'); //returns a single buying requests before making an offer
     Route::get('/cms-add', 'CMSController@create')->name('cmsAdd'); //
-    Route::post('/cms-add', 'CMSController@store')->name('cmsAdd'); //
+    Route::post('/cms-add', 'CMSController@store')->name('cmsAddPost'); //
     Route::get('/showCms', 'CMSController@getCms')->name('getCms');
     Route::post('/cms-update', 'CMSController@update')->name('updateCms');
     Route::post('/destroyMultipleCms', 'CMSController@destroyMultipleCms');
@@ -211,7 +211,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::get('/add-specification', 'SpecificationController@create')->name('add-specification'); //
     Route::post('/add-specification', 'SpecificationController@store')->name('add-specification'); //
     Route::get('/spec-view', 'SpecificationController@viewSpec');
-    Route::post('/showSpec', 'SpecificationController@showSpec');
+    Route::get('/showSpec', 'SpecificationController@showSpec');
     Route::post('/specUpdate', 'SpecificationController@specUpdate');
     Route::post('/deleteSingleSpec', 'SpecificationController@deleteSingleSpec');
     Route::post('/destroyMultipleSpecs', 'SpecificationController@destroyMultipleSpecs');

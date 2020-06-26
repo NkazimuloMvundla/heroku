@@ -1,4 +1,9 @@
 <header class="main-header">
+    <style nonce="{{ csp_nonce() }}">
+        .notifications-menu{margin-right: 6em;border-right: 1px solid #d2d6de;}
+li.user-menu > p {margin:13px 9px 0 0;}
+form#logout-form{display: none;}
+    </style>
         <!-- Logo -->
       <a href="{{route('home')}}" class="logo">
 
@@ -28,7 +33,7 @@
             </ul>
            </li>
            <!-- Notifications: style can be found in dropdown.less -->
-         <li class="dropdown notifications-menu" style="margin-right: 6em;border-right: 1px solid #d2d6de;">
+         <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
               <span class="label label-warning">{{ Session::get('count_notifications') }}</span>
@@ -40,7 +45,7 @@
           </li>
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-               <p style="margin:13px 9px 0 0;" class="dropdown-toggle" data-toggle="dropdown">
+               <p class="dropdown-toggle" data-toggle="dropdown">
 
                   <span class="btn btn-sm btn-default">{{ "Edit profile" }}</span>
                 </p>
@@ -70,12 +75,11 @@
                     </div>
                       @endif
                     <div class="pull-right">
-                  <a href="{{route('logout')}}" class="btn btn-default btn-flat" onclick="event.preventDefault();
-                  document.getElementById('logout-form').submit();">
+                  <a href="{{route('logout')}}" class="btn btn-default btn-flat" >
 
             {{ __('Logout') }}</a>
 
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                             @csrf
                                         </form>
                     </div>
@@ -85,4 +89,13 @@
 
             </ul>      </div>
         </nav>
+
       </header>
+        <script nonce="{{ csp_nonce() }}">
+            $(document).ready(function(){
+            $("a[data-logout]").on('click', function(event){
+            event.preventDefault();
+            document.getElementById('logout-form').submit();
+             })
+          })
+        </script>

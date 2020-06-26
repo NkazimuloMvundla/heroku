@@ -23,6 +23,7 @@ class SearchController extends Controller
         }
         $count = DB::table('products')->where("pd_name", "LIKE", "%$term%")->orderBy('pd_name')->get();
         $res = count($count);
+        $output = '';
         if (!empty($term) && $res > 0) {
             $data = DB::table('products')->where("pd_name", "LIKE", "%$term%")->where('pd_approval_status', 1)->get();
 
@@ -32,12 +33,16 @@ class SearchController extends Controller
                 $uniqueProducts = array_unique($searched_products);
             }
 
-            $output = '<ul class="dropdown-menu" id="liveSearch" style="display:block;position:obsolute">';
+
             foreach ($uniqueProducts as $row) {
 
-                $output .= '<li id="pd_search"><a href="/search/' . htmlspecialchars($row) . '">' . htmlspecialchars($row) . '</a></li>';
+                $output .= '<li class="pd_search"><a href="/search/' . htmlspecialchars($row) . '">' . htmlspecialchars($row) . '</a></li>';
             }
-            $output .= '</ul>';
+
+
+            return response($output);
+        } else {
+            $output .= '<li id="pd_search">No match found</li>';
 
             return response($output);
         }
@@ -154,8 +159,8 @@ class SearchController extends Controller
 
 
             $validator = \Validator::make(request()->all(), [
-                'min_price' => ['numeric','max:255'],
-                'max_price' => ['numeric','max:255'],
+                'min_price' => ['numeric', 'max:255'],
+                'max_price' => ['numeric', 'max:255'],
             ]);
             if ($validator->fails()) {
                 return back()->withInput()->withErrors($validator->errors());

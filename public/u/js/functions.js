@@ -1,3 +1,4 @@
+
 function deleteNotification(id) {
     $(document).ready(function() {
         $.ajax({

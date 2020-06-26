@@ -1,4 +1,5 @@
 
+
 $(document).ready(function() {
    // $("#add-spec").show();
 
@@ -12,7 +13,7 @@ $(document).ready(function() {
             //max input box allowed
                 x++; //counter increments
          $(wrapper).append(
-            "<tr class='rem'><td><input type='text' name='spec_name' id='add_spec_parent'  class='form-control spec_name' placeholder='eg Color' /></td><td><input type='text' name='spec_option_name' id='add_spec'  class='form-control spec_option_name' placeholder='red' /></td><td><button type='button' name='remove' class='btn btn-danger btn-sm remove'><span class='glyphicon glyphicon-minus'></span></button></td></tr>"
+            "<tr class='rem'><td><input type='text' name='spec_name' class='add_spec_parent'  class='form-control spec_name' placeholder='eg Color' /></td><td><input type='text' name='spec_option_name' class='add_spec'  class='form-control spec_option_name' placeholder='red' /></td><td><button type='button' name='remove' class='btn btn-danger btn-sm remove'><span class='glyphicon glyphicon-minus'></span></button></td></tr>"
             );
         }else{
             $(".reachedLimitToAppend").text("You have reached the limit");
@@ -42,7 +43,7 @@ function showCat(id) {
         },
         success: function(data) {
             var select =
-                '<select class="form-control" name="Category" onChange="showSubCat(this.value);" id="Category">';
+                '';
             select += "<option>" + "Select" + "</option>" + "<br>";
             for (var i = 0; i < data.length; i++) {
 
@@ -55,8 +56,7 @@ function showCat(id) {
                     "<br>";
 
             }
-            select += "</select";
-            $("#coin").html(select);
+            $(".coin").html(select);
         }
     });
 }
@@ -71,10 +71,10 @@ function showSubCat(id) {
         },
         success: function(data) {
             var select =
-                '<select class="form-control" name="subCategory" onchange="show_list(),showBtn(),getId(this.value);"  id="subCategory">';
+                '';
             select +=
                 "<option selected>" +
-                "Select SubCategory" +
+                "Select" +
                 "</option>" +
                 "<br>";
             for (var i = 0; i < data.length; i++) {
@@ -86,13 +86,22 @@ function showSubCat(id) {
                     "</option>" +
                     "<br>";
             }
-            select += "</select";
 
-            $("#last").html(select);
+
+            $(".last").html(select);
 
         }
     });
 }
+
+$(document).ready(function () {
+    $("#last").on('change', function () {
+        showCat(this.value);
+    })
+})
+
+
+
 function deleteProductImg(id) {
     $(document).ready(function() {
         var res = confirm(" Are you sure you want to delete ? ");
@@ -106,9 +115,7 @@ function deleteProductImg(id) {
                 },
                 success: function(data) {
                     window.location.reload();
-                    console.log(data)
-                }, error: function (data) {
-                    console.log("Err", data)
+
                 }
             });
         }
@@ -158,6 +165,7 @@ function getId(val) {
     $("#subs").html(html);
 }
 function updateSpec(id) {
+    console.log(id)
     var specP, specC, stringIds, stringName;
     var specParentIds = [],
         spec_option = [];
@@ -165,7 +173,7 @@ function updateSpec(id) {
     if ($("#sub").val() != "" || $("#sub").val() != "undefined") {
         var sub = $("#sub").val();
     }
-    $("input[id='spec_option']").each(function() {
+    $("input[class='spec_option']").each(function() {
         if (this.value != "") {
             specParentIds.push($(this).data("value"));
             spec_option.push(this.value);
@@ -176,7 +184,7 @@ function updateSpec(id) {
 
     //user generated spec
     var specParent = [];
-    $("input[id='add_spec_parent']").each(function() {
+    $("input[class='add_spec_parent']").each(function() {
         if (this.value != "") {
             specParent.push(this.value);
         }
@@ -185,7 +193,7 @@ function updateSpec(id) {
     specP = specParent.toString();
 
     var specChild = [];
-    $("input[id='add_spec']").each(function() {
+    $("input[class='add_spec']").each(function() {
         if (this.value != "") {
             specChild.push(this.value);
         }
@@ -278,6 +286,9 @@ function addSpec() {
         },
         success: function(data) {
             window.location.reload();
+        },
+        error: function (data) {
+            console.log("Err", data)
         }
     });
 }
@@ -302,7 +313,7 @@ function show_list() {
                 table += "<td>" + data[i].spec_name + "</td>";
                 table +=
                     "<td>" +
-                    '<input type="text" id="spec_option"  value="" data-value="' +
+                    '<input type="text" class="spec_option"  data-value="' +
                   data[i].spec_id+
                     '" class="form-control"  name="spec_option[]">' +
                     "</td>";
@@ -384,14 +395,14 @@ Dropzone.options.myDropzone = {
                 var Max_price = jQuery("#Max_price").val();
                 var Minimum_unit = jQuery("#Minimum_unit").val();
                 var Port = jQuery("#Port").val();
-                var paymentMethod = jQuery(".Port").val();
+                var paymentMethod = jQuery(".paymentMethod").val();
                 var supplyQuantity = jQuery("#supplyQuantity").val();
                 var supplyUnit = jQuery("#supplyUnit").val();
                 var supplyPeriod = jQuery("#supplyPeriod").val();
                 var deliveryTime = jQuery("#date").val();
                 var digitEXP = /^[0-9.]*$/;
 
-                if ($("#mc_id").val() == "Main category") {
+                if ($("#mc_id").val() === "Main category") {
                     $(".main-cats")
                         .text("Please select a main category")
                         .css("color", "red");
@@ -400,14 +411,14 @@ Dropzone.options.myDropzone = {
                         .text("")
                         .css("color", "red");
                 }
-                if ($("#c_id").val() == "Category") {
+                if ($("#c_id").val() === "Select") {
                     $(".cat")
                         .text("Please select a category")
                         .css({ color: "red" });
                 } else {
                     $(".cat").text("");
                 }
-                if ($("#subCategory").val() == "Sub Category") {
+                if ($("#subCategory").val() === "Select") {
                     $(".sub")
                         .text("Please select a sub category")
                         .css({ color: "red" });
@@ -415,7 +426,7 @@ Dropzone.options.myDropzone = {
                     $(".sub").text("");
                 }
 
-                if (Product_Name == "") {
+                if (Product_Name === "") {
                     $(".product-name")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -423,7 +434,7 @@ Dropzone.options.myDropzone = {
                     $(".product-name").text("");
                 }
 
-                if (Product_Keyword == "") {
+                if (Product_Keyword === "") {
                     $(".product_keyword")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -431,7 +442,7 @@ Dropzone.options.myDropzone = {
                     $(".product_keyword").text("");
                 }
 
-                if (listing_description == "") {
+                if (listing_description === "") {
                     $(".listing_description")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -439,7 +450,7 @@ Dropzone.options.myDropzone = {
                     $(".listing_description").text("");
                 }
 
-                if (Minimum_Order_Quantity == "") {
+                if (Minimum_Order_Quantity === "") {
                     $(".Minimum_Order_Quantity")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -451,7 +462,7 @@ Dropzone.options.myDropzone = {
                     $(".Minimum_Order_Quantity").text("");
                 }
 
-                if (Minimum_order_unit == "Choose your option") {
+                if (Minimum_order_unit === "Choose your option") {
                     $(".Minimum_order_unit")
                         .text("Please select units")
                         .css({ color: "red" });
@@ -459,7 +470,7 @@ Dropzone.options.myDropzone = {
                     $(".Minimum_order_unit").text("");
                 }
 
-                if (Min_price == "") {
+                if (Min_price === "") {
                     $(".Min_price")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -473,7 +484,7 @@ Dropzone.options.myDropzone = {
                        .text("")
                 }
 
-                if (Max_price == "") {
+                if (Max_price === "") {
                        $(".Max_price")
                        .text("This field is required")
                        .css({ color: "red" });
@@ -494,14 +505,14 @@ Dropzone.options.myDropzone = {
                     $(".Max_price").text("");
                 }
 
-                if (Minimum_unit == "Choose your option") {
+                if (Minimum_unit === "Choose your option") {
                     $(".Minimum_unit")
                         .text("Please select units")
                         .css({ color: "red" });
                 } else {
                     $(".Minimum_unit").text("");
                 }
-                if (Port == "") {
+                if (Port === "") {
                     $(".Port")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -516,28 +527,28 @@ Dropzone.options.myDropzone = {
                     $(".paymentMethod").text("");
                 }
 
-                if (supplyQuantity == "") {
+                if (supplyQuantity === "") {
                     $(".supplyQuantity")
                         .text("This field is required")
                         .css({ color: "red" });
                 } else {
                     $(".supplyQuantity").text("");
                 }
-                if (supplyUnit == "Choose your option") {
+                if (supplyUnit === "Choose your option") {
                     $(".supplyUnit")
                         .text("Please select units")
                         .css({ color: "red" });
                 } else {
                     $(".supplyUnit").text("");
                 }
-                if (supplyPeriod == "Select period") {
+                if (supplyPeriod === "Select period") {
                     $(".supplyPeriod")
                         .text("Please select period")
                         .css({ color: "red" });
                 } else {
                     $(".supplyPeriod").text("");
                 }
-                if (deliveryTime == "") {
+                if (deliveryTime === "") {
                     $(".deliveryTime")
                         .text("This field is required")
                         .css({ color: "red" });
@@ -562,7 +573,7 @@ Dropzone.options.myDropzone = {
 
         this.on("success", function(file, responseText) {
             // console.log(responseText);
-            if (responseText == "success") {
+            if (responseText === "success") {
                 alert("Product added");
                 window.location = "/u/add-new-product";
             }
@@ -575,7 +586,7 @@ Dropzone.options.myDropzone = {
         });
 
         this.on("error", function(file, data, xhr, responseText) {
-            if (xhr.status != 200) {
+            if (file.status == "error") {
                 this.removeFile(file);
             }
         });
@@ -583,7 +594,7 @@ Dropzone.options.myDropzone = {
         //send all the form data along with the files:
         this.on("sendingmultiple", function(data, xhr, formData) {
             formData.append("mainCategory", jQuery("#mc_id").val());
-            formData.append("Category", jQuery("#Category").val());
+            formData.append("Category", jQuery("#c_id").val());
             formData.append("subCategory", jQuery("#subCategory").val());
             formData.append("Product_Name", jQuery("#Product_Name").val());
             //speccifications
@@ -591,7 +602,7 @@ Dropzone.options.myDropzone = {
             var specParentIds = [],
                 spec_option = [];
 
-            $("input[id='spec_option']").each(function() {
+            $("input[class='spec_option']").each(function() {
                 if (this.value != "") {
                     specParentIds.push($(this).data("value"));
                     spec_option.push(this.value);
@@ -606,7 +617,7 @@ Dropzone.options.myDropzone = {
 
             //user generated spec
             var specParent = [];
-            $("input[id='add_spec_parent']").each(function() {
+            $("input[class='add_spec_parent']").each(function() {
                 if (this.value == "") {
                     $("#add_spec_error")
                         .text("Please fill boxes")
@@ -621,7 +632,7 @@ Dropzone.options.myDropzone = {
             });
 
             var specChild = [];
-            $("input[id='add_spec']").each(function() {
+            $("input[class='add_spec']").each(function() {
                 if (this.value == "") {
                     $("#add_spec_child_error")
                         .text("Please fill child boxes")

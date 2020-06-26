@@ -2,17 +2,17 @@
 @section('title' , 'Add a spec')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
+#valspec_id{display: none;}
 
-
+</style>
+<script nonce="{{ csp_nonce() }}">
 function addSpec(){
-
-
-
   var spec_option = $("#spec_option").val();
   var spec_id = $("#spec_id").val();
-
-
  if(spec_id == "Select"){
     $("#cn_nameErr").text("Please select a spec");
   }else if(spec_option == ""){
@@ -58,10 +58,10 @@ function addSpec(){
     </section>
 
     <section class="content">
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div spec_id="result"></div>
-               <div spec_id="valspec_id" class="alert alert-danger" style="display:none;">
+               <div spec_id="spec_id" class="alert alert-danger valid">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -69,23 +69,23 @@ function addSpec(){
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
                     <label for="text">Select a Spec </label>
-                    <select class="form-control " id="spec_id"  name="spec_id"  >
-                        <option >Select</option>
+                    <select class="form-control" id="spec_id"  name="spec_id">
+                        <option disabled>Select</option>
                     @forelse($specifications as $spec)
                     <option value="{{ $spec->spec_id }}"  >{{$spec->spec_name}}</option>
                     @empty
-                    <option value="">No Countries</option>
+                    <option>No Countries</option>
                     @endforelse
                     </select>
                     @error('spec_name')
-                        <span class="invalspec_id-feedback" role="alert">
+                        <span class="spec_id-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                    <span class="help-block " style="color:red;" spec_id="cn_nameErr"></span>
+                    <span class="help-block" spec_id="cn_nameErr"></span>
                 </div>
             <div class="form-group">
                 <label>Add a Spec Option</label>
@@ -96,7 +96,7 @@ function addSpec(){
 
 
             <div class="form-group">
-                <button class="btn btn-success" onclick="addSpec();">Add</button>
+                <button class="btn btn-success addSpec">Add</button>
             </div>
 
         </div>
@@ -104,5 +104,11 @@ function addSpec(){
         </div>
         </section>
 
+        <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".addSpec").on("click", function() {
+                 addSpec();
+            });
+        </script>
 
 @endsection

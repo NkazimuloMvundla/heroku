@@ -2,7 +2,7 @@
 @section('title' , 'Product-edit')
 
 @section('content')
-<script>
+<script nonce="{{ csp_nonce() }}">
         $( function() {
         $( "#date" ).datepicker({
         numberOfMonths: 1,
@@ -12,13 +12,32 @@
         } );
   </script>
 
-<style>
+
+<style nonce="{{ csp_nonce() }}">
 [role="alert"]{
   color: red;
 }
+span.help-block{color: red;}
 
-
+.help-block{
+  font-style:italic;
+}
+ul.message > li {font-size:15px;}
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+span.add-spec{display: none;}
+button#add_field_button{display: none;}
+p.reachedLimitToAppend{color: red;}
+div#product_detail > div{margin: 9px;}
+#modal-spec-update, #modal-spec-id{display: none;}
+#modal-default{display: none;}
+div.img{padding:6px;}
+div.b4_img{margin:6px;padding:6px;}
+div.Que_Ans{margin:12px;}
+div#modal-question, div#modal-answer{display: none;}
+div#queId, p#ansId{display: none;}
 </style>
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -53,18 +72,18 @@
     <!--start of product detail tab-->
     <div id="product_detail" role="tabpanel" class="tab-pane fade in active">
          @if(Session::has('message'))
-        <div style="margin: 9px;">
+        <div>
         <ul>
-        <li class="label label-success"  style="font-size:15px;">{{ Session::get('message') }}</li>
+        <li class="label label-success message">{{ Session::get('message') }}</li>
         </ul>
         </div>
          @endif
-    <div class="row" style="display:flex; justify-content:center;">
+    <div class="row main-row">
         <!-- /.col -->
-        <div class="col-md-8" style="background: white;padding: 12px;">
+        <div class="col-md-8">
             <!--form start here-->
             <?php  $encoded_product_id = base64_encode( $product->first()->pd_id) ;?>
-            <form method="post" id="update_product" action="/u/product/{{ $encoded_product_id}}" style="z-index: 10" enctype="multipart/form-data">
+            <form method="post" id="update_product" action="/u/product/{{ $encoded_product_id}}" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div id="subs">
@@ -108,7 +127,8 @@
                     <tr>
                         <td>{{ $spec->spec_name }}</td>
                         <td>{{ $spec_opt->spec_option_name}}</td>
-                        <td><button  class="btn btn-danger btn-sm" type="button" onclick="deleteSpec({{$spec_opt->id}})">Delete spec</button>|<button class="btn btn-default btn-sm" type="button" data-toggle="modal" data-target="#modal-spec-update" onclick="showSpec({{$spec_opt->id}});">Update spec</button></td>
+                        <td>
+                        <button data-id="{{ $spec_opt->id }}" class="btn btn-danger btn-sm deleteSpec" type="button">Delete spec</button>|<button data-id="{{ $spec_opt->id }}"class="btn btn-default btn-sm showSpec" type="button" data-toggle="modal" data-target="#modal-spec-update">Update spec</button></td>
                     </tr>
                     @endif
                     @endforeach
@@ -116,27 +136,27 @@
             </tbody>
             </table>
             <div class="form-group">
-                <div class="modal fade" id="modal-spec-update" style="display: none;">
+                <div class="modal fade" id="modal-spec-update">
                 <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span></button>
-                <h4 class="modal-spec-id" id="modal-spec-id" style="display:none;"></h4>
+                <h4 class="modal-spec-id" id="modal-spec-id"></h4>
                 </div>
                 <div class="modal-body" id="modal-body">
                 <div class="row">
                 <div class="form-group">
                 <div class="col-md-8">
                 <input type="text" class="form-control" name="spec_details" id="spec_details" >
-                <span class="help-block" style="color:red;" id="subCategoryErr"></span>
+                <span class="help-block" id="subCategoryErr"></span>
                 </div>
                 </div>
                 </div>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" name="save" id="save" value="save" onclick="addSpec();" class="btn btn-success">Save changes</button>
+                <button type="button" name="save" id="save-edit" value="save"  class="btn btn-success save_spec">Save changes</button>
                 </div>
                 </div>
                 <!-- /.modal-content -->
@@ -153,7 +173,7 @@
                 <label for="Add Product Specification">Add more specification</label>
                 <button type="button" class="btn btn-default btn-sm"  data-toggle="modal" data-target="#modal-default">Add Specs</button>
 
-                <div class="modal fade" id="modal-default" style="display: none;">
+                <div class="modal fade" id="modal-default">
                 <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -163,54 +183,50 @@
                 </div>
                 <div class="modal-body" id="modal-body">
                 <div class="form-group-row">
-                <div class="col-md-4">
-                <label for="text">Select a Main category</label>
-                <select class="form-control" id="mc_id"  name="mainCategory"   onChange="showCat(this.value);">
-                <option>Select</option>
-                @forelse($parent_category as $category)
-                <option value="{{ $category->pc_id }}">{{$category->pc_name}}</option>
-                <?php $pc_id = $category->pc_id ;?>
-                @empty
-                <option>No categories</option>
-                @endforelse
-                </select>
-                @error('mainCategory')
-                <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-                <span class="help-block " style="color:red;" id="mainCategoryErr"></span>
-                </div>
+                 <div class="col-md-4">
+                        <label for="Main category">Select a Main category</label>
+                        <select class="form-control" id="mc_id"  name="mainCategory">
+                        <option selected>Main category</option>
+                        @forelse($parent_category as $category)
+                        <option value="{{ $category->pc_id }}">{{$category->pc_name}}</option>
+                        <?php $pc_id = $category->pc_id ;?>
+                        @empty
+                        <option>No categories</option>
+                        @endforelse
+                        </select>
+                        @error('mainCategory')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                        <span class="help-block main-cats"></span>
+                        </div>
 
-                <div class="col-md-4">
-                <label>Select a Category</label>
-                <div id="coin">
-                <select class="form-control"  name="Category"  id="c_id">
-                <option>Select</option>
-                </select>
-                @error('Category')
-                <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-                </div>
-                <span class="help-block" style="color:red;" id="categoryErr"></span>
-                </div>
+                        <div class="col-md-4">
+                        <label for="Category">Select a Category</label>
+                        <select class="form-control coin"  name="Category"  id="c_id">
+                        <option selected>Category</option>
+                        </select>
+                        @error('Category')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
 
-                <div class="col-md-4">
-                <label for="number">Select a Sub Category </label>
-                <div id="last">
-                <select class="form-control"  name="subCategory"  id="sc_id">
-                <option selected disabled>Sub Category</option>
-                </select>
-                @error('subCategory')
-                <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-                </div>
-                <span class="help-block" style="color:red;" id="subCategoryErr"></span>
-                </div>
+                        <span class="help-block cat"></span>
+                    </div>
+                 <div class="col-md-4">
+                        <label for="Sub Category">Select a Sub Category </label>
+                        <select class="form-control last"  name="subCategory"  id="subCategory">
+                        <option disabled selected>Sub Category</option>
+                        </select>
+                        @error('subCategory')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                        <span class="help-block sub"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                 <div id="data">
@@ -219,8 +235,8 @@
                 <span id="add_spec_child_error"></span>
                 </div>
                 <div id="data-add" class="data-add">
-                <button id="add_field_button" onclick="display()" style="display:none;" type="button" class="btn btn-default">Add</button>
-                <span><p class="text-center reachedLimitToAppend" style="color: red;"></p></span>
+                <button id="add_field_button" type="button" class="btn btn-default">Add</button>
+                <span><p class="text-center reachedLimitToAppend"></p></span>
                 </div>
                 <div class="form-group row">
                 <div class="col-md-12">
@@ -234,7 +250,7 @@
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" name="save" class="btn btn-save" value="save" onclick="updateSpec({{$product->first()->pd_id}});" >Save changes</button>
+                <button data-id="{{$product->first()->pd_id}}" type="button" name="save" class="btn btn-save update-spec" value="save">Save changes</button>
 
                 </div>
                 </div>
@@ -248,22 +264,22 @@
             <div class="form-group">
                 <label for="File">File input</label>
                 <input type="file" id="file_upload" name="Product_photo[]" multiple   accept=".jpg, .jpeg, .png">
-                <div class="img" style="padding:6px;">
+                <div class="img">
                 @foreach ($pd_images as $pd_image )
-                <div style="display:inline">
-                    <span style="border:1px solid #e2e2e2;">
+                <div>
+                    <span>
                     @if($product->first()->pd_photo == $pd_image->pd_filename)
-                    <div class="" style="margin:6px;padding:6px;">
+                    <div class="b4_img">
                     <img src="{{url($pd_image->pd_filename)}}" width="100" height="100">
                     <span class="bg bg-warning">main photo</span>
                     </div>
                     @else
-                    <div class="" style="margin:6px;padding:6px;">
+                    <div class="b4_img">
                     <img src="{{url($pd_image->pd_filename)}}" width="100" height="100">
                     </div>
                     @endif
-                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteProductImg({{ $pd_image->id }})">delete</button>
-                    <input type="hidden" name="pd_photo" value="{{ $pd_image->pd_photo_id }}" id="pd_photo">
+                    <button data-id="{{ $pd_image->id }}" type="button" class="btn btn-danger btn-sm delete-img">delete</button>
+                    <input type="hidden" name="pd_photo" value="{{ $pd_image->pd_photo_id }}" class="pd_photo">
                     </span>
                 </div>
                 @endforeach
@@ -489,14 +505,13 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary" onclick="sendQuestions({{ $product->first()->pd_id }});">Save details</button>
-
+            <button class="btn btn-primary sendQuestions" data-id="{{ $product->first()->pd_id }}" >Save details</button>
           </div>
         </div>
         </div>
 
         <!--data from db in table -->
-              <div class="container" style="margin:12px;">
+              <div class="container Que_Ans">
                   <div class="row">
                        <div class="col-md-8">
                   <table id="example1" class="table table-hover table-striped">
@@ -513,19 +528,19 @@
                     <tr id="{{ "que" . $question->id  }}">
                       <td id="questionUpdates">
                         {{ $question->question }}
-                         <button data-toggle="modal" data-target="#modal-question" onclick="showQuestion({{ $question->id }});">edit</button>
+                         <button data-id="{{ $question->id  }}" data-toggle="modal" data-target="#modal-question" class="showQuestion">edit</button>
                      </td>
                             <!--Moda-->
-                            <div class="modal fade" id="modal-question" style="display: none;">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal fade" id="modal-question">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span></button>
                             <h4 class="modal-title" id="modal-title"></h4>
                             </div>
                             <div class="modal-body" id="modal-body">
-                            <p id="queId" style="display:none;"></p>
+                            <p id="queId"></p>
                             <div class="">
                                <input type="text" class="form-control questionUpdate" maxlength="255">
                             </div>
@@ -533,7 +548,7 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success pull-right" id="saveQuestionOrAnswerBtn" onclick="updateQuestion();">Save</button>
+                            <button type="button" class="btn btn-success pull-right updateQuestion" id="saveQuestionOrAnswerBtn">Save</button>
                             </div>
                             </div>
                             <!-- /.modal-content -->
@@ -545,7 +560,7 @@
                           @foreach($answers as $answer)
                          @if($answer->question_id == $question->id)
                              {{ $answer->answer }}
-                            <button data-toggle="modal" data-target="#modal-answer"  onclick="showAnswer({{ $answer->id }});">edit</button>
+                            <button data-id="{{ $answer->id }}" data-toggle="modal" data-target="#modal-answer" class="showAnswer">edit</button>
                          @endif
 
                          @endforeach
@@ -553,7 +568,7 @@
 
                       <!--answer modal-->
                               <!--Moda-->
-                            <div class="modal fade" id="modal-answer" style="display: none;">
+                            <div class="modal fade" id="modal-answer">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -562,14 +577,14 @@
                             <h4 class="modal-title" id="modal-title"></h4>
                             </div>
                             <div class="modal-body" id="modal-body">
-                            <p id="ansId" style="display:none;"></p>
+                            <p id="ansId"></p>
                             <div class="">
                                <input type="text" class="form-control answerUpdate" maxlength="255">
                             </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success pull-right" id="saveQuestionOrAnswerBtn" onclick="updateAnswer();">Save</button>
+                            <button type="button" class="btn btn-success pull-right updateAnswer" id="saveQuestionOrAnswerBtn">Save</button>
                             </div>
                             </div>
                             <!-- /.modal-content -->
@@ -577,7 +592,7 @@
                             <!-- /.modal-dialog -->
                             </div>
                          <td>
-                              <button type="button" class="btn btn-danger" id="deleteQuestionAndAnswer" onclick="deleteQuestionAndAswer({{ $question->id  }});">delete</button>
+                              <button type="button" data-id="{{ $question->id }}" class="btn btn-danger deleteQuestionAndAnswer" id="deleteQuestionAndAnswer">delete</button>
                         </td>
                      </tr>
 
@@ -596,6 +611,93 @@
     </div>
     <!--end of tab-content-->
   </section>
+<script nonce="{{ csp_nonce() }}">
+$(document).ready(function() {
+    //delete spec
+    $(".deleteSpec").on("click", function() {
+        var id = $(this).data("id");
+        deleteSpec(id);
+        console.log(id);
+    });
+
+    //show spec
+      $(".showSpec").on("click", function() {
+        var id = $(this).data("id");
+        showSpec(id);
+        //console.log(id);
+    });
+
+    //add spec
+    $(".save_spec").on("click", function() {
+        addSpec();
+    });
+
+    //update spec
+      $(".update-spec").on("click", function() {
+        var id = $(this).data("id");
+        updateSpec(id);
+        //console.log(id)
+    });
+
+     //delete img
+      $(".delete-img").on("click", function() {
+        var id = $(this).data("id");
+        deleteProductImg(id);
+      });
+
+     //send question
+      $(".sendQuestions").on("click", function() {
+        var id = $(this).data("id");
+        sendQuestions(id);
+      });
+
+      //send question
+      $(".showQuestion").on("click", function() {
+        var id = $(this).data("id");
+        showQuestion(id);
+      });
+
+      //update question
+      $(".updateQuestion").on("click", function() {
+        updateQuestion();
+      });
+
+
+      //show answer
+      $(".showAnswer").on("click", function() {
+        var id = $(this).data("id");
+        showAnswer(id);
+      });
+
+      //update answer
+      $(".updateAnswer").on("click", function() {
+        updateAnswer();
+      });
+
+
+      //delete answer&question
+      $(".deleteQuestionAndAnswer").on("click", function() {
+        var id = $(this).data("id");
+        deleteQuestionAndAswer(id);
+      });
+
+
+    $("#mc_id").on("change", function() {
+            showCat(this.value);
+    });
+
+     $("#c_id").on("change", function() {
+             showSubCat(this.value);
+     });
+
+        $("#subCategory").on("change", function() {
+             show_list()
+             showBtn()
+             getId(this.value);
+        });
+});
+</script>
+
 
 </div>
 

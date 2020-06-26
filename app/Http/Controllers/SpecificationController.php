@@ -40,7 +40,7 @@ class SpecificationController extends Controller
     public function viewSpec()
     {
 
-        $specifications = DB::table('specifications')->paginate(10);
+        $specifications = DB::table('specifications')->get();
         $sub_categories = DB::table('last_categories')->get();
 
         return view('super.spec-view', compact('specifications', 'sub_categories'));

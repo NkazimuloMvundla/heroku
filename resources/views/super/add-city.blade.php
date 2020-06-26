@@ -2,9 +2,13 @@
 @section('title' , 'Add a country')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
 
-
+</style>
+<script nonce="{{ csp_nonce() }}">
 function addCity(){
 
   $('.alert-danger').hide();
@@ -58,10 +62,10 @@ function addCity(){
     </section>
 
     <section class="content">
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="valid" class="alert alert-danger">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -69,7 +73,7 @@ function addCity(){
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
                     <label for="text">Select a Country </label>
                     <select class="form-control " id="country_id"  name="country_id"  >
@@ -85,7 +89,7 @@ function addCity(){
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                    <span class="help-block " style="color:red;" id="cn_nameErr"></span>
+                    <span class="help-block" id="cn_nameErr"></span>
                 </div>
             <div class="form-group">
                 <label>Add a City</label>
@@ -100,13 +104,21 @@ function addCity(){
                 </div>
             -->
             <div class="form-group">
-                <button class="btn btn-success" onclick="addCity();">Add</button>
+                <button class="btn btn-success addCity">Add</button>
             </div>
 
         </div>
 
-        </div>
-        </section>
+      </div>
+
+        <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".addCity").on("click", function() {
+                 addCity();
+            });
+        </script>
+
+    </section>
 
 
 @endsection

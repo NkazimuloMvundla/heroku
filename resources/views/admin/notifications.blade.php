@@ -2,6 +2,11 @@
 @section('title' , 'Notifications')
 
 @section('content')
+<style nonce="{{ csp_nonce() }}">
+.created_at{width:20%;}
+.notify{background-color:#e8eae6ad;}
+.deleteNotification{width:20%;}
+</style>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -30,10 +35,10 @@
 
                    @foreach( $notifications as $notification )
                    <tr id="{{ "notify" . $notification->id  }}">
-                     <td style="width:20%">{{ $notification->created_at }}</td>
-                     <td id="notify" style="background-color:#e8eae6ad;">{{ $notification->message }}</td>
-                    <td style="width:20%">
-                    <button id="deleteNotification" class="btn btn-default btn-sm" onclick="deleteNotification({{ $notification->id }})";><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
+                     <td class="created_at">{{ $notification->created_at }}</td>
+                     <td class="notify">{{ $notification->message }}</td>
+                    <td class="deleteNotification">
+                    <button id="deleteNotification" class="btn btn-default btn-sm delete-nofity" data-id="{{ $notification->id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                     </td>
                     </tr>
                     @endforeach
@@ -42,11 +47,22 @@
 
                 </table>
                 @if(count($notifications) > 0)
-                    <button class="btn btn-danger" onclick="deleteAllNotification();">delete all</button>
+                    <button class="btn btn-danger delete-all-nofity">delete all</button>
                 @endif
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+<script nonce="{{ csp_nonce() }}">
+$(document).ready(function() {
+    $(".delete-nofity").on("click", function() {
+        var id = $(this).data("id");
+        deleteNotification(id);
+    });
 
+     $(".delete-all-nofity").on("click", function() {
+         deleteAllNotification();
+    });
+});
+</script>
 @endsection

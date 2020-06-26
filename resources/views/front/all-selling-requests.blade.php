@@ -7,14 +7,17 @@
 
 @section('content')
 <div class="container">
-    <h4 class="ui-form-group-title text-center text-primary" style="font-size: 20px; background-color:#f8f8f8">Selling requests</h4>
+ <h4 class="ui-form-group-title text-center text-primary">Selling requests</h4>
 
-<style>
+<style nonce="{{ csp_nonce() }}">
     header.card-header{
     color: #000;
     background-color: #f1f1f1;
     text-align: center;
     }
+    div.container > h4 {font-size: 20px; background-color:#f8f8f8}
+    #modal-default{display: none;}
+    .footer{ margin-top: 12em;}
 </style>
  <div class="row">
     @forelse($sellingRequests as $data)
@@ -52,10 +55,10 @@
     <a href="/send-a-sell-message/{{  $encoded_request_id }}">+ Make an offer</a></button>
     @endif
 
-    <button class="btn btn-success" data-toggle="modal" data-target="#modal-default"  onclick="showSellingRequest({{$data->id}});"> + View request </button>
+    <button class="btn btn-success view_request" data-toggle="modal" data-target="#modal-default"  data-id="{{ $data->id }}"> + View request </button>
 
          <!--Moda-->
-       <div class="modal fade" id="modal-default" style="display: none;">
+       <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -72,7 +75,6 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <input type="hidden" id="userId" class="form-control" value="75">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -84,10 +86,21 @@
     @empty
     <p class="text-center text-primary">Oops, Nothing as yet</p>
     <div class="text-center text-primary">
-    <a href="{{route('SellingRequest')}}" style="color:orange"> Go here </a>  to post a selling request
+    <a href="{{route('SellingRequest')}}"> Go here </a>  to post a selling request
     </div>
     @endforelse
 </div>
 
 </div>
+
+<script nonce="{{ csp_nonce() }}">
+
+ $(document).ready(function(){
+    $(".view_request").on('click', function(){
+       var id = $(this).data("id");
+       showSellingRequest(id);
+    })
+  })
+
+</script>
 @endsection

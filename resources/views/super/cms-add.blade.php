@@ -2,7 +2,15 @@
 @section('title' , 'CMS')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.country{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+#modal-default{display: none;}
+#cms_content{width: 700px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function addCms(){
 
   var cms_title = $("#cms_title").val();
@@ -16,14 +24,14 @@ function addCms(){
       $(".cms_content_err").text("Please select enter a content");
   } else {
 
-    $.ajax({
+    $.ajax({ 
         type: "POST",
         url: "/super/cms-add",
         data:{cms_title:cms_title, cms_page:cms_page , cms_content:cms_content },
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function (data) {
              alert('added');
-             window.location="/super/cms-add";
+             window.location.reload();
         },
          error: function (request , status , error) {
             json = $.parseJSON(request.responseText);
@@ -52,10 +60,10 @@ function addCms(){
         <h1>Add a CMS</h1>
       </section>
     <section class="content container-fluid">
-        <div class="row" style="display:flex;justify-content:center;">
-            <div class="" id="result"></div>
+        <div class="row main-row" >
+            <div  id="result"></div>
                 <div class="modal-content"></div>
-                <div id="valid" class="alert alert-danger" style="display:none;">
+                <div class="valid" class="alert alert-danger">
                         <ul>
                           @foreach($errors->all() as $error)
                           <li>{{ $error }} </li>
@@ -66,7 +74,7 @@ function addCms(){
                 <div class="col-md-8">
                 <div class="form-group">
                     <label>Add a CMS title :</label>
-                    <input type="text" id="cms_title" name="cms_title" value="{{ old('cms_title') }}" class="" size="40">
+                    <input type="text" id="cms_title" name="cms_title" value="{{ old('cms_title') }}"  size="40">
 
                     @error('cms_title')
                     <span class="invalid-feedback " role="alert">
@@ -87,7 +95,7 @@ function addCms(){
                 </div>
                 <div class="form-group">
                     <label>Add content</label>
-                    <textarea class="form-control" id="cms_content" name="cms_content" id="cms_content" cols="50" rows="10" style="width:700px;"></textarea>
+                    <textarea class="form-control" id="cms_content" name="cms_content" id="cms_content" cols="50" rows="10"></textarea>
                     @error('cms_content')
                     <span class="invalid-feedback " role="alert">
                     <strong>{{ $message }}</strong>
@@ -96,12 +104,23 @@ function addCms(){
                     <span class="cms_content_err"></span>
                     </div>
                 <div class="form-group">
-                  <button class="btn btn-success" id="send-message" onclick="addCms();">Add CMS</button>
+                  <button class="btn btn-success addCms">Add CMS</button>
                 </div>
                 </div>
 
-        </div>
-    </section>
-        </div>
+           </div>
+        </section>
+</div>
+
+
+  <script nonce="{{ csp_nonce() }}">
+            //delete spec
+
+            $(".addCms").on("click", function() {
+               addCms();
+            });
+
+
+    </script>
 </div>
 @endsection

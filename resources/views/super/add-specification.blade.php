@@ -2,69 +2,75 @@
 @section('title' , 'add-specification')
 
 @section('content')
-<script>
-function showCat(id)
-{
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+div.valid{display:none;}
+#valspec_id{display: none;}
+.add_spec{margin-top: 20px;}
+input#specification > button {margin-top:10px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
+function showCat(id) {
     $.ajax({
-            type: "POST",
-            url: "/subcats",
-            data:{id:id},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            success: function (data) {
-            //console.log(data);
-            var select = '<select class="form-control" name="Category" onChange="showSubCat(this.value);" id="Category">';
-            select +='<option>' + "Select"+ '</option>' + "<br>";
+        type: "POST",
+        url: "/subcats",
+        data: { _token: $('[name="token"]').val(), id: id },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        success: function(data) {
+            var select = "";
+            select +=
+                "<option  selected disabled>" +
+                "Select Category" +
+                "</option>" +
+                "<br>";
             for (var i = 0; i < data.length; i++) {
-            //  console.log(data[i].pc_)
-
-              select +='<option value="'+ data[i].id +'" >' + data[i].pc_name + '</option>' + "<br>";
-              //$("#coin").html("Judge"
-
+                select +=
+                    '<option value="' +
+                    data[i].id +
+                    '" >' +
+                    data[i].pc_name +
+                    "</option>" +
+                    "<br>";
             }
-            select +='</select';
-            $("#coin").html(select)
 
-
-          //      console.log(data);
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-
-
+            $(".coin").html(select);
+        }
+    });
 }
 
-
-function showSubCat(id){
-  $.ajax({
-          type: "POST",
-          url: "/lastcats",
-          data:{id:id},
-          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-          success: function (data) {
-          //console.log(data);
-          var select = '<select class="form-control" name="subCategory" id="subCategory" onChange="show_list();" >';
-          select +='<option value="" selected disabled>' + "Select SubCategory"+ '</option>' + "<br>";
-          for (var i = 0; i < data.length; i++) {
-          //  console.log(data[i].pc_)
-
-            select +='<option value="'+ data[i].id +'" >' + data[i].pc_name + '</option>' + "<br>";
-            //$("#coin").html("Judge"
-
-          }
-          select +='</select';
-          $("#last").html(select)
-
-
-        //      console.log(data);
-          },
-          error: function (data) {
-              console.log('Error:', data);
-          }
-      });
-
+function showSubCat(id) {
+    $.ajax({
+        type: "POST",
+        url: "/lastcats",
+        data: { id: id },
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        success: function(data) {
+            var select =
+                '<select class="form-control" name="subCategory" id="subCategory" >';
+            select +=
+                '<option value="" selected disabled>' +
+                "Select SubCategory" +
+                "</option>" +
+                "<br>";
+            for (var i = 0; i < data.length; i++) {
+                select +=
+                    '<option value="' +
+                    data[i].id +
+                    '" >' +
+                    data[i].pc_name +
+                    "</option>" +
+                    "<br>";
+            }
+            select += "</select";
+            $("#last").html(select);
+        }
+    });
 }
 
 function addSpec(){
@@ -157,69 +163,22 @@ function show_list()
     </section>
 
     <section class="content container-fluid">
-        <div class="row" style="display:flex;justify-content:center;">
+        <div class="row main-row">
         <div class="col-md-12">
         <div class="form-group-row">
-            <div class="col-md-4 ">
-                <label for="text">Select a Main category</label>
-                <select class="form-control " id="mc_id"  name="mainCategory"   onChange="showCat(this.value);">
-                   <option >Select</option>
-                @forelse($parent_category as $category)
-                <option value="{{ $category->pc_id }}">{{$category->pc_name}}</option>
-                <?php $pc_id = $category->pc_id ;?>
-                @empty
-                <option value="">No categories</option>
-                @endforelse
-                </select>
-                @error('mainCategory')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                 <span class="help-block " style="color:red;" id="mainCategoryErr"></span>
-                </div>
-
-        <div class="col-md-4">
-        <label for="">Select a Category</label>
-        <div class="" id="coin">
-        <select class="form-control"  name="Category"  id="c_id">
-           <option>Select</option>
-        </select>
-        @error('Category')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-            <span class="help-block " style="color:red;" id="categoryErr"></span>
+             @include('layouts.cats')
         </div>
 
-    <div class="col-md-4 ">
-    <label for="number">Select a Sub Category </label>
-    <div class="" id="last">
-    <select class="form-control "  name="subCategory"  id="sc_id">
-    <option selected disabled>Sub Category</option>
-    </select>
-    @error('subCategory')
-    <span class="invalid-feedback" role="alert">
-    <strong>{{ $message }}</strong>
-    </span>
-    @enderror
-    </div>
-     <span class="help-block" style="color:red;" id="subCategoryErr"></span>
-    </div>
-  </div>
-
-      <div class="form-group col-xs-6" style="margin-top: 20px;">
+      <div class="form-group col-xs-6 add_spec">
       <label>Add a specification</label>
       <input type="text" name="spec_name" class="form-control" id="specification">
-      <button class="btn btn-success" style="margin-top:10px;" onclick="addSpec();">Add</button>
-      <span class="help-block " style="color:red;" id="specificationErr"></span>
+      <button class="btn btn-success addSpec">Add</button>
+      <span class="help-block" id="specificationErr"></span>
       </div>
 
         </div>
         </section>
-        <div class="">
+        <div>
         <span class="text-success" id="data"></span>
       </div>
       <div class="col-md-10" id="data">
@@ -228,4 +187,17 @@ function show_list()
     </div>
 </div>
 
+        <script nonce="{{ csp_nonce() }}">
+                //delete spec
+                $(".addSpec").on("click", function() {
+                addSpec();
+                });
+
+                $(document).ready(function() {
+                $("#c_id").on("change", function() {
+                showSubCat(this.value);
+                });
+                });
+
+        </script>
 @endsection

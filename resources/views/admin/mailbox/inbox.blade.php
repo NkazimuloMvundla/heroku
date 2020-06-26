@@ -2,6 +2,12 @@
 @section('title' , 'Inbox')
 
 @section('content')
+<style  nonce="{{ csp_nonce() }}">
+    .scs-msg{
+    font-size:17px;
+    }
+    #modal_company_result{display: none;}
+</style>
 <div class="content-wrapper">
   <!-- Main content -->
   <!-- Content Header (Page header) -->
@@ -30,7 +36,7 @@
 
           <!-- /.box-header -->
           <div class="box-body no-padding">
-             <span class="message label label-success" style="font-size:17px;"></span>
+             <span class="message label label-success scs-msg"></span>
             <div class="table-responsive mailbox-messages">
                <!-- /.box-header -->
             <div class="box-body">
@@ -52,15 +58,15 @@
                             @if($message->msg_from_id == $user->id )
                           <td class="mailbox-name">{{ $user->company_name}}
                             @if(Auth::user()->account_type == "Supplier")
-                            <span data-toggle="modal" data-target="#modal_company_result"  onclick="showBuyerDetails({{$user->id}})";><a href="#">(view profile)</a></span>
+                            <span data-toggle="modal" data-target="#modal_company_result"  class="showBuyerDetails" data-id="{{$user->id}}"><a href="#">(view profile)</a></span>
                             @endif
                          </td>
                           @endif
                     @endforeach
                   <td class="mailbox-subject">
                       <?php  $encoded_mail_Id = base64_encode($message->id ) ;?>
-                            <a href="/u/mailbox/inbox/read/{{ $encoded_mail_Id }}"
-                                 onclick="updateStatus({{ $message->id}});"> <b>{{ $message->msg_subject }}
+                            <a href="/u/mailbox/inbox/read/{{ $encoded_mail_Id }}" class="updateStatus"
+                                 data-id="{{ $message->id}}"> <b>{{ $message->msg_subject }}
                             </a>
                   </td>
                   <td class="mailbox-date">{{ facebook_time_ago($message->created_at)}}</td>
@@ -82,7 +88,7 @@
             <!--company-details-->
 
 <!--Moda-->
-    <div class="modal fade" id="modal_company_result"  style="display: none;">
+    <div class="modal fade" id="modal_company_result">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -129,7 +135,7 @@
       <button type="button" name ="submit" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
       </button>
       <div class="btn-group">
-        <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAl();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAl();"></i> Delete</button>
+        <button  class="btn btn-default btn-sm delete_all" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
       </div>
       <!-- /.btn-group -->
@@ -147,6 +153,23 @@
     <!-- /.row -->
 
   </section>
+
+
+    <script  nonce="{{ csp_nonce() }}">
+          $(".showBuyerDetails").on("click", function() {
+                var id = $(this).data("id");
+                showBuyerDetails(id);
+            });
+
+              $(".updateStatus").on("click", function() {
+                var id = $(this).data("id");
+                updateStatus(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+    </script>
 
 </div>
 

@@ -5,8 +5,13 @@
 @section('meta_description', "post selling requests")
 @section('content')
 
-
- <script>
+<link rel="stylesheet" type="text/css" href="pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.min.css">
+<style nonce="{{ csp_nonce() }}">
+div.container > div.row{  padding: 12px; background: #eaf4ea7a; margin:8px;}
+div.row > ul > li { font-size:15px;}
+div.beforeForm{padding: 12px;}
+</style>
+ <script nonce="{{ csp_nonce() }}">
        $( function() {
        $( "#date" ).datepicker({
        numberOfMonths: 1,
@@ -17,22 +22,19 @@
  </script>
 
 
-
-
-
 <div class="container">
-    <div class="row" style="padding: 12px; background: #eaf4ea7a; margin:8px;">
+    <div class="row">
            @if(Session::has('sellingRequestPosted'))
                <div>
                 <ul>
-                    <li class="label label-success"  style="font-size:15px;">{{ Session::get('sellingRequestPosted') }}</li>
+                    <li class="label label-success">{{ Session::get('sellingRequestPosted') }}</li>
                 </ul>
                </div>
           @endif
         <div class="col-md-2"></div>
-            <div class="col-md-8 w3-margin-top" style=" padding: 12px;">
-                <form  name="postBuyRequestForm" id="postBuyRequestForm" method="post" action="/selling-request" >
-                 @include('layouts.cats')
+            <div class="col-md-8 w3-margin-top">
+                <form  name="postBuyRequestForm" id="postBuyRequestForm" method="post" action="/selling-request">
+                 @include('layouts.cats') 
                     <div class="ui-form-item form-group ">
                     <input type="hidden" id="sr_u_id" name="sr_u_id" value="{{Auth::user()->id}}"/>
                     <label class="ui-form-label" for="subject">
@@ -53,7 +55,7 @@
                     <label class="ui-form-label" for="subject">
                     Message: </label>
                     <div class="ui-form-control">
-                    <textarea class="form-control" id="message" maxlength="128"  name="message" placeholder="give a short discription about what you are selling..">{{ old('message') }}</textarea>
+                    <textarea class="form-control" id="message" maxlength="128"  name="message" placeholder="give a short discription about what you are selling.."></textarea>
                     @error('message')
                     <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -133,6 +135,15 @@
 </div>
 
 
+<script nonce="{{ csp_nonce() }}">
+
+ $(document).ready(function() {
+        $("#c_id").on("change", function() {
+             showSubCat(this.value);
+        });
+    });
+
+</script>
 
 
 @endsection

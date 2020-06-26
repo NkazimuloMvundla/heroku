@@ -2,7 +2,16 @@
 @section('title' , 'Manage Banners')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showUser{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-value{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function deleteBanner(id){
             $(document).ready(function() {
@@ -128,7 +137,7 @@ function showId(limit){
                       <td><input type="checkbox" id="{{ $banner->bn_id }}" name="bn_id[]" value="{{ $banner->bn_id }}"></td>
                       <td >{{ $banner->bn_link }}</td>
                             <!--Modal-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -139,7 +148,7 @@ function showId(limit){
                             <div class="modal-body" id="modal-body">
                                 <div class="form-group">
                                     <label>Add Main banner</label>
-                                    <input type="text" id="main_banner" name="main_banner" value="{{ old('main_banner') }}" class="form-control" >
+                                    <input type="text"  name="main_banner" value="{{ old('main_banner') }}" class="form-control main_banner">
                                     <span class="text-danger" id="main_bannerErr"></span>
                                 </div>
                             </div>
@@ -147,14 +156,14 @@ function showId(limit){
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                             <button type="submit" name="save" id="save" value="save" onclick="updateMain({{  $banner->bn_id  }})" class="btn btn-success">Save changes</button>
 
-                        </div>
+                            </div>
                             </div>
                             <!-- /.modal-content -->
                             </div>
                             <!-- /.modal-dialog -->
                             </div>
                             <td><img src="/storage/{{ $banner->bn_img }}" width="100" height="100"></td>
-                     <td >
+                        <td>
                             <a href="/super/banner/{{ $banner->bn_id }}/edit">
                                 <button name="edit" class="btn btn-default btn-sm">
                                  <i class="fa fa-pencil"></i> <span>Edit</span>
@@ -163,7 +172,7 @@ function showId(limit){
 
                      </button>
                          or
-                     <button id="delete" class="btn btn-default btn-sm" onclick="deleteBanner({{ $banner->bn_id }})";>
+                     <button id="delete" class="btn btn-default btn-sm deleteBanner" data-id="{{ $banner->bn_id }}";>
                         delete
                     </button>
                      </td>
@@ -185,8 +194,7 @@ function showId(limit){
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete" name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -194,12 +202,31 @@ function showId(limit){
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class="clearfix pull-right" >
         {{$banners->links()}}
        </div>
        </div>
     </div>
     <!-- /.content-wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".showUser").on("click", function() {
+                var id = $(this).data("id");
+                showUser(id);
+            });
+
+            $(".deleteBanner").on("click", function() {
+                var id = $(this).data("id");
+                deleteBanner(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+    </script>
+
+
 
   </div>
   <!-- ./wrapper -->

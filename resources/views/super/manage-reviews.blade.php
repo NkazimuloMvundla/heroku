@@ -2,7 +2,16 @@
 @section('title' , 'Manage reviews')
 
 @section('content')
-<script>
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showreview{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-value{display: none;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 
 function showId(id){
     $.ajax({
@@ -167,9 +176,9 @@ function checkedAll () {
                   @foreach( $reviews as $review )
                     <tr>
                       <td><input type="checkbox" id="{{ $review->id }}" name="id[]" value="{{ $review->id }}"></td>
-                      <td style="cursor:pointer;"  data-toggle="modal" data-target="#modal-default"  onclick="showreview({{ $review->pd_id }});">{{ $review->review }}</td>
+                      <td class="showreview" data-toggle="modal" data-target="#modal-default"  data-id="{{ $review->pd_id }}">{{ $review->review }}</td>
                             <!--Moda-->
-                            <div class="modal fade" id="modal-default" style="display: none;">
+                            <div class="modal fade" id="modal-default">
                             <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -213,7 +222,7 @@ function checkedAll () {
 
                      <td >
                      <a href="">
-                     <button name="suspend" class="btn btn-default btn-sm" onclick="suspend({{ $review->id }})";>
+                     <button name="suspend" class="btn btn-default btn-sm suspend" data-id="{{ $review->id }}">
                             @if($review->status == 0)
                              Suspend
                             @elseif($review->status == 2)
@@ -225,7 +234,7 @@ function checkedAll () {
                      </a>
                      or
 
-                     <button id="approve" class="btn btn-default btn-sm" onclick="approve({{ $review->id }})";>
+                     <button id="approve" class="btn btn-default btn-sm approve" data-id="{{ $review->id }}">
                         @if($review->status == 0)
                         Approve
                         @elseif($review->status == 1)
@@ -256,8 +265,7 @@ function checkedAll () {
                   <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
                   </button>
                    <div class="btn-group">
-                   <button  class="btn btn-default btn-sm" name="DeleteAll" onclick="checkedAll();"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all" onclick="return deleteAll();"></i> Delete</button>
-
+                   <button  class="btn btn-default btn-sm delete_all " name="DeleteAll"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
                   </div>
               </div>
             </div>
@@ -265,7 +273,7 @@ function checkedAll () {
         </div>
       </section>
       <!-- /.content -->
-      <div class=" clearfix pull-right" style="padding-right:8px; margin-top:52px;">
+      <div class=" clearfix pull-right">
         {{$reviews->links()}}
        </div>
     </div>
@@ -273,5 +281,25 @@ function checkedAll () {
 
   </div>
   <!-- ./wrapper -->
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".showreview").on("click", function() {
+                var id = $(this).data("id");
+                showreview(id);
+            });
+            $(".suspend").on("click", function() {
+                var id = $(this).data("id");
+                suspend(id);
+            });
 
+             $(".approve").on("click", function() {
+                var id = $(this).data("id");
+                approve(id);
+            });
+
+             $(".delete_all").on("click", function() {
+               return checkedAll();
+            });
+
+    </script>
 @endsection

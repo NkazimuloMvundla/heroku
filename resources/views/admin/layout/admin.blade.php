@@ -9,6 +9,7 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="robots" content="noindex, nofollow" />
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 
@@ -43,8 +44,8 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css') }}">
 
  <!--Jquery--->
- <script src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
- <script src="{{ asset('u/dropzone-master/dist/dropzone.js') }}"></script>
+ <script nonce="{{ csp_nonce() }}"  src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
+ <script nonce="{{ csp_nonce() }}"  src="{{ asset('u/dropzone-master/dist/dropzone.min.js') }}"></script>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -54,7 +55,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link nonce="{{ csp_nonce() }}" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     </head>
 <body class="skin-black-light sidebar-mini">
 <div class="wrapper">
@@ -82,33 +83,30 @@
 
 
      <!-- Bootstrap 3.3.7 -->
-    <script src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
 
     <!--js func -->
-    <script src="{{ asset('u/js/uu/inbox.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/uu/inbox.min.js') }}"></script>
      <!--js func -->
-    <script src="{{ asset('u/js/product/add.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/product/add.js') }}"></script>
       <!--js func -->
-    <script src="{{ asset('u/js/uu/favs/remove-favs.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/uu/favs/remove-favs.min.js') }}"></script>
         <!--js func -->
-    <script src="{{ asset('u/js/product/manage.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/product/manage.min.js') }}"></script>
           <!--js func -->
-    <script src="{{ asset('u/js/functions.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/functions.min.js') }}"></script>
 
-    <script src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
 
     <!-- DataTables -->
-    <script src="/u/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="/u/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script nonce="{{ csp_nonce() }}" src="/u/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script  nonce="{{ csp_nonce() }}" src="/u/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <!-- jQuery 3 -->
-    <script>
+    <script nonce="{{ csp_nonce() }}">
     $.widget.bridge('uibutton', $.ui.button);
     </script>
-    <script>
-
-
-
+    <script nonce="{{ csp_nonce() }}">
     $(function () {
       //Enable iCheck plugin for checkboxes
       //iCheck for checkbox and radio inputs
@@ -152,27 +150,26 @@
         }
       });
     });
+
+  //dataTables
+     $(function () {
+      $('#example1').DataTable()
+
+     })
   </script>
 
-  <!-- page script -->
-  <script>
-   $(function () {
-    $('#example1').DataTable()
-
-  })
-  </script>
 
 <!-- FastClick -->
-<script src="{{ asset('u/bower_components/fastclick/lib/fastclick.js') }}"></script>
-<script src="{{ asset('u/plugins/iCheck/icheck.min.js') }}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{ asset('u/bower_components/fastclick/lib/fastclick.js') }}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{ asset('u/plugins/iCheck/icheck.min.js') }}"></script>
 
 <!-- Bootstrap WYSIHTML5 -->
-<script src="{{asset("u/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" )}}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{asset("u/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" )}}"></script>
 <!-- Slimscroll -->
-<script src="{{asset("u/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" )}}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{asset("u/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" )}}"></script>
 
 <!-- AdminLTE App -->
-<script src="{{asset("u/dist/js/adminlte.min.js" )}}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{asset("u/dist/js/adminlte.min.js" )}}"></script>
 
 
 </body>

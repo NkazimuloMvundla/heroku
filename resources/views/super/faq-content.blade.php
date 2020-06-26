@@ -2,9 +2,17 @@
 @section('title' , 'Add Faq Content')
 
 @section('content')
-<script>
-
-
+<style nonce="{{ csp_nonce() }}">
+div.main-row{display:flex; justify-content:center;}
+div.main-row > div {background: white;padding: 12px;}
+.showUser{cursor:pointer;}
+.clearfix{padding-right:8px; margin-top:52px;}
+.valid{display:none;}
+#modal-default{display: none;}
+#modal-request{display: none;}
+.product_name{border: 2px dotted #f3f3f3; padding:3px;}
+</style>
+<script nonce="{{ csp_nonce() }}">
 function addSubCategory(){
 
   var mainCategory = $("#mc_id").val();
@@ -90,10 +98,10 @@ function showCat(id)
     </section>
 
     <section class="content">
-        <div class="row" style="display:flex; justify-content:center;">
+        <div class="row main-row">
                <!-- /.col -->
                <div id="result"></div>
-               <div id="valid" class="alert alert-danger" style="display:none;">
+               <div class="alert alert-danger valid">
                 <ul>
                   @foreach($errors->all() as $error)
                   <li>{{ $error }} </li>
@@ -101,7 +109,7 @@ function showCat(id)
                   @endforeach
                 </ul>
               </div>
-            <div class="col-md-8" style="background: white;padding: 12px;">
+            <div class="col-md-8">
             <div class="form-group">
 
                 <label for="text">Select a Main category</label>
@@ -119,7 +127,7 @@ function showCat(id)
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-                <span class="help-block " style="color:red;" id="mainCategoryErr"></span>
+                <span class="help-block"  id="mainCategoryErr"></span>
 
             </div>
 
@@ -135,23 +143,30 @@ function showCat(id)
                             </span>
                         @enderror
                     </div>
-                    <span class="help-block" style="color:red;" id="categoryErr"></span>
+                    <span class="help-block"id="categoryErr"></span>
 
             </div>
             <div class="form-group">
                 <label>Add a Sub Category</label>
-                <input type="text" id="subcategory" name="subcategory" value="{{ old('subcategory') }}" class="form-control" >
+                <input type="text" id="subcategory" name="subcategory" value="{{ old('subcategory') }}" class="form-control">
                 <span class="text-danger" id="subcategoryErr"></span>
             </div>
 
             <div class="form-group">
-                <button class="btn btn-success" onclick="addSubCategory();">Add</button>
+                <button class="btn btn-success addSubCategory">Add</button>
             </div>
 
         </div>
 
         </div>
-        </section>
+    </section>
+ <script nonce="{{ csp_nonce() }}">
+            //delete spec
+            $(".addSubCategory").on("click", function() {
+                addSubCategory();
+            });
 
+
+    </script>
 
 @endsection

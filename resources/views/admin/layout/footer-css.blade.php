@@ -1,4 +1,4 @@
-<script>
+<script nonce="{{ csp_nonce() }}">
 
 
 
@@ -51,7 +51,7 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset("u/bower_components/jquery-ui/jquery-ui.min.js")}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
+<script nonce="{{ csp_nonce() }}">
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
