@@ -58,13 +58,9 @@ Route::get('/search/{pd_name}', 'SearchController@search');
 Route::get('/search', 'SearchController@formsearch');;
 Route::post('/search', 'SearchController@formsearch')->name('formsearch');
 
-//Auth::routes(['verify' => true, 'register' => false, 'login' => false]);
-
 
 Route::post('/subcats', 'SubCategoryController@show')->name('subcats');
 Route::post('/lastcats', 'LastCategoryController@show')->name('lastcats');
-
-
 
 Route::get('/buying-request', 'BuyingRequestController@create')->name('BuyingRequest');
 Route::post('/buying-request', 'BuyingRequestController@store')->name('BuyingRequest'); // stores all buying request data
