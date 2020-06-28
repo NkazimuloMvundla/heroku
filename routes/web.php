@@ -13,7 +13,7 @@
 
 
 Auth::routes(['verify' => true]);
-Route::get('/', 'IndexController@create')->name('home')->middleware('verified');
+Route::get('/', 'IndexController@create')->name('home');
 Route::get('/home', 'IndexController@create')->name('home')->middleware('verified');
 Route::get('/sell', 'sellController@create')->name('sell');
 Route::get('/membership', 'MembershipController@create')->name('membership');
