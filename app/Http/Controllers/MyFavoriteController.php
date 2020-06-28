@@ -34,13 +34,14 @@ class MyFavoriteController extends Controller
 
                 $data = request()->validate([
                     'id' => ['numeric'],
+                    'u_id' => ['numeric']
                 ]);
-                $count = \App\my_favorite::where('mf_pd_id', trim($data['id']))->get();
+                $count = \App\my_favorite::where('mf_pd_id', trim($data['id']))->where('mf_u_id', trim($data['u_id']))->get();
                 if (count($count) > 0) {
                     echo htmlspecialchars('You have already liked this product');
                 } else {
                     \App\my_favorite::create([
-                        'mf_u_id' => Auth()->user()->id,
+                        'mf_u_id' => $data['u_id'],
                         'mf_pd_id' => trim($data['id']),
                     ]);
                     echo htmlspecialchars('Product was added to liked products');

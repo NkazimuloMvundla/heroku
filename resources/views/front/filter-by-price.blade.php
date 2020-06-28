@@ -8,22 +8,21 @@
 @section('content')
 <style nonce="{{ csp_nonce() }}">
 div#search-result{ display: flex; justify-content: center;margin-top: 12px;}
-div.container > div {margin-top: -24px}
-.result{background: #f2f3f7; padding:12px;}
+div#totalFound{background: #f2f3f7; padding:12px;}
 div>h5#totalFound > span{color: orange}
+h5#totalFound{background: #f2f3f7; padding:12px;}
 h5#notFound > span{ color:orange;weight:bold}
-h5#notFound >  a{ color:orange}
+h5#notFound > span > a{ color:orange}
 div#search-result > div {border-right: 1px solid lightgreen;}
 li.list-item{border-bottom: 1px solid #f5f5f5;padding: 7px;}
 div.btn-go{margin-top: 5px}
-div.products-by-category > div {border: 1px dotted #e2e2e2}
 div.star-rating{display: none;}
 div.clearfix{padding-right:8px; margin-top:16px;}
 </style>
 <div class="container">
     <div>
         @if($Productcount > 0)
-         <h5 id="totalFound" class="result">
+         <h5 id="totalFound" class="search-result">
                 About <span>{{ $Productcount }}</span>  product(s) found for price range at {{ Session::get("min_price") }} - {{ Session::get("max_price") }}
          </h5>
          @endif
@@ -94,7 +93,7 @@ div.clearfix{padding-right:8px; margin-top:16px;}
                     </form>
                 <div class="row products-by-category">
                     @foreach ($products as $product)
-                        <div class="col-md-3 col-xs-6">
+                        <div class="col-md-3 col-xs-6 product-item-container">
                              <div class="thumb-wrapper">
                                 <div class="img-box">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
@@ -124,7 +123,7 @@ div.clearfix{padding-right:8px; margin-top:16px;}
                         <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
                         <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                     <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                      <a  onclick="myFavorite({{ $product->pd_id }});"  id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md"></a>
+                         <a data-id="{{ $product->pd_id  }}" id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md add-to-favs"></a>
                                     </div>
                                 </div>
                             </div>

@@ -167,7 +167,7 @@
             });
 
              $(".delete_all").on("click", function() {
-               return checkedAll();
+               return checkedAl();
             });
     </script>
 

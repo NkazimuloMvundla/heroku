@@ -152,7 +152,7 @@
         ul#sub{border: 1px dotted gainsboro;}
         </style>
 
-        <div class="container hidden-lg">
+        <div class="w3-container hidden-lg">
             <div class="row">
                 <div class="col-md-12">
                         <div id="menu">

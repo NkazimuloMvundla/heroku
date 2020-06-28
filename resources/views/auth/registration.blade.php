@@ -85,7 +85,7 @@
                         <div class="row form-group">
 
                             <div class="col-md-6">
-                            <h5> Please select atleast one industry</h5>
+                            <h5> Please select atleast one industry you intrested in or cover</h5>
                             <label for="industry">Industry</label>
                             <?php
                             $industries = ["Agricultural Products" , "Coal" , "Steel", "Minerals" , "Industrial Products" , "Machinery", "Consumer Goods" , "Food" ];

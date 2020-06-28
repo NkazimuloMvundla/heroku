@@ -53,7 +53,7 @@
 div.navbar-header{margin-left:2px;}
 button.sidebarCollapse  {border-radius:0;border: 0;}
 div.bewlo{position:relative;}
-button.submit{background: #ffa50091;}
+button.submit{background: #ffa50091;height:34px;}
 button.submit:hover{background: #ffa50091;}
 
 /*******sidebar*********/

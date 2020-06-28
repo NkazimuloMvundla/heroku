@@ -78,8 +78,9 @@
                   <div class="box-footer no-padding">
                     <div class="mailbox-controls">
                       <!-- Check all button -->
-                      <button type="button" name ="submit" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                      </button>
+                           <!-- Check all button -->
+                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
+                 </button>
                       <div class="btn-group">
                         <button  class="btn btn-default btn-sm delete_all" name="DeleteAll" ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete all"></i> Delete</button>
 
@@ -107,7 +108,7 @@
             });
 
              $(".delete_all").on("click", function() {
-               return checkedAll();
+               return checkedAl();
             });
     </script>
 </div>

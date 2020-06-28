@@ -195,12 +195,14 @@ class ProfileController extends Controller
                 //IF THERE'S 2 IMAGES IN THE DB, A USER CANT UPLOAD MORE THAN 1 SINCE LIMIT IS 3
             } else if ($countImgs == 2) {
                 request()->validate([
+                    'company_images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
                     'company_images' => [new PhotoMaxUpload, new PhotoEditMaxUpload],
 
                 ]);
                 //IF THERE'S 3 IMAGES IN THE DB, A USER CANT UPLOAD ANY PHOTO AT ALL SINCE LIMIT IS 3
             } else if ($countImgs == 3) {
                 request()->validate([
+                    'company_images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
                     'company_images' => [new PhotoEditEqualToThree],
 
                 ]);
@@ -208,6 +210,7 @@ class ProfileController extends Controller
             //IF THERE'S 1 IMAGE IN THE DB, A USER CANT UPLOAD MORE THAN 2 SINCE LIMIT IS 3
             else if ($countImgs == 1) {
                 request()->validate([
+                    'company_images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
                     'company_images' =>  [new PhotoMaxUpload, new PhotoEditEqualToOne],
 
                 ]);

@@ -112,7 +112,7 @@ function myFavorite(id) {
         $.ajax({
             type: "POST",
             url: "/u/favorites",
-            data: { id: id },
+            data: { id: id, u_id: $("#u_id").val() },
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },

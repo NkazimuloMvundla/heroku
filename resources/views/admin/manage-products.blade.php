@@ -7,7 +7,7 @@ span.message{font-size:16px;}
 div.box-tools{display: none;}
 div.mailbox-messages{padding: 20px;}
 td.checkbox{width:10%;}
-</style>
+</style> 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -113,7 +113,7 @@ td.checkbox{width:10%;}
              <div class="box-footer no-padding">
                <div class="mailbox-controls">
                  <!-- Check all button -->
-                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i>
+                 <button type="button" class="btn btn-default btn-sm checkbox-toggle"  ><i class="fa fa-square-o"></i> 
                  </button>
                   <div class="btn-group">
                   <button id="DeleteAll" class="btn btn-default btn-sm deleteAll" name="DeleteAll">

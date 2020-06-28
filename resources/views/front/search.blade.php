@@ -8,7 +8,6 @@
 @section('content')
 <style nonce="{{ csp_nonce() }}">
 div#search-result{ display: flex; justify-content: center;margin-top: 12px;}
-div.container > div {margin-top: -24px}
 div#totalFound{background: #f2f3f7; padding:12px;}
 div>h5#totalFound > span{color: orange}
 h5#totalFound{background: #f2f3f7; padding:12px;}
@@ -17,7 +16,6 @@ h5#notFound > span > a{ color:orange}
 div#search-result > div {border-right: 1px solid lightgreen;}
 li.list-item{border-bottom: 1px solid #f5f5f5;padding: 7px;}
 div.btn-go{margin-top: 5px}
-div.products-by-category > div {border: 1px dotted #e2e2e2}
 div.star-rating{display: none;}
 div.clearfix{padding-right:8px; margin-top:16px;}
 </style>
@@ -112,7 +110,7 @@ div.clearfix{padding-right:8px; margin-top:16px;}
 
                 <div class="row products-by-category">
                     @foreach ($products as $product)
-                        <div class="col-md-3 col-xs-6">
+                        <div class="col-md-3 col-xs-6 product-item-container">
                              <div class="thumb-wrapper">
                                 <div class="img-box">
                             <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>

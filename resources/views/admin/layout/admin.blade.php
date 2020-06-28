@@ -45,7 +45,7 @@
 
  <!--Jquery--->
  <script nonce="{{ csp_nonce() }}"  src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
- <script nonce="{{ csp_nonce() }}"  src="{{ asset('u/dropzone-master/dist/dropzone.min.js') }}"></script>
+ <script nonce="{{ csp_nonce() }}"  src="{{ asset('u/dropzone-master/dist/min/dropzone.min.js') }}"></script>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

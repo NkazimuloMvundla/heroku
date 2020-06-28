@@ -30,6 +30,11 @@
  <style nonce="{{ csp_nonce() }}">
  div.lSSlideWrapper {transition-duration: 500ms; transition-timing-function: ease;}
  ul.lSGallery{margin-top: 5px; transition-duration: 500ms; width: 121.5px; transform: translate3d(0px, 0px, 0px);}
+ 	@media (max-width: 768px) {
+			  ul.lSGallery > li {
+			        width:121px
+            }
+    }
    ul.lSGallery > li {width:100%;width:35.333333333333336px;margin-right:5px;}
  .breadcrumb{background: #FFF;}
     ul{
@@ -211,17 +216,17 @@ p.share-social{margin-top:7px;}
             <span id="make_offer"> Make an Offer <i class="fa fa-envelope"> </i></span>
             </span></a> </a>
             </div>
-     
-       
+
+
                 <div id="social-conn">
-                    <p class="text-success share-social">Share via social media</p>
+                    <p class="text-success share-social">Share</p>
                     <ul class="social-conn">
                     <li class="social-share facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></li>
                     <li class="social-share twitter"><i class="fa fa-twitter-square" aria-hidden="true"></i></li>
                     <li class="social-share linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></li>
                     </ul>
                 </div>
-           
+
         </div>
 
         <div class="hidden-xs hidden-sm hidden-md row-1 w3-padding col-md-2">
@@ -491,7 +496,7 @@ p.share-social{margin-top:7px;}
                       </div>
                       <div class="contacts-form" id="review-form">
                           <div class="form-group"> <span class="icon icon-user"></span>
-                            <input type="text" name="apr_name" id="apr_name" class="form-control" value="" placeholder="Your Name">
+                            <input type="text" name="apr_name" id="apr_name" class="form-control"  placeholder="Your Name">
                           </div>
                           <div class="form-group"> <span class="icon icon-bubbles-2"></span>
                             <textarea class="form-control" name="comment" id="comment" placeholder="Your Review"></textarea>
@@ -710,5 +715,5 @@ function setShareLinks() {
     <!--lightSlider JS-->
     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/light/src/js/lightslider.min.js') }}"></script>
 
-    
+
 @endsection
