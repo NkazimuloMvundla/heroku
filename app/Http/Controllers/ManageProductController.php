@@ -118,7 +118,7 @@ class ManageProductController extends Controller
             $product = \App\Product::where('pd_id', $data['pd_id'])->get();
             if ($data['id'] == 1) {
 
-                \App\Notifications::create([
+                DB::table('notifications')->insert([
                     'message' => " Your product " . $product->first()->pd_name . " has been approved ",
                     'user_id' => $product->first()->pd_u_id,
                     'product_id' => $product->first()->pd_id,
@@ -128,7 +128,7 @@ class ManageProductController extends Controller
                 return response($res);
             } else {
 
-                \App\Notifications::create([
+                DB::table('notifications')->insert([
                     'message' => " Your product " . $product->first()->pd_name . " has been suspended ",
                     'user_id' => $product->first()->pd_u_id,
                     'product_id' => $product->first()->pd_id,
@@ -174,7 +174,7 @@ class ManageProductController extends Controller
                     'pd_image' => $images->first()->pd_filename,
                 ]);
                 //notify user that his product has been featured
-                \App\Notifications::create([
+                DB::table('notifications')->insert([
                     'message' => " Your product " . $products->first()->pd_name . " has been Featured in Home Page ",
                     'user_id' => $products->first()->pd_u_id,
                     'product_id' => $products->first()->pd_id,

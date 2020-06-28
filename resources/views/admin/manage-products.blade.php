@@ -24,12 +24,11 @@ td.checkbox{width:10%;}
     <section class="content">
         <div class="row">
                <!-- /.col -->
-        <div >
+          <div>
              <!-- /.col -->
 
         <div class="col-md-12">
             <span class="message text-center label label-success"></span>
-
            <div class="box box-primary">
 
                <div class="box-tools pull-right">
