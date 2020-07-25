@@ -15,7 +15,31 @@ class IndexController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $featured_products = \App\Product::take(12)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
+        $featured_products = \App\Product::take(12)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get(); 
+        if(Auth::check()){
+        $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+        $countFavs = count($favs);
+       // dd($countFavs);
+
+        $fav = $favs->pluck('mf_pd_id'); // Collection contains only user names
+        }
+
+      
+       
+  
+        
+      /*  $featured_product = [];
+        $newArraySize = array_push($featured_product,$featured_products); 
+        $newArraySize = array_push($featured_product,$favs); 
+        dd($featured_product); // Array is passed by reference, therefore the original array is modified to
+        */
+       // dd($favs);
+
+        //join subcats with current product id
+       /* $favs = DB::table('products')
+                ->join('my_favorites', 'my_favorites.mf_pd_id', '=', 'products.pd_id')->take(12)->where('pd_approval_status', 1)->where('pd_featured_status', 1)->inRandomOrder()->get();
+       //     dd($favs);*/
+
         $featured_images = \App\Photo::all();
         $pd_images = \App\Photo::all();
         $buyingRequests = \App\BuyingRequest::all();
@@ -29,7 +53,7 @@ class IndexController extends Controller
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
-            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'measurementUnits', 'find_by_category', 'featured_suppliers', 'count', 'countBuyingRequest', 'banners'));
+            return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'measurementUnits', 'find_by_category', 'featured_suppliers', 'count', 'countBuyingRequest', 'banners', 'fav', 'countFavs'));
         } else {
             return view('front.Index', compact('pCats', 'subCats', 'lastCats', 'featured_products', 'pd_images', 'featured_images', 'measurementUnits', 'find_by_category', 'featured_suppliers', 'banners'));
         }

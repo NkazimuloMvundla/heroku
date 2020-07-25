@@ -17,7 +17,7 @@
 @endforeach
 
 {{-- Action Button --}}
-@isset($actionText)
+@isset($actionText) 
 <?php
     switch ($level) {
         case 'success':

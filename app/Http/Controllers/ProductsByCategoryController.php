@@ -25,6 +25,11 @@ class ProductsByCategoryController extends Controller
             $count = count($lasts);
 
             $buyingRequests = \App\BuyingRequest::all();
+                if(Auth::check()){
+                    $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+                    $countFavs = count($favs);
+                    $fav = $favs->pluck('mf_pd_id'); 
+                }
             if ($count > 0) {
                 $products = DB::table('products')->where('pd_category_id', $sanitized_last_category_id)->inRandomOrder()->paginate(50);  //to render random products
 
@@ -38,7 +43,7 @@ class ProductsByCategoryController extends Controller
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
 
-                return view('front.products-by-category', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'category', 'lasts', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+                return view('front.products-by-category', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'category', 'lasts', 'products', 'fav', 'pd_images', 'count', 'countBuyingRequest'));
             } else {
 
                 return view('front.products-by-category', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'category', 'lasts', 'products', 'pd_images'));
@@ -65,6 +70,11 @@ class ProductsByCategoryController extends Controller
 
             $lasts = \App\lastCategory::where('id', $sanitized_last_category_id)->get();
             $count = count($lasts);
+                if(Auth::check()){
+                    $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+                    $countFavs = count($favs);
+                    $fav = $favs->pluck('mf_pd_id'); 
+                }
             foreach ($lasts as $last) {
 
                 $pc_id = $last['pc_id'];
@@ -98,7 +108,7 @@ class ProductsByCategoryController extends Controller
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
 
-                return view('front.products-by-category-last-cat', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'lasts', 'last_categories', 'last_category', 'products', 'count', 'countBuyingRequest'));
+                return view('front.products-by-category-last-cat', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'lasts', 'last_categories','fav', 'last_category', 'products', 'count', 'countBuyingRequest'));
             } else {
 
                 return view('front.products-by-category-last-cat', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'last_categories', 'lasts', 'last_category', 'products'));

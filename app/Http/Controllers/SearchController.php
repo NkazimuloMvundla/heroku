@@ -106,6 +106,11 @@ class SearchController extends Controller
             $pd_images = \App\Photo::all();
             $buyingRequests = \App\BuyingRequest::all();
             $countBuyingRequest = count($buyingRequests);
+                 if(Auth::check()){
+                    $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+                    $countFavs = count($favs);
+                    $fav = $favs->pluck('mf_pd_id'); 
+                }
 
             $related_cats = DB::table('products')
                 ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->get();
@@ -115,7 +120,7 @@ class SearchController extends Controller
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
 
-                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images', 'fav', 'count', 'countBuyingRequest'));
             } else {
 
                 return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images'));
@@ -139,7 +144,7 @@ class SearchController extends Controller
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
 
-                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+                return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images','fav', 'count', 'countBuyingRequest'));
             } else {
 
                 return view('front.search',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'related_cats', 'count_related_cats', 'products', 'pd_images'));
@@ -180,6 +185,11 @@ class SearchController extends Controller
             $pd_images = \App\Photo::all();
             $buyingRequests = \App\BuyingRequest::all();
             $countBuyingRequest = count($buyingRequests);
+                 if(Auth::check()){
+                    $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+                    $countFavs = count($favs);
+                    $fav = $favs->pluck('mf_pd_id'); 
+                }
 
 
             $related_cats = DB::table('products')
@@ -192,7 +202,7 @@ class SearchController extends Controller
                 $count = count($userMessages);
 
 
-                return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+                return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products','fav', 'pd_images', 'count', 'countBuyingRequest'));
             } else {
 
                 return view('front.filter-by-price',  compact('Productcount', 'pCats', 'subCats', 'lastCats', 'count_related_cats', 'related_cats', 'products', 'pd_images'));

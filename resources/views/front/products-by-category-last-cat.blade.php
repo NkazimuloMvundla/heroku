@@ -64,7 +64,7 @@ li.list-item {border-bottom: 1px solid #f5f5f5;padding: 7px;}
                                 <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
                                 <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                                 <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                                <a data-id="{{ $product->pd_id  }}" id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md add-to-favs"></a>
+                                  @include('layouts.includes.favs')
                                         </div>
                                     </div>
                                  </div>

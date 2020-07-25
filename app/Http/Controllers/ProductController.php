@@ -599,7 +599,12 @@ class ProductController extends Controller
                 ->join('last_categories', 'last_categories.id', '=', 'products.pd_subCategory_id')->where('last_categories.id', $product->first()->pd_subCategory_id)->get()->first();
 
             $you_may_like = DB::table('products')->take(8)->inRandomOrder()->get();
-            $featured_images = \App\Photo::all();
+                if(Auth::check()){
+                    $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+                    $countFavs = count($favs);
+                    $fav = $favs->pluck('mf_pd_id'); 
+                }
+            $featured_images = \App\Photo::all(); 
             $payments = \App\PaymentTerms::all();
             $payment_t = explode(',', $payment_tem);
             $reviews = \App\Review::where(['pd_id' => $pd_id, 'status' => 1])->take(2)->get();
@@ -619,7 +624,7 @@ class ProductController extends Controller
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
 
-                return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'subcategory', 'last_categories', 'count_comp_img', 'questions', 'answers'));
+                return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'count', 'countBuyingRequest', 'spec_option', 'specifications', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'subcategory', 'last_categories', 'fav', 'count_comp_img', 'questions', 'answers'));
             } else {
                 return view('front.product-detail', compact('parent', 'pCats', 'subCats', 'lastCats',  'product', 'pd_images', 'featured_images', 'payments', 'payment_t', 'user', 'you_may_like', 'reviews', 'spec_option', 'specifications', 'export', 'export_capabilities', 'export', 'export_capabilities', 'company_images', 'certificates', 'count_certificates', 'subcategory', 'last_categories', 'count_comp_img', 'questions', 'answers'));
             }

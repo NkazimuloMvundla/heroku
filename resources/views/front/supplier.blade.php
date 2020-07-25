@@ -192,7 +192,7 @@ div.prod-link{margin-top:7px;}
                          <?php   $encoded_product_id = base64_encode( $product->pd_id) ;?>
                         <?php   $encoded_supplier_id = base64_encode( $product->pd_u_id) ;?>
                                         <a href="/contact-supplier/product/{{ $encoded_product_id }}/supplier/{{ $encoded_supplier_id }}" class="btn btn-default item">Contact now!</a>
-                                      <a data-id="{{ $product->pd_id  }}" id="add-to-favs" class="fa fa-heart btn btn-default hidden-sm hidden-xs hidden-md add-to-favs"></a>
+                                       @include('layouts.includes.favs') 
                                     </div>
                                 </div>
                             </div>

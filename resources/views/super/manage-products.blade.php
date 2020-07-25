@@ -230,9 +230,6 @@ function checkedAll () {
          Manage Products
           <small>{{ " There are " . $count ." registered products "}}</small>
         </h1>
-
-
-
       </section>
 
       <!-- Main content -->
@@ -269,7 +266,7 @@ function checkedAll () {
                                     {{ $sub_category->pc_name }}
                             @endif
                             @endforeach
-                      </td>
+                      </td> 
 
                       <td class="showProduct"  data-toggle="modal" data-target="#modal-default"  data-id="{{ $product->pd_id }}"> click</td>
                     <td id="{{ "status" .$product->pd_id  }}">

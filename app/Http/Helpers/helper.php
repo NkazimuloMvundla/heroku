@@ -6,7 +6,7 @@ if(!function_exists('facebook_time_ago')){
 
     function facebook_time_ago($timestamp)
      {
-          date_default_timezone_set('Africa/Johannesburg');
+         // date_default_timezone_set('Africa/Johannesburg');
           $time_ago = strtotime($timestamp);
           $current_time = time();
           $time_difference = $current_time - $time_ago;
@@ -89,58 +89,7 @@ if(!function_exists('facebook_time_ago')){
        }
      }
 }
-/*
-if(!function_exists('checkImg')){
 
-    function checkImg($id){
-        $images =\App\Photo::where('pd_photo_id',$id )->get();
-        $countImgs = count($images);
-        if($countImgs < 1){
-           request()->validate([
-
-                 'Product_photo' => ['required'],
-
-             ]);
-        }else if($countImgs == 2){
-            request()->validate([
-
-                'Product_photo' => [new App\PhotoMaxUpload, new App\PhotoEditMaxUpload],
-
-              ]);
-         }
-         else if($countImgs == 3){
-            request()->validate([
-
-                'Product_photo' => [new App\PhotoMaxUpload, new App\PhotoEditMaxUpload],
-
-              ]);
-         }
-         else if($countImgs == 3){
-            request()->validate([
-
-                'Product_photo' => [new App\PhotoEditEqualToThree],
-
-              ]);
-         }
-         else if($countImgs == 1){
-            request()->validate([
-
-                'Product_photo' =>  [new App\PhotoMaxUpload, new App\PhotoEditEqualToOne],
-
-              ]);
-         } else{
-            request()->validate([
-
-                'Product_photo' =>  [new App\PhotoMaxUpload],
-
-              ]);
-         }
-
-    }
-
-
-    }
-*/
 if (!function_exists('PaginationStartEnd')) {
 function PaginationStartEnd($currentPage, $perPage, $total)
 {

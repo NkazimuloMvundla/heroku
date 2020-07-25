@@ -132,13 +132,12 @@ class RegisterController extends Controller
             'message' => " New account registered by " . $data['company_name'] . " ",
         ]);
 
-        /*if (
+        if (
             Mail::to($data['email'])->send(new WelcomeMail($user))
         ) {
-
+ 
             Session::flash('message', "hgj");
-            return redirect()->to('/login');
-        }*/
+        }
 
         return $user;
     }

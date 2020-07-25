@@ -560,29 +560,29 @@ p.share-social{margin-top:7px;}
         <div class="row">
         <h6 class="block-title">You May Aslo Like</h6>
 
-        @foreach ($you_may_like as $collection)
-            @if($collection->pd_photo != null)
+        @foreach ($you_may_like as $product)
+            @if($product->pd_photo != null)
             <div class="col-md-3 col-xs-6  product-item-container">
                 <div class="thumb-wrapper">
                     <div class="img-box">
                         <?php $auth = Auth::check() ? Auth::user()->id: ''  ;?>
                         <input type="hidden" name="u_id" id="u_id" value="{{ $auth }}">
 
-                       <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
+                       <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                         <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                        <img src="{{ url($collection->pd_photo)  }}" class="img-responsive" alt="product image" width="150" height="150">
+                        <img src="{{ url($product->pd_photo)  }}" class="img-responsive" alt="product image" width="150" height="150">
 
                         </a>
                     </div>
                 <div class="thumb-content">
                     <p class="item-name">
-                      <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
+                      <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                     <a href="/product-details/{{ $encoded_product_id }}" class="view_product">
-                    <span>{{ $collection->pd_name }}</span>
+                    <span>{{ $product->pd_name }}</span>
                     </a>
                     </p>
-                        <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $collection->min_price }}-{{ $collection->max_price }}</span></p>
-                        <p class="item-price"><span>MOQ:{{ $collection->pd_min_order_qty  }}  {{ $collection->minOrderUnit }}</span></p>
+                        <p class="item-price"><!--<strike>ZAR 400.00</strike>--> <span>ZAR {{ $product->min_price }}-{{ $product->max_price }}</span></p>
+                        <p class="item-price"><span>MOQ:{{ $product->pd_min_order_qty  }}  {{ $product->minOrderUnit }}</span></p>
                       <div class="star-rating hidden">
                           <ul class="list-inline">
                               <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -592,10 +592,35 @@ p.share-social{margin-top:7px;}
                               <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                           </ul>
                       </div>
-                        <?php  $encoded_user_id = base64_encode($collection->pd_u_id ) ;?>
-                        <?php  $encoded_product_id = base64_encode( $collection->pd_id) ;?>
+                        <?php  $encoded_user_id = base64_encode($product->pd_u_id ) ;?>
+                        <?php  $encoded_product_id = base64_encode( $product->pd_id) ;?>
                     <a href="/contact-supplier/product/{{ $encoded_product_id}}/supplier/{{ $encoded_user_id}}" class="btn btn-default item">Contact now!</a>
-                    <a  data-id="{{ $collection->pd_id }}" id="add-to-favs" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md add-to-favs"></a>
+                  
+                   @if(Auth::check())
+                      @foreach ($fav as  $f)
+                      @php
+                      $array = $fav->toArray() ;  
+                      @endphp			
+
+                      @if( $product->pd_id != $f && !in_array($product->pd_id,$array ) )
+                      <a  data-id="{{ $product->pd_id }}" id="{{ "add-to-favs" . $product->pd_id }}" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md add-to-favs">
+                      </a> 
+                      <?php break;?>
+                      @else
+                      <a  data-id="{{ $product->pd_id }}" id="{{ "add-to-favs" . $product->pd_id }}" class="fa fa-heart fa-red btn btn-default  hidden-sm hidden-xs hidden-md add-to-favs">
+                      </a> 
+                      <?php break;?>
+                      @endif
+                      @endforeach
+
+                    
+
+                      @endif
+
+                      @if(!Auth::check())
+                      <a  data-id="{{ $product->pd_id }}" id="{{ "add-to-favs" . $product->pd_id }}" class="fa fa-heart btn btn-default  hidden-sm hidden-xs hidden-md add-to-favs">
+                      </a> 
+                      @endif
                 </div>
               </div>
             </div>

@@ -21,7 +21,7 @@ class MyFavoriteController extends Controller
         Session::put('user_messages', $userMessages);
         Session::put('user_messages_count', $count);
         $products = \App\Product::all();
-        $pd_images = \App\Photo::all();
+        $pd_images = \App\Photo::all(); 
 
         return view('admin.my_favorites', compact('favorites', 'products', 'pd_images'));
     }
@@ -38,13 +38,15 @@ class MyFavoriteController extends Controller
                 ]);
                 $count = \App\my_favorite::where('mf_pd_id', trim($data['id']))->where('mf_u_id', trim($data['u_id']))->get();
                 if (count($count) > 0) {
-                    echo htmlspecialchars('You have already liked this product');
+                  $count = \App\my_favorite::where('mf_pd_id', trim($data['id']))->delete();
+                  return 0;
+
                 } else {
                     \App\my_favorite::create([
                         'mf_u_id' => $data['u_id'],
                         'mf_pd_id' => trim($data['id']),
                     ]);
-                    echo htmlspecialchars('Product was added to liked products');
+               return 1;
                 }
             }
         } else {

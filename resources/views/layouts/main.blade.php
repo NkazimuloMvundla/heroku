@@ -537,7 +537,7 @@ span.copyright{color: black}
      <!--jQuery validate-->
     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
     <!--js fun-->
-    <script  nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/functions.js') }}"></script>
+    <script  nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/functions.min.js') }}"></script>
 
 </body>
 </html>

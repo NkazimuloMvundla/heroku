@@ -216,7 +216,7 @@ h4.red-heading{font-size: 14px}
 </div>
 
 <div class="price">
-<span>$9.90</span>
+<span>$40.00</span>
 </div>
 
 <div class="pricing-item">
@@ -230,7 +230,7 @@ h4.red-heading{font-size: 14px}
 </div>
 
 <div class="pricing-button">
-<a href="#" class="btn btn-pricing"><i class="fa fa-check"></i> Sign Up</a>
+  <a rel="noopener noreferrer" target="_blank" href="https://www.payfast.co.za/eng/process?cmd=_paynow&amp;receiver=12043920&amp;item_name=standard+membership&amp;item_description=Users+are+buying+a+standard+membership+plan&amp;amount=600.00&amp;return_url=http%3A%2F%2F127.0.0.1%3A8000%2F&amp;cancel_url=http%3A%2F%2F127.0.0.1%3A8000%2F"><img src="https://www.payfast.co.za/images/buttons/dark-large-buynow.png" width="174" height="59" alt="Buy" title="Buy Now with PayFast" /></a>
 </div>
 </div>
 </div>

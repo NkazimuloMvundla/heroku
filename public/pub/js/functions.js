@@ -117,7 +117,11 @@ function myFavorite(id) {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
             success: function(data) {
-                alert(data);
+                if (data == 1) {
+                    $("#add-to-favs" + id).css({ color: "red" });
+                } else {
+                    $("#add-to-favs" + id).css({ color: "black" });
+                }
             }
         });
     } else {

@@ -32,10 +32,15 @@ class SupplierController extends Controller
             $export = count($export_capabilities);
             $pd_images = \App\Photo::all();
             $countBuyingRequest = count($buyingRequests);
+                 if(Auth::check()){
+                    $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+                    $countFavs = count($favs);
+                    $fav = $favs->pluck('mf_pd_id'); 
+                }
             if (Auth::check()) {
-                $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
+            $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
                 $count = count($userMessages);
-                return view('front.supplier', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'supplier', 'count', 'countBuyingRequest', 'products', 'company_images', 'count_comp_img', 'export', 'export_capabilities', 'pd_images', 'certificates', 'count_certificates'));
+                return view('front.supplier', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'supplier', 'count', 'countBuyingRequest', 'products', 'company_images', 'count_comp_img', 'export','fav', 'export_capabilities', 'pd_images', 'certificates', 'count_certificates'));
             } else {
 
                 return view('front.supplier', compact('pCats', 'subCats', 'lastCats', 'parent_category', 'supplier', 'products', 'company_images', 'count_comp_img', 'export', 'export_capabilities', 'pd_images', 'certificates', 'count_certificates'));
