@@ -14,6 +14,7 @@
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
 <link rel="stylesheet" type="text/css"  href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <style nonce="{{ csp_nonce() }}">
     .fa-envelope:before {
     content: "\f0e0"
