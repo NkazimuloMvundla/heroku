@@ -8,7 +8,6 @@
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta name="robots" content="noindex, nofollow" />
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">

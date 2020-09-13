@@ -26,7 +26,7 @@ button#bstype{cursor:pointer}
                                 $array = ["Supplier" , "Buyer" , "Both" ];
 
                                 ?>
-                                <option value="">Choose Account Type</option>
+                                <option>Choose Account Type</option>
                                 @foreach($array as $role)
                                 <option value="{{$role}}" {{ old('account_type') ? 'selected' : '' }} >{{$role}}</option>
                                 @endforeach
