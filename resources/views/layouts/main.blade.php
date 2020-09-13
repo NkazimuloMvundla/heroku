@@ -11,10 +11,10 @@
 <meta name="keywords" content="@yield('meta_keywords','south african suppliers, south african businesses')">
 <meta name="description" content="@yield('meta_description','find south african suppliers')">
 <link rel="canonical" href="{{url()->current()}}"/>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
 <link rel="stylesheet" type="text/css"  href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <style nonce="{{ csp_nonce() }}">
     .fa-envelope:before {
     content: "\f0e0"
