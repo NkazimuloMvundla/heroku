@@ -73,24 +73,21 @@ class ManageProductController extends Controller
                 'checked.*' => ['required'],
 
             ]);
-
-            if (!empty($ids) && is_array($ids)) {
-                foreach ($ids as $id) {
-                    $path = \App\Photo::where('pd_photo_id', $id)->get();
-                    foreach ($path as $imgPath) {
-                        $paths = $imgPath->pd_filename; //pd_images\image.png
-                        $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
-                        if (file_exists($absolute)) {
-                            $success = unlink($absolute);
-
-                            if ($success) {
-                                \App\Photo::where('pd_photo_id', $id)->delete();
-                                \App\Product::where('pd_id', $id)->delete();
-                            }
-                        }
-                    }
+            
+            foreach (request()->checked as $id) {
+                 $path = \App\Photo::where('pd_photo_id', $id)->get();
+                foreach ($path as $imgPath) {
+                $paths = $imgPath->pd_filename; //pd_images\image.png
+                $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
+                if (file_exists($absolute)) {
+                    $success = unlink($absolute);
                 }
-            }
+                            
+              } 
+                \App\Photo::where('pd_photo_id', $id)->delete();
+                \App\Product::where('pd_id', $id)->delete();  
+             }
+            
         }
     }
     /*Transactions for super user */

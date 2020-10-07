@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container">
 
     <div class="row" id="register">
@@ -9,7 +8,7 @@
             <div class="row">
                     <div class="col-xs-6 col-md-4">
                             <label for="Account type">Account Type</label>
-                            <p>{{ Session::get('account_type') }} <span><a href="/account-type">change</a></span></p>
+                            <p>{{ Session::get('account_type') }} <span><a href="/account-type" class="text-primary">change</a></span></p>
                             </div>
             </div>
             <div>
@@ -106,17 +105,22 @@
                     </div>
 
                         <div class="row form-group">
-                                <div class="col-md-6">
-                                <label for="phone_number">Business Phone Number</label>
-                                <input id="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" autocomplete="off">
-
+                          <div class="col-md-6">
+                            <label for="phone_number">Business Phone Number</label>
+                                <div class="input-group">
+                                <div class="input-group-addon">
+                                  +27
+                                </div>
+                                <input id="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" autocomplete="off" >
+                
+                                </div>
                                 @error('phone_number')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                                 </div>
-                        </div>
+                         </div>
 
                             <div class="row form-group">
                                 <div class="col-md-6">
@@ -165,4 +169,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

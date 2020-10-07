@@ -23,8 +23,10 @@ function sendId(id) {
 function checkedAll() {
     var check = $('input[name="pd_id[]"]:checked').length;
     if (check > 0) {
-        $(document).ready(function() {
-            var res = confirm(" Are you sure you want to delete ? ");
+        jQuery(function() {
+            var res = confirm(
+                `Are you sure you want to delete ${check} products ? `
+            );
             if (res) {
                 var notChecked = [],
                     checked = [];
@@ -33,8 +35,8 @@ function checkedAll() {
                         ? checked.push(this.id)
                         : notChecked.push(this.id);
                 });
-                //console.log("Checked " + checked);
-                // console.log("Not checked " + notChecked);
+                console.log("Checked " + checked);
+                console.log("Not checked " + notChecked);
 
                 $.ajax({
                     type: "POST",
@@ -73,7 +75,7 @@ $(document).on("click", "a[data-role=update]", function() {
     $("#modal-default").modal("toggle");
 });
 
-$("#save").click(function() {
+$("#save").on("click", function() {
     var id = $("#userId").val();
     var br_pd_spec = $("#br_pd_spec").val();
     if (br_pd_spec == "") {
@@ -102,7 +104,7 @@ $("#save").click(function() {
 });
 
 function deleteSellingRequest(id) {
-    $(document).ready(function() {
+    jQuery(function() {
         var res = confirm(" Are you sure you want to delete ? ");
         if (res) {
             $.ajax({
@@ -138,7 +140,7 @@ $(document).on("click", "a[data-role=update]", function() {
     $("#modal-selling").modal("toggle");
 });
 
-$("#save-sellingUpdate").click(function() {
+$("#save-sellingUpdate").on("click", function() {
     var id = $("#userId").val();
     var sr_pd_spec = $("#sr_pd_spec").val();
     if (sr_pd_spec == "") {

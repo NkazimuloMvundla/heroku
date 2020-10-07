@@ -165,7 +165,7 @@ class ManageUserController extends Controller
 
                             if ($success) {
                                 \App\CompanyImages::where('user_id', $id)->delete();
-                            }
+                            } 
                         }
                     }
                 }

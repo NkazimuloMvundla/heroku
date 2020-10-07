@@ -295,7 +295,6 @@ h2.featured::after {
 div.img-box {
     display: flex;
     justify-content: center;
-    background: #f4f4f4;
     margin-top: 7px;
 }
 span#add-to-favs {

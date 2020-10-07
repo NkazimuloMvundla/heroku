@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(function() {
     $("#search").keyup(function() {
         var query = $(this).val();
         if (query !== "") {
@@ -56,7 +56,7 @@ $(document).ready(function(e) {
     });
 });
 //auto complete mobile
-$(document).ready(function() {
+jQuery(function() {
     $("#search-mobile").keyup(function() {
         var query = $(this).val();
         if (query !== "") {
@@ -87,7 +87,27 @@ $(document).ready(function() {
 function validSearch() {
     var searchtext = document.getElementById("search");
     if (searchtext.value === "") {
-        alert("Please input a keyword");
+        //alert("Please input a keywords");
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+
+        Command: toastr["error"]("Please enter a keyword!");
+
         searchtext.focus();
         return false;
     } else {
@@ -98,7 +118,25 @@ function validSearch() {
 function validSearchM() {
     var searchtext = document.getElementById("search-mobile");
     if (searchtext.value === "") {
-        alert("Please input a keyword");
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+
+        Command: toastr["error"]("Please enter a keyword!");
         searchtext.focus();
         return false;
     } else {
@@ -125,10 +163,30 @@ function myFavorite(id) {
             }
         });
     } else {
-        alert("You must be logged in before adding to your favourites");
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+
+        Command: toastr["warning"](
+            "You must be logged in before adding to your favourites!"
+        );
     }
 }
-$(document).ready(function() {
+jQuery(function() {
     $(".add-to-favs").on("click", function() {
         var id = $(this).data("id");
         myFavorite(id);
@@ -189,10 +247,10 @@ function showSellingRequest(id) {
 
 //==============================Buying Requests==============================//
 
-$(document).ready(function() {
+jQuery(function() {
     var characters = 50;
     $("#countDown").append(characters);
-    $("#br_pd_spec").keyup(function() {
+    $("#br_pd_spec").on("keyup", function() {
         if ($(this).val().length > characters) {
             $(this).val(
                 $(this)
@@ -316,7 +374,7 @@ function sendReview(id) {
                     );
                 },
                 error: function(request, status, error) {
-                    json = $.parseJSON(request.responseText);
+                    json = JSON.parse(request.responseText);
                     $.each(json.errors, function(key, value) {
                         $(".alert-danger").show();
                         $(".alert-danger").append("<p>" + value + "</p>");
@@ -326,11 +384,31 @@ function sendReview(id) {
             });
         }
     } else {
-        alert("You must be logged in before you can leave any review");
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+
+        Command: toastr["error"](
+            "You must be logged in before you can leave any review!"
+        );
     }
 }
 
-$(document).ready(function() {
+jQuery(function() {
     $("#registration_form").validate({
         rules: {
             mainCategory: "required",
@@ -360,7 +438,7 @@ $(document).ready(function() {
 });
 
 /*===================buy-req===========================*/
-$(document).ready(function() {
+jQuery(function() {
     $("#postBuyRequestForm").validate({
         rules: {
             mainCategory: "required",
@@ -390,7 +468,7 @@ $(document).ready(function() {
 });
 
 /*================send-buy-message================*/
-$(document).ready(function() {
+jQuery(function() {
     $("#send_selling_message").validate({
         rules: {
             subject: "required",
@@ -429,7 +507,7 @@ $(document).ready(function() {
 });
 
 /*==================selling-req===========================*/
-$(document).ready(function() {
+jQuery(function() {
     $("#postBuyRequestForm").validate({
         rules: {
             mainCategory: "required",
@@ -461,7 +539,7 @@ $(document).ready(function() {
 });
 
 /*==================send-selling-message========================*/
-$(document).ready(function() {
+jQuery(function() {
     $("#send_selling_message").validate({
         rules: {
             subject: "required",
@@ -500,7 +578,7 @@ $(document).ready(function() {
 });
 
 /*===========================contact-supplier==================================*/
-$(document).ready(function() {
+jQuery(function() {
     $("#contactSupplierStore").validate({
         rules: {
             subject: "required",

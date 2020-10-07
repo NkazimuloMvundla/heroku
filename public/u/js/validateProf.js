@@ -41,7 +41,25 @@ $(document).ready(function() {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    alert("Data saved!");
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: false,
+                        progressBar: false,
+                        positionClass: "toast-top-center",
+                        preventDuplicates: false,
+                        onclick: null,
+                        showDuration: "300",
+                        hideDuration: "1000",
+                        timeOut: "5000",
+                        extendedTimeOut: "1000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                    };
+
+                    Command: toastr["success"]("Data saved!");
                 }
             });
         } else {
@@ -56,7 +74,25 @@ $(document).ready(function() {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    alert("Success");
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: false,
+                        progressBar: false,
+                        positionClass: "toast-top-center",
+                        preventDuplicates: false,
+                        onclick: null,
+                        showDuration: "300",
+                        hideDuration: "1000",
+                        timeOut: "5000",
+                        extendedTimeOut: "1000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                    };
+
+                    Command: toastr["success"]("Data saved!");
                 }
             });
         }

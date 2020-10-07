@@ -548,13 +548,13 @@ Dropzone.options.myDropzone = {
                 } else {
                     $(".supplyPeriod").text("");
                 }
-                if (deliveryTime === "") {
-                    $(".deliveryTime")
-                        .text("This field is required")
-                        .css({ color: "red" });
-                } else {
-                    $(".deliveryTime").text("");
-                }
+                // if (deliveryTime === "") {
+                //     $(".deliveryTime")
+                //         .text("This field is required")
+                //         .css({ color: "red" });
+                // } else {
+                //     $(".deliveryTime").text("");
+                // }
             });
         this.on("drop", function(file) {
             $("#submitFormBtnA").removeAttr("disabled");
@@ -572,18 +572,37 @@ Dropzone.options.myDropzone = {
         });
 
         this.on("success", function(file, responseText) {
-            // console.log(responseText);
             if (responseText === "success") {
-                alert("Product added");
+                alert("The Product was added successfully!");
                 window.location = "/u/add-new-product";
             }
         });
 
-        this.on("complete", function(file) {
-            if (file == "") {
-                alert("Please god");
-            }
+        this.on("sending", function (file, responseText) {
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: false,
+                progressBar: false,
+                positionClass: "toast-top-full-width",
+                preventDuplicates: false,
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "8000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+
+            Command: toastr["error"](
+                "Please wait....."
+            );
         });
+
+
 
         this.on("error", function(file, data, xhr, responseText) {
             if (file.status == "error") {
@@ -678,7 +697,7 @@ Dropzone.options.myDropzone = {
 
 /*=========product-edit-questionsAnd Answers===========*/
 function deleteQuestionAndAswer(question_id) {
-    $(document).ready(function () {
+ jQuery(function() {
         var res = confirm(" Are you sure you want to delete ? ");
         if (res) {
             $.ajax({
@@ -707,12 +726,12 @@ function showAnswer(id) {
         },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
-                $id = data[i].id;
-                $answer = data[i].answer;
+                var id = data[i].id;
+                var answer = data[i].answer;
                 //   $question_id = data[i].question_id;
             }
-            $(".answerUpdate").val($answer);
-            $("#ansId").text($id);
+            $(".answerUpdate").val(answer);
+            $("#ansId").text(id);
         }
     });
 }

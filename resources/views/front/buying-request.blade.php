@@ -59,7 +59,7 @@ div.beforeForm{padding: 12px;}
                 <div class="ui-form-control">
                 <textarea maxlength="50"  id="br_pd_spec" name="detailedSpecification" class="form-control">{{ old('detailedSpecification') }}</textarea>
                 <div id="remainingNumber"><span id="countDown" class="remark-alert"></span><span class="text-primary"> Characters Remaining</span> </div>
-                @error('detailedSpecification')
+                @error('detailedSpecification') 
                 <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
                 </span>

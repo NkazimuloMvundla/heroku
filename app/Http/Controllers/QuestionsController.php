@@ -56,7 +56,7 @@ class QuestionsController extends Controller
                     ]);
                 }
 
-                echo htmlspecialchars('success');
+                echo htmlspecialchars('Questions saved');
             }
         } else {
             return count($DBquestions) . " " .  count($questions);

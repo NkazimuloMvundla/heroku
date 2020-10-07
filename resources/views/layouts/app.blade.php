@@ -12,13 +12,17 @@
 
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link  nonce="{{ csp_nonce() }}"  rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link nonce="{{ csp_nonce() }}"  href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!--remove this in production-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Styles -->
 <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.css') }}" />
+
+ <script nonce="{{ csp_nonce() }}"  src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
 
 </head>
 <body>
@@ -45,5 +49,19 @@
             @yield('content')
         </main>
     </div>
+       <!-- InputMask -->
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/input-mask/jquery.inputmask.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/input-mask/jquery.inputmask.extensions.js') }}"></script>
+    
+<script nonce="{{ csp_nonce() }}" >
+    
+ $(function () {
+
+  //$(selector).inputmask("99-9999999");  //static mask
+  $("#phone_number").inputmask({"mask": "(999) 999-9999"}); //specifying options
+ // $(selector).inputmask("9-a{1,3}9{1,3}"); //mask with dynamic syntax
+
+  });
+</script>
 </body>
 </html>

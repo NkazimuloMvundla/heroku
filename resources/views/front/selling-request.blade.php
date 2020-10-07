@@ -65,21 +65,21 @@ div.beforeForm{padding: 12px;}
                     <div id="suggest-wrapper" class="suggest-wrapper"></div>
                     </div>
                     </div>
-                    <div class="ui-form-item form-group">
-                    <label class="ui-form-label" for="detailTextarea">
-                    Product Detailed Specification:
-                    </label>
-                    <div class="ui-form-control">
-                    <textarea maxlength="50"  id="sr_pd_spec" name="detailedSpecification" class="form-control">{{ old('detailedSpecification') }}</textarea>
-                    <div id="remainingNumber"><span id="countDown" class="remark-alert"></span><span class="text-primary"> Characters Remaining</span> </div>
-                    @error('detailedSpecification')
-                    <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                    </div>
-                    <span class="help-block"></span>
-                    </div>
+                        <div class="ui-form-item form-group">
+                            <label class="ui-form-label" for="detailTextarea">
+                            Product Detailed Specification:
+                            </label>
+                                <div class="ui-form-control">
+                                    <textarea maxlength="50"  id="br_pd_spec" name="detailedSpecification" class="form-control">{{ old('detailedSpecification') }}</textarea>
+                                    <div id="remainingNumber"><span id="countDown" class="remark-alert"></span><span class="text-primary"> Characters Remaining</span> </div>
+                                    @error('detailedSpecification') 
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                </div>
+                            <span class="help-block"></span>
+                        </div>
                     <div class="form-group row ">
                         <div class="col-xs-6 col-md-6 ">
                         <label for="ex2">Selling Quantity:</label>

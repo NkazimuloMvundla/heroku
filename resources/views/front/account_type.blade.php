@@ -18,7 +18,7 @@ button#bstype{cursor:pointer}
         <div class="row">
         <div  id="beforeForm">
         <form name="business-type" action="/account-registration" method="POST">
-            @csrf
+            @csrf 
             <div class="form-group">
                     <label for="account_type">{{ __('Account Type') }}</label>
                                 <select id="account_type" class=" form-control @error('account_type') is-invalid @enderror" name="account_type" >
@@ -26,7 +26,7 @@ button#bstype{cursor:pointer}
                                 $array = ["Supplier" , "Buyer" , "Both" ];
 
                                 ?>
-                                <option>Choose Account Type</option>
+                                <option disabled selected>Choose Account Type</option>
                                 @foreach($array as $role)
                                 <option value="{{$role}}" {{ old('account_type') ? 'selected' : '' }} >{{$role}}</option>
                                 @endforeach

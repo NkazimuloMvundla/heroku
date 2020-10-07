@@ -12,7 +12,7 @@ function updateStatus(id) {
 function checkedAl() {
     var check = $('input[name="emails[]"]:checked').length;
     if (check > 0) {
-        $(document).ready(function() {
+        jQuery(function() {
             var res = confirm(" Are you sure you want to delete ? ");
             if (res) {
                 var notChecked = [],
@@ -79,7 +79,7 @@ function showBuyerDetails(id) {
 // function checkedAll() {
 //     var check = $('input[name="emails[]"]:checked').length;
 //     if (check > 0) {
-//         $(document).ready(function() {
+//       jQuery(function() {
 //             var res = confirm(" Are you sure you want to delete ? ");
 //             if (res) {
 //                 var notChecked = [],
@@ -122,7 +122,7 @@ function showBuyerDetails(id) {
 // function checkedAll() {
 //     var check = $('input[name="emails[]"]:checked').length;
 //     if (check > 0) {
-//         $(document).ready(function() {
+//       jQuery(function() {
 //             var res = confirm(" Are you sure you want to delete ? ");
 //             if (res) {
 //                 var notChecked = [],
@@ -161,7 +161,7 @@ function showBuyerDetails(id) {
 // //read
 
 // function sendMessage(id) {
-//     $(document).ready(function() {
+//   jQuery(function() {
 //         $("#send-message").click(function(e) {
 //             e.preventDefault();
 //             var msg_from_id = $("#msg_from_id").val();

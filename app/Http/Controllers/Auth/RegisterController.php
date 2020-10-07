@@ -66,10 +66,10 @@ class RegisterController extends Controller
             return view('auth.registration', compact('countries'));
         }
     }
-
+ 
 
     public function save_account_type()
-    {
+    { 
 
         $data = request()->validate([
             'account_type' => ['required', 'string', 'max:255'],
@@ -100,7 +100,7 @@ class RegisterController extends Controller
             'company_name' => ['required', 'string', 'max:255'],
             'industry' => ['required', 'array', 'max:3'],
             'industry.*' => ['required', 'string'],
-            'phone_number' => ['required', 'numeric', 'digits_between:0 ,10'],
+            'phone_number' => ['required', 'string'],
             'country' => ['required', 'string', 'max:255'],
             'check' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],

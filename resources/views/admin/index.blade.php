@@ -1,5 +1,5 @@
 @extends('admin.layout.admin')
-@section('title', 'User Panel')
+@section('title', 'My Account')
 
 @section('content')
   <div class="content-wrapper">
@@ -15,7 +15,7 @@
       </ol>
     </section>
 
-    <!-- Main content -->
+    <!-- Main content --> 
     <section class="content">
     <div class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">

@@ -41,6 +41,7 @@
   <link rel="stylesheet" href="{{ asset('u/plugins/iCheck/flat/blue.css') }}">
   <link rel="stylesheet" href="{{ asset('u/plugins/iCheck/flat/blue.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/js/jquery-ui/themes/hot-sneaks/jquery-ui.css') }}">
+  <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/CodeSeven-toastr-50092cc/build/toastr.css') }}" />
 
  <!--Jquery--->
  <script nonce="{{ csp_nonce() }}"  src="{{ asset('pub/js/jquery-3.5.1.min.js') }}"></script>
@@ -84,6 +85,9 @@
      <!-- Bootstrap 3.3.7 -->
     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
 
+
+   
+
     <!--js func -->
     <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/uu/inbox.min.js') }}"></script>
      <!--js func -->
@@ -100,6 +104,7 @@
     <!-- DataTables -->
     <script nonce="{{ csp_nonce() }}" src="/u/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script  nonce="{{ csp_nonce() }}" src="/u/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/CodeSeven-toastr-50092cc/toastr.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <!-- jQuery 3 -->
     <script nonce="{{ csp_nonce() }}">
@@ -113,6 +118,10 @@
         checkboxClass: 'icheckbox_flat-blue',
         radioClass: 'iradio_flat-blue'
       });
+
+
+       //Money Euro
+       $('[data-mask]').inputmask()
 
       //Enable check and uncheck all functionality
       $(".checkbox-toggle").click(function () {

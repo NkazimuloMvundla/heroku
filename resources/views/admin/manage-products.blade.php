@@ -135,7 +135,7 @@ td.checkbox{width:10%;}
 </div>
 
 <script nonce="{{ csp_nonce() }}">
- $(document).ready(function() {
+ jQuery(function() {
     $(".sendID").on("click", function() {
         var id = $(this).data("id");
          sendId(id);

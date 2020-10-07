@@ -156,7 +156,7 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     /* Route::post('/search', 'SearchController@AdminEmailSearch')->name('liveSearchAdminEmail');
     Route::post('/All-email-search', 'SearchController@AdminAllEmailSearch')->name('AdminAllEmailSearch');
     Route::get('/sent-emails-search', 'SearchController@AdminSentEmailSearch')->name('liveSearchAdminSentEmail');*/
-});
+}); 
 
 Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' => 'AccessSuperUser'], function () {
 

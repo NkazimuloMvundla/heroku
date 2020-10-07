@@ -637,7 +637,7 @@ $(document).ready(function() {
         var id = $(this).data("id");
         updateSpec(id);
         //console.log(id)
-    });
+    }); 
 
      //delete img
       $(".delete-img").on("click", function() {

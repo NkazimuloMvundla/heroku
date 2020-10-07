@@ -293,7 +293,7 @@ div.export-percentage{margin-top:9px;}
 
     <script nonce="{{ csp_nonce() }}" src="{{ asset('u/js/validateProf.js') }}"></script>
    <script nonce="{{ csp_nonce() }}">
-        $(document).ready(function() {
+      jQuery(function() {
 
      //delete img
       $(".delete-img").on("click", function() {

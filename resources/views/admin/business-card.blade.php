@@ -204,7 +204,7 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                            <i>a max of 2 images</i>
+                            <i>a max of 3 images</i>
                             </div>
                             <div class="form-group">
                                     <label> Business Slogan</label>

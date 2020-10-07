@@ -11,38 +11,16 @@
 <meta name="keywords" content="@yield('meta_keywords','south african suppliers, south african businesses')">
 <meta name="description" content="@yield('meta_description','find south african suppliers')">
 <link rel="canonical" href="{{url()->current()}}"/>
+<!--remove this in production-->
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/used-bootstrap.min.css') }}" />
 <link rel="stylesheet" type="text/css"  href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
-<style nonce="{{ csp_nonce() }}">
-    .fa-envelope:before {
-    content: "\f0e0"
-    }.fa-arrow-right:before {
-    content: "\f061"
-    }.fa-home:before {
-    content: "\f015"
-    }.fa-remove:before,.fa-close:before,.fa-times:before {
-    content: "\f00d"
-    }.fa-heart:before {
-    content: "\f004"
-    }.pull-right {
-    float: right
-    }
-    .pull-left {
-    float: left
-    }.fa {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale
-    }
-</style>
+
 <link rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
-<link   rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/CodeSeven-toastr-50092cc/build/toastr.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" /> 
 <script nonce="{{ csp_nonce() }}" src="/pub/js/jquery-3.5.1.min.js"></script>
 
@@ -215,7 +193,6 @@ span.copyright{color: black}
                     @if(Auth::check())
                         <li>
                         <a  href="{{ route('logout') }}">
-
                         {{ __('Logout') }}
                         </a>
                         </li>
@@ -280,7 +257,7 @@ span.copyright{color: black}
           </div>
       </div>
 
-      <div class="header-right hidden-xs hidden-sm hidden-md " id="header-right"><div class="block block-search">
+      <div class="header-right hidden-xs hidden-sm hidden-md" id="header-right"><div class="block block-search">
           <div class="block-search-inner">
               <div class="block block-title"><strong>Search</strong></div>
               <div class="block block-content">
@@ -335,7 +312,7 @@ span.copyright{color: black}
                                 <span>Buy Leads</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
                                       {{ $countBuyingRequest }}
-                                      @else
+                                      @else 
                                       {{ 0 }}
                                       @endif
                                   </span></a>
@@ -496,6 +473,7 @@ span.copyright{color: black}
     </div>
     </noscript>
 <script nonce="{{ csp_nonce() }}">
+
  
         $(document).ready(function(){
             $("a[data-logout]").on('click', function(event){
@@ -537,8 +515,13 @@ span.copyright{color: black}
     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/jquery-ui/jquery-ui.min.js') }}"></script>
      <!--jQuery validate-->
     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/validate/dist/jquery.validate.min.js') }}"></script>
-    <!--js fun-->
-    <script  nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/functions.min.js') }}"></script>
 
+     <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/CodeSeven-toastr-50092cc/toastr.js') }}"></script>
+    <!--js fun-->
+    <script  nonce="{{ csp_nonce() }}" src="{{ asset('pub/js/functions.js') }}"></script>
+
+   {{-- <script nonce="{{ csp_nonce() }}" src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+  <script nonce="{{ csp_nonce() }}" src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script> --}}
 </body>
 </html>
