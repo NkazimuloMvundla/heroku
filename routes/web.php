@@ -21,13 +21,6 @@ Route::get('/about-us', 'AboutUsController@create')->name('about-us');
 Route::get('/account-type', 'IndexController@account_type')->name('account_type');
 Route::post('/subscriber', 'SubscribersController@store')->name('subscriber');
 
-//Route::post('/account-registration', 'Auth\RegisterController@save_account_type')->name('account_type');
-// Password Reset Routes...
-// Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-
 
 // Authentication routes...
 Route::get('/login', 'auth\LoginController@showLoginForm')->name('login')->middleware('guest');
@@ -64,7 +57,7 @@ Route::post('/lastcats', 'LastCategoryController@show')->name('lastcats');
 
 Route::get('/buying-request', 'BuyingRequestController@create')->name('BuyingRequest');
 Route::post('/buying-request', 'BuyingRequestController@store')->name('BuyingRequest'); // stores all buying request data
-//selling reuests
+
 
 Route::get('/selling-request', 'SellingRequestsController@create')->name('SellingRequest'); //returns a Selling requests view
 Route::post('/selling-request', 'SellingRequestsController@store')->name('SellingRequest'); // stores all Selling request data
