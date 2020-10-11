@@ -364,11 +364,85 @@ function sendReview(id) {
                     comment: comment,
                     product_id: product_id
                 },
+
+                beforeSend:function(){
+                    toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    newestOnTop: false,
+                    progressBar: false,
+                    positionClass: "toast-top-center",
+                    preventDuplicates: false,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    timeOut: "3000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut"
+                    };
+
+                    Command: toastr["warning"](
+                    "Please wait...!"
+                    );
+                },
+
+                complete: function () {
+                   
+                },
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    alert("Your review has been posted successfully");
+
+                    if(data === "error"){
+                        toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: false,
+                        progressBar: false,
+                        positionClass: "toast-top-center",
+                        preventDuplicates: false,
+                        onclick: null,
+                        showDuration: "300",
+                        hideDuration: "1000",
+                        timeOut: "3000",
+                        extendedTimeOut: "1000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                        };
+
+                        Command: toastr["error"](
+                        "You already posted your review..!"
+                        );
+                    }else{
+                        toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: false,
+                        progressBar: false,
+                        positionClass: "toast-top-center",
+                        preventDuplicates: false,
+                        onclick: null,
+                        showDuration: "300",
+                        hideDuration: "1000",
+                        timeOut: "3000",
+                        extendedTimeOut: "1000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                        };
+
+                        Command: toastr["success"](
+                        " You review was posted successfully..!"
+                        );
+                    }
+
                     $("#review-form").load(
                         window.location.href + " #review-form"
                     );

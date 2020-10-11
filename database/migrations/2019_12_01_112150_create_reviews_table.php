@@ -19,6 +19,7 @@ class CreateReviewsTable extends Migration
             $table->integer('rating');
             $table->text('review');
             $table->string('rated_by');
+            $table->integer('rater_id');
             $table->timestamps();
         });
     }

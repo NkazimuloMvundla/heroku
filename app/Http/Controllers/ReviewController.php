@@ -33,13 +33,19 @@ class ReviewController extends Controller
 
             ]);
 
+             $result = \App\Review::where('rater_id', Auth::user()->id)->get();
+            if(count($result) === 1){
+                return "error";
+            }else{
+                            \App\Review::create([
+                            'pd_id' => $data['product_id'],
+                            'rating' => trim($data['rating']),
+                            'review' => trim($data['comment']),
+                            'rated_by' => trim($data['name']),
+                            'rater_id' => Auth::user()->id,
+                    ]); 
+            }
 
-            \App\Review::create([
-                'pd_id' => $data['product_id'],
-                'rating' => trim($data['rating']),
-                'review' => trim($data['comment']),
-                'rated_by' => trim($data['name']),
-            ]);
         }
     }
     public function showReview()

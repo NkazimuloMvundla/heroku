@@ -45,7 +45,7 @@ div.prod-link{margin-top:7px;}
             <div class="col-md-3">
                 <div id="supplier-panel">
               <!-- Profile Image -->
-              <div class="box box-primary ">
+              <div class="box box-primary">
                 <div class="box-body box-profile">
                     <div class="panel widget row-1">
                       <span>
@@ -96,7 +96,7 @@ div.prod-link{margin-top:7px;}
               <!-- /.box -->
 
               <!-- About Me Box -->
-              <div class="box box-primary">
+              <div class="box box-primary about-me">
 
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -157,7 +157,7 @@ div.prod-link{margin-top:7px;}
             </div>
             <!-- /.col -->
 
-            <div class="col-md-9">
+            <div class="col-md-9 company_details">
                  <!--Horizontal Tab-->
             <div id="company_details">
                 <ul class="resp-tabs-list hor_1">

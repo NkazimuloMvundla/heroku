@@ -74,7 +74,7 @@
 			}
 
 			.drift-demo-trigger {
-				max-width: 100%;
+				max-width: 100%; 
 				width: auto;
 				margin: 0 auto;
 			}

@@ -108,7 +108,6 @@ Route::group(['prefix' => 'u', 'middleware' => 'auth'], function () {
     Route::post('/business-card', 'ProfileController@storeCardDetails')->name('storeCardDetails'); //
     Route::get('/add-new-product', 'ProductController@create')->name('add-new-product');
     Route::post('/add-new-product', 'ProductController@store')->name('addingNewProduct');
-    // Route::get('/product-analytics/{product_id}', 'ProductController@productAnalytics')->name('productAnalytics');
     Route::post('/showSpecList', 'SpecificationController@showSpecList');
     Route::get('/manage-products', 'ManageProductController@create')->name('manageProduct');
     Route::post('/deleteSingleProduct', 'ManageProductController@destroy')->name('deleteSingleProduct');
@@ -166,7 +165,7 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/destroyMultipleUsers', 'ManageUserController@destroyMultipleUsers')->name('deleteMultipleUser');
     Route::post('/takeaction-user', 'ManageUserController@takeAction')->name('takeactionUser');
     Route::post('/feature-user', 'ManageUserController@FeatureUser')->name('FeatureUser');
-    Route::get('/showUser', 'ManageUserController@showUser')->name('showUser'); //returns a single buying requests before making an offer
+    Route::get('/showUser', 'ManageUserController@showUser')->name('showUser'); 
     Route::get('/cms-add', 'CMSController@create')->name('cmsAdd'); //
     Route::post('/cms-add', 'CMSController@store')->name('cmsAddPost'); //
     Route::get('/showCms', 'CMSController@getCms')->name('getCms');
@@ -218,12 +217,12 @@ Route::group(['prefix' => 'super', 'middleware' => 'auth:admin', 'middleware' =>
     Route::post('/takeaction-product', 'ManageProductController@takeaction')->name('approve-product');
     Route::post('/deleteSingleProduct', 'ManageProductController@deleteSingleProduct');
     Route::post('/destroyMultipleproducts', 'ManageProductController@destroyMultipleproducts');
-    Route::get('/showProduct', 'ManageProductController@showProduct')->name('showProduct'); //returns a single buying requests before making an offer
+    Route::get('/showProduct', 'ManageProductController@showProduct')->name('showProduct'); 
     Route::get('/manage-buying-request', 'ManageRequestsController@view');
     Route::post('/takeaction-buying-requests', 'ManageRequestsController@takeActionBuyingRequests')->name('takeActionBuyinggrequest');
     Route::post('/deleteSingleRequest', 'ManageRequestsController@deleteSingleRequest');
     Route::post('/destroyMultiplerequests', 'ManageRequestsController@destroyMultiplerequests');
-    Route::get('/showrequest', 'ManageRequestsController@showRequest')->name('showRequest'); //returns a single buying requests before making an offer
+    Route::get('/showrequest', 'ManageRequestsController@showRequest')->name('showRequest');
     Route::get('/showRequestUser', 'ManageRequestsController@showUser')->name('showUser');
     //selling request
     Route::get('/manage-selling-request', 'ManageRequestsController@SellingRequestsView');
