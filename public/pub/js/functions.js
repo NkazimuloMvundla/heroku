@@ -10,8 +10,12 @@ jQuery(function() {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    $(".countryList").fadeIn();
+                    if(data === 'No match found'){
+                    $(".countryList").hide();
+                    }else{
+                     $(".countryList").fadeIn();
                     $(".countryList").html(data);
+                    }
                 }
             });
         } else if ($("#search").val() === "") {
@@ -29,7 +33,7 @@ function emailIsValid(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 //subscriber
-$(document).ready(function(e) {
+jQuery(function(e) {
     $("#subscribe-btn").on("click", function(e) {
         e.preventDefault();
         var email = $("#newsletter").val();
@@ -68,8 +72,12 @@ jQuery(function() {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 success: function(data) {
-                    $("#search_mobile").fadeIn();
-                    $("#search_mobile").html(data);
+                  if(data === 'No match found'){
+                    $(".countryList").hide();
+                    }else{
+                     $(".countryList").fadeIn();
+                    $(".countryList").html(data);
+                    }
                 }
             });
         } else if ($("#search-mobile").val() === "") {

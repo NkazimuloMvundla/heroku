@@ -7,6 +7,8 @@
   <title>@yield('title','Super Panel')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!--remove this in production-->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta name="robots" content="noindex, nofollow" />
 
   <!-- Bootstrap 3.3.7 -->

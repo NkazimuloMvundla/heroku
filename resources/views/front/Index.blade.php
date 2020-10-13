@@ -25,7 +25,13 @@
      /****trade shows***/
     div.trade-shows > div.row{padding:10px}
     a[herf="/trade-shows"] > span{text-decoration:underline}
-  .mobile-cats{padding-top: 3%;padding-right: 2%;padding-left: 2%;}
+    .mobile-cats{padding-top: 3%;padding-right: 2%;padding-left: 2%;}
+    @media only screen and (max-width: 768px) {
+     #quantityUnit {
+        margin-top: 5%;
+    }
+   }
+
 
 </style>
  <div class="page-wrapper">
@@ -46,7 +52,7 @@
 
     <!--Mobile menu start-->
     <div class="mobile-menu hidden-lg">
-        <div class="row mobile-cats">
+        <div class="row mobile-cats" id="mobile-cats">
           <div class="row-2 col-xs-3">
             <a href="/categories">
                 <img src="icons/menu2.png" alt="All Categories" />
@@ -180,7 +186,7 @@
                                 <div class="widget-header bg-purple">
                                     </div>
                                   @endif
-                                  @if(!empty($supplier->company_background_img))
+                                   @if(!empty($supplier->company_background_img))
                               <div class="widget-header bg-purple">
                                    <img class="widget-bg img-responsive" src="{{url($supplier->company_background_img ) }}" alt="Image">
                                   </div>

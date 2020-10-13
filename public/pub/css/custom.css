@@ -105,10 +105,14 @@ input#search {
 .page-wrapper {
     background: #ebeef0;
 }
-.page-wrapper .row:not(.main-content) {
+.mobile-cats {
     background: #fff;
-    /* margin-right: -5px;
-    margin-left: -5px; */
+    margin-top: 12px;
+}
+.page-wrapper .row:not(.main-content):not(.mobile-cats) {
+    background: #fff;
+    margin-right: -5px;
+    margin-left: -5px;
     margin-top: 12px;
 }
 @media only screen and (max-width: 768px) {

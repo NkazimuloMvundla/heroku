@@ -21,11 +21,11 @@ class SearchController extends Controller
         if ($validator->fails()) {
             return back()->withInput()->withErrors($validator->errors());
         }
-        $count = DB::table('products')->where("pd_name", "LIKE", "%$term%")->orderBy('pd_name')->get();
+        $count = DB::table('products')->where("pd_name", "LIKE", "%$term%")->orderBy('pd_name')->limit(10)->get();
         $res = count($count);
         $output = '';
         if (!empty($term) && $res > 0) {
-            $data = DB::table('products')->where("pd_name", "LIKE", "%$term%")->where('pd_approval_status', 1)->get();
+            $data = DB::table('products')->where("pd_name", "LIKE", "%$term%")->where('pd_approval_status', 1)->limit(10)->get();
 
             $searched_products = [];
             foreach ($data as $row1) {
@@ -41,8 +41,10 @@ class SearchController extends Controller
 
 
             return response($output);
-        } else {
-            $output .= '<li id="pd_search">No match found</li>';
+        } 
+        
+        else {
+            $output .= 'No match found';
 
             return response($output);
         }
@@ -70,6 +72,11 @@ class SearchController extends Controller
         $pd_images = \App\Photo::all();
         $buyingRequests = \App\BuyingRequest::all();
         $countBuyingRequest = count($buyingRequests);
+         if(Auth::check()){
+            $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
+            $countFavs = count($favs);
+            $fav = $favs->pluck('mf_pd_id'); 
+          }
         $related_cats = DB::table('products')
             ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("pd_name", "LIKE", "%" . Session::get('pd_name') . "%")->get();
         $count_related_cats  =  count($related_cats);
@@ -77,7 +84,7 @@ class SearchController extends Controller
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
 
-            return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'subCats', 'related_cats', 'count_related_cats', 'lastCats', 'products', 'pd_images', 'count', 'countBuyingRequest'));
+            return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'subCats', 'related_cats', 'count_related_cats', 'lastCats', 'products', 'pd_images','fav','count', 'countBuyingRequest'));
         } else {
 
             return view('front.search',  compact('Productcount', 'pd_name', 'pCats', 'related_cats', 'count_related_cats', 'subCats', 'lastCats', 'products', 'pd_images'));
@@ -187,7 +194,7 @@ class SearchController extends Controller
             $countBuyingRequest = count($buyingRequests);
                  if(Auth::check()){
                     $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
-                    $countFavs = count($favs);
+                    $countFavs = count($favs); 
                     $fav = $favs->pluck('mf_pd_id'); 
                 }
 

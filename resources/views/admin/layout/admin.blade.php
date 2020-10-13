@@ -8,6 +8,8 @@
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!--remove this in production-->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta name="robots" content="noindex, nofollow" />
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
@@ -56,6 +58,7 @@
   <![endif]-->
   <!-- Google Font -->
   <link nonce="{{ csp_nonce() }}" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  
     </head>
 <body class="skin-black-light sidebar-mini">
 <div class="wrapper">
