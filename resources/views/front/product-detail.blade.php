@@ -123,6 +123,7 @@ td#questionUpdates{width: 50%;}
 ul.social-conn{display: flex;}
 .fa-facebook-official , .fa-twitter-square , .fa-linkedin-square{font-size:22px; cursor: pointer; margin:10px;}
 p.share-social{margin-top:7px;}
+.product-detail{color:#c50f31bf}
 </style>
 <link rel="stylesheet" nonce="{{ csp_nonce() }}" type="text/css" href="{{ asset('pub/Responsive-Tabs/css/easy-responsive-tabs.min.css') }}">
 <!--lightSlider CSS-->
@@ -169,7 +170,7 @@ p.share-social{margin-top:7px;}
                   <div class="w3-margin-top">
                   <span class="product-description">
                   <span>Product discription : </span>
-                  <span>{{ $product->first()->pd_listing_description }}
+                  <span class="product-detail">{{ $product->first()->pd_listing_description }}
                   </span>
                   </span>
                 </div>
@@ -182,14 +183,14 @@ p.share-social{margin-top:7px;}
                 </div>
                 <div class="w3-margin-top">
                     <span class="product-description">
-                    <span>Min. Order</span> : {{ $product->first()->pd_min_order_qty  }}  {{ $product->first()->minOrderUnit }}
-                    <span><b></b></span>
+                    <span>Min. Order</span> :<span class="product-detail">{{ $product->first()->pd_min_order_qty  }}  {{ $product->first()->minOrderUnit }}
+                      </span>
                     </span>
                 </div>
                 <div class="w3-margin-top hidden-xs hidden-sm hidden-md">
                   <span class="product-description">
-                  <span>Supplier Ability</span>: {{ $product->first()->capacity  }}  {{ $product->first()->pd_supply_ability }} <b>:</b> <b>PER</b> {{ $product->first()->supplyPeriod }}<b>
-                  <span></span></b></span>
+                  <span>Supplier Ability</span>:  <span class="product-detail"> {{ $product->first()->capacity  }}  {{ $product->first()->pd_supply_ability }} <b>:</b> <b>PER</b> {{ $product->first()->supplyPeriod }}<b>
+                 </span></b></span>
                 </div>
                 <div class="w3-margin-top hidden-xs hidden-sm hidden-md">
                     <span class="product-description">
@@ -204,7 +205,7 @@ p.share-social{margin-top:7px;}
                     <?php $i++;?>
                     @endif
 
-                    <span> {{  $payMethod->pt_name }}  </span>
+                    <span class="product-detail"> {{  $payMethod->pt_name }}  </span>
                     @endif
                     @endforeach
                 </div>

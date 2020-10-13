@@ -107,8 +107,8 @@ input#search {
 }
 .page-wrapper .row:not(.main-content) {
     background: #fff;
-    margin-right: -5px;
-    margin-left: -5px;
+    /* margin-right: -5px;
+    margin-left: -5px; */
     margin-top: 12px;
 }
 @media only screen and (max-width: 768px) {

@@ -25,7 +25,7 @@
      /****trade shows***/
     div.trade-shows > div.row{padding:10px}
     a[herf="/trade-shows"] > span{text-decoration:underline}
-    .mobile-cats{padding: 12px;}
+  .mobile-cats{padding-top: 3%;padding-right: 2%;padding-left: 2%;}
 
 </style>
  <div class="page-wrapper">
@@ -42,11 +42,11 @@
         </div>
     </div>
     </div>
-
+ 
 
     <!--Mobile menu start-->
-    <div class="mobile-menu hidden-lg" align="center">
-        <div class="row row-1 mobile-cats">
+    <div class="mobile-menu hidden-lg">
+        <div class="row mobile-cats">
           <div class="row-2 col-xs-3">
             <a href="/categories">
                 <img src="icons/menu2.png" alt="All Categories" />
