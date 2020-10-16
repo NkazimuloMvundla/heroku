@@ -30,7 +30,7 @@ jQuery(function() {
 });
 
 function emailIsValid(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email);
 }
 //subscriber
 jQuery(function(e) {
@@ -39,10 +39,44 @@ jQuery(function(e) {
         var email = $("#newsletter").val();
         var valid = false;
         if (email === "") {
-            alert("Please enter an email address");
+            toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+            };
+            Command: toastr["error"]("Please enter an email address!");
             valid = false;
         } else if (emailIsValid(email) === false) {
-            alert("Please enter valid email");
+            toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-center",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "3000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+            };
+            Command: toastr["error"]("Please enter a valid email address!");
             valid = false;
         } else {
             $.ajax({
@@ -59,6 +93,7 @@ jQuery(function(e) {
         }
     });
 });
+
 //auto complete mobile
 jQuery(function() {
     $("#search-mobile").keyup(function() {
@@ -95,7 +130,6 @@ jQuery(function() {
 function validSearch() {
     var searchtext = document.getElementById("search");
     if (searchtext.value === "") {
-        //alert("Please input a keywords");
         toastr.options = {
             closeButton: true,
             debug: false,
@@ -569,21 +603,21 @@ jQuery(function() {
             }
         },
         messages: {
-            subject: "This filed is required",
-            message: "This filed is required",
+            subject: "This field is required",
+            message: "This field is required",
             price: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
             quantityUnit: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
             quantity: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
-            comment: "This filed is required"
+            comment: "This field is required"
         }
     });
 });
@@ -640,21 +674,21 @@ jQuery(function() {
             }
         },
         messages: {
-            subject: "This filed is required",
-            message: "This filed is required",
+            subject: "This field is required",
+            message: "This field is required",
             price: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
             quantityUnit: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
             quantity: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
-            comment: "This filed is required"
+            comment: "This field is required"
         }
     });
 });
@@ -672,26 +706,78 @@ jQuery(function() {
             quantityUnit: {
                 required: true
             },
-            quantity: {
+            quantity: { 
                 required: true,
                 number: true
             }
         },
         messages: {
-            subject: "This filed is required",
-            message: "This filed is required",
+            subject: "This field is required",
+            message: "This field is required",
             price: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
             quantityUnit: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
             },
             quantity: {
-                required: "This filed is required",
-                number: "This filed is must be a numeric value"
+                required: "This field is required",
+                number: "This field is must be a numeric value"
+            }
+        }
+    });  
+});
+ 
+/*==========Registration and Login============*/
+jQuery(function (e) {
+  
+        $("#login_form").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
+                }, 
+            password: {
+                required: true,
+                minlength: 6
+            },
+           
+        },
+        messages: {
+        quantity: {
+                required: "This field is required",
+            },
+             password: {
+                required: "This field is required",
+                minlength: "The password must be at least 8 characters"
             }
         }
     });
+ 
+    //     $("#registration_form").validate({
+    //     rules: {
+    //         email: {
+    //             required: true,
+    //             email: true
+    //             }, 
+    //         password: {
+    //             required: true,
+    //             minlength: 6
+    //         },
+           
+    //     },
+    //     messages: {
+    //     quantity: { 
+    //             required: "This field is required",
+    //         },
+    //          password: {
+    //             required: "This field is required",
+    //             minlength: "The password must be at least 8 characters"
+    //         }
+    //     }
+    // });
+    
 });
+ 

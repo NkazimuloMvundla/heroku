@@ -112,7 +112,7 @@ div.beforeForm{padding: 12px;}
                 </div>
             </div>
             <div class="w3-center ui-form-action form-group">
-            <div ><input id="form-submit-btn" name="submitBuyReqButt" value="Submit"  class="btn btn-success " type="submit"></div>
+            <div><input id="form-submit-btn" name="submitBuyReqButt" value="Submit"  class="btn btn-success" type="submit"></div>
             </div>
 
             </form>

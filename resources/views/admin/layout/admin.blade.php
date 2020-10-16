@@ -122,10 +122,6 @@
         radioClass: 'iradio_flat-blue'
       });
 
-
-       //Money Euro
-       $('[data-mask]').inputmask()
-
       //Enable check and uncheck all functionality
       $(".checkbox-toggle").click(function () {
         var clicks = $(this).data('clicks');

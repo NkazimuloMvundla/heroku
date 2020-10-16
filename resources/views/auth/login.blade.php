@@ -13,7 +13,7 @@
                </div>
                @endif
                 <div>
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" id="login_form">
                         @csrf
 
                         <div class="form-group row">

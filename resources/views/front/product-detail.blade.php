@@ -235,10 +235,10 @@ p.share-social{margin-top:7px;}
                 <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
                 <a id="supplier_link" href="/supplier/{{ $encoded_user_id}}"><b>{{ $user->first()->company_name }}</b> </a>
                 @if($user->first()->status == 1)
-                     <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+                     <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" title="Verified supplier">
                 @endif
                 @if($user->first()->membership == 'Gold Member')
-                 <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+                 <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier"  title="Gold supplier">
                 @endif
             </div>
                  <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
@@ -351,10 +351,10 @@ p.share-social{margin-top:7px;}
             <?php  $encoded_user_id = base64_encode($user->first()->id) ;?>
             <a id="supplier_link" href="/supplier/{{ $encoded_user_id }}" ><b>{{ $user->first()->company_name }}</b> </a>
             @if( $user->first()->status == 1)
-            <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier" data-toggle="tooltip" data-placement="top" title="Verified supplier">
+            <img src="{{ url("icons/correct.png") }}" width="20" height="20" alt="verified-supplier"  title="Verified supplier">
             @endif
             @if( $user->first()->membership == 'Gold Member')
-             <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier" data-toggle="tooltip" data-placement="top" title="Gold supplier">
+             <img src="{{ url("icons/gold-medal.png") }}" width="20" height="20" alt="gold-supplier"  title="Gold supplier">
             @endif
               <p><i class="fa fa-building"></i><strong> Business type </strong>: 	{{ $user->first()->account_type }} </p>
               <p><i class="fa fa-map"></i> <strong> Location </strong>: South Africa </p>

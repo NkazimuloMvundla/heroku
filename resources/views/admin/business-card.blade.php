@@ -240,11 +240,12 @@
         </section>
 </div>
 <script nonce="{{ csp_nonce() }}">
-$(document).ready(function() {
+jQuery(function() {
     $(".delete-img").on("click", function() {
         var id = $(this).data("id");
+        console.log(id);
         deleteCompanyImg(id);
-    });
+    }); 
 });
 </script>
 

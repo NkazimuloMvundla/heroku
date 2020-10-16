@@ -1,19 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<style type="text/css" nonce="{{ csp_nonce() }}">
+    a.account-type{text-decoration: underline;background: #fff68a;text-decoration: underline; }
+</style>
+<div class="container"> 
 
     <div class="row" id="register">
         <div class="col-md-8">
             <div class="row">
                     <div class="col-xs-6 col-md-4">
-                            <label for="Account type">Account Type</label>
-                            <p>{{ Session::get('account_type') }} <span><a href="/account-type" class="text-primary">change</a></span></p>
-                            </div>
+                        <label for="Account type">Account Type</label>
+                        <p>{{ Session::get('account_type') }} <span><a class="account-type" href="/account-type" >change</a></span></p>
+                        </div> 
             </div>
             <div>
                 <div>
-                    <form method="POST" action="/register" id="registration_form" name="registration_form ">
+                    <form method="POST" action="/register" id="registration_form">
                         @csrf
                         <div class="row form-group">
                                 <div class="col-md-6">
@@ -157,7 +160,7 @@
                     </div>
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                               <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
                             </div>

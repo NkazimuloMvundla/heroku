@@ -545,8 +545,8 @@ class ProductController extends Controller
             $path = \App\CompanyImages::where('id', $data['id'])->get();
             $paths = $path->first()->company_image; //pd_images\image.png
 
-            $absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
-            //$absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
+            //$absolute = '\Users\Judge\freeCodeGram\public\storage' . "\\" . $paths;
+            $absolute = '\Users\Judge\freeCodeGram\public' . "\\" . $paths;
             if (file_exists($absolute)) {
                 $success = unlink($absolute);
 

@@ -15,12 +15,11 @@ margin: 10% 0 50%;
 text-align: center;
 padding: 13px 20px;
 background: rgba(0,188,150,0.8);
-text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
 color: #fff;
 }
 .row-1{
-background-image: url(img/hu-chen-60XLoOgwkfA-unsplash.jpg);
+background-image: url(/banners/africa.jpeg);
 background-repeat: no-repeat;
 background-color: #ccc;
 border: 1px solid;
@@ -41,9 +40,9 @@ margin: 17px 0 50px;
 .row-1{height: 190px;background-position: center center;background-size: cover;}
 }
 
-
+ 
 h2 b {
-	color: #ffc000;
+	color: #fdfdfd;
 }
 h2.sell::after {
 	content: "";
@@ -157,7 +156,7 @@ h4.red-heading{font-size: 14px}
 
 -->
 <div class="col-md-12 text-center w3-padding" >
-<h5 class="section-title red-heading">Our reach, reseacrh and targeting tools will help your business thrive and connect with a global audince to scale your business</h5>
+<h5 class="section-title red-heading">Our reach, research and targeting tools will help your business thrive and connect with a global audience to scale your business</h5>
 </div>
 
 </div>
