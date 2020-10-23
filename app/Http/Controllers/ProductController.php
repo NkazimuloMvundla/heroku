@@ -28,7 +28,7 @@ class ProductController extends Controller
         $lastCats = \App\lastCategory::all();
         $measurementUnits = \App\MeasurementUnit::all();
         $paymentTerms = \App\PaymentTerms::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);
@@ -217,7 +217,7 @@ class ProductController extends Controller
             $pd_images = \App\Photo::where('pd_photo_id', $sanitized_pd_id)->get();
             $questions = \App\Questions::where('pd_id', $sanitized_pd_id)->get();
             $answers = \App\Answers::all();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
             $specifications = \App\Specification::all();
             $spec_option = \App\SpecOption::where('product_id', $sanitized_pd_id)->get();
@@ -609,7 +609,7 @@ class ProductController extends Controller
             $payments = \App\PaymentTerms::all();
             $payment_t = explode(',', $payment_tem);
             $reviews = \App\Review::where(['pd_id' => $pd_id, 'status' => 1])->take(2)->get();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
             $specifications = \App\Specification::all();
             $spec_option = \App\SpecOption::where('product_id', $sanitized_product_id)->get();
@@ -644,7 +644,7 @@ class ProductController extends Controller
         $product = \App\Product::where('pd_id', $decoded_product_id)->get();
         $pd_images = \App\Photo::where('pd_photo_id', $decoded_product_id)->get();
 
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         $user_details = \App\User::where('id', Auth::user()->id)->get();
         Session::put('account', $user_details->first()->account_type);

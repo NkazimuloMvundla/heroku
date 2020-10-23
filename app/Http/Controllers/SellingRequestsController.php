@@ -30,7 +30,7 @@ class SellingRequestsController extends Controller
         $measurementUnits = \App\MeasurementUnit::all();
         $sellingRequests = \App\SellingRequests::all();
         $countSellingRequest = count($sellingRequests);
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
@@ -92,7 +92,7 @@ class SellingRequestsController extends Controller
         $countSellingRequest = count($sellingRequests);
         $count = count($userMessages);
         $users = \App\User::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
 
         if (!empty($buyingRequests)) {
@@ -118,7 +118,7 @@ class SellingRequestsController extends Controller
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
             $users = \App\User::all();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
 
             if (!empty($buyingRequests)) {

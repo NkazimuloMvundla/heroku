@@ -29,7 +29,7 @@ class BuyingRequestController extends Controller
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
         $measurementUnits = \App\MeasurementUnit::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
@@ -113,7 +113,7 @@ class BuyingRequestController extends Controller
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
             $count = count($userMessages);
             $users = \App\User::all();
-            $buyingRequests = \App\BuyingRequest::all();
+              $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
 
             if (!empty($buyingRequests)) {

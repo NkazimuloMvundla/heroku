@@ -165,7 +165,6 @@ function getId(val) {
     $("#subs").html(html);
 }
 function updateSpec(id) {
-    console.log(id)
     var specP, specC, stringIds, stringName;
     var specParentIds = [],
         spec_option = [];
@@ -259,6 +258,12 @@ function showSpec(id) {
         data: { id: id },
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        beforeSend:function(){
+            $("#spec_details").prop('disabled', true).val("Please wait..."); 
+        },
+        complete:function(){
+            $("#spec_details").prop('disabled', false); 
         },
         success: function(data) {
             for (var i = 0; i < data.length; i++) {
@@ -597,7 +602,7 @@ Dropzone.options.myDropzone = {
                 hideMethod: "fadeOut"
             };
 
-            Command: toastr["error"](
+            Command: toastr["warning"](
                 "Please wait....."
             );
         });
@@ -724,14 +729,19 @@ function showAnswer(id) {
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
         },
+          beforeSend:function(){
+            $(".answerUpdate").prop('disabled', true).val("Please wait..."); 
+        },
+        complete:function(){
+            $(".answerUpdate").prop('disabled', false); 
+        },
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
                 var id = data[i].id;
                 var answer = data[i].answer;
-                //   $question_id = data[i].question_id;
             }
             $(".answerUpdate").val(answer);
-            $("#ansId").text(id);
+            $("#ansId").text(id).hide();
         }
     });
 }
@@ -756,8 +766,7 @@ function updateAnswer() {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
             success: function (data) {
-
-                $("#example1").load(window.location.href + " #example1");
+                window.location.reload();
             }
         });
 
@@ -776,6 +785,12 @@ function showQuestion(id) {
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
         },
+         beforeSend:function(){
+            $(".questionUpdate").prop('disabled', true).val("Please wait..."); 
+        },
+        complete:function(){
+            $(".questionUpdate").prop('disabled', false); 
+        },
         success: function (data) {
 
             for (var i = 0; i < data.length; i++) {
@@ -783,7 +798,7 @@ function showQuestion(id) {
                 $question = data[i].question;
             }
             $(".questionUpdate").val($question);
-            $("#queId").text($id);
+            $("#queId").text($id).hide();
         }
     });
 }
@@ -806,7 +821,7 @@ function updateQuestion() {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
             success: function (data) {
-                $("#example1").load(window.location.href + " #example1");
+                window.location.reload();
             }
         });
 
@@ -876,6 +891,33 @@ function sendQuestions(id) {
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
+               beforeSend:function(){
+                    toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    newestOnTop: false,
+                    progressBar: false,
+                    positionClass: "toast-top-center",
+                    preventDuplicates: false,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    timeOut: "3000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut"
+                    };
+
+                    Command: toastr["warning"](
+                    "Please wait...!"
+                    );
+                },
+
+                complete: function () {
+                   
+                },
             success: function (data) {
                 window.location.reload();
                 alert(data);

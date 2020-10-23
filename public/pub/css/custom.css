@@ -203,7 +203,7 @@ div.dropdown-content {
     background-repeat: no-repeat;
     background-color: #ccc;
     border: 1px solid;
-    width: inherit;
+    width: 100%;
     height: 390px;
     background-position: center center;
     background-size: cover;
@@ -314,10 +314,6 @@ span#add-to-favs {
     span#add-to-favs {
         margin-left: 3em;
     }
-}
-div.img-box img {
-    /*	height:150px;
-		width:150px;*/
 }
 .item .img-box {
     height: 160px;

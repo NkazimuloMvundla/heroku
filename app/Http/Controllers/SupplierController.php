@@ -23,7 +23,7 @@ class SupplierController extends Controller
             $lastCats = \App\lastCategory::all();
             $supplier = \App\User::findOrfail($sanitized_id);
             $products = \App\Product::where('pd_u_id', $sanitized_id)->simplePaginate(6);
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $company_images = \App\CompanyImages::where('user_id', $sanitized_id)->get();
             $export_capabilities = \App\ExportCapability::where('user_id', $sanitized_id)->get();
             $certificates = \App\CompanyCertificate::where('user_id', $sanitized_id)->get();
@@ -67,7 +67,7 @@ class SupplierController extends Controller
             $supplier = \App\User::findOrfail($sanitized_supplier_id);
             $product = \App\Product::where('pd_id', $sanitized_product_id);
             $pd_images = \App\Photo::where('pd_photo_id', $sanitized_product_id);
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
             if (Auth::check()) {
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
@@ -121,7 +121,7 @@ class SupplierController extends Controller
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
         $suppliers = \App\User::where('account_type', 'Supplier')->orderBy('status', 'desc')->get();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();

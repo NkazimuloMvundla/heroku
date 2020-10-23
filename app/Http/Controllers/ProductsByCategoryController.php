@@ -24,7 +24,7 @@ class ProductsByCategoryController extends Controller
             $lasts = \App\lastCategory::where('pc_id', $sanitized_last_category_id)->get();
             $count = count($lasts);
 
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
                 if(Auth::check()){
                     $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
                     $countFavs = count($favs);
@@ -102,7 +102,7 @@ class ProductsByCategoryController extends Controller
                 ->join('last_categories', 'last_categories.pc_id', '=', 'sub_categories.id')->where('last_categories.id', $sanitized_last_category_id)->get()->first();
 
 
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
             if (Auth::check()) {
                 $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();

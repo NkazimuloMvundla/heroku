@@ -23,7 +23,7 @@ class allBuyingRequestsController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $measurementUnits = \App\MeasurementUnit::all();
         $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();
         $countBuyingRequest = count($buyingRequests);

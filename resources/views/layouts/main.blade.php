@@ -18,7 +18,7 @@
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/styles-m.min.css') }}" />
 
 <link rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/font-awesome.min.css') }}" />
-<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.min.css') }}" />
+<link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.min.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/CodeSeven-toastr-50092cc/build/toastr.css') }}" />
 <link  rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="{{ asset('pub/css/styles-l.min.css') }}" /> 
@@ -311,7 +311,7 @@ span.copyright{color: black}
                               <a href="/all-buying-requests" class="dropdown-bar-item">
                                 <span>Buy Leads</span> <span class="label label-danger pull-right">
                                   @if(Auth::check())
-                                      {{ $countBuyingRequest }}
+                                      {{ $countBuyingRequest }} 
                                       @else 
                                       {{ 0 }}
                                       @endif

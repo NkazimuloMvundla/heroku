@@ -42,7 +42,7 @@ class IndexController extends Controller
 
         $featured_images = \App\Photo::all();
         $pd_images = \App\Photo::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $measurementUnits = \App\MeasurementUnit::all();
         $find_by_category = DB::table('sub_categories')->whereIn('pc_name', array('Fruit & Veg', 'Bags', 'Home & Appliances', 'Health & Beauty', 'Shoes', 'Cell Phones & Accessories', 'Baby Food', 'Dairy Products', 'Baked Goods', 'Safety Product', 'Construction steel', 'Textile', 'Apparels'))->get();
         $featured_suppliers = \App\User::where('featured', 1)->take(6)->get();
@@ -64,7 +64,7 @@ class IndexController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         if (Auth::check()) {
             $userMessages = \App\Message::where(['msg_to_id' => Auth::user()->id, 'msg_read' => 0])->get();

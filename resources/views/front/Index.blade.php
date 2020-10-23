@@ -25,33 +25,48 @@
      /****trade shows***/
     div.trade-shows > div.row{padding:10px}
     a[herf="/trade-shows"] > span{text-decoration:underline}
-    .mobile-cats{padding-top: 3%;padding-right: 2%;padding-left: 2%;}
+    .mobile-cats{padding-top: 3%;}
     @media only screen and (max-width: 768px) {
      #quantityUnit {
         margin-top: 5%;
     }
+    
    }
+
+   @media screen and (min-width: 768px) {
+    /* One or more CSS rules to apply when the query is satisfied */
+     .test {
+      padding: 0.01em 16px;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .test {
+      padding-left: 3px;
+      padding-right: 3px;
+    }
+  }
+   
 
 
 </style>
  <div class="page-wrapper">
 <!--mainSlider start here-->
   <div class="mainSlider">
-    <div class="w3-margin-top">
-     <div class="w3-container">
-        <div class="slider-background">
-          <div class="row main-content">
+    <div class="test">
+     <div class="slider-background">
+          <div class="main-content">
             <div class="col-md-8">
               <h4 class="sell" data-img="">Do business with South Africa<small> <u>the easy way</u>.</small></h4>
             </div>
           </div>
-        </div>
     </div>
     </div>
- 
+
 
     <!--Mobile menu start-->
-    <div class="mobile-menu hidden-lg">
+    <div class="mobile-menu hidden-lg container">
         <div class="row mobile-cats" id="mobile-cats">
           <div class="row-2 col-xs-3">
             <a href="/categories">
@@ -127,7 +142,7 @@
         </div>
     </div>
 
-            <div class="w3-container">
+            <div class="container">
                 <div class="row post-req-row" id="post-a-req-row">
                 <h2 class="featured">Request for <b>Quotations</b></h2>
                     <div class="post-a-req">

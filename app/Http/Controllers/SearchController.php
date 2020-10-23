@@ -70,7 +70,7 @@ class SearchController extends Controller
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
         $pd_images = \App\Photo::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
          if(Auth::check()){
             $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
@@ -111,7 +111,7 @@ class SearchController extends Controller
             $subCats = \App\SubCategory::all();
             $lastCats = \App\lastCategory::all();
             $pd_images = \App\Photo::all();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
                  if(Auth::check()){
                     $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
@@ -141,7 +141,7 @@ class SearchController extends Controller
             $subCats = \App\SubCategory::all();
             $lastCats = \App\lastCategory::all();
             $pd_images = \App\Photo::all();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
 
             $related_cats = DB::table('products')
@@ -190,7 +190,7 @@ class SearchController extends Controller
             $subCats = \App\SubCategory::all();
             $lastCats = \App\lastCategory::all();
             $pd_images = \App\Photo::all();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
                  if(Auth::check()){
                     $favs = \App\my_favorite::where('mf_u_id',Auth::user()->id)->get();
@@ -223,7 +223,7 @@ class SearchController extends Controller
             $subCats = \App\SubCategory::all();
             $lastCats = \App\lastCategory::all();
             $pd_images = \App\Photo::all();
-            $buyingRequests = \App\BuyingRequest::all();
+            $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
             $countBuyingRequest = count($buyingRequests);
             $related_cats = DB::table('products')
                 ->join('last_categories', 'last_categories.id', '=', 'products.pd_SubCategory_id')->where("min_price", Session::get("min_price"))->where("max_price", Session::get("max_price"))->get();

@@ -13,7 +13,7 @@ class AboutUsController extends Controller
         $pCats = \App\productCategory::all();
         $subCats = \App\SubCategory::all();
         $lastCats = \App\lastCategory::all();
-        $buyingRequests = \App\BuyingRequest::all();
+        $buyingRequests = \App\BuyingRequest::where('br_approval_status', 1)->get();
         $countBuyingRequest = count($buyingRequests);
         $about_us_content = DB::table('c_m_s_s')->where('cms_title',  'About us')->get();
         if (Auth::check()) {

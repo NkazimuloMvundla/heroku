@@ -8,7 +8,7 @@ jQuery(function() {
                 data: { query: query },
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                },
+                }, 
                 success: function(data) {
                     if(data === 'No match found'){
                     $(".countryList").hide();
@@ -243,9 +243,14 @@ function showRequest(id) {
         type: "POST",
         url: "/singleBuyingRequest",
         data: { id: id },
+        beforeSend:function(){
+            jQuery("#br_pd_spec").text("Loading...");
+        },
+
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-        },
+        }, 
+         
         success: function(data) {
             for (var i = 0; i < data.length; i++) {
                 $id = data[i].id;
@@ -257,7 +262,7 @@ function showRequest(id) {
         }
     });
 }
-
+ 
 function showSellingRequest(id) {
     $.ajax({
         type: "POST",
@@ -265,6 +270,9 @@ function showSellingRequest(id) {
         data: { id: id },
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        },
+        beforeSend:function(){
+        jQuery("#sr_pd_spec").text("Loading...");
         },
         success: function(data) {
             for (var i = 0; i < data.length; i++) {
@@ -276,9 +284,6 @@ function showSellingRequest(id) {
             $("#modal-title").text(sr_pc_name);
             $("#sr_pd_spec").text(sr_pd_spec);
             $("#sr_message").text(message);
-        },
-        error: function(data) {
-            console.log("Error", data);
         }
     });
 }
@@ -304,14 +309,14 @@ jQuery(function() {
         $("#countDown").html(remaining);
 
         if (remaining <= 10) {
-            $("#remainingNumber").css("color", "red");
+            $("#remainingNumber").css("color", "red"); 
         } else {
             $("#remainingNumber").css("color", "black");
         }
     });
 });
 
-function showCat(id) {
+function showCat(id) { 
     $.ajax({
         type: "POST",
         url: "/subcats",

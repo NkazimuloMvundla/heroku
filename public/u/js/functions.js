@@ -1,6 +1,6 @@
 
 function deleteNotification(id) {
-    $(document).ready(function() {
+    jQuery(function() {
         $.ajax({
             type: "POST",
             url: "/u/deleteNotification",
@@ -8,7 +8,31 @@ function deleteNotification(id) {
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
+            beforeSend:function(){
+                toastr.options = {
+                closeButton: false,
+                debug: false,
+                newestOnTop: false,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                preventDuplicates: true,
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "3000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+                };
+
+                Command: toastr["success"]( 
+                "Deleting..."
+                );
+            },
             success: function(data) {
+                
                 $("#notify" + id).fadeOut();
             },
             error: function(data) {
@@ -19,7 +43,7 @@ function deleteNotification(id) {
 }
 
 function deleteAllNotification() {
-    $(document).ready(function() {
+    jQuery(function() {
         var ans = window.confirm(
             "Are you sure you want to delete all notifications ? "
         );
