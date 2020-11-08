@@ -4,7 +4,7 @@
 @section('meta_description', "start delling on our plartform")
 @section('content')
 <style type="text/css" nonce="{{ csp_nonce() }}">
- 	h2.sell{
+h2.sell{
 color: #000;
 font-size: 26px;
 font-weight: 300;
@@ -54,7 +54,6 @@ h2.sell::after {
 }
   .row-1 {
 
-    background-color: #ccc;
     border: 1px solid;
     width: inherit;
     height: 390px;

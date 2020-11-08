@@ -11,8 +11,9 @@
   <!--remove this in production-->
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta name="robots" content="noindex, nofollow" />
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
+<!-- Latest compiled and minified CSS -->
+<link nonce="{{ csp_nonce() }}" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('u/bower_components/font-awesome/css/font-awesome.min.css' ) }}">
@@ -85,8 +86,7 @@
 <!-- ./wrapper -->
 
 
-     <!-- Bootstrap 3.3.7 -->
-    <script nonce="{{ csp_nonce() }}" src="{{ asset('pub/bootstrap-3.3.7/js/bootstrap.min.js') }}"></script>
+    <script nonce="{{ csp_nonce() }}" src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
 
    

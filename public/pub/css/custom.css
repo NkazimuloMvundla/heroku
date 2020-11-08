@@ -210,6 +210,8 @@ div.dropdown-content {
     /*border-radius: 10px 10px 0 0;*/
     border-radius: 0;
 }
+
+
 @media screen and (max-width: 974px) {
     /* One or more CSS rules to apply when the query is satisfied */
     .slider-background {

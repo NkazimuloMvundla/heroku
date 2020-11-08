@@ -37,7 +37,7 @@ if(!function_exists('facebook_time_ago')){
          if($hours==1)
                {
            return "an hour ago";
-         }
+         } 
                else
                {
            return "$hours hrs ago";

@@ -14,8 +14,9 @@
     <!--remove this in production-->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-    <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('pub/bootstrap-3.3.7/css/bootstrap.min.css') }}">
+    <!-- Latest compiled and minified CSS -->
+    <link nonce="{{ csp_nonce() }}" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
     <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/custom.css') }}" />
     <link  rel="stylesheet" type="text/css"  media="all" href="{{ asset('pub/css/more.css') }}" />
 
